@@ -21,7 +21,7 @@
         <StackPanel Orientation="Horizontal" Margin="0,60" VerticalAlignment="Top" HorizontalAlignment="Right" Height="24">
             <Button x:Name="btnNewProfile" Click="btnNewProfile_Click" ToolTip="Create a new profile" Margin="2,0">
                 <DockPanel Margin="2,0">
-                    <Image Source="/Aurora;component/Resources/AddProfile_Icon.png" Width="18" Height="18"/>
+                    <Image Source="/Aurora;component/Resources/UIIcons/plus-30.png" Width="18" Height="18"/>
                     <TextBlock>New</TextBlock>
                 </DockPanel>
             </Button>
@@ -37,17 +37,17 @@
             </Button>
             <Button x:Name="btnCopyProfile" ToolTip="Copy the selected profile (Ctrl + C)" Click="btnCopyProfile_Click" Margin="2,0">
                 <DockPanel Margin="2,0">
-                    <Image Source="/Aurora;component/Resources/Layers_Copy.png" Width="18" Height="18"/>
+                    <Image Source="/Aurora;component/Resources/UIIcons/copy-30.png" Width="18" Height="18"/>
                 </DockPanel>
             </Button>
             <Button x:Name="btnPasteProfile" ToolTip="Paste profile from clipboard (Ctrl + V)" Click="btnPasteProfile_Click" Margin="2,0">
                 <DockPanel Margin="2,0">
-                    <Image Source="/Aurora;component/Resources/Layers_Paste.png" Width="18" Height="18"/>
+                    <Image Source="/Aurora;component/Resources/UIIcons/clipboard-30.png" Width="18" Height="18"/>
                 </DockPanel>
             </Button>
             <Button x:Name="btnDeleteProfile" Click="buttonDeleteProfile_Click" IsEnabled="False" ToolTip="Delete the selected profile (Del)" Margin="4,0">
                 <DockPanel Margin="2,0">
-                    <Image Source="/Aurora;component/Resources/Layers_Remove.png" Width="18" Height="18" />
+                    <Image Source="/Aurora;component/Resources/UIIcons/delete-30.png" Width="18" Height="18" />
                 </DockPanel>
             </Button>
         </StackPanel>

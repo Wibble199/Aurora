@@ -1,0 +1,27 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../ThemeVariables.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="ContextMenu">
+        <Setter Property="Background" Value="{StaticResource Dark}" />
+        <Setter Property="BorderThickness" Value="0" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContextMenu">
+                    <Border CornerRadius="4" Background="{TemplateBinding Background}" Margin="5">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="5" ShadowDepth="0" />
+                        </Border.Effect>
+                        <ItemsPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

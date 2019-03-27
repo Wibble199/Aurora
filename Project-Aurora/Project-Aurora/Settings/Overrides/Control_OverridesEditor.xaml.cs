@@ -136,15 +136,15 @@ namespace Aurora.Settings.Overrides {
     public class TypeToIconConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             var imageName = new Dictionary<Type, string> {
-                { typeof(bool), "icons8-checked-checkbox-30.png" },
-                { typeof(int), "icons8-numbers-30.png" },
-                { typeof(long), "icons8-numbers-30.png" },
-                { typeof(float), "icons8-numbers-30.png" },
+                { typeof(bool), "checked-checkbox-30.png" },
+                { typeof(int), "numbers-30.png" },
+                { typeof(long), "numbers-30.png" },
+                { typeof(float), "numbers-30.png" },
                 { typeof(double), "icons8-numbers-30.png" },
-                { typeof(Color), "icons8-paint-palette-30.png" },
-                { typeof(KeySequence), "icons8-keyboard-30.png" }
-            }.TryGetValue((Type)value, out string val) ? val : "icons8-diamonds-30.png";
-            return new BitmapImage(new Uri($"/Aurora;component/Resources/{imageName}", UriKind.Relative));
+                { typeof(Color), "paint-palette-30.png" },
+                { typeof(KeySequence), "keyboard-30.png" }
+            }.TryGetValue((Type)value, out string val) ? val : "diamonds-30.png";
+            return new BitmapImage(new Uri($"/Aurora;component/Resources/UIIcons/{imageName}", UriKind.Relative));
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }

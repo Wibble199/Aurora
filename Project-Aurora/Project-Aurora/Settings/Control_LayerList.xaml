@@ -16,30 +16,36 @@
     </UserControl.Resources>
     
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        
         <Border Background="#A5000000" CornerRadius="8" />
         <Border Background="#54A8A8A8" CornerRadius="8" VerticalAlignment="Top" Height="25">
             <TextBlock TextWrapping="Wrap" Text="{Binding ListTitle}" VerticalAlignment="Top" Margin="10,3,10,0"/>
         </Border>
         
-        <StackPanel Orientation="Horizontal" Margin="0,30" VerticalAlignment="Top" HorizontalAlignment="Right" Height="24">
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,4">
             <Button ToolTip="Add a new layer" Margin="2,0" Click="AddButton_Click">
                 <DockPanel Margin="2,0">
-                    <Image Source="/Aurora;component/Resources/Layers_Add.png" Width="18" Height="18"/>
+                    <Image Source="/Aurora;component/Resources/UIIcons/plus-30.png" Width="18" Height="18"/>
                     <TextBlock>Add</TextBlock>
                 </DockPanel>
             </Button>
             <Button ToolTip="Copy the selected layer (Ctrl + C)" Margin="2,0" Click="CopyButton_Click">
-                <Image Source="/Aurora;component/Resources/Layers_Copy.png" Margin="2,0" Width="18" Height="18"/>
+                <Image Source="/Aurora;component/Resources/UIIcons/copy-30.png" Margin="2,0" Width="18" Height="18"/>
             </Button>
             <Button ToolTip="Paste layer from clipboard (Ctrl + V)" Margin="2,0" Click="PasteButton_Click">
-                <Image Source="/Aurora;component/Resources/Layers_Paste.png" Margin="2,0" Width="18" Height="18"/>
+                <Image Source="/Aurora;component/Resources/UIIcons/clipboard-30.png" Margin="2,0" Width="18" Height="18"/>
             </Button>
             <Button ToolTip="Remove selected layer (Del)" Margin="2,0" IsEnabled="{Binding Path=SelectedLayer, Converter={StaticResource NullToBoolConv}}" Click="DeleteButton_Click">
-                <Image Source="/Aurora;component/Resources/Layers_Remove.png" Margin="2,0" Width="18" Height="18" />
+                <Image Source="/Aurora;component/Resources/UIIcons/delete-30.png" Margin="2,0" Width="18" Height="18" />
             </Button>
         </StackPanel>
         
-        <DockPanel Margin="0,59,0,0">
+        <DockPanel Grid.Row="2">
             <Grid Height="23" VerticalAlignment="Top" DockPanel.Dock="Top" Visibility="{Binding DayNightCheckboxesVisiblity}">
                 <RadioButton GroupName="TimeSelection" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTip="Daytime" IsChecked="True" Checked="CollectionSelection_Checked">
                     <Grid>
@@ -55,10 +61,10 @@
                 </RadioButton>
             </Grid>
 
-            <Controls:ReorderableListBox ItemsSource="{Binding ActiveLayerCollection}" SelectedItem="{Binding Path=SelectedLayer, Mode=TwoWay}" DragElementTag="Dragger" SelectionMode="Single" DockPanel.Dock="Bottom" ScrollViewer.HorizontalScrollBarVisibility="Disabled" KeyDown="ReorderableListBox_KeyDown">
+            <Controls:ReorderableListBox Background="#232932" BorderThickness="0" ItemsSource="{Binding ActiveLayerCollection}" SelectedItem="{Binding Path=SelectedLayer, Mode=TwoWay}" DragElementTag="Dragger" SelectionMode="Single" DockPanel.Dock="Bottom" ScrollViewer.HorizontalScrollBarVisibility="Disabled" KeyDown="ReorderableListBox_KeyDown">
                 <ListBox.ItemTemplate>
                     <HierarchicalDataTemplate>
-                        <DockPanel  HorizontalAlignment="Stretch" Width="192" >
+                        <DockPanel HorizontalAlignment="Stretch" LastChildFill="True">
                             <CheckBox IsChecked="{Binding Path=Enabled, Mode=TwoWay}" />
                             <Image Source="/Aurora;component/Resources/Layers_Drag.png" Tag="Dragger" Cursor="SizeNS" Width="16" Height="16" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="0,0,5,0" ToolTip="Drag to rearrange layers"/>
                             <TextBlock Text="{Binding Path=Name, Converter={StaticResource ResourceKey=TextCharacterLimitConv}}"/>
