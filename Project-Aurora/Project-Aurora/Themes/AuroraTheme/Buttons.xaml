@@ -24,8 +24,10 @@
         </Setter>
     </Style>-->
 
+
+    <!-- Base button definition -->
     <Style TargetType="Button">
-        <Setter Property="Background" Value="#2A3340" />
+        <Setter Property="Background" Value="{StaticResource BaseButtonBackground}" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -48,10 +50,6 @@
         </Setter>
 
         <Style.Triggers>
-            <!--<Trigger Property="Button.IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#3F4958" />
-            </Trigger>-->
-
             <Trigger Property="Button.IsEnabled" Value="False">
                 <Setter Property="Opacity" Value="0.7" />
             </Trigger>
@@ -60,7 +58,7 @@
                 <EventTrigger.Actions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="#3F4958" Duration="0:0:0.1" />
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource BaseButtonBackgroundHoverColor}" Duration="0:0:0.1" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
@@ -70,7 +68,7 @@
                 <EventTrigger.Actions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="#2A3340" Duration="0:0:0.1" />
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource BaseButtonBackgroundColor}" Duration="0:0:0.1" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
@@ -78,8 +76,62 @@
         </Style.Triggers>
     </Style>
 
-    <Style TargetType="TextBlock">
-        <Setter Property="Foreground" Value="#F9F9F9" />
+    <!-- Panel1 button definition -->
+    <Style TargetType="Button" x:Key="Panel1Button" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Background" Value="{StaticResource Panel1ButtonBackground}" />
+
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="Button.MouseEnter">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource Panel1ButtonBackgroundHoverColor}" Duration="0:0:0.1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+
+            <EventTrigger RoutedEvent="Button.MouseLeave">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource Panel1ButtonBackgroundColor}" Duration="0:0:0.1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+        </Style.Triggers>
     </Style>
 
+    <!-- Panel2 button definition -->
+    <Style TargetType="Button" x:Key="Panel2Button" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Background" Value="{StaticResource Panel2ButtonBackground}" />
+
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="Button.MouseEnter">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource Panel2ButtonBackgroundHoverColor}" Duration="0:0:0.1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+
+            <EventTrigger RoutedEvent="Button.MouseLeave">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource Panel2ButtonBackgroundColor}" Duration="0:0:0.1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Copy these styles to the ToggleButtons -->
+    <Style TargetType="ToggleButton" BasedOn="{StaticResource {x:Type Button}}" />
+    <Style TargetType="ToggleButton" x:Key="Panel1ToggleButton" BasedOn="{StaticResource Panel1Button}" />
+    <Style TargetType="ToggleButton" x:Key="Panel2ToggleButton" BasedOn="{StaticResource Panel2Button}" />
 </ResourceDictionary>

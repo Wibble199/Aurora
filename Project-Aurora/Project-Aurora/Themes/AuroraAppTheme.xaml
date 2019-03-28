@@ -5,8 +5,10 @@
     <!-- Import other resource dictionaries -->
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="AuroraTheme/Buttons.xaml" />
+        <ResourceDictionary Source="AuroraTheme/Checkbox.xaml" />
         <ResourceDictionary Source="AuroraTheme/ContextMenu.xaml" />
         <ResourceDictionary Source="AuroraTheme/ScrollBar.xaml" />
+        <ResourceDictionary Source="AuroraTheme/TextElements.xaml" />
         <ResourceDictionary Source="AuroraTheme/Tooltip.xaml" />
     </ResourceDictionary.MergedDictionaries>
 

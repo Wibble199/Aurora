@@ -6,7 +6,8 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:local="clr-namespace:Aurora"
              xmlns:tb="http://www.hardcodet.net/taskbar"
-             xmlns:Controls="clr-namespace:Aurora.Controls" xmlns:Settings="clr-namespace:Aurora.Settings" x:Class="Aurora.ConfigUI"
+             xmlns:Controls="clr-namespace:Aurora.Controls" xmlns:Settings="clr-namespace:Aurora.Settings"
+             x:Class="Aurora.ConfigUI"
              mc:Ignorable="d"
              Width="1280" Height="820"
              MinWidth="926" MinHeight="575"
@@ -57,9 +58,15 @@
             <!-- Title bar and window buttons -->
             <Border Grid.ColumnSpan="999" Grid.Column="1" Background="#1A1F26">
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                    <Button Content="_" Click="MinimiseButton_Click" />
-                    <Button Content="[]" Click="MaximiseButton_Click" />
-                    <Button Content="x" Click="CloseButton_Click" />
+                    <Button Click="MinimiseButton_Click">
+                        <Image Source="Resources/UIIcons/minimize-window-30.png" Margin="2,0" Height="12" />
+                    </Button>
+                    <Button Click="MaximiseButton_Click">
+                        <Image Source="Resources/UIIcons/maximize-window-30.png" Margin="2,0" Height="12" />
+                    </Button>
+                    <Button Click="CloseButton_Click">
+                        <Image Source="Resources/UIIcons/delete-30.png" Margin="2,0" Height="12" />
+                    </Button>
                 </StackPanel>
             </Border>
 
@@ -75,7 +82,7 @@
                         </StackPanel.ContextMenu>
                     </StackPanel>
                 </ScrollViewer>
-                <Image Source="Resources/settings_icon.png" ToolTip="General Settings" Margin="6,0,10,0" MouseDown="DesktopControl_MouseDown" RenderTransformOrigin="0.5,0.5" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+                <Image Source="Resources/UIIcons/maintenance-30.png" ToolTip="General Settings" Margin="6,0,10,0" MouseDown="DesktopControl_MouseDown" RenderTransformOrigin="0.5,0.5" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
             </Grid>
 
             <!-- Left panel (the contents of the left panel don't follow the grid rows, so use a DockPanel to place them instead) -->
@@ -85,11 +92,11 @@
 
                 <!-- Application list controls -->
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Margin="2,4">
-                        <Image Source="/Aurora;component/Resources/UIIcons/plus-30.png" Margin="2,0" Width="18" Height="18"/>
+                    <Button Margin="2,4" Style="{StaticResource Panel2Button}">
+                        <Image Source="Resources/UIIcons/plus-30.png" Margin="2,0" Width="18" Height="18"/>
                     </Button>
                     <Button Margin="2,4">
-                        <Image Source="/Aurora;component/Resources/UIIcons/maintenance-30.png" Margin="2,0" Width="18" Height="18"/>
+                        <Image Source="Resources/UIIcons/maintenance-30.png" Margin="2,0" Width="18" Height="18"/>
                     </Button>
                     
                     <ToggleButton IsChecked="{Binding ShowHiddenApplications, Mode=TwoWay}" Margin="2,4">
@@ -97,7 +104,7 @@
                             <Style TargetType="ToggleButton">
                                 <Setter Property="Content">
                                     <Setter.Value>
-                                        <Image Source="/Aurora;component/Resources/UIIcons/eye-30.png" Margin="2,0" Width="18" Height="18" />
+                                        <Image Source="Resources/UIIcons/eye-30.png" Margin="2,0" Width="18" Height="18" />
                                     </Setter.Value>
                                 </Setter>
                                 <Setter Property="ToolTip" Value="Show hidden applications" />
@@ -105,7 +112,7 @@
                                     <Trigger Property="IsChecked" Value="True">
                                         <Setter Property="Content">
                                             <Setter.Value>
-                                                <Image Source="/Aurora;component/Resources/UIIcons/hide-30.png" Margin="2,0" Width="18" Height="18" />
+                                                <Image Source="Resources/UIIcons/hide-30.png" Margin="2,0" Width="18" Height="18" />
                                             </Setter.Value>
                                         </Setter>
                                         <Setter Property="ToolTip" Value="Hide hidden applications" />

@@ -37,9 +37,9 @@
     <Grid>
         <TabControl>
             <TabItem Header="Overview for CS:GO">
-                <Grid>
+                <Grid Background="#1A1F26">
                     <StackPanel>
-                        <CheckBox x:Name="game_enabled" Content="Enable Aurora to provide lighting effects with CS:GO" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="game_enabled_Checked" Unchecked="game_enabled_Checked"/>
+                        <CheckBox x:Name="game_enabled" Content="Enable Aurora to provide lighting effects with CS:GO" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="game_enabled_Checked" Unchecked="game_enabled_Checked" />
                         <TextBlock Margin="10,10,64,0" VerticalAlignment="Top" TextWrapping="Wrap"><Run Text="In order for CS:GO support to work, you have to apply Aurora's GSI (Game State Integration) config file to CS;GO. Aurora attempts to automatically install the config file on first launch (It will fail to do so if the game was not installed on first launch of Aurora, in which case you need to install the GSI config file). If you wish to uninstall the GSI config file, you can press &quot;Unpatch Aurora GSI&quot;. Uninstalling the GSI config file will prevent the game from sending information, such as HP and ammo,"/><Run Text=" to Aurora. If you wish to re-install the GSI config file at a later time, you can press &quot;Patch Aurora GSI&quot;."/></TextBlock>
                         <Button x:Name="patch_button" Content="Patch Aurora GSI" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Click="patch_button_Click"/>
                         <Button x:Name="unpatch_button" Content="Unpatch Aurora GSI" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Click="unpatch_button_Click"/>
@@ -61,7 +61,7 @@
                     <Label Content="Flash amount:" HorizontalAlignment="Left" Margin="225,61,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.766,2.115"/>
                     <Slider x:Name="preview_flash_slider" HorizontalAlignment="Left" Margin="314,65,0,0" VerticalAlignment="Top" Width="114" Maximum="100" SmallChange="1" ValueChanged="preview_flash_slider_ValueChanged"/>
                     <Label x:Name="preview_flash_amount" Content="0%" HorizontalAlignment="Left" Margin="433,61,0,0" VerticalAlignment="Top"/>
-                    <CheckBox x:Name="preview_typing_enabled" Content="Player is typing" HorizontalAlignment="Left" Margin="362,10,0,0" VerticalAlignment="Top" Checked="preview_typing_enabled_Checked" Unchecked="preview_typing_enabled_Checked"/>
+                    <CheckBox x:Name="preview_typing_enabled" Content="Player is typing" HorizontalAlignment="Left" Margin="362,10,0,0" VerticalAlignment="Top" Checked="preview_typing_enabled_Checked" Unchecked="preview_typing_enabled_Checked" />
                     <Label Content="Burn amount:" HorizontalAlignment="Left" Margin="225,92,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.766,2.115"/>
                     <Slider x:Name="preview_burning_slider" HorizontalAlignment="Left" Margin="314,96,0,0" VerticalAlignment="Top" Width="114" Maximum="100" SmallChange="1" ValueChanged="preview_burning_slider_ValueChanged"/>
                     <Label x:Name="preview_burning_amount" Content="0%" HorizontalAlignment="Left" Margin="433,92,0,0" VerticalAlignment="Top"/>

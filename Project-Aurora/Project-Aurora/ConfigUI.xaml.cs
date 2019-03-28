@@ -729,13 +729,12 @@ namespace Aurora
 
         #region Properties
         /// <summary>Returns a list of all Applications in the order defined in the profile order configuration.</summary>
-        public IEnumerable<Profiles.Application> AllApplications { get; } = //new ObservableCollection<Profiles.Application>(
+        public IEnumerable<Profiles.Application> AllApplications { get; } =
             Global.Configuration.ProfileOrder.Select(profName => (Profiles.Application)Global.LightingStateManager.Events[profName]);
-        //);
 
-        public IEnumerable<Profiles.Application> VisibleApplications => //new ObservableCollection<Profiles.Application>(
+        /// <summary>Returns a list of all Applications that should be visible to the user (depending on the `<see cref="ShowHiddenApplications"/>` property).</summary>
+        public IEnumerable<Profiles.Application> VisibleApplications =>
             AllApplications.Where(app => ShowHiddenApplications || !app.Settings.Hidden);
-        //);
 
         /// <summary>A reference to the currently selected layer in either the regular or overlay layer list. When set, will update the <see cref="SelectedControl"/> property.</summary>
         public Layer SelectedLayer {
@@ -775,9 +774,6 @@ namespace Aurora
 
         #region Methods
         #region Event Handlers
-        #endregion
-        #endregion
-
         private void ApplicationContextHidden_Checked(object sender, RoutedEventArgs e) => NotifyChanged("VisibleApplications");
 
         private void ApplicationContext_Opened(object sender, RoutedEventArgs e) {
@@ -796,6 +792,8 @@ namespace Aurora
         private void CloseButton_Click(object sender, RoutedEventArgs e) {
             //On header mouse down, do: DragMove();
         }
+        #endregion
+        #endregion
     }
 
     public class ProfileNameResolver : IValueConverter {

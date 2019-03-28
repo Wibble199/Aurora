@@ -46,30 +46,54 @@
         </StackPanel>
         
         <DockPanel Grid.Row="2">
-            <Grid Height="23" VerticalAlignment="Top" DockPanel.Dock="Top" Visibility="{Binding DayNightCheckboxesVisiblity}">
+            <StackPanel Margin="0,0,0,6" Orientation="Horizontal" DockPanel.Dock="Top" Visibility="{Binding DayNightCheckboxesVisiblity}">
                 <RadioButton GroupName="TimeSelection" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTip="Daytime" IsChecked="True" Checked="CollectionSelection_Checked">
-                    <Grid>
-                        <Image Source="/Aurora;component/Resources/Daytime_Icon.png" HorizontalAlignment="Left" Margin="0,0,0,0" />
-                        <TextBlock Margin="23,0,-3,0">Daytime</TextBlock>
-                    </Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Aurora;component/Resources/UIIcons/sun-30.png" Height="18" HorizontalAlignment="Left" />
+                        <TextBlock Margin="4,0,0,0">Daytime</TextBlock>
+                    </StackPanel>
                 </RadioButton>
-                <RadioButton x:Name="showSecondaryCollection" GroupName="TimeSelection" HorizontalAlignment="Left" Margin="91,0,0,0" VerticalAlignment="Top" ToolTip="Nighttime" Checked="CollectionSelection_Checked">
-                    <Grid>
-                        <Image Source="/Aurora;component/Resources/Nighttime_Icon.png" HorizontalAlignment="Left" Margin="0,0,0,0" />
-                        <TextBlock Margin="20,0,0,0">Nighttime</TextBlock>
-                    </Grid>
+                <RadioButton x:Name="showSecondaryCollection" GroupName="TimeSelection" HorizontalAlignment="Left" Margin="8,0,0,0" VerticalAlignment="Top" ToolTip="Nighttime" Checked="CollectionSelection_Checked">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Aurora;component/Resources/UIIcons/moon-and-stars-30.png" Height="18" HorizontalAlignment="Left" />
+                        <TextBlock Margin="4,0,0,0">Nighttime</TextBlock>
+                    </StackPanel>
                 </RadioButton>
-            </Grid>
+            </StackPanel>
 
-            <Controls:ReorderableListBox Background="#232932" BorderThickness="0" ItemsSource="{Binding ActiveLayerCollection}" SelectedItem="{Binding Path=SelectedLayer, Mode=TwoWay}" DragElementTag="Dragger" SelectionMode="Single" DockPanel.Dock="Bottom" ScrollViewer.HorizontalScrollBarVisibility="Disabled" KeyDown="ReorderableListBox_KeyDown">
+            <Controls:ReorderableListBox Background="#232932" BorderThickness="0" ItemsSource="{Binding ActiveLayerCollection}" SelectedItem="{Binding Path=SelectedLayer, Mode=TwoWay}" DragElementTag="Dragger" SelectionMode="Single" DockPanel.Dock="Bottom" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" KeyDown="ReorderableListBox_KeyDown">
                 <ListBox.ItemTemplate>
-                    <HierarchicalDataTemplate>
-                        <DockPanel HorizontalAlignment="Stretch" LastChildFill="True">
+                    <DataTemplate>
+                        <DockPanel HorizontalAlignment="Stretch" LastChildFill="True" Margin="2,2,0,2">
                             <CheckBox IsChecked="{Binding Path=Enabled, Mode=TwoWay}" />
-                            <Image Source="/Aurora;component/Resources/Layers_Drag.png" Tag="Dragger" Cursor="SizeNS" Width="16" Height="16" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="0,0,5,0" ToolTip="Drag to rearrange layers"/>
+                            <Image Source="/Aurora;component/Resources/UIIcons/resize-vertical-30.png" Tag="Dragger" Cursor="SizeNS" Height="16" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="0,0,5,0" ToolTip="Drag to rearrange layers">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Opacity" Value="0" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                                <DataTrigger.EnterActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Image.Opacity)" To="1" Duration="0:0:0.1" />
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </DataTrigger.EnterActions>
+                                                <DataTrigger.ExitActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Image.Opacity)" To="0" Duration="0:0:0.1" />
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </DataTrigger.ExitActions>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
                             <TextBlock Text="{Binding Path=Name, Converter={StaticResource ResourceKey=TextCharacterLimitConv}}"/>
                         </DockPanel>
-                    </HierarchicalDataTemplate>
+                    </DataTemplate>
                 </ListBox.ItemTemplate>
             </Controls:ReorderableListBox>
         </DockPanel>

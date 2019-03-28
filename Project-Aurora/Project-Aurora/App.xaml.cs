@@ -340,16 +340,10 @@ namespace Aurora
                     System.Windows.MessageBox.Show("GameStateListener could not start. Try running this program as Administrator.\r\nExiting.");
                     Environment.Exit(0);
                 }
-
                 Global.logger.Info("Listening for game integration calls...");
-
-                Global.logger.Info("Loading ResourceDictionaries...");
-                Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("Themes/AuroraAppTheme.xaml", UriKind.Relative) });
-                Global.logger.Info("Loaded ResourceDictionaries");
 
 
                 Global.logger.Info("Loading ConfigUI...");
-
                 MainWindow = new ConfigUI();
                 ((ConfigUI)MainWindow).Display();
             }

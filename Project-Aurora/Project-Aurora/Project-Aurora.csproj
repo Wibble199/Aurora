@@ -340,6 +340,11 @@
     <Compile Include="Profiles\Skype\SkypeProfile.cs" />
     <Compile Include="Profiles\Skype\SkypeApplication.cs" />
     <Compile Include="Profiles\Skype\State_SkypeOverlay.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Settings\Control_LayerList.xaml.cs">
       <DependentUpon>Control_LayerList.xaml</DependentUpon>
     </Compile>
@@ -1477,8 +1482,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Resources\deadcells_128x128.png" />
-    <Resource Include="Resources\Layers_Copy.png" />
-    <Resource Include="Resources\Layers_Paste.png" />
     <Resource Include="Resources\Subnautica.png" />
     <Content Include="Logi\GHUB\LogitechLed.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -1488,12 +1491,10 @@
     </Content>
     <Resource Include="Resources\ch_128x128.png" />
     <Resource Include="Resources\re2_256x256.png" />
-    <Resource Include="Resources\LayerConditions_icon.png" />
     <Resource Include="Resources\UIIcons\numbers-30.png" />
     <Resource Include="Resources\UIIcons\paint-palette-30.png" />
     <Resource Include="Resources\UIIcons\diamonds-30.png" />
     <Resource Include="Resources\UIIcons\checked-checkbox-30.png" />
-    <Resource Include="Resources\Question_Help.png" />
     <Resource Include="Resources\UIIcons\keyboard-30.png" />
     <Resource Include="Resources\osu_256x256.png" />
     <Resource Include="Profiles\Osu\GSI\OsuSyncAuroraPlugin.dll" />
@@ -1506,6 +1507,18 @@
     <Resource Include="Resources\UIIcons\hide-30.png" />
     <Resource Include="Resources\UIIcons\maintenance-30.png" />
     <None Include="Resources\UIIcons\_icons8.txt" />
+    <Resource Include="Resources\UIIcons\downloads-30.png" />
+    <Resource Include="Resources\UIIcons\uploads-30.png" />
+    <Resource Include="Resources\UIIcons\ellipsis-30.png" />
+    <Resource Include="Resources\UIIcons\maximize-window-30.png" />
+    <Resource Include="Resources\UIIcons\minimize-window-30.png" />
+    <Resource Include="Resources\UIIcons\questions-30.png" />
+    <Resource Include="Resources\UIIcons\restore-window-30.png" />
+    <Resource Include="Resources\UIIcons\stacked-organizational-chart-30.png" />
+    <Resource Include="Resources\UIIcons\support-30.png" />
+    <Resource Include="Resources\UIIcons\resize-vertical-30.png" />
+    <Resource Include="Resources\UIIcons\moon-and-stars-30.png" />
+    <Resource Include="Resources\UIIcons\sun-30.png" />
     <Content Include="wooting-rgb-sdk.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -2194,6 +2207,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\AuroraTheme\Checkbox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\AuroraTheme\TextElements.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\AuroraTheme\Buttons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\ThemeVariables.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -2207,10 +2232,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\AuroraTheme\ContextMenu.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\AuroraTheme\Buttons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -2248,7 +2269,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\rocketleague_256x256.png" />
-    <Resource Include="Resources\settings_icon.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\csgo_64x64.png" />
@@ -2266,14 +2286,8 @@
     <Resource Include="Resources\Win64\Aurora-LogiLEDWrapper.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\AddProfile_Icon.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Profiles\Subnautica\Layers\" />
     <Folder Include="Properties\DataSources\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\RemoveProfile_Icon.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="CroccatTalkWrapper\win32-x86-64\talkfx-c.dll">
@@ -2333,18 +2347,9 @@
     <Content Include="kb_layouts\Extra Features\images\SteelSeries_Apex_logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Resources\Not Visible.png" />
-    <Resource Include="Resources\Visible.png" />
     <Resource Include="Resources\Daytime_Icon.png" />
     <Resource Include="Resources\Nighttime_Icon.png" />
-    <Resource Include="Resources\Layers_Drag.png" />
-    <Resource Include="Resources\Layers_Add.png" />
-    <Resource Include="Resources\Layers_Remove.png" />
-    <Resource Include="Resources\LayerConfig_icon.png" />
     <Resource Include="Resources\AnimationEditor_ScrubberTop.png" />
-    <Resource Include="Resources\Import_Icon.png" />
-    <Resource Include="Resources\Export_Icon.png" />
-    <Resource Include="Resources\Save_Icon.png" />
     <Resource Include="Resources\FreeForm_ManualColor.png" />
     <Resource Include="Resources\Borderlands2_256x256.png" />
     <Resource Include="Resources\rot_tombraider.png" />
@@ -2420,6 +2425,9 @@
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.6.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.6.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

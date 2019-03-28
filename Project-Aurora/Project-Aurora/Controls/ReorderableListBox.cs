@@ -210,7 +210,7 @@ namespace Aurora.Controls {
                 if (i == DropIndex) y += Children[DraggedIndex].DesiredSize.Height;
 
                 // Place this child at the given Y position (or float it if this child is the one being dragged as indicated by the DraggedIndex)
-                child.Arrange(new Rect(0, i == draggedIndex ? (DraggedY - child.DesiredSize.Height / 2) : y, child.DesiredSize.Width, child.DesiredSize.Height));
+                child.Arrange(new Rect(0, i == draggedIndex ? (DraggedY - child.DesiredSize.Height / 2) : y, finalSize.Width, child.DesiredSize.Height));
 
                 // If this item wasn't the "floating" dragged element, add it's height to the Y position counter
                 if (i != DraggedIndex) y += child.DesiredSize.Height;
