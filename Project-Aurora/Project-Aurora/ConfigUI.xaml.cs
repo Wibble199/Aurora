@@ -60,17 +60,6 @@ namespace Aurora
 
         LayerEditor layer_editor = new LayerEditor();
 
-        private bool _ShowHidden = false;
-
-        public bool ShowHidden
-        {
-            get { return _ShowHidden; }
-            set
-            {
-                _ShowHidden = value;
-                this.ShowHiddenChanged(value);
-            }
-        }
 
         public ConfigUI()
         {
@@ -190,15 +179,6 @@ namespace Aurora
             UpdateManagerStackFocus(ctrlLayerManager);
 
             this.UpdateLayout();
-
-            foreach (Image child in this.profiles_stack.Children)
-            {
-                if (child.Visibility == Visibility.Visible)
-                {
-                    this.ProfileImage_MouseDown(child, null);
-                    break;
-                }
-            }
         }
 
         public static bool ApplicationIsActivated()
@@ -350,48 +330,6 @@ namespace Aurora
 
         private BitmapImage _visible = new BitmapImage(new Uri(@"Resources/Visible.png", UriKind.Relative));
         private BitmapImage _not_visible = new BitmapImage(new Uri(@"Resources/Not Visible.png", UriKind.Relative));
-        
-        private void HiddenProfile_MouseDown(object sender, EventArgs e)
-        {
-            this.ShowHidden = !this.ShowHidden;
-        }
-
-        protected void ShowHiddenChanged(bool value)
-        {
-            profile_hidden.Source = value ? _visible : _not_visible;
-
-            foreach (FrameworkElement ctrl in profiles_stack.Children)
-            {
-                Image img = ctrl as Image ?? (ctrl is Grid ? ((Grid)ctrl).Children[0] as Image : null);
-                if (img != null)
-                {
-                    Profiles.Application profile = img.Tag as Profiles.Application;
-                    if (profile != null)
-                    {
-                        img.Visibility = profile.Settings.Hidden && !value ? Visibility.Collapsed : Visibility.Visible;
-                        img.Opacity = profile.Settings.Hidden ? 0.5 : 1;
-                    }
-                }
-            }
-
-            //profile_add.Visibility = value ? Visibility.Collapsed : Visibility.Visible;
-        }
-
-        private void mbtnHidden_Checked(object sender, RoutedEventArgs e)
-        {
-            MenuItem btn = sender as MenuItem;
-            Image img = this.cmenuProfiles.PlacementTarget as Image;
-
-            if (img != null)
-            {
-                img.Opacity = btn.IsChecked ? 0.5 : 1;
-
-                if (!this.ShowHidden && btn.IsChecked)
-                    img.Visibility = Visibility.Collapsed;
-
-                (img.Tag as Profiles.Application)?.SaveProfiles();
-            }
-        }
 
         private void cmenuProfiles_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
@@ -445,23 +383,6 @@ namespace Aurora
             current_color *= 0.85f;
 
             transitionamount = 0.0f;
-
-            UpdateProfileStackBackground(source);
-        }
-
-        private void ProfileImage_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Image image = sender as Image;
-            if (image != null && image.Tag != null && image.Tag is Profiles.Application)
-            {
-                if (e == null || e.LeftButton == MouseButtonState.Pressed)
-                    this.TransitionToProfile(image);
-                else if (e.RightButton == MouseButtonState.Pressed)
-                {
-                    this.cmenuProfiles.PlacementTarget = (Image)sender;
-                    this.cmenuProfiles.IsOpen = true;
-                }
-            }
         }
 
         private static void FocusedProfileChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
@@ -546,84 +467,7 @@ namespace Aurora
                 //GenerateProfileStack(filename);
             }
         }
-
-        private void DesktopControl_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            this.FocusedApplication = null;
-            SelectedControl = settingsControl;
-
-            current_color = desktop_color_scheme;
-            transitionamount = 0.0f;
-
-            UpdateProfileStackBackground(sender as FrameworkElement);
-        }
-
-        private void UpdateProfileStackBackground(FrameworkElement item)
-        {
-            selected_item = item;
-
-            if (selected_item != null)
-            {
-                DrawingBrush mask = new DrawingBrush();
-                GeometryDrawing visible_region =
-                    new GeometryDrawing(
-                        new SolidColorBrush(Color.FromArgb(64, 0, 0, 0)),
-                        null,
-                        new RectangleGeometry(new Rect(0, 0, profiles_background.ActualWidth, profiles_background.ActualHeight)));
-
-                DrawingGroup drawingGroup = new DrawingGroup();
-                drawingGroup.Children.Add(visible_region);
-
-                Point relativePoint = selected_item.TransformToAncestor(profiles_background)
-                              .Transform(new Point(0, 0));
-
-                double x = 0.0D;
-                double y = relativePoint.Y - 2.0D;
-                double width = profiles_background.ActualWidth;
-                double height = selected_item.ActualHeight + 4.0D;
-
-                if (item.Parent != null && item.Parent.Equals(profiles_stack))
-                {
-                    Point relativePointWithinStack = profiles_stack.TransformToAncestor(profiles_background)
-                              .Transform(new Point(0, 0));
-
-                    if (y < relativePointWithinStack.Y)
-                    {
-                        height -= relativePointWithinStack.Y - y;
-                        y = 0;
-                    }
-                    else if (y + height > profiles_background.ActualHeight - 40)
-                        height -= (y + height) - (profiles_background.ActualHeight - 40);
-
-                }
-                else
-                {
-                    x = 0.0D;
-                    y = relativePoint.Y - 2.0D;
-                    width = profiles_background.ActualWidth;
-                    height = selected_item.ActualHeight + 4.0D;
-
-                    if (y + height > profiles_background.ActualHeight - 40)
-                        height -= (y + height) - (profiles_background.ActualHeight - 40);
-                }
-                
-                if (height > 0 && width > 0)
-                {
-                    GeometryDrawing transparent_region =
-                        new GeometryDrawing(
-                            new SolidColorBrush((Color)current_color),
-                            null,
-                            new RectangleGeometry(new Rect(x, y, width, height)));
-
-                    drawingGroup.Children.Add(transparent_region);
-                }
-
-                mask.Drawing = drawingGroup;
-
-                profiles_background.Background = mask;
-            }
-        }
-
+        
         public void ShowWindow()
         {
             Global.logger.Info("Show Window called");
@@ -639,16 +483,6 @@ namespace Aurora
         {
             this.ShowInTaskbar = true;
             this.ShowWindow();
-        }
-
-        private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
-        {
-            UpdateProfileStackBackground(selected_item);
-        }
-
-        private void ScrollViewer_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            UpdateProfileStackBackground(selected_item);
         }
 
         private void UpdateManagerStackFocus(object focusedElement, bool forced = false)
@@ -773,6 +607,10 @@ namespace Aurora
         #endregion
 
         #region Methods
+        private void ToggleWindowState() {
+            WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+        }
+
         #region Event Handlers
         private void ApplicationContextHidden_Checked(object sender, RoutedEventArgs e) => NotifyChanged("VisibleApplications");
 
@@ -781,16 +619,21 @@ namespace Aurora
             cm.DataContext = (cm.PlacementTarget as ListBox)?.SelectedItem;
         }
 
+        private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.ClickCount == 2) ToggleWindowState();
+            else DragMove();
+        }
+
         private void MinimiseButton_Click(object sender, RoutedEventArgs e) {
             WindowState = WindowState.Minimized;
         }
 
         private void MaximiseButton_Click(object sender, RoutedEventArgs e) {
-            WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+            ToggleWindowState();
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e) {
-            //On header mouse down, do: DragMove();
+            
         }
         #endregion
         #endregion
