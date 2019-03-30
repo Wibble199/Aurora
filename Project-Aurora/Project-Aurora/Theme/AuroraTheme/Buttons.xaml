@@ -26,7 +26,7 @@
                 <EventTrigger.Actions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource BaseButtonBackgroundHoverColor}" Duration="0:0:0.1" />
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource BaseButtonBackgroundHoverColor}" Duration="{StaticResource AnimationDuration}" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
@@ -36,7 +36,7 @@
                 <EventTrigger.Actions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource BaseButtonBackgroundColor}" Duration="0:0:0.1" />
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource BaseButtonBackgroundColor}" Duration="{StaticResource AnimationDuration}" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
@@ -53,7 +53,7 @@
                 <EventTrigger.Actions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource Panel1ButtonBackgroundHoverColor}" Duration="0:0:0.1" />
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource Panel1ButtonBackgroundHoverColor}" Duration="{StaticResource AnimationDuration}" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
@@ -63,7 +63,7 @@
                 <EventTrigger.Actions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource Panel1ButtonBackgroundColor}" Duration="0:0:0.1" />
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource Panel1ButtonBackgroundColor}" Duration="{StaticResource AnimationDuration}" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
@@ -80,7 +80,7 @@
                 <EventTrigger.Actions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource Panel2ButtonBackgroundHoverColor}" Duration="0:0:0.1" />
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource Panel2ButtonBackgroundHoverColor}" Duration="{StaticResource AnimationDuration}" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
@@ -90,7 +90,7 @@
                 <EventTrigger.Actions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource Panel2ButtonBackgroundColor}" Duration="0:0:0.1" />
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource Panel2ButtonBackgroundColor}" Duration="{StaticResource AnimationDuration}" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
@@ -107,7 +107,7 @@
                 <EventTrigger.Actions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="#2FFF" Duration="0:0:0.1" />
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="#2FFF" Duration="{StaticResource AnimationDuration}" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
@@ -117,7 +117,7 @@
                 <EventTrigger.Actions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="Transparent" Duration="0:0:0.1" />
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="Transparent" Duration="{StaticResource AnimationDuration}" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
@@ -154,7 +154,7 @@
                 <EventTrigger.Actions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource BaseButtonBackgroundHoverColor}" Duration="0:0:0.1" />
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource BaseButtonBackgroundHoverColor}" Duration="{StaticResource AnimationDuration}" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
@@ -164,7 +164,7 @@
                 <EventTrigger.Actions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource BaseButtonBackgroundColor}" Duration="0:0:0.1" />
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource BaseButtonBackgroundColor}" Duration="{StaticResource AnimationDuration}" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
@@ -181,7 +181,7 @@
                 <EventTrigger.Actions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource Panel1ButtonBackgroundHoverColor}" Duration="0:0:0.1" />
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource Panel1ButtonBackgroundHoverColor}" Duration="{StaticResource AnimationDuration}" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
@@ -191,7 +191,7 @@
                 <EventTrigger.Actions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource Panel1ButtonBackgroundColor}" Duration="0:0:0.1" />
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource Panel1ButtonBackgroundColor}" Duration="{StaticResource AnimationDuration}" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
@@ -208,7 +208,7 @@
                 <EventTrigger.Actions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource Panel2ButtonBackgroundHoverColor}" Duration="0:0:0.1" />
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource Panel2ButtonBackgroundHoverColor}" Duration="{StaticResource AnimationDuration}" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>
@@ -218,7 +218,7 @@
                 <EventTrigger.Actions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource Panel2ButtonBackgroundColor}" Duration="0:0:0.1" />
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource Panel2ButtonBackgroundColor}" Duration="{StaticResource AnimationDuration}" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger.Actions>

@@ -75,14 +75,14 @@
                                                 <DataTrigger.EnterActions>
                                                     <BeginStoryboard>
                                                         <Storyboard>
-                                                            <DoubleAnimation Storyboard.TargetProperty="(Image.Opacity)" To="1" Duration="0:0:0.1" />
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Image.Opacity)" To="1" Duration="{StaticResource AnimationDuration}" />
                                                         </Storyboard>
                                                     </BeginStoryboard>
                                                 </DataTrigger.EnterActions>
                                                 <DataTrigger.ExitActions>
                                                     <BeginStoryboard>
                                                         <Storyboard>
-                                                            <DoubleAnimation Storyboard.TargetProperty="(Image.Opacity)" To="0" Duration="0:0:0.1" />
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Image.Opacity)" To="0" Duration="{StaticResource AnimationDuration}" />
                                                         </Storyboard>
                                                     </BeginStoryboard>
                                                 </DataTrigger.ExitActions>

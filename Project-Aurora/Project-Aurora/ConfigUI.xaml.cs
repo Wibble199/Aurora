@@ -76,8 +76,6 @@ namespace Aurora
             ctrlProfileManager.ProfileSelected += CtrlProfileManager_ProfileSelected;
             
             settingsControl.DataContext = this;
-
-            
         }
 
         internal void Display()
@@ -190,7 +188,7 @@ namespace Aurora
             var procId = Process.GetCurrentProcess().Id;
             int activeProcId;
             GetWindowThreadProcessId(activatedHandle, out activeProcId);
-
+             
             return activeProcId == procId;
         }
 
@@ -488,8 +486,10 @@ namespace Aurora
         }
 
         private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.ClickCount == 2) ToggleWindowState();
-            else DragMove();
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                if (e.ClickCount == 2) ToggleWindowState();
+                else DragMove();
+            }
         }
 
         private void MinimiseButton_Click(object sender, RoutedEventArgs e) {
@@ -501,7 +501,7 @@ namespace Aurora
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e) {
-            
+            Close();
         }
 
         private void AddApplicationButton_Click(object sender, RoutedEventArgs e) {
@@ -538,13 +538,18 @@ namespace Aurora
         }
 
         #endregion
+
         #endregion
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e) {
+            SelectedControl = settingsControl;
+        }
     }
 
     public class ProfileNameResolver : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value is GenericApplication generic
             ? ((GenericApplicationSettings)generic.Settings).ApplicationName
-            : ((Profiles.Application)value).Config.Name;
+            : (value as Profiles.Application)?.Config.Name;
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }

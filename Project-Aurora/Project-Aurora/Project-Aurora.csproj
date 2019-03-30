@@ -297,10 +297,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="WindowsBase" />
-    <Reference Include="WPFToolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Infragistics.Themes.MetroDark.Wpf.1.0.0\lib\net40\WPFToolkit.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Xceed.Wpf.Toolkit, Version=2.9.15603.14400, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL">
       <HintPath>..\packages\Xceed.Wpf.Toolkit.2.9.15603.14400\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
       <Private>True</Private>
@@ -626,6 +622,7 @@
     <Compile Include="Settings\Overrides\Logic\Color\Control_ColorFromValues.xaml.cs">
       <DependentUpon>Control_ColorFromValues.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Settings\GreyscaleEffect.cs" />
     <Compile Include="Settings\Overrides\Logic\Boolean\Boolean_PeripheralInput.cs" />
     <Compile Include="Settings\Overrides\Logic\Color\Color_Ctors.cs" />
     <Compile Include="Settings\Overrides\Logic\Control_BinaryOperationHolder.xaml.cs">
@@ -1506,6 +1503,7 @@
     <Resource Include="Resources\UIIcons\eye-30.png" />
     <Resource Include="Resources\UIIcons\hide-30.png" />
     <Resource Include="Resources\UIIcons\maintenance-30.png" />
+    <Resource Include="Resources\GreyscaleShader.ps" />
     <None Include="Resources\UIIcons\_icons8.txt" />
     <Resource Include="Resources\UIIcons\downloads-30.png" />
     <Resource Include="Resources\UIIcons\uploads-30.png" />

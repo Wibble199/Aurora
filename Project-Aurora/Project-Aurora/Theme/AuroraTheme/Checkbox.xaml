@@ -17,14 +17,14 @@
                             <VisualStateGroup x:Name="CheckStates">
                                 <VisualState x:Name="Unchecked">
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="CheckMark" To="0" Duration="0:0:0.1" />
-                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Background" To="Transparent" Duration="0:0:0.1" />
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="CheckMark" To="0" Duration="{StaticResource AnimationDuration}" />
+                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Background" To="Transparent" Duration="{StaticResource AnimationDuration}" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Checked">
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="CheckMark" To="1" Duration="0:0:0.1" />
-                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Background" To="#BABABA" Duration="0:0:0.1" />
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="CheckMark" To="1" Duration="{StaticResource AnimationDuration}" />
+                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Background" To="#BABABA" Duration="{StaticResource AnimationDuration}" />
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
