@@ -2207,35 +2207,43 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\AuroraTheme\Checkbox.xaml">
+    <Page Include="Theme\AuroraTheme\Textbox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\AuroraTheme\TextElements.xaml">
+    <Page Include="Theme\AuroraTheme\Combobox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\AuroraTheme\Buttons.xaml">
+    <Page Include="Theme\AuroraTheme\Checkbox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\ThemeVariables.xaml">
+    <Page Include="Theme\AuroraTheme\TextElements.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\AuroraAppTheme.xaml">
+    <Page Include="Theme\AuroraTheme\Buttons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\AuroraTheme\Tooltip.xaml">
+    <Page Include="Theme\ThemeVariables.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\AuroraTheme\ContextMenu.xaml">
+    <Page Include="Theme\AuroraAppTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\AuroraTheme\ScrollBar.xaml">
+    <Page Include="Theme\AuroraTheme\Tooltip.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\AuroraTheme\ContextMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\AuroraTheme\ScrollBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

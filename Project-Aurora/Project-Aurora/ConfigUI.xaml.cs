@@ -205,32 +205,30 @@ namespace Aurora
             if (!ApplicationIsActivated())
                 return;
 
-            Dispatcher.Invoke(
-                        () =>
-                        {
-                            if (transitionamount <= 1.0f)
-                            {
-                                transition_color.BlendColors(current_color, transitionamount += 0.07f);
+            Dispatcher.Invoke(() => {
+                if (transitionamount <= 1.0f)
+                {
+                    transition_color.BlendColors(current_color, transitionamount += 0.07f);
 
-                                //bg_grid.Background = new SolidColorBrush(Color.FromRgb(transition_color.Red, transition_color.Green, transition_color.Blue));
-                                //bg_grid.UpdateLayout();
-                            }
+                    //bg_grid.Background = new SolidColorBrush(Color.FromRgb(transition_color.Red, transition_color.Green, transition_color.Blue));
+                    //bg_grid.UpdateLayout();
+                }
 
 
-                            Dictionary<Devices.DeviceKeys, System.Drawing.Color> keylights = new Dictionary<Devices.DeviceKeys, System.Drawing.Color>();
+                Dictionary<Devices.DeviceKeys, System.Drawing.Color> keylights = new Dictionary<Devices.DeviceKeys, System.Drawing.Color>();
 
-                            if (IsActive)
-                            {
-                                keylights = Global.effengine.GetKeyboardLights();
-                                Global.kbLayout.SetKeyboardColors(keylights);
-                            }
+                if (IsActive)
+                {
+                    keylights = Global.effengine.GetKeyboardLights();
+                    Global.kbLayout.SetKeyboardColors(keylights);
+                }
 
-                            if (Global.key_recorder.IsRecording())
-                                this.keyboard_record_message.Visibility = Visibility.Visible;
-                            else
-                                this.keyboard_record_message.Visibility = Visibility.Hidden;
+                if (Global.key_recorder.IsRecording())
+                    this.keyboard_record_message.Visibility = Visibility.Visible;
+                else
+                    this.keyboard_record_message.Visibility = Visibility.Hidden;
 
-                        });
+            });
         }
 
         ////Misc
@@ -247,9 +245,8 @@ namespace Aurora
 
         private void trayicon_menu_settings_Click(object sender, RoutedEventArgs e)
         {
-            this.ShowInTaskbar = true;
-            this.WindowStyle = WindowStyle.SingleBorderWindow;
-            this.Show();
+            ShowInTaskbar = true;
+            Show();
         }
 
         private void Window_Initialized(object sender, EventArgs e)
@@ -257,30 +254,17 @@ namespace Aurora
             
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (Global.Configuration.close_mode == AppExitMode.Ask)
-            {
-                MessageBoxResult result = MessageBox.Show("Would you like to Exit Aurora?", "Aurora", MessageBoxButton.YesNo);
+        private void Window_Closing(object sender, CancelEventArgs e) {
+            var closeMode = Global.Configuration.close_mode;
 
-                if (result == MessageBoxResult.No)
-                {
-                    minimizeApp();
-                    e.Cancel = true;
-                }
-                else
-                {
-                    exitApp();
-                }
-            }
-            else if (Global.Configuration.close_mode == AppExitMode.Minimize)
-            {
+            if (closeMode == AppExitMode.Ask)
+                closeMode = MessageBox.Show("Would you like to exit Aurora?", "Aurora", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes ? AppExitMode.Exit : AppExitMode.Minimize;
+
+            if (closeMode == AppExitMode.Exit) {
+                exitApp();
+            } else {
                 minimizeApp();
                 e.Cancel = true;
-            }
-            else
-            {
-                exitApp();
             }
         }
 
@@ -298,7 +282,7 @@ namespace Aurora
 
             if (!shownHiddenMessage)
             {
-                trayicon.ShowBalloonTip("Aurora", "This program is now hidden in the tray.", BalloonIcon.None);
+                trayicon.ShowBalloonTip("Aurora", "This program is now hidden in the tray.", BalloonIcon.Info);
                 shownHiddenMessage = true;
             }
 
@@ -324,88 +308,15 @@ namespace Aurora
             Global.LightingStateManager.PreviewProfileKey = string.Empty;
         }
 
-        private Image profile_add;
-
-        private Image profile_hidden;
-
-        private BitmapImage _visible = new BitmapImage(new Uri(@"Resources/Visible.png", UriKind.Relative));
-        private BitmapImage _not_visible = new BitmapImage(new Uri(@"Resources/Not Visible.png", UriKind.Relative));
-
-        private void cmenuProfiles_ContextMenuOpening(object sender, ContextMenuEventArgs e)
-        {
-            if (!(((ContextMenu)e.Source).PlacementTarget is Image))
-                e.Handled = true;
-        }
-
-        private void ContextMenu_Opened(object sender, RoutedEventArgs e)
-        {
-            ContextMenu context = (ContextMenu)e.OriginalSource;
-
-            if (!(context.PlacementTarget is Image))
-                return;
-
-            Image img = (Image)context.PlacementTarget;
-            Profiles.Application profile = img.Tag as Profiles.Application;
-            context.DataContext = profile;
-            /*
-            this.mbtnEnabled.IsChecked = profile.Settings.isEnabled;
-            this.mbtnHidden.IsChecked = profile.Settings.Hidden;*/
-
-        }
-
-        private void ProfileImage_Edit_MouseUp(object sender, MouseEventArgs e)
-        {
-            Image img = sender as Image;
-            Profiles.Application profile = img.Tag as Profiles.Application;
-            profile.Settings.Hidden = !profile.Settings.Hidden;
-            img.Opacity = profile.Settings.Hidden ? 0.5 : 1;
-        }
-
-        private void Profile_grid_MouseLeave(object sender, MouseEventArgs e)
-        {
-            if ((sender as Grid)?.Tag is Image)
-                ((sender as Grid).Tag as Image).Visibility = Visibility.Hidden;
-        }
-
-        private void Profile_grid_MouseEnter(object sender, MouseEventArgs e)
-        {
-            if ((sender as Grid)?.Tag is Image)
-                ((sender as Grid).Tag as Image).Visibility = Visibility.Visible;
-        }
-
-        private void TransitionToProfile(Image source)
-        {
-            this.FocusedApplication = source.Tag as Profiles.Application;
-            var bitmap = (BitmapSource)source.Source;
-            var color = Utils.ColorUtils.GetAverageColor(bitmap);
-
-            current_color = new EffectColor(color);
-            current_color *= 0.85f;
-
-            transitionamount = 0.0f;
-        }
-
         private static void FocusedProfileChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
         {
-            ConfigUI th = source as ConfigUI;
+            ConfigUI self = source as ConfigUI;
             Profiles.Application value = e.NewValue as Profiles.Application;
+            
+            self.gridManagers.Visibility = value == null ? Visibility.Collapsed : Visibility.Visible;
 
-            //th.ctrlLayerManager.Visibility = value == null ? Visibility.Collapsed : Visibility.Visible;
-            //th.ctrlProfileManager.Visibility = value == null ? Visibility.Collapsed : Visibility.Visible;
-            th.gridManagers.Visibility = value == null ? Visibility.Collapsed : Visibility.Visible;
-
-            if (value == null)
-                return;
-
-            /*th.content_grid.Children.Clear();
-            UIElement element = value.GetUserControl();
-            //th.content_grid.DataContext = element;
-            th.content_grid.MinHeight = ((UserControl)element).MinHeight;
-            th.content_grid.Children.Add(element);
-            th.content_grid.UpdateLayout();*/
-            th.SelectedControl = value.Control;
-            //th.content_grid.UpdateLayout();
-
+            if (value != null)            
+                self.SelectedControl = value.Control;
         }
 
         private void RemoveProfile_MouseDown(object sender, MouseButtonEventArgs e)
@@ -427,62 +338,19 @@ namespace Aurora
                 }
             }
         }
-
-        private void AddProfile_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-
-            Window_ProcessSelection dialog = new Window_ProcessSelection { CheckCustomPathExists = true, ButtonLabel = "Add Profile", Title ="Add Profile" };
-            if (dialog.ShowDialog() == true && !string.IsNullOrWhiteSpace(dialog.ChosenExecutablePath)) { // do not need to check if dialog is already in excluded_programs since it is a Set and only contains unique items by definition
-
-                string filename = Path.GetFileName(dialog.ChosenExecutablePath.ToLowerInvariant());
-
-                if (Global.LightingStateManager.Events.ContainsKey(filename))
-                {
-                    if (Global.LightingStateManager.Events[filename] is GameEvent_Aurora_Wrapper)
-                        Global.LightingStateManager.Events.Remove(filename);
-                    else
-                    {
-                        MessageBox.Show("Profile for this application already exists.");
-                        return;
-                    }
-                }
-
-                GenericApplication gen_app_pm = new GenericApplication(filename);
-                gen_app_pm.Initialize();
-                ((GenericApplicationSettings)gen_app_pm.Settings).ApplicationName = Path.GetFileNameWithoutExtension(filename);
-
-                System.Drawing.Icon ico = System.Drawing.Icon.ExtractAssociatedIcon(dialog.ChosenExecutablePath.ToLowerInvariant());
-
-                if (!Directory.Exists(gen_app_pm.GetProfileFolderPath()))
-                    Directory.CreateDirectory(gen_app_pm.GetProfileFolderPath());
-
-                using (var icon_asbitmap = ico.ToBitmap())
-                {
-                    icon_asbitmap.Save(Path.Combine(gen_app_pm.GetProfileFolderPath(), "icon.png"), System.Drawing.Imaging.ImageFormat.Png);
-                }
-                ico.Dispose();
-
-                Global.LightingStateManager.RegisterEvent(gen_app_pm);
-                ConfigManager.Save(Global.Configuration);
-                //GenerateProfileStack(filename);
-            }
-        }
         
         public void ShowWindow()
         {
             Global.logger.Info("Show Window called");
-            this.Visibility = Visibility.Visible;
-            this.WindowStyle = WindowStyle.SingleBorderWindow;
-            this.ShowInTaskbar = true;
-            //this.Topmost = true;
-            this.Show();
-            this.Activate();
+            Visibility = Visibility.Visible;
+            ShowInTaskbar = true;
+            Show();
+            Activate();
         }
 
         private void trayicon_TrayMouseDoubleClick(object sender, RoutedEventArgs e)
         {
-            this.ShowInTaskbar = true;
-            this.ShowWindow();
+            ShowWindow();
         }
 
         private void UpdateManagerStackFocus(object focusedElement, bool forced = false)
@@ -585,7 +453,7 @@ namespace Aurora
         }
         private Layer selectedLayer;
 
-       /// <summary>The control that is currently displayed underneath they device preview panel. This could be an overview control or a layer presenter etc.</summary>
+       /// <summary>The control that is currently displayed underneath the device preview panel. This could be an overview control or a layer presenter etc.</summary>
         public Control SelectedControl { get => selectedControl; set => SetField(ref selectedControl, value); }
         private Control selectedControl;
 
@@ -635,6 +503,40 @@ namespace Aurora
         private void CloseButton_Click(object sender, RoutedEventArgs e) {
             
         }
+
+        private void AddApplicationButton_Click(object sender, RoutedEventArgs e) {
+            Window_ProcessSelection dialog = new Window_ProcessSelection { CheckCustomPathExists = true, ButtonLabel = "Add Application", Title = "Add Application" };
+            if (dialog.ShowDialog() == true && !string.IsNullOrWhiteSpace(dialog.ChosenExecutablePath)) {
+
+                string filename = Path.GetFileName(dialog.ChosenExecutablePath.ToLowerInvariant());
+
+                if (Global.LightingStateManager.Events.ContainsKey(filename)) {
+                    if (Global.LightingStateManager.Events[filename] is GameEvent_Aurora_Wrapper)
+                        Global.LightingStateManager.Events.Remove(filename);
+                    else {
+                        MessageBox.Show("Cannot add this application. It already exists in the application list.", "Cannot register", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+                }
+
+                GenericApplication newApplication = new GenericApplication(filename);
+                newApplication.Initialize();
+                ((GenericApplicationSettings)newApplication.Settings).ApplicationName = Path.GetFileNameWithoutExtension(filename);
+
+                System.Drawing.Icon ico = System.Drawing.Icon.ExtractAssociatedIcon(dialog.ChosenExecutablePath.ToLowerInvariant());
+
+                if (!Directory.Exists(newApplication.GetProfileFolderPath()))
+                    Directory.CreateDirectory(newApplication.GetProfileFolderPath());
+
+                using (var icoBmp = ico.ToBitmap())
+                    icoBmp.Save(Path.Combine(newApplication.GetProfileFolderPath(), "icon.png"), System.Drawing.Imaging.ImageFormat.Png);
+                ico.Dispose();
+
+                Global.LightingStateManager.RegisterEvent(newApplication);
+                ConfigManager.Save(Global.Configuration);
+            }
+        }
+
         #endregion
         #endregion
     }

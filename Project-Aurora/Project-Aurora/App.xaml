@@ -6,8 +6,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Themes/ThemeVariables.xaml" />
-                <ResourceDictionary Source="Themes/AuroraAppTheme.xaml" />
+                <ResourceDictionary Source="Theme/ThemeVariables.xaml" />
+                <ResourceDictionary Source="Theme/AuroraAppTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

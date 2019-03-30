@@ -2,20 +2,25 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <!-- Colors -->
     <Color x:Key="ForegroundElementColor">#0F141A</Color> <!-- Color of a foreground element such as a tooltip or context menu. -->
-    <Color x:Key="BaseBackgroundColor"></Color> <!-- Color of the main area background. -->
-    <Color x:Key="Panel1BackgroundColor"></Color> <!-- Background color of the "level 1" panels (will usually be adjacent to the base). -->
-    <Color x:Key="Panel2BackgroundColor"></Color> <!-- Background color of the "level 2" panels (will usually be adjacent to the level 1 panels). -->
+    <Color x:Key="BaseBackgroundColor">#323942</Color> <!-- Color of the main area background. -->
+    <Color x:Key="Panel1BackgroundColor">#232932</Color> <!-- Background color of the "level 1" panels (will usually be adjacent to the base). -->
+    <Color x:Key="Panel2BackgroundColor">#1A1F26</Color> <!-- Background color of the "level 2" panels (will usually be adjacent to the level 1 panels). -->
 
-    <Color x:Key="BaseButtonBackgroundColor">#2A3340</Color> <!-- Color of the buttons that will usually appear on the "base" backgrounds. -->
-    <Color x:Key="BaseButtonBackgroundHoverColor">#3F4958</Color> <!-- Same as above but when the user is hovering the button. -->
-    <Color x:Key="Panel1ButtonBackgroundColor">#2A3340</Color> <!-- Color of the buttons that will usually appear on the "panel 1"s. -->
-    <Color x:Key="Panel1ButtonBackgroundHoverColor">#3F4958</Color> <!-- Same as above but when the user is hovering the button. -->
+    <Color x:Key="BaseButtonBackgroundColor">#242A32</Color> <!-- Color of the buttons that will usually appear on the "base" backgrounds. -->
+    <Color x:Key="BaseButtonBackgroundHoverColor">#30363E</Color> <!-- Same as above but when the user is hovering the button. -->
+    <Color x:Key="Panel1ButtonBackgroundColor">#333D4C</Color> <!-- Color of the buttons that will usually appear on the "panel 1"s. -->
+    <Color x:Key="Panel1ButtonBackgroundHoverColor">#485364</Color> <!-- Same as above but when the user is hovering the button. -->
     <Color x:Key="Panel2ButtonBackgroundColor">#2A3340</Color> <!-- Color of the buttons that will usually appear on the "panel 2"s. -->
     <Color x:Key="Panel2ButtonBackgroundHoverColor">#3F4958</Color> <!-- Same as above but when the user is hovering the button. -->
 
+    
+    <!-- Misc. -->
+    <CornerRadius x:Key="ControlBorderRadius">2</CornerRadius> <!-- How rounded the corners of controls such as buttons are. -->
 
 
+    <!-- Brushes (derived from the colors) -->
     <SolidColorBrush x:Key="ForegroundElement" Color="{StaticResource ForegroundElementColor}" />
     <SolidColorBrush x:Key="BaseBackground" Color="{StaticResource BaseBackgroundColor}" />
     <SolidColorBrush x:Key="Panel1Background" Color="{StaticResource Panel1BackgroundColor}" />

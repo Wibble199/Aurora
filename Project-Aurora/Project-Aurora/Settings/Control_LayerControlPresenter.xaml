@@ -24,14 +24,59 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <Border Background="#A5000000" CornerRadius="8" />
+        <Border Background="#00000000" CornerRadius="8" />
         <Grid x:Name="grd_LayerControl">
             <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Layer name:" VerticalAlignment="Top" Margin="10,10,0,0"/>
             <TextBox x:Name="txtLayerName" HorizontalAlignment="Left" Height="23" Margin="78,9,0,0" TextWrapping="Wrap" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="200"/>
             <TextBlock HorizontalAlignment="Left" Margin="10,38,0,0" TextWrapping="Wrap" Text="Layer type:" VerticalAlignment="Top"/>
-            <ComboBox x:Name="cmbLayerType" HorizontalAlignment="Left" Margin="72,37,0,0" VerticalAlignment="Top" Width="206" SelectionChanged="cmbLayerType_SelectionChanged"/><!-- ItemTemplate="{Binding Source={StaticResource LayerTypeTemplate}}"/>-->
+            <ComboBox x:Name="cmbLayerType" HorizontalAlignment="Left" Margin="72,37,0,0" VerticalAlignment="Top" Width="206" SelectionChanged="cmbLayerType_SelectionChanged">
+                <ComboBox.Style>
+                    <Style TargetType="ComboBox">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ComboBox">
+                                    <Grid>
+                                        <ToggleButton Name="ToggleButton" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Press" />
+                                        <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}"
+                            ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                            ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                            Margin="3,3,23,3"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left" />
+                                        <TextBox x:Name="PART_EditableTextBox"
+                            Style="{x:Null}"
+                            HorizontalAlignment="Left" 
+                            VerticalAlignment="Center" 
+                            Margin="3,3,23,3"
+                            Focusable="True" 
+                            Background="#FF3F3F3F"
+                            Foreground="Green"
+                            Visibility="Hidden"
+                            IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                                        <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
+
+                                            <Grid Name="DropDown"  SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                                <Border x:Name="DropDownBorder" Background="#F00" BorderThickness="1" BorderBrush="#888888"/>
+                                                <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                                </ScrollViewer>
+                                            </Grid>
+                                        </Popup>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ComboBox.Style>
+            </ComboBox>
             <UserControl x:Name="ctrlLayerTypeConfig" Margin="10,64,10,10"/>
-            <Button x:Name="btnReset" Content="Reset Layer" HorizontalAlignment="Left" Margin="283,39,0,0" VerticalAlignment="Top" Width="75" Click="btnReset_Click"/>
+            <Button x:Name="btnReset" Content="Reset Layer" HorizontalAlignment="Left" Margin="283,39,0,0" VerticalAlignment="Top" Width="75" Click="btnReset_Click">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource Panel2Button}">
+                        <Setter Property="Background" Value="#2B3138" />
+                    </Style>
+                </Button.Style>
+            </Button>
         </Grid>
 
         <Grid x:Name="grdLayerConfigs" Margin="4" HorizontalAlignment="Right" Width="484" Height="188" VerticalAlignment="Top" Background="#FF323232" Visibility="Collapsed">

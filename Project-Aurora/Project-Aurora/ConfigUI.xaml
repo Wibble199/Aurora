@@ -14,7 +14,7 @@
              MaxWidth="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}" MaxHeight="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}" 
              Title="Aurora" WindowStyle="None" AllowsTransparency="True"
              Loaded="Window_Loaded" Initialized="Window_Initialized" Closing="Window_Closing" Activated="Window_Activated" Deactivated="Window_Deactivated" HorizontalContentAlignment="Stretch"  SizeChanged="Window_SizeChanged"
-             DataContext="{Binding RelativeSource={RelativeSource Self}}" BorderBrush="Transparent" Background="#323942">
+             DataContext="{Binding RelativeSource={RelativeSource Self}}" BorderBrush="Transparent" Background="{StaticResource BaseBackground}">
 
     <!-- Override the default edges and captions that still appear even when WindowStyle is set to None. -->
     <WindowChrome.WindowChrome>
@@ -55,7 +55,7 @@
             </Grid.RowDefinitions>
 
 
-            <Grid Grid.ColumnSpan="999" Background="#12161B">
+            <Grid Grid.ColumnSpan="999" Background="{StaticResource ForegroundElement}">
                 <!-- Title bar label -->
                 <TextBlock Text="Aurora" FontSize="16" FontWeight="Bold" Margin="5,-1" HorizontalAlignment="Left" />
                 
@@ -63,36 +63,36 @@
                 <Rectangle Margin="0,0,75,0" Fill="Transparent" MouseDown="TitleBar_MouseDown" />
 
                 <!-- Window controls (maximize etc) -->
-                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                    <Button Click="MinimiseButton_Click">
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,0,0,1">
+                    <Button Click="MinimiseButton_Click" Style="{StaticResource FlatButton}">
                         <Image Source="Resources/UIIcons/minimize-window-30.png" Margin="2,0" Height="12" />
                     </Button>
-                    <Button Click="MaximiseButton_Click">
+                    <Button Click="MaximiseButton_Click" Style="{StaticResource FlatButton}">
                         <Image Source="Resources/UIIcons/maximize-window-30.png" Margin="2,0" Height="12" />
                     </Button>
-                    <Button Click="CloseButton_Click">
+                    <Button Click="CloseButton_Click" Style="{StaticResource FlatButton}">
                         <Image Source="Resources/UIIcons/delete-30.png" Margin="2,0" Height="12" />
                     </Button>
                 </StackPanel>
             </Grid>
 
             <!-- Left panel (the contents of the left panel don't follow the grid rows, so use a DockPanel to place them instead) -->
-            <DockPanel LastChildFill="True" Background="#1A1F26" Grid.Row="1" Grid.RowSpan="999">
+            <DockPanel LastChildFill="True" Background="{StaticResource Panel2Background}" Grid.Row="1" Grid.RowSpan="999">
                 <!-- Aurora logo header -->
                 <Image DockPanel.Dock="Top" Source="Resources/aurora_logo.png" Height="48" Margin="8" Grid.RowSpan="999" />
 
                 <!-- Application list controls -->
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Margin="2,4" Style="{StaticResource Panel2Button}">
+                    <Button Margin="2,4" Click="AddApplicationButton_Click" Style="{StaticResource Panel2Button}">
                         <Image Source="Resources/UIIcons/plus-30.png" Margin="2,0" Width="18" Height="18"/>
                     </Button>
-                    <Button Margin="2,4">
+                    <Button Margin="2,4" Style="{StaticResource Panel2Button}">
                         <Image Source="Resources/UIIcons/maintenance-30.png" Margin="2,0" Width="18" Height="18"/>
                     </Button>
                     
                     <ToggleButton IsChecked="{Binding ShowHiddenApplications, Mode=TwoWay}" Margin="2,4">
                         <ToggleButton.Style>
-                            <Style TargetType="ToggleButton">
+                            <Style TargetType="ToggleButton" BasedOn="{StaticResource Panel2ToggleButton}">
                                 <Setter Property="Content">
                                     <Setter.Value>
                                         <Image Source="Resources/UIIcons/eye-30.png" Margin="2,0" Width="18" Height="18" />
@@ -115,7 +115,7 @@
                 </StackPanel>
 
                 <!-- Application list (Last child because we want this one to fill remaining space) -->
-                <ListBox ItemsSource="{Binding VisibleApplications}" SelectedItem="{Binding FocusedApplication}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Background="#1A1F26" BorderThickness="0">
+                <ListBox ItemsSource="{Binding VisibleApplications}" SelectedItem="{Binding FocusedApplication}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Background="{StaticResource Panel2Background}" BorderThickness="0">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -135,7 +135,7 @@
             </DockPanel>
 
             <!-- Profile/layer list -->
-            <Grid x:Name="gridManagers" Grid.Column="1" Grid.RowSpan="999" Grid.Row="1" Background="#232932">
+            <Grid x:Name="gridManagers" Grid.Column="1" Grid.RowSpan="999" Grid.Row="1" Background="{StaticResource Panel1Background}">
                 <StackPanel x:Name="stackPanelManagers">
                     <Border x:Name="brdOverview" Background="#A5000000" CornerRadius="8" VerticalAlignment="Top" Height="25" PreviewMouseDown="brdOverview_PreviewMouseDown">
                         <Border Background="#54A8A8A8" CornerRadius="8">
