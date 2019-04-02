@@ -183,6 +183,16 @@ namespace Aurora.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap collapse_arrow_30 {
+            get {
+                object obj = ResourceManager.GetObject("collapse_arrow_30", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap copy_30 {
             get {
                 object obj = ResourceManager.GetObject("copy_30", resourceCulture);
@@ -323,9 +333,29 @@ namespace Aurora.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap expand_arrow_30 {
+            get {
+                object obj = ResourceManager.GetObject("expand_arrow_30", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap eye_30 {
             get {
                 object obj = ResourceManager.GetObject("eye_30", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap font_size_30 {
+            get {
+                object obj = ResourceManager.GetObject("font_size_30", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

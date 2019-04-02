@@ -3,14 +3,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- Colors -->
+    <Color x:Key="TextColor">#F9F9F9</Color> <!-- Text color for most elements. -->
+
     <Color x:Key="ForegroundElementColor">#0F141A</Color> <!-- Color of a foreground element such as a tooltip or context menu. -->
     <Color x:Key="BaseBackgroundColor">#323942</Color> <!-- Color of the main area background. -->
     <Color x:Key="Panel1BackgroundColor">#232932</Color> <!-- Background color of the "level 1" panels (will usually be adjacent to the base). -->
     <Color x:Key="Panel2BackgroundColor">#1A1F26</Color> <!-- Background color of the "level 2" panels (will usually be adjacent to the level 1 panels). -->
 
     <Color x:Key="BaseButtonBackgroundColor">#242A32</Color> <!-- Color of the buttons that will usually appear on the "base" backgrounds. -->
-    <Color x:Key="BaseButtonBackgroundHoverColor">#30363E</Color>
-    <!-- Same as above but when the user is hovering the button. -->
+    <Color x:Key="BaseButtonBackgroundHoverColor">#181D24</Color> <!-- Same as above but when the user is hovering the button. -->
     <Color x:Key="Panel1ButtonBackgroundColor">#333D4C</Color> <!-- Color of the buttons that will usually appear on the "panel 1"s. -->
     <Color x:Key="Panel1ButtonBackgroundHoverColor">#485364</Color> <!-- Same as above but when the user is hovering the button. -->
     <Color x:Key="Panel2ButtonBackgroundColor">#2A3340</Color> <!-- Color of the buttons that will usually appear on the "panel 2"s. -->
@@ -30,6 +31,8 @@
 
 
     <!-- Brushes (derived from the colors). This usually don't want to be changed. -->
+    <SolidColorBrush x:Key="TextBrush" Color="{StaticResource TextColor}" />
+    
     <SolidColorBrush x:Key="ForegroundElement" Color="{StaticResource ForegroundElementColor}" />
     <SolidColorBrush x:Key="BaseBackground" Color="{StaticResource BaseBackgroundColor}" />
     <SolidColorBrush x:Key="Panel1Background" Color="{StaticResource Panel1BackgroundColor}" />
@@ -48,5 +51,8 @@
     <SolidColorBrush x:Key="ListboxNoFocusItemSelected" Color="{StaticResource ListboxNoFocusItemSelectedColor}" />
     <SolidColorBrush x:Key="ApplicationListboxItemHover" Color="{StaticResource ApplicationListboxItemHoverColor}" />
     <SolidColorBrush x:Key="ApplicationListboxItemSelected" Color="{StaticResource ApplicationListboxItemSelectedColor}" />
+
+    <!-- The reason we need a brush and a color is so that we can set the initial visual property of the elements from the brush (since we need a brush, not
+         a raw color, but we also need the colors so that we can animate events such as the hover effect and brushes cannot be (easily) animated. -->
 
 </ResourceDictionary>

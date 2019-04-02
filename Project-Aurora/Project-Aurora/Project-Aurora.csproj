@@ -1517,6 +1517,9 @@
     <Resource Include="Resources\UIIcons\resize-vertical-30.png" />
     <Resource Include="Resources\UIIcons\moon-and-stars-30.png" />
     <Resource Include="Resources\UIIcons\sun-30.png" />
+    <Resource Include="Resources\UIIcons\collapse-arrow-30.png" />
+    <Resource Include="Resources\UIIcons\expand-arrow-30.png" />
+    <Resource Include="Resources\UIIcons\font-size-30.png" />
     <Content Include="wooting-rgb-sdk.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
