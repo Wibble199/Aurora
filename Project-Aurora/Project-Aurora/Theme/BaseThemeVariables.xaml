@@ -24,6 +24,7 @@
     <Color x:Key="ApplicationListboxItemHoverColor">#30363E</Color> <!-- The background color for the application that the user is hovering over. -->
     <Color x:Key="ApplicationListboxItemSelectedColor">#48505B</Color> <!-- The background color for the application the user has selected. -->
 
+    <Color x:Key="TabItemBackgroundHoverColor">#434A54</Color> <!-- The background color of the tab header item when it is hovered over by the user's mouse. -->
 
     <!-- Misc. -->
     <Duration x:Key="AnimationDuration">0:0:0.1</Duration> <!-- How long animations such as mouse enter/leave events take. -->
@@ -51,6 +52,8 @@
     <SolidColorBrush x:Key="ListboxNoFocusItemSelected" Color="{StaticResource ListboxNoFocusItemSelectedColor}" />
     <SolidColorBrush x:Key="ApplicationListboxItemHover" Color="{StaticResource ApplicationListboxItemHoverColor}" />
     <SolidColorBrush x:Key="ApplicationListboxItemSelected" Color="{StaticResource ApplicationListboxItemSelectedColor}" />
+
+    <SolidColorBrush x:Key="TabItemBackgroundHover" Color="{StaticResource TabItemBackgroundHoverColor}" />
 
     <!-- The reason we need a brush and a color is so that we can set the initial visual property of the elements from the brush (since we need a brush, not
          a raw color, but we also need the colors so that we can animate events such as the hover effect and brushes cannot be (easily) animated. -->

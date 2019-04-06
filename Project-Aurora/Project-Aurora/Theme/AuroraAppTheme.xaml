@@ -9,6 +9,7 @@
         <ResourceDictionary Source="AuroraTheme/Combobox.xaml" />
         <ResourceDictionary Source="AuroraTheme/ContextMenu.xaml" />
         <ResourceDictionary Source="AuroraTheme/ScrollBar.xaml" />
+        <ResourceDictionary Source="AuroraTheme/TabControl.xaml" />
         <ResourceDictionary Source="AuroraTheme/Textbox.xaml" />
         <ResourceDictionary Source="AuroraTheme/TextElements.xaml" />
         <ResourceDictionary Source="AuroraTheme/Tooltip.xaml" />
