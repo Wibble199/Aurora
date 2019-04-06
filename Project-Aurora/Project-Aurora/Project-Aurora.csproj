@@ -49,11 +49,11 @@
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Project-Aurora.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>documentation\Aurora.XML</DocumentationFile>
-    <WarningLevel>3</WarningLevel>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>..\..\Build\Release\</OutputPath>
@@ -63,7 +63,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Project-Aurora.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>
@@ -1504,6 +1504,7 @@
     <Resource Include="Resources\UIIcons\hide-30.png" />
     <Resource Include="Resources\UIIcons\maintenance-30.png" />
     <Resource Include="Resources\GreyscaleShader.ps" />
+    <None Include="Project-Aurora.ruleset" />
     <None Include="Resources\UIIcons\_icons8.txt" />
     <Resource Include="Resources\UIIcons\downloads-30.png" />
     <Resource Include="Resources\UIIcons\uploads-30.png" />
@@ -2228,7 +2229,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Theme\ThemeVariables.xaml">
+    <Page Include="Theme\BaseThemeVariables.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -2297,6 +2298,7 @@
   <ItemGroup>
     <Folder Include="Profiles\Subnautica\Layers\" />
     <Folder Include="Properties\DataSources\" />
+    <Folder Include="Themes\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="CroccatTalkWrapper\win32-x86-64\talkfx-c.dll">

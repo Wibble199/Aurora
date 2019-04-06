@@ -4,12 +4,12 @@
 
 
     <!-- Base button definition -->
-    <Style TargetType="Button">
+    <Style TargetType="{x:Type Button}">
         <Setter Property="Background" Value="{StaticResource BaseButtonBackground}" />
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="Button">
+                <ControlTemplate TargetType="{x:Type Button}">
                     <Border Padding="4" CornerRadius="{StaticResource ControlBorderRadius}" Background="{TemplateBinding Background}" Opacity="{TemplateBinding Opacity}">
                         <ContentPresenter HorizontalAlignment="Center" />
                     </Border>
@@ -45,7 +45,7 @@
     </Style>
 
     <!-- Panel1 button definition -->
-    <Style TargetType="Button" x:Key="Panel1Button" BasedOn="{StaticResource {x:Type Button}}">
+    <Style TargetType="{x:Type Button}" x:Key="Panel1Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="{StaticResource Panel1ButtonBackground}" />
 
         <Style.Triggers>
@@ -72,7 +72,7 @@
     </Style>
 
     <!-- Panel2 button definition -->
-    <Style TargetType="Button" x:Key="Panel2Button" BasedOn="{StaticResource {x:Type Button}}">
+    <Style TargetType="{x:Type Button}" x:Key="Panel2Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="{StaticResource Panel2ButtonBackground}" />
 
         <Style.Triggers>
@@ -99,7 +99,7 @@
     </Style>
 
     <!-- Flat button definition -->
-    <Style TargetType="Button" x:Key="FlatButton" BasedOn="{StaticResource {x:Type Button}}">
+    <Style TargetType="{x:Type Button}" x:Key="FlatButton" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="Transparent" />
 
         <Style.Triggers>
@@ -127,17 +127,17 @@
 
 
     <!-- Copy these styles to the ToggleButtons -->
-    <!--<Style TargetType="ToggleButton" BasedOn="{StaticResource {x:Type Button}}" />
-    <Style TargetType="ToggleButton" x:Key="Panel1ToggleButton" BasedOn="{StaticResource Panel1Button}" />
-    <Style TargetType="ToggleButton" x:Key="Panel2ToggleButton" BasedOn="{StaticResource Panel2Button}" />-->
+    <!--<Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Type Button}}" />
+    <Style TargetType="{x:Type ToggleButton}" x:Key="Panel1ToggleButton" BasedOn="{StaticResource Panel1Button}" />
+    <Style TargetType="{x:Type ToggleButton}" x:Key="Panel2ToggleButton" BasedOn="{StaticResource Panel2Button}" />-->
 
     <!-- Base toggle button definition -->
-    <Style TargetType="ToggleButton">
+    <Style TargetType="{x:Type ToggleButton}">
         <Setter Property="Background" Value="{StaticResource BaseButtonBackground}" />
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="ToggleButton">
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border Padding="4" CornerRadius="{StaticResource ControlBorderRadius}" Background="{TemplateBinding Background}" Opacity="{TemplateBinding Opacity}">
                         <ContentPresenter HorizontalAlignment="Center" />
                     </Border>
@@ -173,7 +173,7 @@
     </Style>
 
     <!-- Panel1 toggle button definition -->
-    <Style TargetType="ToggleButton" x:Key="Panel1ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+    <Style TargetType="{x:Type ToggleButton}" x:Key="Panel1ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
         <Setter Property="Background" Value="{StaticResource Panel1ButtonBackground}" />
 
         <Style.Triggers>
@@ -200,7 +200,7 @@
     </Style>
 
     <!-- Panel2 toggle button definition -->
-    <Style TargetType="ToggleButton" x:Key="Panel2ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+    <Style TargetType="{x:Type ToggleButton}" x:Key="Panel2ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
         <Setter Property="Background" Value="{StaticResource Panel2ButtonBackground}" />
 
         <Style.Triggers>

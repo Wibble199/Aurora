@@ -7,49 +7,32 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using Aurora.EffectsEngine;
 using Aurora.Settings;
 using Aurora.Controls;
 using Aurora.Profiles.Generic_Application;
 using System.IO;
-using Aurora.Settings.Keycaps;
-using Aurora.Profiles;
 using Aurora.Settings.Layers;
 using Aurora.Profiles.Aurora_Wrapper;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Data;
 using System.Globalization;
+using System.Windows.Threading;
 
-namespace Aurora
-{
+namespace Aurora {
     partial class ConfigUI : Window, INotifyPropertyChanged
     {
         Control_Settings settingsControl = new Control_Settings();
         Control_LayerControlPresenter layerPresenter = new Control_LayerControlPresenter();
         Control_ProfileControlPresenter profilePresenter = new Control_ProfileControlPresenter();
-
-        EffectColor desktop_color_scheme = new EffectColor(0, 0, 0);
-
-        EffectColor transition_color = new EffectColor();
-        EffectColor current_color = new EffectColor();
-
-        private float transitionamount = 0.0f;
-
-        private FrameworkElement selected_item = null;
+        
         private FrameworkElement _selectedManager = null;
 
         private bool settingsloaded = false;
         private bool shownHiddenMessage = false;
 
-        private string saved_preview_key = "";
-
         private Timer virtual_keyboard_timer;
-        private Stopwatch recording_stopwatch = new Stopwatch();
         private Grid virtial_kb = new Grid();
 
         private readonly double virtual_keyboard_width;
@@ -58,15 +41,13 @@ namespace Aurora
         private readonly double width;
         private readonly double height;
 
-        LayerEditor layer_editor = new LayerEditor();
-
 
         public ConfigUI()
         {
             InitializeComponent();
 
-            virtual_keyboard_height = this.keyboard_grid.Height;
-            virtual_keyboard_width = this.keyboard_grid.Width;
+            virtual_keyboard_height = keyboard_grid.Height;
+            virtual_keyboard_width = keyboard_grid.Width;
 
             width = Width;
             height = Height;
@@ -82,14 +63,14 @@ namespace Aurora
         {
             if (App.isSilent || Global.Configuration.start_silently)
             {
-                this.Visibility = Visibility.Hidden;
-                this.WindowStyle = WindowStyle.None;
-                this.ShowInTaskbar = false;
+                Visibility = Visibility.Hidden;
+                WindowStyle = WindowStyle.None;
+                ShowInTaskbar = false;
                 Hide();
             }
             else
             {
-                this.Show();
+                Show();
             }
         }
 
@@ -97,22 +78,8 @@ namespace Aurora
         {
             profilePresenter.Profile = profile;
 
-            if (_selectedManager.Equals(this.ctrlProfileManager))
+            if (_selectedManager.Equals(ctrlProfileManager))
                 SelectedControl = profilePresenter;   
-        }
-
-        private void CtrlLayerManager_ProfileOverviewRequest(UserControl profile_control)
-        {
-            if (SelectedControl != profile_control)
-                SelectedControl = profile_control;
-        }
-
-        private void Layer_manager_NewLayer(Layer layer)
-        {
-            layerPresenter.Layer = layer;
-
-            if (_selectedManager.Equals(this.ctrlLayerManager))
-                SelectedControl = layerPresenter;
         }
 
         private void KbLayout_KeyboardLayoutUpdated(object sender)
@@ -124,10 +91,10 @@ namespace Aurora
             keyboard_grid.Children.Add(new LayerEditor());
 
             keyboard_grid.Width = virtial_kb.Width;
-            this.Width = width + (virtial_kb.Width - virtual_keyboard_width);
+            Width = width + (virtial_kb.Width - virtual_keyboard_width);
 
             keyboard_grid.Height = virtial_kb.Height;
-            this.Height = height + (virtial_kb.Height - virtual_keyboard_height);
+            Height = height + (virtial_kb.Height - virtual_keyboard_height);
 
             keyboard_grid.UpdateLayout();
 
@@ -135,27 +102,22 @@ namespace Aurora
             keyboard_viewbox.MaxHeight = virtial_kb.Height + 50;
             keyboard_viewbox.UpdateLayout();
 
-            this.UpdateLayout();
+            UpdateLayout();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            
-
             if (!settingsloaded)
             {
-                virtual_keyboard_timer = new Timer(100);
+                virtual_keyboard_timer = new Timer(50);
                 virtual_keyboard_timer.Elapsed += new ElapsedEventHandler(virtual_keyboard_timer_Tick);
                 virtual_keyboard_timer.Start();
 
                 settingsloaded = true;
             }
 
-            this.keyboard_record_message.Visibility = Visibility.Hidden;
-
-            current_color = desktop_color_scheme;
-            //bg_grid.Background = new SolidColorBrush(Color.FromRgb(desktop_color_scheme.Red, desktop_color_scheme.Green, desktop_color_scheme.Blue));
-
+            keyboard_record_message.Visibility = Visibility.Hidden;
+            
             virtial_kb = Global.kbLayout.Virtual_keyboard;
 
             keyboard_grid.Children.Clear();
@@ -163,10 +125,10 @@ namespace Aurora
             keyboard_grid.Children.Add(new LayerEditor());
 
             keyboard_grid.Width = virtial_kb.Width;
-            this.Width = width + (virtial_kb.Width - virtual_keyboard_width);
+            Width = width + (virtial_kb.Width - virtual_keyboard_width);
 
             keyboard_grid.Height = virtial_kb.Height;
-            this.Height = height + (virtial_kb.Height - virtual_keyboard_height);
+            Height = height + (virtial_kb.Height - virtual_keyboard_height);
 
             keyboard_grid.UpdateLayout();
 
@@ -176,56 +138,19 @@ namespace Aurora
 
             UpdateManagerStackFocus(ctrlLayerManager);
 
-            this.UpdateLayout();
+            UpdateLayout();
         }
 
-        public static bool ApplicationIsActivated()
-        {
-            var activatedHandle = GetForegroundWindow();
-            if (activatedHandle == IntPtr.Zero)
-                return false;       // No window is currently activated
-
-            var procId = Process.GetCurrentProcess().Id;
-            int activeProcId;
-            GetWindowThreadProcessId(activatedHandle, out activeProcId);
-             
-            return activeProcId == procId;
-        }
-
-        [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto, ExactSpelling = true)]
-        private static extern IntPtr GetForegroundWindow();
-
-        [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto, SetLastError = true)]
-        private static extern int GetWindowThreadProcessId(IntPtr handle, out int processId);
-
-        private void virtual_keyboard_timer_Tick(object sender, EventArgs e)
-        {
-            if (!ApplicationIsActivated())
-                return;
-
+        private void virtual_keyboard_timer_Tick(object sender, EventArgs e) {
             Dispatcher.Invoke(() => {
-                if (transitionamount <= 1.0f)
-                {
-                    transition_color.BlendColors(current_color, transitionamount += 0.07f);
+                if (!IsActive) return;
 
-                    //bg_grid.Background = new SolidColorBrush(Color.FromRgb(transition_color.Red, transition_color.Green, transition_color.Blue));
-                    //bg_grid.UpdateLayout();
-                }
+                var keylights = new Dictionary<Devices.DeviceKeys, System.Drawing.Color>();
 
+                keylights = Global.effengine.GetKeyboardLights();
+                Global.kbLayout.SetKeyboardColors(keylights);
 
-                Dictionary<Devices.DeviceKeys, System.Drawing.Color> keylights = new Dictionary<Devices.DeviceKeys, System.Drawing.Color>();
-
-                if (IsActive)
-                {
-                    keylights = Global.effengine.GetKeyboardLights();
-                    Global.kbLayout.SetKeyboardColors(keylights);
-                }
-
-                if (Global.key_recorder.IsRecording())
-                    this.keyboard_record_message.Visibility = Visibility.Visible;
-                else
-                    this.keyboard_record_message.Visibility = Visibility.Hidden;
-
+                keyboard_record_message.Visibility = Global.key_recorder.IsRecording() ? Visibility.Visible : Visibility.Hidden;
             });
         }
 
@@ -276,7 +201,7 @@ namespace Aurora
 
         private void minimizeApp()
         {
-            this.FocusedApplication?.SaveAll();
+            FocusedApplication?.SaveAll();
 
             if (!shownHiddenMessage)
             {
@@ -284,25 +209,20 @@ namespace Aurora
                 shownHiddenMessage = true;
             }
 
-            Global.LightingStateManager.PreviewProfileKey = string.Empty;
-
             //Hide Window
-            System.Windows.Application.Current.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, (System.Windows.Threading.DispatcherOperationCallback)delegate (object o)
-            {
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, (Action)(() => {
                 WindowStyle = WindowStyle.None;
                 Hide();
-                return null;
-            }, null);
+            }));
         }
 
         private void Window_Activated(object sender, EventArgs e)
         {
-            Global.LightingStateManager.PreviewProfileKey = saved_preview_key;
+            Global.LightingStateManager.PreviewProfileKey = FocusedApplication?.Config.ID ?? string.Empty;
         }
 
         private void Window_Deactivated(object sender, EventArgs e)
         {
-            saved_preview_key = Global.LightingStateManager.PreviewProfileKey;
             Global.LightingStateManager.PreviewProfileKey = string.Empty;
         }
 
@@ -315,26 +235,8 @@ namespace Aurora
 
             if (value != null)            
                 self.SelectedControl = value.Control;
-        }
 
-        private void RemoveProfile_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (sender != null && sender is Image && (sender as Image).Tag != null && (sender as Image).Tag is string)
-            {
-                string name = (sender as Image).Tag as string;
-
-                if (Global.LightingStateManager.Events.ContainsKey(name))
-                {
-                    if (MessageBox.Show("Are you sure you want to delete profile for " + (((Profiles.Application)Global.LightingStateManager.Events[name]).Settings as GenericApplicationSettings).ApplicationName + "?", "Remove Profile", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-                    {
-                        var eventList = Global.Configuration.ProfileOrder;
-                        string prevProfile = eventList[eventList.FindIndex(s => s.Equals(name)) - 1];
-                        Global.LightingStateManager.RemoveGenericProfile(name);
-                        //ConfigManager.Save(Global.Configuration);
-                        //this.GenerateProfileStack(prevProfile);
-                    }
-                }
-            }
+            Global.LightingStateManager.PreviewProfileKey = value?.Config.ID ?? string.Empty;
         }
         
         public void ShowWindow()
@@ -374,13 +276,13 @@ namespace Aurora
         private void ctrlLayerManager_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (!sender.Equals(_selectedManager))
-                SelectedControl = this.FocusedApplication.Profile.Layers.Count > 0 ? layerPresenter : this.FocusedApplication.Control;
+                SelectedControl = FocusedApplication.Profile.Layers.Count > 0 ? layerPresenter : FocusedApplication.Control;
             UpdateManagerStackFocus(sender);
         }
 
         private void ctrlOverlayLayerManager_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
             if (!sender.Equals(_selectedManager))
-                SelectedControl = this.FocusedApplication.Profile.OverlayLayers.Count > 0 ? layerPresenter : this.FocusedApplication.Control;
+                SelectedControl = FocusedApplication.Profile.OverlayLayers.Count > 0 ? layerPresenter : FocusedApplication.Control;
             UpdateManagerStackFocus(sender);
         }
 
@@ -393,8 +295,7 @@ namespace Aurora
 
         private void brdOverview_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            this._selectedManager = SelectedControl = this.FocusedApplication.Control;
-
+            _selectedManager = SelectedControl = FocusedApplication.Control;
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e) {
@@ -463,7 +364,6 @@ namespace Aurora
             get => (Profiles.Application)GetValue(FocusedApplicationProperty);
             set {
                 SetValue(FocusedApplicationProperty, value);
-                Global.LightingStateManager.PreviewProfileKey = value != null ? value.Config.ID : string.Empty;
             }
         }
 
@@ -492,20 +392,14 @@ namespace Aurora
             }
         }
 
-        private void MinimiseButton_Click(object sender, RoutedEventArgs e) {
-            WindowState = WindowState.Minimized;
-        }
+        private void MinimiseButton_Click(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
 
-        private void MaximiseButton_Click(object sender, RoutedEventArgs e) {
-            ToggleWindowState();
-        }
+        private void MaximiseButton_Click(object sender, RoutedEventArgs e) => ToggleWindowState();
 
-        private void CloseButton_Click(object sender, RoutedEventArgs e) {
-            Close();
-        }
+        private void CloseButton_Click(object sender, RoutedEventArgs e) => Close();
 
         private void AddApplicationButton_Click(object sender, RoutedEventArgs e) {
-            Window_ProcessSelection dialog = new Window_ProcessSelection { CheckCustomPathExists = true, ButtonLabel = "Add Application", Title = "Add Application" };
+            var dialog = new Window_ProcessSelection { CheckCustomPathExists = true, ButtonLabel = "Add Application", Title = "Add Application" };
             if (dialog.ShowDialog() == true && !string.IsNullOrWhiteSpace(dialog.ChosenExecutablePath)) {
 
                 string filename = Path.GetFileName(dialog.ChosenExecutablePath.ToLowerInvariant());
@@ -519,11 +413,11 @@ namespace Aurora
                     }
                 }
 
-                GenericApplication newApplication = new GenericApplication(filename);
+                var newApplication = new GenericApplication(filename);
                 newApplication.Initialize();
                 ((GenericApplicationSettings)newApplication.Settings).ApplicationName = Path.GetFileNameWithoutExtension(filename);
 
-                System.Drawing.Icon ico = System.Drawing.Icon.ExtractAssociatedIcon(dialog.ChosenExecutablePath.ToLowerInvariant());
+                var ico = System.Drawing.Icon.ExtractAssociatedIcon(dialog.ChosenExecutablePath.ToLowerInvariant());
 
                 if (!Directory.Exists(newApplication.GetProfileFolderPath()))
                     Directory.CreateDirectory(newApplication.GetProfileFolderPath());
@@ -541,11 +435,13 @@ namespace Aurora
 
         #endregion
 
-        private void SettingsButton_Click(object sender, RoutedEventArgs e) {
-            SelectedControl = settingsControl;
-        }
+        private void SettingsButton_Click(object sender, RoutedEventArgs e) => SelectedControl = settingsControl;
     }
 
+
+    /// <summary>
+    /// Returns the name from an application, even if the applicationis a generic one.
+    /// </summary>
     public class ProfileNameResolver : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value is GenericApplication generic
             ? ((GenericApplicationSettings)generic.Settings).ApplicationName

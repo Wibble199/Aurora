@@ -51,5 +51,15 @@
         <Button x:Name="btnOverrides" HorizontalAlignment="Right" Margin="0,9,47,0" VerticalAlignment="Top" Click="btnOverrides_Click" ToolTip="Show layer conditional override settings">
             <Image Source="/Aurora;component/Resources/UIIcons/stacked-organizational-chart-30.png" Width="23" Height="23" Margin="2"/>
         </Button>
+
+        <!-- Indicator light for when overrides are active -->
+        <Grid Margin="0,34,57,0" HorizontalAlignment="Right" VerticalAlignment="Top" IsHitTestVisible="False">
+            <Ellipse Width="4" Height="4" Fill="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Ellipse Width="12" Height="12" Fill="Cyan" Opacity="0.4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Ellipse.Effect>
+                    <BlurEffect />
+                </Ellipse.Effect>
+            </Ellipse>
+        </Grid>
     </Grid>
 </UserControl>

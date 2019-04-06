@@ -24,7 +24,7 @@
     <!-- Add a border when the window is maximised because Windows purposely oversizes the windows to hide the resize borders, so we have to
          work around that since we're using WindowStyle=None. -->
     <Window.Style>
-        <Style TargetType="Window">
+        <Style TargetType="{x:Type Window}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=WindowState}" Value="Maximized">
                     <Setter Property="BorderThickness" Value="6,6,6,8" />
@@ -39,7 +39,7 @@
             <local:ProfileNameResolver x:Key="ProfileNameResolver" />
 
             <!-- Style that sets the image of the hidden toggle button to be an eye or an eye with a slash depending on the toggle state. -->
-            <Style x:Key="ToggleHiddenApplicationsButtonStyle" TargetType="ToggleButton" BasedOn="{StaticResource Panel2ToggleButton}">
+            <Style x:Key="ToggleHiddenApplicationsButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource Panel2ToggleButton}">
                 <Setter Property="Content">
                     <Setter.Value>
                         <Image Source="Resources/UIIcons/eye-30.png" Margin="2,0" Width="18" Height="18" />
@@ -59,11 +59,11 @@
             </Style>
 
             <!-- Style (including hover/select effects) for the application list box item -->
-            <Style x:Key="ApplicationsListItemStyle" TargetType="ListBoxItem">
+            <Style x:Key="ApplicationsListItemStyle" TargetType="{x:Type ListBoxItem}">
                 <Setter Property="Background" Value="{StaticResource Panel2Background}" />
                 <Setter Property="Template">
                     <Setter.Value>
-                        <ControlTemplate TargetType="ListBoxItem">
+                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
                             <Border CornerRadius="{StaticResource ControlBorderRadius}" BorderThickness="0" Background="{TemplateBinding Background}">
                                 <ContentPresenter />
                             </Border>
@@ -141,7 +141,7 @@
             <Grid Grid.ColumnSpan="999" Background="{StaticResource ForegroundElement}">
                 <!-- Title bar label -->
                 <TextBlock Text="Aurora" FontSize="16" FontWeight="Bold" Margin="5,-1" HorizontalAlignment="Left" />
-                
+
                 <!-- Invisible title bar draggable -->
                 <Rectangle Margin="0,0,75,0" Fill="Transparent" MouseDown="TitleBar_MouseDown" />
 
@@ -152,7 +152,7 @@
                     </Button>
                     <Button Click="MaximiseButton_Click">
                         <Button.Style>
-                            <Style TargetType="Button" BasedOn="{StaticResource FlatButton}">
+                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource FlatButton}">
                                 <Setter Property="Content">
                                     <Setter.Value>
                                         <Image Source="Resources/UIIcons/maximize-window-30.png" Margin="2,0" Height="12" />
@@ -199,7 +199,7 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <Image x:Name="AppIcon" Source="{Binding Icon}" Width="24" Height="24" Margin="2,3,6,3" />
-                                <TextBlock x:Name="AppName" Text="{Binding Path=., Converter={StaticResource ProfileNameResolver}}" Foreground="#9399A2" FontSize="14px" VerticalAlignment="Center" />
+                                <TextBlock x:Name="AppName" Text="{Binding Path=., Converter={StaticResource ProfileNameResolver}}" Foreground="#9399A2" FontSize="14px" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
                             </StackPanel>
 
                             <DataTemplate.Triggers>
