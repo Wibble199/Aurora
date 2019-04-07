@@ -37,6 +37,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <local:ProfileNameResolver x:Key="ProfileNameResolver" />
+            <local:FilterVisibleApplications x:Key="FilterVisibleApplications" />
 
             <!-- Style that sets the image of the hidden toggle button to be an eye or an eye with a slash depending on the toggle state. -->
             <Style x:Key="ToggleHiddenApplicationsButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource Panel2ToggleButton}">
@@ -194,7 +195,14 @@
                 </StackPanel>
 
                 <!-- Application list (Last child because we want this one to fill remaining space) -->
-                <ListBox x:Name="ApplicationsList" ItemsSource="{Binding VisibleApplications}" SelectedItem="{Binding FocusedApplication}" ItemContainerStyle="{StaticResource ApplicationsListItemStyle}" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Hidden" BorderThickness="0">
+                <ListBox x:Name="ApplicationsList" SelectedItem="{Binding FocusedApplication}" ItemContainerStyle="{StaticResource ApplicationsListItemStyle}" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Hidden" BorderThickness="0">
+                    <ListBox.ItemsSource>
+                        <MultiBinding Converter="{StaticResource FilterVisibleApplications}">
+                            <Binding Path="AllApplications" />
+                            <Binding Path="ShowHiddenApplications" />
+                        </MultiBinding>
+                    </ListBox.ItemsSource>
+                    
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">

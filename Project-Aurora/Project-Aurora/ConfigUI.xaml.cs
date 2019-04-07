@@ -310,21 +310,12 @@ namespace Aurora {
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Call the PropertyChangedEvent for a single property.
-        /// </summary>
-        private void NotifyChanged(string prop) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-
-        /// <summary>
         /// Sets a field and calls <see cref="NotifyChanged(string)"/> with the calling member name and any additional properties.
         /// Designed for setting a field from a property.
         /// </summary>
-        private void SetField<T>(ref T var, T value, string[] additional = null, [CallerMemberName] string name = null) {
+        private void SetField<T>(ref T var, T value, [CallerMemberName] string name = null) {
             var = value;
-            NotifyChanged(name);
-            if (additional != null)
-                foreach (var prop in additional)
-                    NotifyChanged(prop);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
         #endregion
 
@@ -332,10 +323,6 @@ namespace Aurora {
         /// <summary>Returns a list of all Applications in the order defined in the profile order configuration.</summary>
         public IEnumerable<Profiles.Application> AllApplications { get; } =
             Global.Configuration.ProfileOrder.Select(profName => (Profiles.Application)Global.LightingStateManager.Events[profName]);
-
-        /// <summary>Returns a list of all Applications that should be visible to the user (depending on the `<see cref="ShowHiddenApplications"/>` property).</summary>
-        public IEnumerable<Profiles.Application> VisibleApplications =>
-            AllApplications.Where(app => ShowHiddenApplications || !app.Settings.Hidden);
 
         /// <summary>A reference to the currently selected layer in either the regular or overlay layer list. When set, will update the <see cref="SelectedControl"/> property.</summary>
         public Layer SelectedLayer {
@@ -357,7 +344,7 @@ namespace Aurora {
         private Control selectedControl;
 
         private bool showHiddenApplications;
-        public bool ShowHiddenApplications { get => showHiddenApplications; set => SetField(ref showHiddenApplications, value, new[] { "VisibleApplications" }); }
+        public bool ShowHiddenApplications { get => showHiddenApplications; set => SetField(ref showHiddenApplications, value); }
 
         #region FocusedApplication Property
         public Profiles.Application FocusedApplication {
@@ -378,7 +365,7 @@ namespace Aurora {
         }
 
         #region Event Handlers
-        private void ApplicationContextHidden_Checked(object sender, RoutedEventArgs e) => NotifyChanged("VisibleApplications");
+        private void ApplicationContextHidden_Checked(object sender, RoutedEventArgs e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("AllApplications"));
 
         private void ApplicationContext_Opened(object sender, RoutedEventArgs e) {
             var cm = (ContextMenu)e.OriginalSource;
@@ -436,6 +423,21 @@ namespace Aurora {
         #endregion
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e) => SelectedControl = settingsControl;
+    }
+
+
+    /// <summary>
+    /// Returns a subset of the given list that only shows non-hidden applications or all applications if the given show hidden flag is true.
+    /// Parameter 1 should be bound to the all applications list. Parameter 2 should be bound to the boolean indicating whether to show hidden.
+    /// </summary>
+    public class FilterVisibleApplications : IMultiValueConverter {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {
+            var list = (IEnumerable<Profiles.Application>)values[0];
+            var showHidden = values[1] != null && (bool)values[1];
+            return list.Where(app => showHidden || !app.Settings.Hidden);
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 
 

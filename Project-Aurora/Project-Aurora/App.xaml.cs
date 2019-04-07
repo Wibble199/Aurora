@@ -342,7 +342,6 @@ namespace Aurora
                 }
                 Global.logger.Info("Listening for game integration calls...");
 
-                ReloadTheme("TestTheme");
                 //ReloadTheme(Global.Configuration.ThemeName);
 
                 Global.logger.Info("Loading ConfigUI...");
