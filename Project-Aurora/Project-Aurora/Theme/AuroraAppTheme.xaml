@@ -14,6 +14,7 @@
         <ResourceDictionary Source="AuroraTheme/Textbox.xaml" />
         <ResourceDictionary Source="AuroraTheme/TextElements.xaml" />
         <ResourceDictionary Source="AuroraTheme/Tooltip.xaml" />
+        <ResourceDictionary Source="AuroraTheme/UpDowns.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

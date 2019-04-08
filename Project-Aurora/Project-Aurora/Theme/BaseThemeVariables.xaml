@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- Colors -->
@@ -16,6 +17,9 @@
     <Color x:Key="Panel1ButtonBackgroundHoverColor">#485364</Color> <!-- Same as above but when the user is hovering the button. -->
     <Color x:Key="Panel2ButtonBackgroundColor">#2A3340</Color> <!-- Color of the buttons that will usually appear on the "panel 2"s. -->
     <Color x:Key="Panel2ButtonBackgroundHoverColor">#3F4958</Color> <!-- Same as above but when the user is hovering the button. -->
+    
+    <Color x:Key="TextboxBackgroundColor">#242A32</Color> <!-- The base background color of the textboxes. -->
+    <Color x:Key="TextboxBackgroundFocusColor">#181D24</Color> <!-- The color of textboxes when the control has focus and the user is typing into it. -->
 
     <Color x:Key="ListboxBackgroundColor">#242A32</Color> <!-- The background color of any listboxes (excluding the application listbox). -->
     <Color x:Key="ListboxItemHoverColor">#30363E</Color> <!-- The background color for a listbox item that the user is hovering over. -->
@@ -28,7 +32,9 @@
 
     <!-- Misc. -->
     <Duration x:Key="AnimationDuration">0:0:0.1</Duration> <!-- How long animations such as mouse enter/leave events take. -->
-    <CornerRadius x:Key="ControlBorderRadius">2</CornerRadius> <!-- How rounded the corners of controls such as buttons are. -->
+
+    <sys:Double x:Key="ControlBorderRadiusAmount">2</sys:Double> <!-- How rounded the corners of controls such as buttons are. -->
+    <CornerRadius x:Key="ControlBorderRadius" TopLeft="{StaticResource ControlBorderRadiusAmount}" TopRight="{StaticResource ControlBorderRadiusAmount}" BottomLeft="{StaticResource ControlBorderRadiusAmount}" BottomRight="{StaticResource ControlBorderRadiusAmount}" />
 
 
     <!-- Brushes (derived from the colors). This usually don't want to be changed. -->
@@ -45,6 +51,9 @@
     <SolidColorBrush x:Key="Panel1ButtonBackgroundHover" Color="{StaticResource Panel1ButtonBackgroundHoverColor}" />
     <SolidColorBrush x:Key="Panel2ButtonBackground" Color="{StaticResource Panel2ButtonBackgroundColor}" />
     <SolidColorBrush x:Key="Panel2ButtonBackgroundHover" Color="{StaticResource Panel2ButtonBackgroundHoverColor}" />
+
+    <SolidColorBrush x:Key="TextboxBackground" Color="{StaticResource TextboxBackgroundColor}" />
+    <SolidColorBrush x:Key="TextboxBackgroundFocus" Color="{StaticResource TextboxBackgroundFocusColor}" />
 
     <SolidColorBrush x:Key="ListboxBackground" Color="{StaticResource ListboxBackgroundColor}" />
     <SolidColorBrush x:Key="ListboxItemHover" Color="{StaticResource ListboxItemHoverColor}" />

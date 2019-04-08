@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style TargetType="{x:Type TextBox}">
-        <Setter Property="Background" Value="{StaticResource BaseButtonBackground}" />
+        <Setter Property="Background" Value="{StaticResource TextboxBackground}" />
         <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
 
         <Setter Property="Template">
@@ -24,14 +24,14 @@
                 <Trigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource BaseButtonBackgroundHoverColor}" Duration="{StaticResource AnimationDuration}" />
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource TextboxBackgroundFocusColor}" Duration="{StaticResource AnimationDuration}" />
                         </Storyboard>
                     </BeginStoryboard>
                 </Trigger.EnterActions>
                 <Trigger.ExitActions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource BaseButtonBackgroundColor}" Duration="{StaticResource AnimationDuration}" />
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" To="{StaticResource TextboxBackgroundColor}" Duration="{StaticResource AnimationDuration}" />
                         </Storyboard>
                     </BeginStoryboard>
                 </Trigger.ExitActions>
