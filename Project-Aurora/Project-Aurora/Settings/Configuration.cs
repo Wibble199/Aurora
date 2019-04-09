@@ -366,6 +366,9 @@ namespace Aurora.Settings
         public bool roccat_first_time;
 
         //General Program Settings
+        private string languageIetf = Localization.CultureUtils.GetDefaultUserCulture();
+        public string LanguageIETF { get => languageIetf; set { languageIetf = value; InvokePropertyChanged(); } }
+
         public bool allow_peripheral_devices;
         public bool allow_wrappers_in_background;
         public bool allow_all_logitech_bitmaps;

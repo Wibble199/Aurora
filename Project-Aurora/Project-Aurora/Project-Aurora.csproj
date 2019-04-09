@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -347,6 +347,11 @@
     <Compile Include="Profiles\Skype\SkypeProfile.cs" />
     <Compile Include="Profiles\Skype\SkypeApplication.cs" />
     <Compile Include="Profiles\Skype\State_SkypeOverlay.cs" />
+    <Compile Include="Localization\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -634,6 +639,7 @@
       <DependentUpon>Control_ColorFromValues.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\GreyscaleEffect.cs" />
+    <Compile Include="Settings\Localization.cs" />
     <Compile Include="Settings\Overrides\Logic\Boolean\Boolean_PeripheralInput.cs" />
     <Compile Include="Settings\Overrides\Logic\Color\Color_Ctors.cs" />
     <Compile Include="Settings\Overrides\Logic\Control_BinaryOperationHolder.xaml.cs">
@@ -1532,6 +1538,9 @@
     <Resource Include="Resources\UIIcons\collapse-arrow-30.png" />
     <Resource Include="Resources\UIIcons\expand-arrow-30.png" />
     <Resource Include="Resources\UIIcons\font-size-30.png" />
+    <Resource Include="Resources\CultureIcons\de-DE.png" />
+    <Resource Include="Resources\CultureIcons\en-US.png" />
+    <None Include="Resources\CultureIcons\_source.txt" />
     <Content Include="wooting-rgb-sdk.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -2295,6 +2304,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Localization\Resources.de-DE.resx" />
+    <EmbeddedResource Include="Localization\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
@@ -2481,4 +2495,17 @@
   </Target>
 
   -->
+  <!-- Removes Avalon. Note that if one of these languages is added to Aurora's localization, it must be removed from here else the satellite resource file will be deleted. -->
+  <Target Name="AfterPackage" AfterTargets="CopyAllFilesToSingleFolderForPackage" />
+  <ItemGroup>
+    <FluentValidationExcludedCultures Include="cs;da;de;es;fa;fi;fr;it;ko;mk;nl;pl;pt;ru;sv;tr;zh-CN">
+      <InProject>false</InProject>
+    </FluentValidationExcludedCultures>
+  </ItemGroup>
+  <Target Name="RemoveTranslationsAfterBuild" AfterTargets="AfterBuild">
+    <RemoveDir Directories="@(FluentValidationExcludedCultures->'$(OutputPath)%(Filename)')" />
+  </Target>
+  <Target Name="RemoveTranslationsAfterPackage" AfterTargets="AfterPackage">
+    <RemoveDir Directories="@(FluentValidationExcludedCultures->'$(_PackageTempDir)\$(OutputPath)%(Filename)')" />
+  </Target>
 </Project>

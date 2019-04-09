@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Win32.TaskScheduler;
 using System.Windows.Data;
+using System.Globalization;
 
 namespace Aurora.Settings
 {
@@ -127,6 +128,9 @@ namespace Aurora.Settings
             this.devices_disable_headset_lighting.IsChecked = Global.Configuration.devices_disable_headset;
 
             this.updates_autocheck_on_start.IsChecked = Global.Configuration.updates_check_on_start_up;
+
+            LangCb.ItemsSource = Localization.CultureUtils.AvailableCultures // Fill the language selection combobox with all detected available languages
+                .OrderBy(culture => culture.NativeName); // Sorted by name
         }
 
         private void OnLayerRendered(System.Drawing.Bitmap map)
@@ -893,6 +897,11 @@ namespace Aurora.Settings
                     task.RegisterChanges();
                 }
             }
-        }
+        }        
+    }
+
+    public class CultureInfoToIconConverter : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => new BitmapImage(new Uri($"/Aurora;component/Resources/CultureIcons/{((CultureInfo)value).IetfLanguageTag}.png", UriKind.Relative));
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 }

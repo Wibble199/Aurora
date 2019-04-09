@@ -3,13 +3,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style TargetType="{x:Type ComboBox}">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBox}">
                     <Grid>
                         <ToggleButton Name="ToggleButton" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Press" />
 
-                        <ContentPresenter Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="3,6,26,3" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                        <ContentPresenter Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="6,3,26,3" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
                         <TextBox x:Name="PART_EditableTextBox" Style="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6,3,26,3" Focusable="True" Background="#FF3F3F3F" Foreground="Green" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}"/>
                         <Image Name="ArrowIcon" Source="/Aurora;component/Resources/UIIcons/expand-arrow-30.png" Width="18" Margin="6,0" HorizontalAlignment="Right" IsHitTestVisible="False" RenderTransformOrigin="0.5,0.5">
                             <Image.RenderTransform>
