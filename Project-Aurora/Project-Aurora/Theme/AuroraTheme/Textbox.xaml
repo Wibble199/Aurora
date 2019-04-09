@@ -4,7 +4,7 @@
 
     <Style TargetType="{x:Type TextBox}">
         <Setter Property="Background" Value="{StaticResource TextboxBackground}" />
-        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextboxForeground}" />
 
         <Setter Property="Template">
             <Setter.Value>

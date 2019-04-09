@@ -13,7 +13,7 @@
                         <Border.Effect>
                             <DropShadowEffect BlurRadius="5" ShadowDepth="0" />
                         </Border.Effect>
-                        <ItemsPresenter />
+                        <ItemsPresenter TextBlock.Foreground="{StaticResource ForegroundText}" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

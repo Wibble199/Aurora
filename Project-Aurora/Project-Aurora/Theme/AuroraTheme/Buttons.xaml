@@ -6,12 +6,13 @@
     <!-- Base button definition -->
     <Style TargetType="{x:Type Button}">
         <Setter Property="Background" Value="{StaticResource BaseButtonBackground}" />
+        <Setter Property="Foreground" Value="{StaticResource BaseButtonForeground}" />
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border Padding="4" CornerRadius="{StaticResource ControlBorderRadius}" Background="{TemplateBinding Background}" Opacity="{TemplateBinding Opacity}">
-                        <ContentPresenter HorizontalAlignment="Center" />
+                        <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}"  />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -47,6 +48,7 @@
     <!-- Panel1 button definition -->
     <Style TargetType="{x:Type Button}" x:Key="Panel1Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="{StaticResource Panel1ButtonBackground}" />
+        <Setter Property="Foreground" Value="{StaticResource Panel1ButtonForeground}" />
 
         <Style.Triggers>
             <EventTrigger RoutedEvent="Button.MouseEnter">
@@ -74,6 +76,7 @@
     <!-- Panel2 button definition -->
     <Style TargetType="{x:Type Button}" x:Key="Panel2Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="{StaticResource Panel2ButtonBackground}" />
+        <Setter Property="Foreground" Value="{StaticResource Panel2ButtonForeground}" />
 
         <Style.Triggers>
             <EventTrigger RoutedEvent="Button.MouseEnter">
@@ -134,12 +137,13 @@
     <!-- Base toggle button definition -->
     <Style TargetType="{x:Type ToggleButton}">
         <Setter Property="Background" Value="{StaticResource BaseButtonBackground}" />
+        <Setter Property="Foreground" Value="{StaticResource BaseButtonForeground}" />
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border Padding="4" CornerRadius="{StaticResource ControlBorderRadius}" Background="{TemplateBinding Background}" Opacity="{TemplateBinding Opacity}">
-                        <ContentPresenter HorizontalAlignment="Center" />
+                        <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}"  />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -175,6 +179,7 @@
     <!-- Panel1 toggle button definition -->
     <Style TargetType="{x:Type ToggleButton}" x:Key="Panel1ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
         <Setter Property="Background" Value="{StaticResource Panel1ButtonBackground}" />
+        <Setter Property="Foreground" Value="{StaticResource Panel1ButtonForeground}" />
 
         <Style.Triggers>
             <EventTrigger RoutedEvent="Button.MouseEnter">
@@ -202,6 +207,7 @@
     <!-- Panel2 toggle button definition -->
     <Style TargetType="{x:Type ToggleButton}" x:Key="Panel2ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
         <Setter Property="Background" Value="{StaticResource Panel2ButtonBackground}" />
+        <Setter Property="Foreground" Value="{StaticResource Panel2ButtonForeground}" />
 
         <Style.Triggers>
             <EventTrigger RoutedEvent="Button.MouseEnter">

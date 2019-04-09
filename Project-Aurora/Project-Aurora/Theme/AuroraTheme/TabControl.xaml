@@ -8,8 +8,8 @@
                 <ControlTemplate TargetType="{x:Type TabItem}">
                     <Border x:Name="Border" Padding="6,2" CornerRadius="{StaticResource ControlBorderRadius}" Background="{StaticResource BaseBackground}">
                         <Grid>
-                            <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="10,2" Opacity=".4" TextBlock.FontSize="15" />
-                            <Rectangle x:Name="Underline" Height="2" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Fill="{StaticResource TextBrush}" RenderTransformOrigin="0.5 0" SnapsToDevicePixels="True">
+                            <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="10,2" Opacity=".4" TextBlock.FontSize="15" TextBlock.Foreground="{StaticResource BaseText}" />
+                            <Rectangle x:Name="Underline" Height="2" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Fill="{StaticResource BaseText}" RenderTransformOrigin="0.5 0" SnapsToDevicePixels="True">
                                 <Rectangle.RenderTransform>
                                     <ScaleTransform ScaleX="0" />
                                 </Rectangle.RenderTransform>
