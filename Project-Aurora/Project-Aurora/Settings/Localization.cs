@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -61,6 +62,7 @@ namespace Aurora.Settings.Localization {
 
         private string prefix = "";
         private string suffix = "";
+        private string[] insertValues = null;
 
         public LocExtension(string name) : base("[" + name + "]") {
             // One way binding since you can't set back to the resource dictionary... obviously.
@@ -85,9 +87,39 @@ namespace Aurora.Settings.Localization {
             set { suffix = value; SetStringFormat(); }
         }
 
+        /// <summary>One or more substrings that are passed to the converter to insert them into the translated string.
+        /// <para>E.G. if the result from localisation was "Enable {0} profile", and Values was ["Minecraft"], the result
+        /// would be "Enable Minecraft profile".</para></summary>
+        public string[] InsertValues {
+            get => insertValues;
+            set { insertValues = value; Converter = value == null ? null : new StringFormatterConverter(value); }
+        }
+
+        /// <summary> A string that will be inserted into the localized string. This is shorthand for adding an InsertValues of one element.</summary>
+        public string InsertValue { set => InsertValues = new[] { value }; }
+
         /// <summary>Update the BindingBase's StringFormat property with the specified prefix and suffix.</summary>
+        /// <remarks>We use the StringFormat system to take the resulting value ("{0}") and add the suffix/prefix The value
+        /// passed to this is the value AFTER running though the converter.</remarks>
         private void SetStringFormat()
             => StringFormat = Prefix + "{0}" + Suffix;
+
+
+        /// <summary>
+        /// Value converter that takes a string value and formats it with the given values.
+        /// <para>E.G. Converting the string "{0} and {1}", with insert values "a", "b" we get "a and b".</para>
+        /// </summary>
+        /// <seealso cref="string.Format(string, object[])"/>
+        private class StringFormatterConverter : IValueConverter {
+
+            private string[] insertValues;
+
+            /// <summary>Creates a new formatter converter with the given substitution values which will be formatted into the string.</summary>
+            public StringFormatterConverter(string[] insertValues) { this.insertValues = insertValues; }
+
+            public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => string.Format(value.ToString(), insertValues);
+            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        }
     }
 
 
