@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -114,16 +115,14 @@ namespace Aurora.Utils
             return parameters;
         }
 
-        private static object _RetrieveGameStateParameter(IGameState state, string parameter_path, params object[] input_values)
-        {
+        private static object _RetrieveGameStateParameter(IGameState state, string parameter_path, params object[] input_values) {
             string[] parameters = parameter_path.Split('/');
 
             object val = null;
-            IStringProperty property_object = state as IStringProperty;
-            int index_pos = 0;
+            var property_object = state as IStringProperty;
+            var index_pos = 0;
 
-            for (int x = 0; x < parameters.Count(); x++)
-            {
+            for (int x = 0; x < parameters.Count(); x++) {
                 if (property_object == null)
                     return val;
 
@@ -136,16 +135,25 @@ namespace Aurora.Utils
                 if (val == null)
                     throw new ArgumentNullException($"Failed to get value {parameter_path}, failed at '{param}'");
 
-                Type property_type = property_object.GetType();
-                Type temp = null;
-                if (x < parameters.Length - 1 && (property_type.IsArray || property_type.GetInterfaces().Any(t =>
-                {
-                    return t == typeof(IEnumerable) || t == typeof(IList) || (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IEnumerable<>) && (temp = t.GenericTypeArguments[0]) != null);
-                })) && int.TryParse(parameters[x + 1], out index_pos))
-                {
+                Type val_type = val.GetType();
+                Type temp = null, temp2 = null;
+
+                // Special handling for dictionaries (needs to be before handling of IEnumerables since Dictionary is also IEnumerable)
+                if (x < parameters.Length - 1 && val_type.GetInterfaces().Contains(typeof(IDictionary)) && val_type.GetInterfaces().Any(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IDictionary<,>) && (temp = t.GenericTypeArguments[0]) != null && (temp2 = t.GenericTypeArguments[1]) != null)) {
+                    // temp = type of dictionary key, temp2 = type of dictionary value
                     x++;
-                    Type child_type = temp ?? property_type.GetElementType();
-                    IEnumerable<object> array = (IEnumerable<object>)property_object;
+                    var inst = (IDictionary)val;
+                    var key = TypeDescriptor.GetConverter(temp).ConvertFromString(parameters[x]);
+                    val = inst[key] ?? Activator.CreateInstance(temp2);
+                }
+
+                // Special handling for other IEnumerables (such as lists)
+                else if (x < parameters.Length - 1 && (val_type.IsArray || val_type.GetInterfaces().Any(t => {
+                    return t == typeof(IEnumerable) || t == typeof(IList) || (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IEnumerable<>) && (temp = t.GenericTypeArguments[0]) != null);
+                })) && int.TryParse(parameters[x + 1], out index_pos)) {
+                    x++;
+                    var child_type = temp ?? val_type.GetElementType();
+                    var array = (IEnumerable<object>)val;
 
                     if (array.Count() > index_pos)
                         val = array.ElementAt(index_pos);
@@ -159,21 +167,14 @@ namespace Aurora.Utils
             return val;
         }
 
-        public static object RetrieveGameStateParameter(IGameState state, string parameter_path, params object[] input_values)
-        {
-            if (Global.isDebug)
+        public static object RetrieveGameStateParameter(IGameState state, string parameter_path, params object[] input_values) {
+            try {
                 return _RetrieveGameStateParameter(state, parameter_path, input_values);
-            else
-            {
-                try
-                {
-                    return _RetrieveGameStateParameter(state, parameter_path, input_values);
-                }
-                catch (Exception exc)
-                {
-                    Global.logger.Error($"Exception: {exc}");
-                    return null;
-                }
+            } catch (Exception exc) {
+                Global.logger.Error($"Exception: {exc}");
+                if (Global.isDebug)
+                    throw exc;
+                return null;
             }
         }
 
@@ -221,5 +222,34 @@ namespace Aurora.Utils
             }
             return null;
         }
+
+
+        #region ParameterLookup extensions
+        /// <summary>
+        /// Checks if the given parameter is valid for the current parameter lookup.
+        /// </summary>
+        public static bool IsValidParameter(this Dictionary<string, Tuple<Type, Type>> parameterLookup, string parameter)
+            => parameterLookup.ContainsKey(parameter);
+
+        /// <summary>
+        /// Fetchs all numeric values from the given parameter lookup dictionary.
+        /// </summary>
+        public static IEnumerable<string> GetParameters(this Dictionary<string, Tuple<Type, Type>> parameterLookup, PropertyType type)
+            => parameterLookup.Where(PropertyTypePredicate[type]).Select(kvp => kvp.Key);
+
+        /// <summary>
+        /// Dictionary that specifies the filtering function that will be used on each parameter lookup entry to determine if it is of a particular PropertyType
+        /// </summary>
+        public static Dictionary<PropertyType, Func<KeyValuePair<string, Tuple<Type, Type>>, bool>> PropertyTypePredicate = new Dictionary<PropertyType, Func<KeyValuePair<string, Tuple<Type, Type>>, bool>> {
+            { PropertyType.Number, kvp => TypeUtils.IsNumericType(kvp.Value.Item1) },
+            { PropertyType.Boolean, kvp => Type.GetTypeCode(kvp.Value.Item1) == TypeCode.Boolean },
+            { PropertyType.String, kvp => Type.GetTypeCode(kvp.Value.Item1) == TypeCode.String }
+        };
+        #endregion
     }
+
+    /// <summary>
+    /// This enum is a list of all types recognised by the property parameter lookup.
+    /// </summary>
+    public enum PropertyType { Number, Boolean, String }
 }

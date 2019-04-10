@@ -1,8 +1,10 @@
-﻿using Aurora.Profiles;
+using Aurora.Controls;
+using Aurora.Profiles;
 using Aurora.Utils;
 using Newtonsoft.Json;
 using System;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 
 namespace Aurora.Settings.Overrides.Logic {
@@ -23,10 +25,14 @@ namespace Aurora.Settings.Overrides.Logic {
 
         /// <summary>The control assigned to this condition. Stored as a reference
         /// so that the application be updated if required.</summary>
-        private Control_ConditionGSIBoolean control;
+        [Newtonsoft.Json.JsonIgnore]
+        private Control_GameStateParameterPicker control;
         public Visual GetControl(Application application) {
-            if (control == null)
-                control = new Control_ConditionGSIBoolean(this, application);
+            if (control == null) {
+                control = new Control_GameStateParameterPicker { PropertyType = PropertyType.Boolean, Margin = new System.Windows.Thickness(0, 0, 0, 6) };
+                control.SetBinding(Control_GameStateParameterPicker.SelectedPathProperty, new Binding("VariablePath") { Source = this, Mode = BindingMode.TwoWay });
+                SetApplication(application);
+            }
             return control;
         }
 
@@ -44,10 +50,11 @@ namespace Aurora.Settings.Overrides.Logic {
 
         /// <summary>Update the assigned control with the new application.</summary>
         public void SetApplication(Application application) {
-            control?.SetApplication(application);
+            if (control != null)
+                control.Application = application;
 
             // Check to ensure the variable path is valid
-            if (application != null && !string.IsNullOrWhiteSpace(VariablePath) && !application.ParameterLookup.ContainsKey(VariablePath))
+            if (application != null && !string.IsNullOrWhiteSpace(VariablePath) && !application.ParameterLookup.IsValidParameter(VariablePath))
                 VariablePath = string.Empty;
         }
 
@@ -90,19 +97,19 @@ namespace Aurora.Settings.Overrides.Logic {
         /// <summary>Parses the numbers, compares the result, and returns the result.</summary>
         public bool Evaluate(IGameState gameState) {
             // Parse the operands (either as numbers or paths)
-            double op1 = Utils.GameStateUtils.TryGetDoubleFromState(gameState, Operand1Path);
-            double op2 = Utils.GameStateUtils.TryGetDoubleFromState(gameState, Operand2Path);
+            double op1 = GameStateUtils.TryGetDoubleFromState(gameState, Operand1Path);
+            double op2 = GameStateUtils.TryGetDoubleFromState(gameState, Operand2Path);
 
             // Evaluate the operands based on the selected operator and return the result.
-            switch (Operator) {
-                case ComparisonOperator.EQ: return op1 == op2;
-                case ComparisonOperator.NEQ: return op1 != op2;
-                case ComparisonOperator.LT: return op1 < op2;
-                case ComparisonOperator.LTE: return op1 <= op2;
-                case ComparisonOperator.GT: return op1 > op2;
-                case ComparisonOperator.GTE: return op1 >= op2;
-                default: return false;
-            }
+            return Operator switch {
+                ComparisonOperator.EQ => op1 == op2,
+                ComparisonOperator.NEQ => op1 != op2,
+                ComparisonOperator.LT => op1 < op2,
+                ComparisonOperator.LTE => op1 <= op2,
+                ComparisonOperator.GT => op1 > op2,
+                ComparisonOperator.GTE => op1 >= op2,
+                _ => false
+            };
         }
         object IEvaluatable.Evaluate(IGameState gameState) => Evaluate(gameState);
 
@@ -111,9 +118,9 @@ namespace Aurora.Settings.Overrides.Logic {
             control?.SetApplication(application);
 
             // Check to ensure the variable paths are valid
-            if (application != null && !double.TryParse(Operand1Path, out _) && !string.IsNullOrWhiteSpace(Operand1Path) && !application.ParameterLookup.ContainsKey(Operand1Path))
+            if (application != null && !double.TryParse(Operand1Path, out _) && !string.IsNullOrWhiteSpace(Operand1Path) && !application.ParameterLookup.IsValidParameter(Operand1Path))
                 Operand1Path = string.Empty;
-            if (application != null && !double.TryParse(Operand2Path, out _) && !string.IsNullOrWhiteSpace(Operand2Path) && !application.ParameterLookup.ContainsKey(Operand2Path))
+            if (application != null && !double.TryParse(Operand2Path, out _) && !string.IsNullOrWhiteSpace(Operand2Path) && !application.ParameterLookup.IsValidParameter(Operand2Path))
                 Operand2Path = string.Empty;
         }
 

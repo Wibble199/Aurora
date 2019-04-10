@@ -19,9 +19,7 @@ namespace Aurora.Settings.Overrides.Logic {
         }
 
         internal void SetApplication(Application application) {
-            Operand1Cb.ItemsSource = Operand2Cb.ItemsSource = application?.ParameterLookup?
-                .Where(kvp => Utils.TypeUtils.IsNumericType(kvp.Value.Item1))
-                .Select(kvp => kvp.Key);
+            operand1Picker.Application = operand2Picker.Application = application;
         }
     }
 }

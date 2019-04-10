@@ -349,6 +349,9 @@
     <Compile Include="Profiles\Skype\SkypeProfile.cs" />
     <Compile Include="Profiles\Skype\SkypeApplication.cs" />
     <Compile Include="Profiles\Skype\State_SkypeOverlay.cs" />
+    <Compile Include="Controls\Control_GameStateParameterPicker.xaml.cs">
+      <DependentUpon>Control_GameStateParameterPicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Localization\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -668,9 +671,6 @@
     <Compile Include="Settings\Overrides\Logic\Number\Number_Maths.cs" />
     <Compile Include="Settings\Overrides\Logic\EvaluatableAttribute.cs" />
     <Compile Include="Settings\Overrides\Logic\Boolean\Boolean_GameState.cs" />
-    <Compile Include="Settings\Overrides\Logic\Boolean\Control_BooleanGSIBoolean.xaml.cs">
-      <DependentUpon>Control_BooleanGSIBoolean.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Settings\Overrides\Logic\Boolean\Control_BooleanGSINumeric.xaml.cs">
       <DependentUpon>Control_BooleanGSINumeric.xaml</DependentUpon>
     </Compile>
@@ -733,6 +733,7 @@
     <Compile Include="Utils\Converters.cs" />
     <Compile Include="Utils\DesktopUtils.cs" />
     <Compile Include="Utils\InputEvents.cs" />
+    <Compile Include="Utils\LinqExtensions.cs" />
     <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\MessagePumpThread.cs" />
     <Compile Include="Utils\InputInterceptor.cs" />
@@ -1640,6 +1641,10 @@
     <Page Include="Profiles\Skype\Control_Skype.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Control_GameStateParameterPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Settings\Control_LayerList.xaml">
       <SubType>Designer</SubType>
