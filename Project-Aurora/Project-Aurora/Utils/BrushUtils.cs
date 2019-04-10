@@ -1,246 +1,111 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Linq;
+using System.Windows.Media;
 
-namespace Aurora.Utils
-{
-    public static class BrushUtils
-    {
-        public static System.Drawing.Brush MediaBrushToDrawingBrush(System.Windows.Media.Brush in_brush)
-        {
-            if (in_brush is System.Windows.Media.SolidColorBrush)
-            {
-                System.Drawing.SolidBrush brush = new System.Drawing.SolidBrush(
-                    ColorUtils.MediaColorToDrawingColor((in_brush as System.Windows.Media.SolidColorBrush).Color)
-                    );
+namespace Aurora.Utils {
 
-                return brush;
-            }
-            else if (in_brush is System.Windows.Media.LinearGradientBrush)
-            {
-                System.Windows.Media.LinearGradientBrush lgb = (in_brush as System.Windows.Media.LinearGradientBrush);
+    /// <summary>
+    /// Class that contains various helper functions for dealing with Media Brushes.
+    /// </summary>
+    public static class BrushUtils {
 
-                System.Drawing.PointF starting_point = new System.Drawing.PointF(
-                    (float)lgb.StartPoint.X,
-                    (float)lgb.StartPoint.Y
-                    );
+        #region Brush Blending
+        /// <summary>
+        /// Blends two brushes together. Currently supports <see cref="SolidColorBrush"/>es and <see cref="LinearGradientBrush"/>es. Will return transparent brush
+        /// if the brush types being blended aren't supported.
+        /// <para>Can take mixed brush types (e.g. can handle blending between <see cref="SolidColorBrush"/> and <see cref="LinearGradientBrush"/>).</para>
+        /// </summary>
+        /// <param name="amount">Determines the strength of each brush. At 0, only brush a will be used. At 1, only brush b will be used.</param>
+        public static Brush BlendBrushes(Brush a, Brush b, double amount) {
+            if (amount <= 0) return a;
+            else if (amount >= 1) return b;
+            else return (a, b) switch {
+                // If both brushes are solid, we simply want to create a new solid brush of their colors combined
+                (SolidColorBrush origin, SolidColorBrush destination) => (Brush) new SolidColorBrush(BlendColorsAssert(origin.Color, destination.Color, amount)),
 
-                System.Drawing.PointF ending_point = new System.Drawing.PointF(
-                    (float)lgb.EndPoint.X,
-                    (float)lgb.EndPoint.Y
-                    );
+                // If one or both are linear, blend them using my custom-written custom gradient blender
+                (SolidColorBrush origin, LinearGradientBrush destination) => BlendLinearGradientBrush(origin, destination, amount),
+                (LinearGradientBrush origin, SolidColorBrush destination) => BlendLinearGradientBrush(origin, destination, amount),
+                (LinearGradientBrush origin, LinearGradientBrush destination) => BlendLinearGradientBrush(origin, destination, amount),
 
-                System.Drawing.Drawing2D.LinearGradientBrush brush = new System.Drawing.Drawing2D.LinearGradientBrush(
-                    starting_point,
-                    ending_point,
-                    System.Drawing.Color.Red,
-                    System.Drawing.Color.Red
-                    );
-
-                /*
-                switch(lgb.SpreadMethod)
-                {
-                    case System.Windows.Media.GradientSpreadMethod.Pad:
-                        brush.WrapMode = System.Drawing.Drawing2D.WrapMode.Clamp;
-                        break;
-                    case System.Windows.Media.GradientSpreadMethod.Reflect:
-                        brush.WrapMode = System.Drawing.Drawing2D.WrapMode.TileFlipXY;
-                        break;
-                    case System.Windows.Media.GradientSpreadMethod.Repeat:
-                        brush.WrapMode = System.Drawing.Drawing2D.WrapMode.Tile;
-                        break;
-                }
-                */
-
-                SortedDictionary<float, System.Drawing.Color> brush_blend = new SortedDictionary<float, System.Drawing.Color>();
-
-                foreach (var grad_stop in lgb.GradientStops)
-                {
-                    if (!brush_blend.ContainsKey((float)grad_stop.Offset))
-                        brush_blend.Add((float)grad_stop.Offset, ColorUtils.MediaColorToDrawingColor(grad_stop.Color));
-                }
-
-                List<System.Drawing.Color> brush_colors = new List<System.Drawing.Color>();
-                List<float> brush_positions = new List<float>();
-
-                foreach (var kvp in brush_blend)
-                {
-                    brush_colors.Add(kvp.Value);
-                    brush_positions.Add(kvp.Key);
-                }
-
-                System.Drawing.Drawing2D.ColorBlend color_blend = new System.Drawing.Drawing2D.ColorBlend();
-                color_blend.Colors = brush_colors.ToArray();
-                color_blend.Positions = brush_positions.ToArray();
-                brush.InterpolationColors = color_blend;
-
-                return brush;
-            }
-            else if (in_brush is System.Windows.Media.RadialGradientBrush)
-            {
-                System.Windows.Media.RadialGradientBrush rgb = (in_brush as System.Windows.Media.RadialGradientBrush);
-
-                System.Drawing.RectangleF brush_region = new System.Drawing.RectangleF(
-                    0.0f,
-                    0.0f,
-                    2.0f * (float)rgb.RadiusX,
-                    2.0f * (float)rgb.RadiusY
-                    );
-
-                System.Drawing.PointF center_point = new System.Drawing.PointF(
-                    (float)rgb.Center.X,
-                    (float)rgb.Center.Y
-                    );
-
-                System.Drawing.Drawing2D.GraphicsPath g_path = new System.Drawing.Drawing2D.GraphicsPath();
-                g_path.AddEllipse(brush_region);
-
-                System.Drawing.Drawing2D.PathGradientBrush brush = new System.Drawing.Drawing2D.PathGradientBrush(g_path);
-
-                brush.CenterPoint = center_point;
-
-                /*
-                switch (rgb.SpreadMethod)
-                {
-                    case System.Windows.Media.GradientSpreadMethod.Pad:
-                        brush.WrapMode = System.Drawing.Drawing2D.WrapMode.Clamp;
-                        break;
-                    case System.Windows.Media.GradientSpreadMethod.Reflect:
-                        brush.WrapMode = System.Drawing.Drawing2D.WrapMode.TileFlipXY;
-                        break;
-                    case System.Windows.Media.GradientSpreadMethod.Repeat:
-                        brush.WrapMode = System.Drawing.Drawing2D.WrapMode.Tile;
-                        break;
-                }
-                */
-
-                SortedDictionary<float, System.Drawing.Color> brush_blend = new SortedDictionary<float, System.Drawing.Color>();
-
-                foreach (var grad_stop in rgb.GradientStops)
-                {
-                    if (!brush_blend.ContainsKey((float)grad_stop.Offset))
-                        brush_blend.Add((float)grad_stop.Offset, ColorUtils.MediaColorToDrawingColor(grad_stop.Color));
-                }
-
-                List<System.Drawing.Color> brush_colors = new List<System.Drawing.Color>();
-                List<float> brush_positions = new List<float>();
-
-                foreach (var kvp in brush_blend)
-                {
-                    brush_colors.Add(kvp.Value);
-                    brush_positions.Add(kvp.Key);
-                }
-
-                System.Drawing.Drawing2D.ColorBlend color_blend = new System.Drawing.Drawing2D.ColorBlend();
-                color_blend.Colors = brush_colors.ToArray();
-                color_blend.Positions = brush_positions.ToArray();
-                brush.InterpolationColors = color_blend;
-
-                return brush;
-            }
-            else
-            {
-                return new System.Drawing.SolidBrush(System.Drawing.Color.Red); //Return error color
-            }
+                // In any other case (e.g. radial brushes), we don't know how to handle them yet, so just return a default brush
+                _ => Brushes.Transparent
+            };
         }
 
-        public static System.Windows.Media.Brush DrawingBrushToMediaBrush(System.Drawing.Brush in_brush)
-        {
-            if (in_brush is System.Drawing.SolidBrush)
-            {
-                System.Windows.Media.SolidColorBrush brush = new System.Windows.Media.SolidColorBrush(
-                    ColorUtils.DrawingColorToMediaColor((in_brush as System.Drawing.SolidBrush).Color)
-                    );
+        /// <summary>
+        /// Blends two <see cref="LinearGradientBrush"/>es by creating a new brush that has gradient stops at every place either the 'left' or
+        /// 'right' brushes did, and at each of these stops the merge color based on the value of each brush is calculated.
+        /// </summary>
+        public static LinearGradientBrush BlendLinearGradientBrush(LinearGradientBrush left, LinearGradientBrush right, double amount) {
+            // If the amount is at either end of the scale, jsut return the brushes, no need to do calculation for it
+            if (amount <= 0) return left.Clone();
+            else if (amount >= 1) return right.Clone();
 
-                return brush;
-            }
-            else if (in_brush is System.Drawing.Drawing2D.LinearGradientBrush)
-            {
-                System.Drawing.Drawing2D.LinearGradientBrush lgb = (in_brush as System.Drawing.Drawing2D.LinearGradientBrush);
+            var stops = left.GradientStops.Select(s => s.Offset) // Get all the offset positions in the left gradient
+                .Concat(right.GradientStops.Select(s => s.Offset)) // And merge that list with all the ones in the right gradient
+                .Distinct() // But only select each value once
 
-                System.Windows.Point starting_point = new System.Windows.Point(
-                    lgb.Rectangle.X,
-                    lgb.Rectangle.Y
-                    );
+                .Select(off => new GradientStop( // Then, at each of these offsets construct a new stop
+                    BlendColorsAssert(left.GradientStops.GetColorAt(off), right.GradientStops.GetColorAt(off), amount), off // By blending the colors from each brush at that location (regardless of whether it was an offset of that brush)
+                ));
 
-                System.Windows.Point ending_point = new System.Windows.Point(
-                    lgb.Rectangle.Right,
-                    lgb.Rectangle.Bottom
-                    );
+            // Return a new brush from the new stop collection
+            return new LinearGradientBrush(new GradientStopCollection(stops));
+        }
 
-                System.Windows.Media.GradientStopCollection collection = new System.Windows.Media.GradientStopCollection();
+        /// <summary>
+        /// Blends a <see cref="LinearGradientBrush"/> and a <see cref="SolidColorBrush"/> by blending the color of the solid brush with
+        /// the color at each of the linear gradient brush stops. Returns a new brush with the blended stops.
+        /// </summary>
+        public static LinearGradientBrush BlendLinearGradientBrush(LinearGradientBrush grad, SolidColorBrush solid, double amount) {
+            var stops = grad.GradientStops.Clone();
+            foreach (var stop in stops)
+                stop.Color = BlendColorsAssert(stop.Color, solid.Color, amount);
+            return new LinearGradientBrush(stops);
+        }
 
-                try
-                {
-                    if (lgb.InterpolationColors != null && lgb.InterpolationColors.Colors.Length == lgb.InterpolationColors.Positions.Length)
-                    {
-                        for (int x = 0; x < lgb.InterpolationColors.Colors.Length; x++)
-                        {
-                            collection.Add(
-                                new System.Windows.Media.GradientStop(
-                                    ColorUtils.DrawingColorToMediaColor(lgb.InterpolationColors.Colors[x]),
-                                    lgb.InterpolationColors.Positions[x]
-                                    )
-                                );
-                        }
-                    }
-                }
-                catch (Exception exc)
-                {
-                    for (int x = 0; x < lgb.LinearColors.Length; x++)
-                    {
-                        collection.Add(
-                            new System.Windows.Media.GradientStop(
-                                ColorUtils.DrawingColorToMediaColor(lgb.LinearColors[x]),
-                                x / (double)(lgb.LinearColors.Length - 1)
-                                )
-                            );
-                    }
-                }
+        /// <summary>
+        /// Blends a <see cref="LinearGradientBrush"/> and a <see cref="SolidColorBrush"/> by blending the color of the solid brush with
+        /// the color at each of the linear gradient brush stops. Returns a new brush with the blended stops.
+        /// </summary>
+        public static LinearGradientBrush BlendLinearGradientBrush(SolidColorBrush solid, LinearGradientBrush grad, double amount)
+            => BlendLinearGradientBrush(grad, solid, 1 - amount);
 
-                System.Windows.Media.LinearGradientBrush brush = new System.Windows.Media.LinearGradientBrush(
-                    collection,
-                    starting_point,
-                    ending_point
-                    );
+        /// <summary>
+        /// Blends two colors, but ensures that if either of them are <see cref="Colors.Transparent"/>, they are instead replaced with
+        /// the other color but with alpha set to 0 instead. This means, for example, that fading Red into Transparent, the color does
+        /// not go white as it's alpha increases, but stays red.
+        /// </summary>
+        /// <seealso cref="AssertTransparency(Color, Color)"/>
+        private static Color BlendColorsAssert(Color a, Color b, double amount)
+            => ColorUtils.BlendColors(a.AssertTransparency(b), b.AssertTransparency(a), amount);
 
-                return brush;
-            }
-            else if (in_brush is System.Drawing.Drawing2D.PathGradientBrush)
-            {
-                System.Drawing.Drawing2D.PathGradientBrush pgb = (in_brush as System.Drawing.Drawing2D.PathGradientBrush);
+        /// <summary>Takes two colors. If the first (trg) color is <see cref="Colors.Transparent"/>, returns a new transparent color that has identical RGB values to the
+        /// second (base) color except with 0 alpha. This is useful when blending a color with transparent so that it doesn't go whiter as it's alpha decreases.</summary>
+        private static Color AssertTransparency(this Color trg, Color @base) =>
+            trg.Equals(Colors.Transparent)
+                ? Color.FromArgb(0, @base.R, @base.G, @base.B)
+                : trg;
+        #endregion
 
-                System.Windows.Point starting_point = new System.Windows.Point(
-                    pgb.CenterPoint.X,
-                    pgb.CenterPoint.Y
-                    );
+        /// <summary>Gets the color at the given point in the given <see cref="GradientStopCollection"/>.</summary>
+        public static Color GetColorAt(this GradientStopCollection gsc, double offset) {
+            var stops = gsc.OrderBy(s => s.Offset).ToArray();
 
-                System.Windows.Media.GradientStopCollection collection = new System.Windows.Media.GradientStopCollection();
+            // Check if any GradientStops are exactly at the requested offset. If so, return that
+            var exact = stops.SingleOrDefault(s => s.Offset == offset);
+            if (exact != null) return exact.Color;
 
-                if (pgb.InterpolationColors != null && pgb.InterpolationColors.Colors.Length == pgb.InterpolationColors.Positions.Length)
-                {
-                    for (int x = 0; x < pgb.InterpolationColors.Colors.Length; x++)
-                    {
-                        collection.Add(
-                            new System.Windows.Media.GradientStop(
-                                ColorUtils.DrawingColorToMediaColor(pgb.InterpolationColors.Colors[x]),
-                                pgb.InterpolationColors.Positions[x]
-                                )
-                            );
-                    }
-                }
+            // Check if the requested offset is outside of bounds of the offset range. If so, return the nearest offset
+            if (offset <= stops[0].Offset) return stops[0].Color;
+            if (offset >= stops[stops.Length - 1].Offset) return stops[stops.Length - 1].Color;
 
-                System.Windows.Media.RadialGradientBrush brush = new System.Windows.Media.RadialGradientBrush(
-                    collection
-                    );
+            // Find the two stops either side of the requsted offset
+            var left = stops.Last(s => s.Offset < offset);
+            var right = stops.First(s => s.Offset > offset);
 
-                brush.Center = starting_point;
-
-                return brush;
-            }
-            else
-            {
-                return new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 0, 0)); //Return error color
-            }
+            // Return the blended color that is the correct ratio between left and right
+            return ColorUtils.BlendColors(left.Color, right.Color, (offset - left.Offset) / (right.Offset - left.Offset));
         }
     }
 }

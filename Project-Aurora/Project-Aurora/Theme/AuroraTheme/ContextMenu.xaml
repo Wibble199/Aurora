@@ -3,8 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style TargetType="{x:Type ContextMenu}">
-        <Setter Property="Background" Value="{StaticResource ForegroundElement}" />
-        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="{StaticResource ForegroundElementBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource ForegroundTextBrush}" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -13,7 +13,7 @@
                         <Border.Effect>
                             <DropShadowEffect BlurRadius="5" ShadowDepth="0" />
                         </Border.Effect>
-                        <ItemsPresenter TextBlock.Foreground="{StaticResource ForegroundText}" />
+                        <ItemsPresenter TextBlock.Foreground="{TemplateBinding Foreground}" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

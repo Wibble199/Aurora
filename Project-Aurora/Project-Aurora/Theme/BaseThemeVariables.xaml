@@ -4,50 +4,50 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- #region Base Colors -->
-    <Color x:Key="ForegroundElementColor">#0F141A</Color> <!-- Color of a foreground element such as a tooltip or context menu. -->
-    <Color x:Key="ForegroundTextColor">#F9F9F9</Color> <!-- Text color for foreground text elements. -->
+    <SolidColorBrush x:Key="ForegroundElementBrush" Color="#0F141A" /> <!-- Color of a foreground element such as a tooltip or context menu. -->
+    <SolidColorBrush x:Key="ForegroundTextBrush" Color="#F9F9F9" /> <!-- Text color for foreground text elements. -->
 
-    <Color x:Key="BaseBackgroundColor">#323942</Color> <!-- Color of the main area background. -->
-    <Color x:Key="BaseTextColor">#F9F9F9</Color> <!-- Text color for text elements on the main area. -->
+    <SolidColorBrush x:Key="BaseBackgroundBrush" Color="#323942" /> <!-- Color of the main area background. -->
+    <SolidColorBrush x:Key="BaseTextBrush" Color="#F9F9F9" /> <!-- Text color for text elements on the main area. -->
 
-    <Color x:Key="Panel1BackgroundColor">#232932</Color> <!-- Background color of the "level 1" panels (will usually be adjacent to the base). -->
-    <Color x:Key="Panel1TextColor">#F9F9F9</Color> <!-- Text color for text elements on "level 1" panels. -->
+    <SolidColorBrush x:Key="Panel1BackgroundBrush" Color="#232932" /> <!-- Background color of the "level 1" panels (will usually be adjacent to the base). -->
+    <SolidColorBrush x:Key="Panel1TextBrush" Color="#F9F9F9" /> <!-- Text color for text elements on "level 1" panels. -->
 
-    <Color x:Key="Panel2BackgroundColor">#1A1F26</Color> <!-- Background color of the "level 2" panels (will usually be adjacent to the level 1 panels). -->
-    <Color x:Key="Panel2TextColor">#F9F9F9</Color> <!-- Text color for text elements on "level 2" panels. -->
+    <SolidColorBrush x:Key="Panel2BackgroundBrush" Color="#1A1F26" /> <!-- Background color of the "level 2" panels (will usually be adjacent to the level 1 panels). -->
+    <SolidColorBrush x:Key="Panel2TextBrush" Color="#F9F9F9" /> <!-- Text color for text elements on "level 2" panels. -->
     <!-- #endregion -->
 
     <!-- #region Buttons -->
-    <Color x:Key="BaseButtonBackgroundColor">#242A32</Color> <!-- Color of the buttons that will usually appear on the "base" backgrounds. -->
-    <Color x:Key="BaseButtonBackgroundHoverColor">#181D24</Color> <!-- Same as above but when the user is hovering the button. -->
-    <Color x:Key="BaseButtonForegroundColor">#F9F9F9</Color> <!-- Foreground (text) color of base button content. -->
+    <SolidColorBrush x:Key="BaseButtonBackgroundBrush" Color="#242A32" /> <!-- Color of the buttons that will usually appear on the "base" backgrounds. -->
+    <SolidColorBrush x:Key="BaseButtonBackgroundHoverBrush" Color="#181D24" /> <!-- Same as above but when the user is hovering the button. -->
+    <SolidColorBrush x:Key="BaseButtonForegroundBrush" Color="#F9F9F9" /> <!-- Foreground (text) color of base button content. -->
     
-    <Color x:Key="Panel1ButtonBackgroundColor">#333D4C</Color> <!-- Color of the buttons that will usually appear on the "panel 1"s. -->
-    <Color x:Key="Panel1ButtonBackgroundHoverColor">#485364</Color> <!-- Same as above but when the user is hovering the button. -->
-    <Color x:Key="Panel1ButtonForegroundColor">#F9F9F9</Color> <!-- Foreground (text) color of base button content. -->
+    <SolidColorBrush x:Key="Panel1ButtonBackgroundBrush" Color="#333D4C" /> <!-- Color of the buttons that will usually appear on the "panel 1"s. -->
+    <SolidColorBrush x:Key="Panel1ButtonBackgroundHoverBrush" Color="#485364" /> <!-- Same as above but when the user is hovering the button. -->
+    <SolidColorBrush x:Key="Panel1ButtonForegroundBrush" Color="#F9F9F9" /> <!-- Foreground (text) color of base button content. -->
     
-    <Color x:Key="Panel2ButtonBackgroundColor">#2A3340</Color> <!-- Color of the buttons that will usually appear on the "panel 2"s. -->
-    <Color x:Key="Panel2ButtonBackgroundHoverColor">#3F4958</Color> <!-- Same as above but when the user is hovering the button. -->
-    <Color x:Key="Panel2ButtonForegroundColor">#F9F9F9</Color> <!-- Foreground (text) color of base button content. -->
+    <SolidColorBrush x:Key="Panel2ButtonBackgroundBrush" Color="#2A3340" /> <!-- Color of the buttons that will usually appear on the "panel 2"s. -->
+    <SolidColorBrush x:Key="Panel2ButtonBackgroundHoverBrush" Color="#3F4958" /> <!-- Same as above but when the user is hovering the button. -->
+    <SolidColorBrush x:Key="Panel2ButtonForegroundBrush" Color="#F9F9F9" /> <!-- Foreground (text) color of base button content. -->
     <!-- #endregion -->
     
     <!-- #region Textboxes -->
-    <Color x:Key="TextboxBackgroundColor">#242A32</Color> <!-- The base background color of the textboxes. -->
-    <Color x:Key="TextboxBackgroundFocusColor">#181D24</Color> <!-- The color of textboxes when the control has focus and the user is typing into it. -->
-    <Color x:Key="TextboxForegroundColor">#F9F9F9</Color> <!-- The text color of the textboxes. -->
+    <SolidColorBrush x:Key="TextboxBackgroundBrush" Color="#242A32" /> <!-- The base background color of the textboxes. -->
+    <SolidColorBrush x:Key="TextboxBackgroundFocusBrush" Color="#181D24" /> <!-- The color of textboxes when the control has focus and the user is typing into it. -->
+    <SolidColorBrush x:Key="TextboxForegroundBrush" Color="#F9F9F9" /> <!-- The text color of the textboxes. -->
     <!-- #endregion -->
     
     <!-- #region Listboxes -->
-    <Color x:Key="ListboxBackgroundColor">#242A32</Color> <!-- The background color of any listboxes (excluding the application listbox). -->
-    <Color x:Key="ListboxItemHoverColor">#30363E</Color> <!-- The background color for a listbox item that the user is hovering over. -->
-    <Color x:Key="ListboxItemSelectedColor">#FF0000</Color> <!-- The background color for a listbox item that the user has selected. -->
-    <Color x:Key="ListboxNoFocusItemSelectedColor">#00FF00</Color> <!-- The background color for a listbox item whose listbox does not have focus. -->
-    <Color x:Key="ApplicationListboxItemHoverColor">#30363E</Color> <!-- The background color for the application that the user is hovering over. -->
-    <Color x:Key="ApplicationListboxItemSelectedColor">#48505B</Color> <!-- The background color for the application the user has selected. -->
+    <SolidColorBrush x:Key="ListboxBackgroundBrush" Color="#242A32" /> <!-- The background color of any listboxes (excluding the application listbox). -->
+    <SolidColorBrush x:Key="ListboxItemHoverBrush" Color="#30363E" /> <!-- The background color for a listbox item that the user is hovering over. -->
+    <SolidColorBrush x:Key="ListboxItemSelectedBrush" Color="#FF0000" /> <!-- The background color for a listbox item that the user has selected. -->
+    <SolidColorBrush x:Key="ListboxNoFocusItemSelectedBrush" Color="#00FF00" /> <!-- The background color for a listbox item whose listbox does not have focus. -->
+    <SolidColorBrush x:Key="ApplicationListboxItemHoverBrush" Color="#30363E" /> <!-- The background color for the application that the user is hovering over. -->
+    <SolidColorBrush x:Key="ApplicationListboxItemSelectedBrush" Color="#48505B" /> <!-- The background color for the application the user has selected. -->
     <!-- #endregion -->
 
     <!-- #region Tab Controls -->
-    <Color x:Key="TabItemBackgroundHoverColor">#434A54</Color> <!-- The background color of the tab header item when it is hovered over by the user's mouse. -->
+    <SolidColorBrush x:Key="TabItemBackgroundHoverBrush" Color="#434A54" /> <!-- The background color of the tab header item when it is hovered over by the user's mouse. -->
     <!-- #endregion -->
 
     <!-- #region Misc. -->
@@ -55,43 +55,5 @@
 
     <sys:Double x:Key="ControlBorderRadiusAmount">2</sys:Double> <!-- How rounded the corners of controls such as buttons are. -->
     <CornerRadius x:Key="ControlBorderRadius" TopLeft="{StaticResource ControlBorderRadiusAmount}" TopRight="{StaticResource ControlBorderRadiusAmount}" BottomLeft="{StaticResource ControlBorderRadiusAmount}" BottomRight="{StaticResource ControlBorderRadiusAmount}" /> <!-- If you're wondering why I don't get rid of the ControlBorderRadius double and just have a fixed value here instead, it's because some controls (e.g. stepper buttons) create new corner radiuses with some corners being 0, therefore I want to keep track of corner radius individually. -->
-    <!-- #endregion -->
-
-    <!-- #region Brushes -->
-    <!-- Brushes are derived from the colors. These usually don't want to be changed, as doing so will mess animation up. -->
-    <SolidColorBrush x:Key="ForegroundElement" Color="{StaticResource ForegroundElementColor}" />
-    <SolidColorBrush x:Key="ForegroundText" Color="{StaticResource ForegroundTextColor}" />
-    <SolidColorBrush x:Key="BaseBackground" Color="{StaticResource BaseBackgroundColor}" />
-    <SolidColorBrush x:Key="BaseText" Color="{StaticResource BaseTextColor}" />
-    <SolidColorBrush x:Key="Panel1Background" Color="{StaticResource Panel1BackgroundColor}" />
-    <SolidColorBrush x:Key="Panel1Text" Color="{StaticResource Panel1TextColor}" />
-    <SolidColorBrush x:Key="Panel2Background" Color="{StaticResource Panel2BackgroundColor}" />
-    <SolidColorBrush x:Key="Panel2Text" Color="{StaticResource Panel2TextColor}" />
-
-    <SolidColorBrush x:Key="BaseButtonBackground" Color="{StaticResource BaseButtonBackgroundColor}" />
-    <SolidColorBrush x:Key="BaseButtonBackgroundHover" Color="{StaticResource BaseButtonBackgroundHoverColor}" />
-    <SolidColorBrush x:Key="BaseButtonForeground" Color="{StaticResource BaseButtonForegroundColor}" />
-    <SolidColorBrush x:Key="Panel1ButtonBackground" Color="{StaticResource Panel1ButtonBackgroundColor}" />
-    <SolidColorBrush x:Key="Panel1ButtonBackgroundHover" Color="{StaticResource Panel1ButtonBackgroundHoverColor}" />
-    <SolidColorBrush x:Key="Panel1ButtonForeground" Color="{StaticResource Panel1ButtonForegroundColor}" />
-    <SolidColorBrush x:Key="Panel2ButtonBackground" Color="{StaticResource Panel2ButtonBackgroundColor}" />
-    <SolidColorBrush x:Key="Panel2ButtonBackgroundHover" Color="{StaticResource Panel2ButtonBackgroundHoverColor}" />
-    <SolidColorBrush x:Key="Panel2ButtonForeground" Color="{StaticResource Panel2ButtonForegroundColor}" />
-
-    <SolidColorBrush x:Key="TextboxBackground" Color="{StaticResource TextboxBackgroundColor}" />
-    <SolidColorBrush x:Key="TextboxBackgroundFocus" Color="{StaticResource TextboxBackgroundFocusColor}" />
-    <SolidColorBrush x:Key="TextboxForeground" Color="{StaticResource TextboxForegroundColor}" />
-
-    <SolidColorBrush x:Key="ListboxBackground" Color="{StaticResource ListboxBackgroundColor}" />
-    <SolidColorBrush x:Key="ListboxItemHover" Color="{StaticResource ListboxItemHoverColor}" />
-    <SolidColorBrush x:Key="ListboxItemSelected" Color="{StaticResource ListboxItemSelectedColor}" />
-    <SolidColorBrush x:Key="ListboxNoFocusItemSelected" Color="{StaticResource ListboxNoFocusItemSelectedColor}" />
-    <SolidColorBrush x:Key="ApplicationListboxItemHover" Color="{StaticResource ApplicationListboxItemHoverColor}" />
-    <SolidColorBrush x:Key="ApplicationListboxItemSelected" Color="{StaticResource ApplicationListboxItemSelectedColor}" />
-
-    <SolidColorBrush x:Key="TabItemBackgroundHover" Color="{StaticResource TabItemBackgroundHoverColor}" />
-
-    <!-- The reason we need a brush and a color is so that we can set the initial visual property of the elements from the brush (since we need a brush, not
-         a raw color, but we also need the colors so that we can animate events such as the hover effect and brushes cannot be (easily) animated. -->
     <!-- #endregion -->
 </ResourceDictionary>

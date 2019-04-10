@@ -9,6 +9,7 @@
     xmlns:Controls="clr-namespace:Aurora.Controls"
     xmlns:settings="clr-namespace:Aurora.Settings"
     xmlns:l="clr-namespace:Aurora.Settings.Localization"
+    xmlns:u="clr-namespace:Aurora.Utils"
     x:Class="Aurora.ConfigUI"
     mc:Ignorable="d"
     Width="1280" Height="820"
@@ -16,7 +17,7 @@
     MaxWidth="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}" MaxHeight="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}" 
     Title="Aurora" WindowStyle="None" AllowsTransparency="True"
     Loaded="Window_Loaded" Initialized="Window_Initialized" Closing="Window_Closing" Activated="Window_Activated" Deactivated="Window_Deactivated" HorizontalContentAlignment="Stretch"  SizeChanged="Window_SizeChanged"
-    DataContext="{Binding RelativeSource={RelativeSource Self}}" BorderBrush="Transparent" Background="{StaticResource BaseBackground}">
+    DataContext="{Binding RelativeSource={RelativeSource Self}}" BorderBrush="Transparent" Background="{StaticResource BaseBackgroundBrush}">
 
     <!-- Override the default edges and captions that still appear even when WindowStyle is set to None. -->
     <WindowChrome.WindowChrome>
@@ -63,7 +64,7 @@
 
             <!-- Style (including hover/select effects) for the application list box item -->
             <Style x:Key="ApplicationsListItemStyle" TargetType="{x:Type ListBoxItem}">
-                <Setter Property="Background" Value="{StaticResource Panel2Background}" />
+                <Setter Property="Background" Value="{StaticResource Panel2BackgroundBrush}" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -80,14 +81,14 @@
                                     <MultiTrigger.EnterActions>
                                         <BeginStoryboard>
                                             <Storyboard>
-                                                <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="{StaticResource ApplicationListboxItemHoverColor}" Duration="{StaticResource AnimationDuration}" />
+                                                <u:BrushAnimation Storyboard.TargetProperty="Background" To="{StaticResource ApplicationListboxItemHoverBrush}" Duration="{StaticResource AnimationDuration}" />
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </MultiTrigger.EnterActions>
                                     <MultiTrigger.ExitActions>
                                         <BeginStoryboard>
                                             <Storyboard>
-                                                <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="{StaticResource Panel2BackgroundColor}" Duration="{StaticResource AnimationDuration}" />
+                                                <u:BrushAnimation Storyboard.TargetProperty="Background" To="Transparent" Duration="{StaticResource AnimationDuration}" />
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </MultiTrigger.ExitActions>
@@ -96,14 +97,14 @@
                                     <Trigger.EnterActions>
                                         <BeginStoryboard>
                                             <Storyboard>
-                                                <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="{StaticResource ApplicationListboxItemSelectedColor}" Duration="{StaticResource AnimationDuration}" />
+                                                <u:BrushAnimation Storyboard.TargetProperty="Background" To="{StaticResource ApplicationListboxItemSelectedBrush}" Duration="{StaticResource AnimationDuration}" />
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </Trigger.EnterActions>
                                     <Trigger.ExitActions>
                                         <BeginStoryboard>
                                             <Storyboard>
-                                                <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="{StaticResource Panel2BackgroundColor}" Duration="{StaticResource AnimationDuration}" />
+                                                <u:BrushAnimation Storyboard.TargetProperty="Background" To="Transparent" Duration="{StaticResource AnimationDuration}" />
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </Trigger.ExitActions>
@@ -141,7 +142,7 @@
             </Grid.RowDefinitions>
 
 
-            <Grid Grid.ColumnSpan="999" Background="{StaticResource ForegroundElement}">
+            <Grid Grid.ColumnSpan="999" Background="{StaticResource ForegroundElementBrush}">
                 <!-- Title bar label -->
                 <TextBlock Text="Aurora" FontSize="16" FontWeight="Bold" Margin="5,-1" HorizontalAlignment="Left" />
 
@@ -180,7 +181,7 @@
             </Grid>
 
             <!-- Left panel (the contents of the left panel don't follow the grid rows, so use a DockPanel to place them instead) -->
-            <DockPanel LastChildFill="True" Background="{StaticResource Panel2Background}" Grid.Row="1" Grid.RowSpan="999">
+            <DockPanel LastChildFill="True" Background="{StaticResource Panel2BackgroundBrush}" Grid.Row="1" Grid.RowSpan="999">
                 <!-- Aurora logo header -->
                 <Image DockPanel.Dock="Top" Source="Resources/aurora_logo.png" Height="48" Margin="8" Grid.RowSpan="999" />
 
@@ -238,7 +239,7 @@
             </DockPanel>
 
             <!-- Profile/layer list -->
-            <Grid x:Name="gridManagers" Grid.Column="1" Grid.RowSpan="999" Grid.Row="1" Background="{StaticResource Panel1Background}">
+            <Grid x:Name="gridManagers" Grid.Column="1" Grid.RowSpan="999" Grid.Row="1" Background="{StaticResource Panel1BackgroundBrush}">
                 <StackPanel x:Name="stackPanelManagers">
                     <Border x:Name="brdOverview" Background="#A5000000" CornerRadius="8" VerticalAlignment="Top" Height="25" PreviewMouseDown="brdOverview_PreviewMouseDown">
                         <Border Background="#54A8A8A8" CornerRadius="8">

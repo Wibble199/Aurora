@@ -61,7 +61,7 @@
                 </RadioButton>
             </StackPanel>
 
-            <Controls:ReorderableListBox Background="{StaticResource Panel1Background}" BorderThickness="0" ItemsSource="{Binding ActiveLayerCollection}" SelectedItem="{Binding Path=SelectedLayer, Mode=TwoWay}" DragElementTag="Dragger" SelectionMode="Single" DockPanel.Dock="Bottom" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" KeyDown="ReorderableListBox_KeyDown">
+            <Controls:ReorderableListBox Background="{StaticResource Panel1BackgroundBrush}" BorderThickness="0" ItemsSource="{Binding ActiveLayerCollection}" SelectedItem="{Binding Path=SelectedLayer, Mode=TwoWay}" DragElementTag="Dragger" SelectionMode="Single" DockPanel.Dock="Bottom" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" KeyDown="ReorderableListBox_KeyDown">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <DockPanel HorizontalAlignment="Stretch" LastChildFill="True" Margin="2,2,0,2">

@@ -21,7 +21,7 @@
 
                         <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
                             <Grid Name="DropDown"  SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                <Border x:Name="DropDownBorder" Background="{StaticResource BaseButtonBackgroundHover}" BorderThickness="1,0,1,1" BorderBrush="{StaticResource ForegroundElement}"/>
+                                <Border x:Name="DropDownBorder" Background="{StaticResource BaseButtonBackgroundHoverBrush}" BorderThickness="1,0,1,1" BorderBrush="{StaticResource ForegroundElementBrush}"/>
                                 <ScrollViewer Margin="2" SnapsToDevicePixels="True">
                                     <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
                                 </ScrollViewer>

@@ -139,7 +139,7 @@
     </ControlTemplate>
 
     <Style TargetType="{x:Type xctk:ColorPicker}">
-        <Setter Property="Background" Value="{StaticResource BaseButtonBackground}" />
+        <Setter Property="Background" Value="{StaticResource BaseButtonBackgroundBrush}" />
         <Setter Property="BorderBrush" Value="Yellow" />
         <Setter Property="BorderThickness" Value="1,1,0,1" />
         <Setter Property="IsTabStop" Value="False" />
@@ -166,9 +166,9 @@
                         </ToggleButton>
 
                         <Popup x:Name="PART_ColorPickerPalettePopup" VerticalAlignment="Bottom" IsOpen="{Binding ElementName=PART_ColorPickerToggleButton, Path=IsChecked}" StaysOpen="False" AllowsTransparency="True" Focusable="False" HorizontalOffset="1" VerticalOffset="1" PopupAnimation="Slide" Width="{TemplateBinding MaxDropDownWidth}">
-                            <Border BorderThickness="0" Background="{StaticResource BaseBackground}" BorderBrush="Blue" Padding="3" Margin="5,0,5,10">
+                            <Border BorderThickness="0" Background="{StaticResource BaseBackgroundBrush}" BorderBrush="Blue" Padding="3" Margin="5,0,5,10">
                                 <TabControl x:Name="ColorPickerTabControl" Background="Transparent" SelectedIndex="{Binding ColorMode, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ColorModeToTabItemSelectedConverter}}">
-                                    <TabItem x:Name="StandardTabItem" Header="{Binding StandardButtonHeader, RelativeSource={RelativeSource TemplatedParent}}" Background="{StaticResource ForegroundElement}">
+                                    <TabItem x:Name="StandardTabItem" Header="{Binding StandardButtonHeader, RelativeSource={RelativeSource TemplatedParent}}" Background="{StaticResource ForegroundElementBrush}">
                                         <Grid x:Name="_colorPaletteHost" Margin="4">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto" />

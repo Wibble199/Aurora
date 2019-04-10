@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="http://schemas.xceed.com/wpf/xaml/toolkit">
+                    xmlns:local="http://schemas.xceed.com/wpf/xaml/toolkit"
+                    xmlns:u="clr-namespace:Aurora.Utils">
 
     <!-- Based off https://raw.githubusercontent.com/xceedsoftware/wpftoolkit/master/ExtendedWPFToolkitSolution/Src/Xceed.Wpf.Toolkit/NumericUpDown/Themes/Generic.xaml -->
 
@@ -8,7 +9,7 @@
     
     <!-- Spinner button style -->
     <Style x:Key="SpinnerButtonStyle" TargetType="{x:Type RepeatButton}">
-        <Setter Property="Background" Value="{StaticResource TextboxBackground}" />
+        <Setter Property="Background" Value="{StaticResource TextboxBackgroundBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
@@ -21,14 +22,14 @@
                         <EventTrigger RoutedEvent="MouseEnter">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="{StaticResource BaseButtonBackgroundHoverColor}" Duration="{StaticResource AnimationDuration}" />
+                                    <u:BrushAnimation Storyboard.TargetProperty="Background" To="{StaticResource BaseButtonBackgroundHoverBrush}" Duration="{StaticResource AnimationDuration}" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
                         <EventTrigger RoutedEvent="MouseLeave">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <ColorAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="{StaticResource TextboxBackgroundColor}" Duration="{StaticResource AnimationDuration}" />
+                                    <u:BrushAnimation Storyboard.TargetProperty="Background" To="{StaticResource TextboxBackgroundBrush}" Duration="{StaticResource AnimationDuration}" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -108,9 +109,9 @@
 
     <!-- Base style for all numeric UpDowns -->
     <Style x:Key="NumericUpDown" TargetType="{x:Type local:InputBase}">
-        <Setter Property="Background" Value="{StaticResource TextboxBackground}" />
+        <Setter Property="Background" Value="{StaticResource TextboxBackgroundBrush}" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Foreground" Value="{StaticResource TextboxForeground}" />
+        <Setter Property="Foreground" Value="{StaticResource TextboxForegroundBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Right" />
         <Setter Property="IsTabStop"  Value="False" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -182,14 +183,14 @@
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="{StaticResource TextboxBackgroundFocusColor}" Duration="{StaticResource AnimationDuration}" />
+                                        <u:BrushAnimation Storyboard.TargetProperty="Background" To="{StaticResource TextboxBackgroundFocusBrush}" Duration="{StaticResource AnimationDuration}" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="{StaticResource TextboxBackgroundColor}" Duration="{StaticResource AnimationDuration}" />
+                                        <u:BrushAnimation Storyboard.TargetProperty="Background" To="{StaticResource TextboxBackgroundBrush}" Duration="{StaticResource AnimationDuration}" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>

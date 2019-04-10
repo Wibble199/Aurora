@@ -43,7 +43,7 @@
             <TextBlock x:Name="lbl_Opacity_Text" HorizontalAlignment="Left" Margin="166,30,0,0" TextWrapping="Wrap" Text="100 %" VerticalAlignment="Top"/>
         </Grid>
 
-        <overrides:Control_OverridesEditor x:Name="overridesEditor" Background="{StaticResource BaseBackground}" Visibility="Collapsed" />
+        <overrides:Control_OverridesEditor x:Name="overridesEditor" Background="{StaticResource BaseBackgroundBrush}" Visibility="Collapsed" />
 
         <Button x:Name="btnConfig" HorizontalAlignment="Right" Margin="0,9,10,0" VerticalAlignment="Top" Click="btnConfig_Click" ToolTip="Toggles the visibility of additional layer configurations">
             <Image Source="/Aurora;component/Resources/UIIcons/support-30.png" Width="23" Height="23" Margin="2"/>
