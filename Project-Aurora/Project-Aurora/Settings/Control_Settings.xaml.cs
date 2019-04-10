@@ -131,6 +131,8 @@ namespace Aurora.Settings
 
             LangCb.ItemsSource = Localization.CultureUtils.AvailableCultures // Fill the language selection combobox with all detected available languages
                 .OrderBy(culture => culture.NativeName); // Sorted by name
+
+            
         }
 
         private void OnLayerRendered(System.Drawing.Bitmap map)
@@ -897,11 +899,11 @@ namespace Aurora.Settings
                     task.RegisterChanges();
                 }
             }
-        }        
+        }
     }
 
     public class CultureInfoToIconConverter : IValueConverter {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => new BitmapImage(new Uri($"/Aurora;component/Resources/CultureIcons/{((CultureInfo)value).IetfLanguageTag}.png", UriKind.Relative));
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value == null ? null : new BitmapImage(new Uri($"/Aurora;component/Resources/CultureIcons/{((CultureInfo)value).IetfLanguageTag}.png", UriKind.Relative));
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 }

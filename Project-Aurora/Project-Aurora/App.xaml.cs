@@ -342,8 +342,6 @@ namespace Aurora
                 }
                 Global.logger.Info("Listening for game integration calls...");
 
-                //ReloadTheme(Global.Configuration.ThemeName);
-
                 Global.logger.Info("Loading ConfigUI...");
                 MainWindow = new ConfigUI();
                 ((ConfigUI)MainWindow).Display();
@@ -556,18 +554,6 @@ namespace Aurora
             System.Windows.MessageBox.Show("Logitech LED SDK patched successfully");
 
             //Environment.Exit(0);
-        }
-
-        /// <summary>Unloads any existing theme and loads the specified theme. The specified theme should be the name (without extension) of a file
-        /// in the Themes folder in the application directory.</summary>
-        /// <param name="themeName">The file name (without extension) of the theme to load or null/empty for no theme.</param>
-        public static void ReloadTheme(string themeName = null) {
-            Global.logger.Info("Reloading theme...");
-            Current.Resources.MergedDictionaries.Clear(); // Remove the existing theme
-            Current.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("Theme/BaseThemeVariables.xaml", UriKind.Relative) }); // Add the fallback (default) values
-            Current.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("Theme/AuroraAppTheme.xaml", UriKind.Relative) }); // Add the styles (e.g. buttons etc.)
-            if (!string.IsNullOrEmpty(themeName) && File.Exists($"Themes/{themeName}.xaml")) // If the file exists, load the custom theme
-                Current.Resources.MergedDictionaries.Add((ResourceDictionary)System.Windows.Markup.XamlReader.Load(new System.Xml.XmlTextReader($"Themes/{themeName}.xaml")));
         }
     }
 }

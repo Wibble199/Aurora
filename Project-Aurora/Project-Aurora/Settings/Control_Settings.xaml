@@ -183,6 +183,9 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
+
+                    <TextBlock Text="{l:Loc Theme, Suffix=:}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,314,0,-42" />
+                    <ComboBox ItemsSource="{Binding Path=ThemeList, Source={x:Static local:ThemeManager.Instance}}" SelectedValuePath="Value" DisplayMemberPath="Key" SelectedValue="{Binding Path=ThemeName}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="70,310,0,-42" Width="146" />
                 </Grid>
             </TabItem>
             <TabItem Header="Volume Overlay">

@@ -401,7 +401,7 @@ namespace Aurora.Settings
         private BitmapAccuracy bitmapAccuracy = BitmapAccuracy.Okay;
         public BitmapAccuracy BitmapAccuracy { get { return bitmapAccuracy; } set { bitmapAccuracy = value; InvokePropertyChanged(); } }
 
-        private string themeName = null;
+        private string themeName = "";
         public string ThemeName { get => themeName; set { themeName = value; InvokePropertyChanged(); } }
 
         public bool updates_check_on_start_up;
