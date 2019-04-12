@@ -7,18 +7,14 @@ using System.Threading.Tasks;
 
 namespace Aurora.Utils
 {
-    public static class TypeUtils
-    {
+    public static class TypeUtils {
         //Solution from http://stackoverflow.com/questions/1749966/c-sharp-how-to-determine-whether-a-type-is-a-number
-        public static bool IsNumericType(this object o)
-        {
+        public static bool IsNumericType(this object o) {
             return IsNumericType(o.GetType());
         }
 
-        public static bool IsNumericType(Type type)
-        {
-            switch (Type.GetTypeCode(type))
-            {
+        public static bool IsNumericType(Type type) {
+            switch (Type.GetTypeCode(type)) {
                 case TypeCode.Byte:
                 case TypeCode.SByte:
                 case TypeCode.UInt16:
@@ -76,7 +72,8 @@ namespace Aurora.Utils
                 ?? false;
                 
         /// <summary>
-        /// Checks if a type extends from the given generic type.
+        /// Checks if a type extends from the given generic type. This will not check the generic type's type parameters.
+        /// Note that passing a typed-generic (as opposed to a typeless "Generic&lt;&gt;") will result in false always.
         /// </summary>
         public static bool ExtendsGenericType(Type type, Type generic) {
             // https://stackoverflow.com/a/457708/1305670
@@ -88,5 +85,31 @@ namespace Aurora.Utils
             }
             return false;
         }
+
+        /// <summary>
+        /// Checks if a type extends from the given generic type with the corresponding generic type arguments.
+        /// </summary>
+        public static bool ExtendsGenericType(Type type, Type generic, params Type[] genericParameters) {
+            while (type != null && type != typeof(object)) {
+                var cur = type.IsGenericType ? type.GetGenericTypeDefinition() : type;
+                var genArgs = type.GetGenericArguments();
+                if (generic == cur && genArgs.Length == genericParameters.Length && genArgs.Select((arg, i) => arg == genericParameters[i]).All(v => v))
+                    return true;
+                type = type.BaseType;
+            }
+            return false;
+        }
+
+        public static bool ImplementsGenericInterface(Type type, Type interfaceType) =>
+            type.GetInterfaces().Select(i => i.IsGenericType ? i.GetGenericTypeDefinition() : i).Contains(interfaceType);
+
+        public static bool ImplementsGenericInterface(Type type, Type interfaceType, params Type[] interfaceGenericParameters) =>
+            type.GetInterfaces()
+                .Where(i => i.IsGenericType)
+                .SingleOrDefault(i => i.GetGenericTypeDefinition() == interfaceType)?
+                .GetGenericArguments()
+                    .Select((arg, i) => arg == interfaceGenericParameters[i])
+                    .All(v => v)
+                ?? false;
     }
 }

@@ -140,7 +140,7 @@ namespace Aurora.Settings.Overrides {
                 { typeof(int), "numbers-30.png" },
                 { typeof(long), "numbers-30.png" },
                 { typeof(float), "numbers-30.png" },
-                { typeof(double), "icons8-numbers-30.png" },
+                { typeof(double), "numbers-30.png" },
                 { typeof(Color), "paint-palette-30.png" },
                 { typeof(KeySequence), "keyboard-30.png" }
             }.TryGetValue((Type)value, out string val) ? val : "diamonds-30.png";

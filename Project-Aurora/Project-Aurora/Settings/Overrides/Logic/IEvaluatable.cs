@@ -25,8 +25,12 @@ namespace Aurora.Settings.Overrides.Logic {
         IEvaluatable Clone();
     }
 
-    public interface IEvaluatable<T> : IEvaluatable {
-        /// <summary>Should evaluate the operand and return the evaluation result.</summary>
+    /// <summary>
+    /// Interface that defines an IEvaluatable that will evaluate into a specific type (e.g. bool).
+    /// </summary>
+    public interface IEvaluatable<T> : IEvaluatable
+    {
+        /// <summary>Should evaluate this instance and return the evaluation result.</summary>
         new T Evaluate(IGameState gameState);
 
         /// <summary>Creates a copy of this IEvaluatable.</summary>

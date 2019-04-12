@@ -36,19 +36,13 @@ namespace Aurora.Settings.Overrides.Logic {
         /// Re-creates the list collection view that is used for the expression selection list.
         /// </summary>
         private void UpdateExpressionListItems(Type t) {
-            if (t == null)
-                // This usually happens when the layer is changed, thereby deselecting the property
-                expressionSelection.ItemsSource = null;
-
-            else {
-                ListCollectionView lcv = new ListCollectionView(EvaluatableRegistry
-                    .Get(t) // Get all condition types that match the required type
-                    .OrderBy(kvp => (int)kvp.Value.Category) // Order them by the numeric value of the category (so they appear in the order specified)
-                    .ThenBy(kvp => kvp.Value.Name) // Then, order the items alphabetically in their category
-                    .ToList());
-                lcv.GroupDescriptions.Add(new PropertyGroupDescription("Value.CategoryStr"));
-                expressionSelection.ItemsSource = lcv;
-            }
+            var lcv = new ListCollectionView(EvaluatableRegistry
+                .Get(t) // Get all condition types that match the required type
+                .OrderBy(kvp => (int)kvp.Value.Category) // Order them by the numeric value of the category (so they appear in the order specified)
+                .ThenBy(kvp => kvp.Value.Name) // Then, order the items alphabetically in their category
+                .ToList());
+            lcv.GroupDescriptions.Add(new PropertyGroupDescription("Value.CategoryStr"));
+            expressionSelection.ItemsSource = lcv;
         }
 
         // Fires when the expression selection combobox changes. Creates a new expression to replace the old one.

@@ -9,7 +9,7 @@
     <Grid>
         <!-- Expression type selection -->
         <Label Content="Expression Type:" FontWeight="Bold" Margin="0,6,0,0" />
-        <ComboBox x:Name="expressionSelection" SelectedValuePath="Key" DisplayMemberPath="Value.Name" Margin="104,6,50,0" Height="26" VerticalAlignment="Top" SelectionChanged="ExpressionSelection_SelectionChanged">
+        <ComboBox x:Name="expressionSelection" SelectedValuePath="Key" Margin="104,6,50,0" Height="26" VerticalAlignment="Top" SelectionChanged="ExpressionSelection_SelectionChanged">
             <ComboBox.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.HeaderTemplate>
@@ -19,6 +19,11 @@
                     </GroupStyle.HeaderTemplate>
                 </GroupStyle>
             </ComboBox.GroupStyle>
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Value.Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
         </ComboBox>
         
         <!-- Menu button -->
