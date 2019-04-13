@@ -15,7 +15,7 @@ namespace Aurora.Controls {
     /// <summary>
     /// A customised dropdown-like control that is designed explicitly for allowing a user to select a Game State Parameter.
     /// </summary>
-    public partial class Control_GameStateParameterPicker : UserControl, System.ComponentModel.INotifyPropertyChanged {
+    public partial class Control_GameStateParameterPicker : UserControl, INotifyPropertyChanged {
 
         public event PropertyChangedEventHandler PropertyChanged;
 

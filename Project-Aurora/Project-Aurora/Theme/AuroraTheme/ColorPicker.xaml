@@ -2,8 +2,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:xctk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit" 
     xmlns:conv="clr-namespace:Xceed.Wpf.Toolkit.Core.Converters;assembly=Xceed.Wpf.Toolkit" 
-    xmlns:sys="clr-namespace:System;assembly=mscorlib" 
-    xmlns:chrome="clr-namespace:Xceed.Wpf.Toolkit.Chromes;assembly=Xceed.Wpf.Toolkit">
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- We have to import the Buttons dictionary to get the DropDownToggleButton style here, else it can't find it.
+         I don't know why, since surely if it can resolve the brushes without an import it should be able to resolve this? idk -->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Buttons.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <conv:InverseBoolConverter x:Key="InverseBoolConverter" />
@@ -140,8 +145,8 @@
 
     <Style TargetType="{x:Type xctk:ColorPicker}">
         <Setter Property="Background" Value="{StaticResource BaseButtonBackgroundBrush}" />
-        <Setter Property="BorderBrush" Value="Yellow" />
-        <Setter Property="BorderThickness" Value="1,1,0,1" />
+        <Setter Property="BorderBrush" Value="{StaticResource BaseButtonBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource ButtonBorderThickness}" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -151,7 +156,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type xctk:ColorPicker}">
                     <Grid>
-                        <ToggleButton x:Name="PART_ColorPickerToggleButton" IsTabStop="True" MinHeight="22" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" IsChecked="{Binding IsOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" IsHitTestVisible="{Binding IsOpen, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolConverter}}">
+                        <ToggleButton x:Name="PART_ColorPickerToggleButton" Style="{StaticResource DropDownToggleButton}" IsTabStop="True" MinHeight="22" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" IsChecked="{Binding IsOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" IsHitTestVisible="{Binding IsOpen, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource InverseBoolConverter}}">
 
                             <Grid Margin="2">
                                 <ContentControl x:Name="ColorOnly" Style="{StaticResource ColorDisplayStyle}" />

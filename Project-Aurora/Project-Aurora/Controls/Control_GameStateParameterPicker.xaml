@@ -17,16 +17,10 @@
 
     <Grid>
         <!-- Main visible button -->
-        <ToggleButton x:Name="pickerButton" Click="PickerButton_Click" HorizontalContentAlignment="Left" Padding="4,1" IsChecked="{Binding IsOpen, Mode=TwoWay}">
-            <TextBlock Text="{Binding SelectedPath}" Margin="0,0,26,0" />
-        </ToggleButton>
-
-        <!-- Dropdown icon -->
-        <TextBlock Text="▼" HorizontalAlignment="Right" Margin="8,3" Foreground="#858585" IsHitTestVisible="False" />
-        <Rectangle Width="1" HorizontalAlignment="Right" Margin="0,5,24,5" Fill="#858585" IsHitTestVisible="False" />
+        <ToggleButton x:Name="pickerButton" Click="PickerButton_Click" HorizontalContentAlignment="Left" Padding="4,1" IsChecked="{Binding IsOpen, Mode=TwoWay}" Content="{Binding SelectedPath}" Style="{StaticResource DropDownToggleButton}" />
 
         <!-- Content that appears on click -->
-        <Popup Name="pickerPopup" StaysOpen="False" IsOpen="{Binding IsOpen}">
+        <Popup Name="pickerPopup" StaysOpen="False" IsOpen="{Binding IsOpen, Mode=TwoWay}" PopupAnimation="Slide">
             <Grid x:Name="popupContent" Background="{StaticResource BaseBackgroundBrush}" Height="280" Width="100">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />

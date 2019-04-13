@@ -3,16 +3,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:u="clr-namespace:Aurora.Utils">
 
-    
-    <!-- Base button definition -->
-    <Style TargetType="{x:Type Button}">
+    <!-- #region ButtonBase -->
+    <!-- ButtonBase definition (which can be applied to all button types, e.g. button, repeatbutton etc.) -->
+    <Style TargetType="{x:Type ButtonBase}">
         <Setter Property="Background" Value="{StaticResource BaseButtonBackgroundBrush}" />
         <Setter Property="Foreground" Value="{StaticResource BaseButtonForegroundBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BaseButtonBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{StaticResource ButtonBorderThickness}" />
+        <Setter Property="Padding" Value="4" />
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border Padding="4" CornerRadius="{StaticResource ControlBorderRadius}" Background="{TemplateBinding Background}" Opacity="{TemplateBinding Opacity}">
+                <ControlTemplate TargetType="{x:Type ButtonBase}">
+                    <Border Padding="{TemplateBinding Padding}" CornerRadius="{StaticResource ControlBorderRadius}" Background="{TemplateBinding Background}" Opacity="{TemplateBinding Opacity}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
                         <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}"  />
                     </Border>
                 </ControlTemplate>
@@ -46,10 +49,11 @@
         </Style.Triggers>
     </Style>
 
-    <!-- Panel1 button definition -->
-    <Style TargetType="{x:Type Button}" x:Key="Panel1Button" BasedOn="{StaticResource {x:Type Button}}">
+    <!-- Panel2 ButtonBase definition -->
+    <Style TargetType="{x:Type ButtonBase}" x:Key="Panel1ButtonBase" BasedOn="{StaticResource {x:Type ButtonBase}}">
         <Setter Property="Background" Value="{StaticResource Panel1ButtonBackgroundBrush}" />
         <Setter Property="Foreground" Value="{StaticResource Panel1ButtonForegroundBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Panel1ButtonBorderBrush}" />
 
         <Style.Triggers>
             <EventTrigger RoutedEvent="Button.MouseEnter">
@@ -74,10 +78,11 @@
         </Style.Triggers>
     </Style>
 
-    <!-- Panel2 button definition -->
-    <Style TargetType="{x:Type Button}" x:Key="Panel2Button" BasedOn="{StaticResource {x:Type Button}}">
+    <!-- Panel2 ButtonBase definition -->
+    <Style TargetType="{x:Type ButtonBase}" x:Key="Panel2ButtonBase" BasedOn="{StaticResource {x:Type ButtonBase}}">
         <Setter Property="Background" Value="{StaticResource Panel2ButtonBackgroundBrush}" />
         <Setter Property="Foreground" Value="{StaticResource Panel2ButtonForegroundBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Panel2ButtonBorderBrush}" />
 
         <Style.Triggers>
             <EventTrigger RoutedEvent="Button.MouseEnter">
@@ -103,7 +108,7 @@
     </Style>
 
     <!-- Flat button definition -->
-    <Style TargetType="{x:Type Button}" x:Key="FlatButton" BasedOn="{StaticResource {x:Type Button}}">
+    <Style TargetType="{x:Type ButtonBase}" x:Key="FlatButtonBase" BasedOn="{StaticResource {x:Type ButtonBase}}">
         <Setter Property="Background" Value="Transparent" />
 
         <Style.Triggers>
@@ -128,108 +133,65 @@
             </EventTrigger>
         </Style.Triggers>
     </Style>
+    <!-- #endregion -->
 
+    
+    <!-- Button -->
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type ButtonBase}}" />
+    <Style TargetType="{x:Type Button}" x:Key="Panel1Button" BasedOn="{StaticResource Panel1ButtonBase}" />
+    <Style TargetType="{x:Type Button}" x:Key="Panel2Button" BasedOn="{StaticResource Panel2ButtonBase}" />
+    <Style TargetType="{x:Type Button}" x:Key="FlatButton" BasedOn="{StaticResource FlatButtonBase}" />
 
-    <!-- Copy these styles to the ToggleButtons -->
-    <!--<Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Type Button}}" />
-    <Style TargetType="{x:Type ToggleButton}" x:Key="Panel1ToggleButton" BasedOn="{StaticResource Panel1Button}" />
-    <Style TargetType="{x:Type ToggleButton}" x:Key="Panel2ToggleButton" BasedOn="{StaticResource Panel2Button}" />-->
+    <!-- ToggleButton -->
+    <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Type ButtonBase}}" />
+    <Style TargetType="{x:Type ToggleButton}" x:Key="Panel1ToggleButton" BasedOn="{StaticResource Panel1ButtonBase}" />
+    <Style TargetType="{x:Type ToggleButton}" x:Key="Panel2ToggleButton" BasedOn="{StaticResource Panel2ButtonBase}" />
+    <Style TargetType="{x:Type ToggleButton}" x:Key="FlatToggleButton" BasedOn="{StaticResource FlatButtonBase}" />
 
-    <!-- Base toggle button definition -->
-    <Style TargetType="{x:Type ToggleButton}">
-        <Setter Property="Background" Value="{StaticResource BaseButtonBackgroundBrush}" />
-        <Setter Property="Foreground" Value="{StaticResource BaseButtonForegroundBrush}" />
-
+    <!-- RepeatButton -->
+    <Style TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource {x:Type ButtonBase}}" />
+    <Style TargetType="{x:Type RepeatButton}" x:Key="Panel1RepeatButton" BasedOn="{StaticResource Panel1ButtonBase}" />
+    <Style TargetType="{x:Type RepeatButton}" x:Key="Panel2RepeatButton" BasedOn="{StaticResource Panel2ButtonBase}" />
+    <Style TargetType="{x:Type RepeatButton}" x:Key="FlatRepeatButton" BasedOn="{StaticResource FlatButtonBase}" />
+    
+    
+    <!-- ToggleButton with dropdown indicator -->
+    <Style TargetType="{x:Type ToggleButton}" x:Key="DropDownToggleButton" BasedOn="{StaticResource {x:Type ButtonBase}}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Border Padding="4" CornerRadius="{StaticResource ControlBorderRadius}" Background="{TemplateBinding Background}" Opacity="{TemplateBinding Opacity}">
-                        <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}"  />
+                    <Border Padding="4" CornerRadius="{StaticResource ControlBorderRadius}" Background="{TemplateBinding Background}" Opacity="{TemplateBinding Opacity}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                        <Grid>
+                            <ContentPresenter Margin="0,0,30,0" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}"  />
+                            <Image Name="ArrowIcon" Source="/Aurora;component/Resources/UIIcons/expand-arrow-30.png" Width="18" Margin="4,0" HorizontalAlignment="Right" IsHitTestVisible="False" RenderTransformOrigin="0.5,0.5">
+                                <Image.RenderTransform>
+                                    <RotateTransform Angle="0" />
+                                </Image.RenderTransform>
+                            </Image>
+                        </Grid>
                     </Border>
+                    
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ArrowIcon" Storyboard.TargetProperty="(Image.RenderTransform).(RotateTransform.Angle)" To="-180" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ArrowIcon" Storyboard.TargetProperty="(Image.RenderTransform).(RotateTransform.Angle)" To="0" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
-        <Style.Triggers>
-            <Trigger Property="Button.IsEnabled" Value="False">
-                <Setter Property="Opacity" Value="0.7" />
-            </Trigger>
-
-            <EventTrigger RoutedEvent="Button.MouseEnter">
-                <EventTrigger.Actions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <u:BrushAnimation Storyboard.TargetProperty="Background" To="{StaticResource BaseButtonBackgroundHoverBrush}" Duration="{StaticResource AnimationDuration}" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger.Actions>
-            </EventTrigger>
-
-            <EventTrigger RoutedEvent="Button.MouseLeave">
-                <EventTrigger.Actions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <u:BrushAnimation Storyboard.TargetProperty="Background" To="{StaticResource BaseButtonBackgroundBrush}" Duration="{StaticResource AnimationDuration}" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger.Actions>
-            </EventTrigger>
-        </Style.Triggers>
-    </Style>
-
-    <!-- Panel1 toggle button definition -->
-    <Style TargetType="{x:Type ToggleButton}" x:Key="Panel1ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
-        <Setter Property="Background" Value="{StaticResource Panel1ButtonBackgroundBrush}" />
-        <Setter Property="Foreground" Value="{StaticResource Panel1ButtonForegroundBrush}" />
-
-        <Style.Triggers>
-            <EventTrigger RoutedEvent="Button.MouseEnter">
-                <EventTrigger.Actions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <u:BrushAnimation Storyboard.TargetProperty="Background" To="{StaticResource Panel1ButtonBackgroundHoverBrush}" Duration="{StaticResource AnimationDuration}" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger.Actions>
-            </EventTrigger>
-
-            <EventTrigger RoutedEvent="Button.MouseLeave">
-                <EventTrigger.Actions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <u:BrushAnimation Storyboard.TargetProperty="Background" To="{StaticResource Panel1ButtonBackgroundBrush}" Duration="{StaticResource AnimationDuration}" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger.Actions>
-            </EventTrigger>
-        </Style.Triggers>
-    </Style>
-
-    <!-- Panel2 toggle button definition -->
-    <Style TargetType="{x:Type ToggleButton}" x:Key="Panel2ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
-        <Setter Property="Background" Value="{StaticResource Panel2ButtonBackgroundBrush}" />
-        <Setter Property="Foreground" Value="{StaticResource Panel2ButtonForegroundBrush}" />
-
-        <Style.Triggers>
-            <EventTrigger RoutedEvent="Button.MouseEnter">
-                <EventTrigger.Actions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <u:BrushAnimation Storyboard.TargetProperty="Background" To="{StaticResource Panel2ButtonBackgroundHoverBrush}" Duration="{StaticResource AnimationDuration}" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger.Actions>
-            </EventTrigger>
-
-            <EventTrigger RoutedEvent="Button.MouseLeave">
-                <EventTrigger.Actions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <u:BrushAnimation Storyboard.TargetProperty="Background" To="{StaticResource Panel2ButtonBackgroundBrush}" Duration="{StaticResource AnimationDuration}" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger.Actions>
-            </EventTrigger>
-        </Style.Triggers>
     </Style>
 </ResourceDictionary>

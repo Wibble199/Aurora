@@ -4,16 +4,17 @@
     xmlns:u="clr-namespace:Aurora.Utils">
 
     <Style TargetType="{x:Type TabItem}">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{StaticResource BaseTextBrush}" />
+        <Setter Property="Background" Value="{StaticResource TabItemBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TabItemForegroundBrush}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
                     <Border x:Name="Border" Padding="6,2" CornerRadius="{StaticResource ControlBorderRadius}" Background="{TemplateBinding Background}">
                         <Grid>
-                            <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="10,2" Opacity=".4" TextBlock.FontSize="15" TextBlock.Foreground="{TemplateBinding Foreground}" />
-                            <Rectangle x:Name="Underline" Height="2" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5 0" SnapsToDevicePixels="True">
+                            <ContentPresenter x:Name="ContentSite" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" ContentSource="Header" Margin="10,2" Opacity=".4" TextBlock.FontSize="15" TextBlock.Foreground="{TemplateBinding Foreground}" />
+                            <Rectangle x:Name="Underline" Height="{StaticResource TabItemUnderlineHeight}" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5 0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                                 <Rectangle.RenderTransform>
                                     <ScaleTransform ScaleX="0" />
                                 </Rectangle.RenderTransform>
@@ -32,7 +33,7 @@
                             <Trigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <u:BrushAnimation Storyboard.TargetProperty="Background" To="Transparent" Duration="{StaticResource AnimationDuration}" />
+                                        <u:BrushAnimation Storyboard.TargetProperty="Background" To="{StaticResource TabItemBackgroundBrush}" Duration="{StaticResource AnimationDuration}" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
