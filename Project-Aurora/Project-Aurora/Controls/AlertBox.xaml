@@ -9,37 +9,48 @@
              Grid.RowSpan="999" Grid.ColumnSpan="999"
              HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
     <UserControl.Resources>
-        <c:AlertBoxIconConverter x:Key="AlertBoxIconConverter" />
+        <ResourceDictionary>
+            <c:AlertBoxIconConverter x:Key="AlertBoxIconConverter" />
+            <c:AlertBoxIconToVisibilityConverter x:Key="AlertBoxIconToVisibilityConverter" />
+        </ResourceDictionary>
     </UserControl.Resources>
     
     <Grid>
         <Rectangle Fill="#8000" />
 
-        <Border MaxWidth="520" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="1" Background="{StaticResource ForegroundElementBrush}" CornerRadius="{StaticResource ControlBorderRadius}" SnapsToDevicePixels="True">
-            <DockPanel Margin="16" LastChildFill="True">
-                <!-- Icon -->
-                <Image DockPanel.Dock="Left" Source="{Binding Path=Icon, Converter={StaticResource AlertBoxIconConverter}}" Width="48" Height="48" Margin="0,0,16,0" />
+        <Border MaxWidth="520" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="1" BorderBrush="{StaticResource ForegroundElementBrush}" Background="{StaticResource BaseBackgroundBrush}" CornerRadius="{StaticResource ControlBorderRadius}" SnapsToDevicePixels="True" ClipToBounds="True">
+            <StackPanel>
+                <DockPanel Margin="12" LastChildFill="True">
+                    <!-- Icon -->
+                    <Image DockPanel.Dock="Left" Source="{Binding Path=Icon, Converter={StaticResource AlertBoxIconConverter}}" Width="48" Height="48" Margin="0,0,16,0" Visibility="{Binding Path=Icon, Converter={StaticResource AlertBoxIconToVisibilityConverter}}" />
 
-                <!-- Title -->
-                <TextBlock DockPanel.Dock="Top" Text="{Binding Title}" FontSize="18" Foreground="{StaticResource ForegroundTextBrush}" />
+                    <!-- Title -->
+                    <TextBlock DockPanel.Dock="Top" Text="{Binding Title}" FontSize="16" FontWeight="Bold" Foreground="{StaticResource ForegroundTextBrush}" />
+
+                    <!-- Message -->
+                    <TextBlock Margin="0,12" Text="{Binding Text}" TextWrapping="Wrap" Foreground="{StaticResource ForegroundTextBrush}" />
+                </DockPanel>
 
                 <!-- Buttons -->
-                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                    <StackPanel.Resources>
-                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
-                            <Setter Property="Margin" Value="8,0,0,0" />
-                            <Setter Property="Padding" Value="16,6" />
-                            <EventSetter Event="Click" Handler="Button_Click" />
-                        </Style>
-                    </StackPanel.Resources>
+                <Border DockPanel.Dock="Bottom" Padding="12" Background="{StaticResource Panel1BackgroundBrush}" SnapsToDevicePixels="True">
+                    <Border.CornerRadius>
+                        <CornerRadius BottomLeft="{StaticResource ControlBorderRadiusAmount}" BottomRight="{StaticResource ControlBorderRadiusAmount}" />
+                    </Border.CornerRadius>
+                    
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                        <StackPanel.Resources>
+                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource Panel1Button}">
+                                <Setter Property="Margin" Value="8,0,0,0" />
+                                <Setter Property="Padding" Value="16,6" />
+                                <EventSetter Event="Click" Handler="Button_Click" />
+                            </Style>
+                        </StackPanel.Resources>
 
-                    <Button Content="Yes" />
-                    <Button Content="No" />
-                </StackPanel>
-
-                <!-- Message -->
-                <TextBlock Margin="0,12" Text="{Binding Text}" TextWrapping="Wrap" Foreground="{StaticResource ForegroundTextBrush}" />
-            </DockPanel>
+                        <Button Content="Yes" />
+                        <Button Content="No" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
         </Border>
     </Grid>
 </UserControl>
