@@ -343,6 +343,9 @@
     <Compile Include="Controls\Control_FieldPresenter.xaml.cs">
       <DependentUpon>Control_FieldPresenter.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\AlertBox.xaml.cs">
+      <DependentUpon>AlertBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Profiles\Skype\Control_Skype.xaml.cs">
       <DependentUpon>Control_Skype.xaml</DependentUpon>
     </Compile>
@@ -1546,6 +1549,11 @@
     <Resource Include="Resources\CultureIcons\de-DE.png" />
     <Resource Include="Resources\CultureIcons\en-US.png" />
     <None Include="Resources\CultureIcons\_source.txt" />
+    <Resource Include="Resources\UIIcons\error-50.png" />
+    <Resource Include="Resources\UIIcons\help-50.png" />
+    <Resource Include="Resources\UIIcons\info-50.png" />
+    <Resource Include="Resources\UIIcons\ok-50.png" />
+    <Resource Include="Resources\UIIcons\warning-50.png" />
     <Content Include="wooting-rgb-sdk.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1635,6 +1643,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Control_FieldPresenter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\AlertBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
