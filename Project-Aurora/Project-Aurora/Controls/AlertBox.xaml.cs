@@ -27,7 +27,6 @@ namespace Aurora.Controls {
         private AlertBox() {
             InitializeComponent();
             ((FrameworkElement)Content).DataContext = this;
-            (Resources["AnimationIn"] as Storyboard).Begin(this, true);
         }
 
         #region Properties
@@ -54,7 +53,28 @@ namespace Aurora.Controls {
         }
         public static readonly DependencyProperty IconProperty =
             DependencyProperty.Register("Icon", typeof(AlertBoxIcon), typeof(AlertBox), new PropertyMetadata(AlertBoxIcon.None));
+
+        /// <summary>Indicates whether or not the messagebox has a close button and whether a click on the backdrop will close it.
+        /// Has no effect on alerts inside a dedicated window.</summary>
+        public bool AllowClose {
+            get => (bool)GetValue(AllowCloseProperty);
+            set => SetValue(AllowCloseProperty, value);
+        }
+        public static readonly DependencyProperty AllowCloseProperty =
+            DependencyProperty.Register("AllowClose", typeof(bool), typeof(AlertBox), new PropertyMetadata(true));
+
+
         #endregion
+
+        /// <summary>
+        /// When the control is loaded, we play the animation.
+        /// </summary>
+        private void UserControl_Loaded(object sender, RoutedEventArgs e) {
+            // If the window is not in it's own dedicated one (i.e. it's been attached to an existing window), play an animation.
+            // We don't play one in a dedicated window since it looks weird: the window appears immediately and then the contents fade in.
+            if (!isDedicatedWindow)
+                (Resources["AnimationIn"] as Storyboard).Begin(this, true);
+        }
 
         /// <summary>
         /// Generic event handler that is assigned to the Click event of all buttons that appear in the alert box.
@@ -62,8 +82,15 @@ namespace Aurora.Controls {
         private void Button_Click(object sender, RoutedEventArgs e) {
             var btn = (Button)sender;
             var stackpanel = VisualTreeHelper.GetParent(btn) as StackPanel; // Get the parent element
-            buttonClickCompletionSource.SetResult(stackpanel.Children.IndexOf(btn)); // Find the clicked button's index in parent
-            Close();
+            Close(stackpanel.Children.IndexOf(btn)); // Find the clicked button's index in parent
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void Backdrop_Click(object sender, RoutedEventArgs e) {
+            if (AllowClose)
+                Close(-1);
         }
 
         /// <summary>
@@ -71,9 +98,8 @@ namespace Aurora.Controls {
         /// In the case of a dedicated window, will close the window by setting the <see cref="Window.DialogResult"/> to true.
         /// In the case of a mounted alert box, will simply remove the box from the parent window.
         /// </summary>
-        private async void Close() {
-            // Complete the close animation
-            await CloseAnimation();
+        private async void Close(int result) {
+            buttonClickCompletionSource.SetResult(result);
 
             // If we created a window dedicated for this alert box, set the dialog result (releasing the wait on `ShowDialog`)
             if (isDedicatedWindow && Parent is Window w)
@@ -81,12 +107,22 @@ namespace Aurora.Controls {
 
             // Else if it's not a dedicated window, we need to remove it from the panel it is residing in
             else {
+                // Complete the close animation
+                await PlayCloseAnimation();
+
+                // Then remove the AlertBox from the visual tree
                 if (VisualTreeHelper.GetParent(this) is Panel p)
                     p.Children.Remove(this);
+
+                // In case that didn't work for some reason, ensure that the box doesn't block mouse clicks
+                IsHitTestVisible = false;
             }
         }
 
-        private Task CloseAnimation() {
+        /// <summary>
+        /// Plays the close animation. Returns a <see cref="Task"/> that will complete when the animation is finished playing.
+        /// </summary>
+        private Task PlayCloseAnimation() {
             var tcs = new TaskCompletionSource<bool>();
             var animationOut = Resources["AnimationOut"] as Storyboard;
             animationOut.Completed += (sender, e) => tcs.SetResult(true);
@@ -100,10 +136,14 @@ namespace Aurora.Controls {
         /// <para>Returns a task that should be awaited. The task will complete when the user chooses an option and the index of the pressed
         /// button will be the resolution value of the task.</para>
         /// </summary>
-        private static Task<int> ShowCore(Panel panel, string content, string title, AlertBoxIcon icon, object[] buttons) {
-            // Create the alert
-            var msg = new AlertBox { Title = title, Text = content, Icon = icon };
+        private static Task<int> ShowCore(Panel panel, string content, string title, object[] buttons, AlertBoxIcon icon, bool allowClose) {
+            // Default buttons
+            buttons = buttons ?? new[] { "Okay" };
 
+            // Create the alert
+            var msg = new AlertBox { Title = title, Text = content, Icon = icon, AllowClose = allowClose };
+
+            // If a panel is provided, add the alert to the panel
             if (panel != null)
                 panel.Children.Add(msg);
 
@@ -126,9 +166,8 @@ namespace Aurora.Controls {
                 w.ShowDialog();
             }
 
-            // At this point in the code, the child has been added to the target window, but is not in a custom separate window
-
-            return msg.buttonClickCompletionSource.Task; // Return the task that will complete when a button is clicked.
+            // Return the task that will complete when a button is clicked.
+            return msg.buttonClickCompletionSource.Task;
         }
 
         #region Public Show Methods
@@ -139,7 +178,7 @@ namespace Aurora.Controls {
         /// <para>Returns a task that should be awaited. The task will complete when the user chooses an option and the index of the pressed
         /// button will be the resolution value of the task.</para>
         /// </summary>
-        public static Task<int> Show(Window parent, string content, string title, AlertBoxIcon icon, object[] buttons) {
+        public static Task<int> Show(Window parent, string content, string title, object[] buttons = null, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true) {
             Panel panel = null;
 
             // Attempt to attach the MessageBox to front content of the targetted window
@@ -150,78 +189,28 @@ namespace Aurora.Controls {
             else if (parent != null && parent.Content is ContentControl c && c.Content is Panel) panel = (Panel)c.Content;
             else if (parent != null && parent.Content is Decorator d && d.Child is Panel) panel = (Panel)d.Child;
 
-            return ShowCore(panel, content, title, icon, buttons);
+            return ShowCore(panel, content, title, buttons, icon, allowClose);
         }
-
-        /// <summary>
-        /// Shows an alert box that will be placed at the root of the given <see cref="Window"/>. Uses the provided content, title and icon and has a single "Okay" button.
-        /// <para>Returns a task that should be awaited.</para>
-        /// </summary>
-        public static Task<int> Show(Window parent, string content, string title, AlertBoxIcon icon)
-            => Show(parent, content, title, icon, new[] { "Okay" });
-
-        /// <summary>
-        /// Shows an alert box that will be placed at the root of the given <see cref="Window"/>. Uses the provided content and title and has a no icon and a single "Okay" button.
-        /// <para>Returns a task that should be awaited.</para>
-        /// </summary>
-        public static Task<int> Show(Window parent, string content, string title)
-            => Show(parent, content, title, AlertBoxIcon.None, new[] { "Okay" });
 
         /// <summary>
         /// Will attempt to search for the parent <see cref="Window"/> of the given <see cref="DependencyObject"/>. This allows for use of the
         /// <see cref="AlertBox"/> within custom controls that do not normally have direct access to the <see cref="Window" /> reference.
-        /// Displays the provided content, title, icon and buttons.
         /// <para>Returns a task that should be awaited. The task will complete when the user chooses an option and the index of the pressed
         /// button will be the resolution value of the task.</para>
         /// </summary>
-        public static Task<int> Show(DependencyObject obj, string content, string title, AlertBoxIcon icon, object[] buttons) {
+        public static Task<int> Show(DependencyObject obj, string content, string title, object[] buttons = null, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true) {
             while (obj != null && !(obj is Window))
                 obj = VisualTreeHelper.GetParent(obj);
-            return Show(obj as Window, content, title, icon, buttons);
+            return Show(obj as Window, content, title, buttons, icon, allowClose);
         }
 
         /// <summary>
-        /// Will attempt to search for the parent <see cref="Window"/> of the given <see cref="DependencyObject"/>. This allows for use of the
-        /// <see cref="AlertBox"/> within custom controls that do not normally have direct access to the <see cref="Window" /> reference.
-        /// Displays the provided content, title and icon. Has a single "Okay" button.
-        /// <para>Returns a task that should be awaited.</para>
-        /// </summary>
-        public static Task<int> Show(DependencyObject obj, string content, string title, AlertBoxIcon icon)
-            => Show(obj, content, title, icon, new[] { "Okay" });
-
-        /// <summary>
-        /// Will attempt to search for the parent <see cref="Window"/> of the given <see cref="DependencyObject"/>. This allows for use of the
-        /// <see cref="AlertBox"/> within custom controls that do not normally have direct access to the <see cref="Window" /> reference.
-        /// Displays the provided content and title. Has no icon and a single "Okay" button.
-        /// <para>Returns a task that should be awaited.</para>
-        /// </summary>
-        public static Task<int> Show(DependencyObject obj, string content, string title)
-            => Show(obj, content, title, AlertBoxIcon.None, new[] { "Okay" });
-
-        /// <summary>
         /// Shows an alert box that will appear in a dedicated new window.
-        /// Displays the provided content, title, icon and buttons.
         /// <para>Returns a task that should be awaited. The task will complete when the user chooses an option and the index of the pressed
         /// button will be the resolution value of the task.</para>
         /// </summary>
-        public static Task<int> Show(string content, string title, AlertBoxIcon icon, object[] buttons)
-            => Show(null, content, title, icon, buttons);
-
-        /// <summary>
-        /// Shows an alert box that will appear in a dedicated new window.
-        /// Displays the provided content, title and icon. Has a single "Okay" button.
-        /// <para>Returns a task that should be awaited.</para>
-        /// </summary>
-        public static Task<int> Show(string content, string title, AlertBoxIcon icon)
-            => Show(null, content, title, icon, new[] { "Okay" });
-
-        /// <summary>
-        /// Shows an alert box that will appear in a dedicated new window.
-        /// Displays the provided content and title. Has no icon and a single "Okay" button.
-        /// <para>Returns a task that should be awaited.</para>
-        /// </summary>
-        public static Task<int> Show(string content, string title)
-            => Show(null, content, title, AlertBoxIcon.None, new[] { "Okay" });
+        public static Task<int> Show(string content, string title, object[] buttons = null, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true)
+            => ShowCore(null, content, title, buttons, icon, allowClose);
         #endregion
     }
 

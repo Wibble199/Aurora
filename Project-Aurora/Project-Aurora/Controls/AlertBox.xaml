@@ -7,11 +7,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Grid.RowSpan="999" Grid.ColumnSpan="999"
-             HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+             Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <ResourceDictionary>
             <c:AlertBoxIconConverter x:Key="AlertBoxIconConverter" />
             <c:AlertBoxIconToVisibilityConverter x:Key="AlertBoxIconToVisibilityConverter" />
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
             <Duration x:Key="AnimationInDuration">0:0:0.3</Duration>
             <BackEase x:Key="AnimationInEasingFunction" EasingMode="EaseOut" />
@@ -31,45 +33,68 @@
     </UserControl.Resources>
     
     <Grid x:Name="AlertBoxGrid">
-        <Rectangle Fill="#8000" />
+        <!-- Backdrop -->
+        <!-- This is a button because the Rectangle has no Click event, and I don't want closure to trigger on MouseDown or MouseUp. -->
+        <Button Click="Backdrop_Click">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Rectangle Fill="#8000" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
 
+        <!-- AlertBox -->
         <Border x:Name="Panel" MaxWidth="520" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="1" BorderBrush="{StaticResource ForegroundElementBrush}" Background="{StaticResource BaseBackgroundBrush}" CornerRadius="{StaticResource ControlBorderRadius}" SnapsToDevicePixels="True" ClipToBounds="True" RenderTransformOrigin="0.5,0.5">
+            <!-- RenderTransform (required for animations) -->
             <Border.RenderTransform>
                 <ScaleTransform />
             </Border.RenderTransform>
 
-            <StackPanel>
-                <DockPanel Margin="12" LastChildFill="True">
-                    <!-- Icon -->
-                    <Image DockPanel.Dock="Left" Source="{Binding Path=Icon, Converter={StaticResource AlertBoxIconConverter}}" Width="48" Height="48" Margin="0,0,16,0" Visibility="{Binding Path=Icon, Converter={StaticResource AlertBoxIconToVisibilityConverter}}" />
+            <!-- AlertBox content -->
+            <Grid>
+                <Button HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource FlatButton}" Visibility="{Binding Path=AllowClose, Converter={StaticResource BooleanToVisibilityConverter}}" Click="Backdrop_Click">
+                    <Path Margin="2" Data="M 0,0 L 6,6 M 6,0 L 0,6" Stroke="{StaticResource BaseButtonForegroundBrush}" Opacity="0.4" />
+                </Button>
 
-                    <!-- Title -->
-                    <TextBlock DockPanel.Dock="Top" Text="{Binding Title}" FontSize="16" FontWeight="Bold" Foreground="{StaticResource ForegroundTextBrush}" />
+                <StackPanel>
+                    <DockPanel Margin="12" LastChildFill="True">
+                        <!-- Icon -->
+                        <Image DockPanel.Dock="Left" Source="{Binding Path=Icon, Converter={StaticResource AlertBoxIconConverter}}" Width="48" Height="48" Margin="0,0,16,0" Visibility="{Binding Path=Icon, Converter={StaticResource AlertBoxIconToVisibilityConverter}}" />
 
-                    <!-- Message -->
-                    <TextBlock Margin="0,12" Text="{Binding Text}" TextWrapping="Wrap" Foreground="{StaticResource ForegroundTextBrush}" />
-                </DockPanel>
+                        <!-- Title -->
+                        <TextBlock DockPanel.Dock="Top" Text="{Binding Title}" FontSize="16" FontWeight="Bold" Foreground="{StaticResource ForegroundTextBrush}" />
 
-                <!-- Buttons -->
-                <Border DockPanel.Dock="Bottom" Padding="12" Background="{StaticResource Panel1BackgroundBrush}" SnapsToDevicePixels="True">
-                    <Border.CornerRadius>
-                        <CornerRadius BottomLeft="{StaticResource ControlBorderRadiusAmount}" BottomRight="{StaticResource ControlBorderRadiusAmount}" />
-                    </Border.CornerRadius>
+                        <!-- Message -->
+                        <TextBlock Margin="0,12" Text="{Binding Text}" TextWrapping="Wrap" Foreground="{StaticResource ForegroundTextBrush}" />
+                    </DockPanel>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                        <StackPanel.Resources>
-                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource Panel1Button}">
-                                <Setter Property="Margin" Value="8,0,0,0" />
-                                <Setter Property="Padding" Value="16,6" />
-                                <EventSetter Event="Click" Handler="Button_Click" />
-                            </Style>
-                        </StackPanel.Resources>
+                    <!-- Buttons -->
+                    <Border DockPanel.Dock="Bottom" Padding="12" Background="{StaticResource Panel1BackgroundBrush}" SnapsToDevicePixels="True">
+                        <Border.CornerRadius>
+                            <CornerRadius BottomLeft="{StaticResource ControlBorderRadiusAmount}" BottomRight="{StaticResource ControlBorderRadiusAmount}" />
+                        </Border.CornerRadius>
 
-                        <Button Content="Yes" />
-                        <Button Content="No" />
-                    </StackPanel>
-                </Border>
-            </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                            <StackPanel.Resources>
+                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource Panel1Button}">
+                                    <Setter Property="Margin" Value="8,0,0,0" />
+                                    <Setter Property="Padding" Value="16,6" />
+                                    <EventSetter Event="Click" Handler="Button_Click" />
+                                </Style>
+                            </StackPanel.Resources>
+
+                            <Button Content="Yes" />
+                            <Button Content="No" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
         </Border>
     </Grid>
 </UserControl>
