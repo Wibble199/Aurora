@@ -12,13 +12,32 @@
         <ResourceDictionary>
             <c:AlertBoxIconConverter x:Key="AlertBoxIconConverter" />
             <c:AlertBoxIconToVisibilityConverter x:Key="AlertBoxIconToVisibilityConverter" />
+
+            <Duration x:Key="AnimationInDuration">0:0:0.3</Duration>
+            <BackEase x:Key="AnimationInEasingFunction" EasingMode="EaseOut" />
+            <Storyboard x:Key="AnimationIn">
+                <DoubleAnimation Storyboard.TargetName="AlertBoxGrid" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="{StaticResource AnimationInDuration}" EasingFunction="{StaticResource AnimationInEasingFunction}" />
+                <DoubleAnimation Storyboard.TargetName="Panel" Storyboard.TargetProperty="(Panel.RenderTransform).(ScaleTransform.ScaleX)" From="0.4" To="1" Duration="{StaticResource AnimationInDuration}" EasingFunction="{StaticResource AnimationInEasingFunction}" />
+                <DoubleAnimation Storyboard.TargetName="Panel" Storyboard.TargetProperty="(Panel.RenderTransform).(ScaleTransform.ScaleY)" From="0.4" To="1" Duration="{StaticResource AnimationInDuration}" EasingFunction="{StaticResource AnimationInEasingFunction}" />
+            </Storyboard>
+
+            <Duration x:Key="AnimationOutDuration">0:0:0.1</Duration>
+            <Storyboard x:Key="AnimationOut">
+                <DoubleAnimation Storyboard.TargetName="AlertBoxGrid" Storyboard.TargetProperty="Opacity" To="0" Duration="{StaticResource AnimationOutDuration}" />
+                <DoubleAnimation Storyboard.TargetName="Panel" Storyboard.TargetProperty="(Panel.RenderTransform).(ScaleTransform.ScaleX)" To="0" Duration="{StaticResource AnimationOutDuration}" />
+                <DoubleAnimation Storyboard.TargetName="Panel" Storyboard.TargetProperty="(Panel.RenderTransform).(ScaleTransform.ScaleY)" To="0" Duration="{StaticResource AnimationOutDuration}" />
+            </Storyboard>
         </ResourceDictionary>
     </UserControl.Resources>
     
-    <Grid>
+    <Grid x:Name="AlertBoxGrid">
         <Rectangle Fill="#8000" />
 
-        <Border MaxWidth="520" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="1" BorderBrush="{StaticResource ForegroundElementBrush}" Background="{StaticResource BaseBackgroundBrush}" CornerRadius="{StaticResource ControlBorderRadius}" SnapsToDevicePixels="True" ClipToBounds="True">
+        <Border x:Name="Panel" MaxWidth="520" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="1" BorderBrush="{StaticResource ForegroundElementBrush}" Background="{StaticResource BaseBackgroundBrush}" CornerRadius="{StaticResource ControlBorderRadius}" SnapsToDevicePixels="True" ClipToBounds="True" RenderTransformOrigin="0.5,0.5">
+            <Border.RenderTransform>
+                <ScaleTransform />
+            </Border.RenderTransform>
+
             <StackPanel>
                 <DockPanel Margin="12" LastChildFill="True">
                     <!-- Icon -->
@@ -36,7 +55,7 @@
                     <Border.CornerRadius>
                         <CornerRadius BottomLeft="{StaticResource ControlBorderRadiusAmount}" BottomRight="{StaticResource ControlBorderRadiusAmount}" />
                     </Border.CornerRadius>
-                    
+
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                         <StackPanel.Resources>
                             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource Panel1Button}">

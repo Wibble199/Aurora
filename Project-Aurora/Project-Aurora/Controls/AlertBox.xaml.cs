@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 
 namespace Aurora.Controls {
@@ -26,6 +27,7 @@ namespace Aurora.Controls {
         private AlertBox() {
             InitializeComponent();
             ((FrameworkElement)Content).DataContext = this;
+            (Resources["AnimationIn"] as Storyboard).Begin(this, true);
         }
 
         #region Properties
@@ -69,7 +71,10 @@ namespace Aurora.Controls {
         /// In the case of a dedicated window, will close the window by setting the <see cref="Window.DialogResult"/> to true.
         /// In the case of a mounted alert box, will simply remove the box from the parent window.
         /// </summary>
-        private void Close() {
+        private async void Close() {
+            // Complete the close animation
+            await CloseAnimation();
+
             // If we created a window dedicated for this alert box, set the dialog result (releasing the wait on `ShowDialog`)
             if (isDedicatedWindow && Parent is Window w)
                 w.DialogResult = true;
@@ -79,6 +84,14 @@ namespace Aurora.Controls {
                 if (VisualTreeHelper.GetParent(this) is Panel p)
                     p.Children.Remove(this);
             }
+        }
+
+        private Task CloseAnimation() {
+            var tcs = new TaskCompletionSource<bool>();
+            var animationOut = Resources["AnimationOut"] as Storyboard;
+            animationOut.Completed += (sender, e) => tcs.SetResult(true);
+            animationOut.Begin(this, true);
+            return tcs.Task;
         }
 
         /// <summary>
