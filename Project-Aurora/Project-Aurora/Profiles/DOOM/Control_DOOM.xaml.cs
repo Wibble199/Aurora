@@ -1,4 +1,5 @@
-﻿using Aurora.Settings;
+﻿using Aurora.Controls;
+using Aurora.Settings;
 using System;
 using System.IO;
 using System.Windows;
@@ -30,17 +31,17 @@ namespace Aurora.Profiles.DOOM
         private void patch_button_Click(object sender, RoutedEventArgs e)
         {
             if (InstallWrapper())
-                MessageBox.Show("Aurora Wrapper Patch installed successfully.");
+                AlertBox.Show(this, "Aurora Wrapper Patch installed successfully.", "Success", icon: AlertBoxIcon.Success);
             else
-                MessageBox.Show("Aurora Wrapper Patch could not be installed.\r\nGame is not installed.");
+                AlertBox.Show(this, "Aurora Wrapper Patch could not be installed.\r\nGame is not installed.", "Failure", icon: AlertBoxIcon.Error);
         }
 
         private void unpatch_button_Click(object sender, RoutedEventArgs e)
         {
             if (UninstallWrapper())
-                MessageBox.Show("Aurora Wrapper Patch uninstalled successfully.");
+                AlertBox.Show(this, "Aurora Wrapper Patch uninstalled successfully.", "Success", icon: AlertBoxIcon.Success);
             else
-                MessageBox.Show("Aurora Wrapper Patch could not be uninstalled.\r\nGame is not installed.");
+                AlertBox.Show(this, "Aurora Wrapper Patch could not be uninstalled.\r\nGame is not installed.", "Failure", icon: AlertBoxIcon.Error);
         }
 
         private void patch_button_manually_Click(object sender, RoutedEventArgs e)
@@ -52,7 +53,7 @@ namespace Aurora.Profiles.DOOM
             {
                 this.InstallWrapper(dialog.SelectedPath);
 
-                MessageBox.Show("Aurora Wrapper Patch for Razer applied to\r\n" + dialog.SelectedPath);
+                AlertBox.Show("Aurora Wrapper Patch for Razer applied to\r\n" + dialog.SelectedPath, "Success", icon: AlertBoxIcon.Success);
             }
         }
 

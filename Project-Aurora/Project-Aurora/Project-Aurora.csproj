@@ -1554,6 +1554,7 @@
     <Resource Include="Resources\UIIcons\info-50.png" />
     <Resource Include="Resources\UIIcons\ok-50.png" />
     <Resource Include="Resources\UIIcons\warning-50.png" />
+    <Resource Include="Resources\UIIcons\trash-can-50.png" />
     <Content Include="wooting-rgb-sdk.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -52,7 +52,7 @@ namespace Aurora.Profiles.Blade_and_Soul
                     razer_wrapper_64.Write(Properties.Resources.Aurora_RazerLEDWrapper64);
                 }
 
-                MessageBox.Show("Aurora Wrapper Patch for Razer applied to\r\n" + dialog.SelectedPath);
+                AlertBox.Show(this, "Aurora Wrapper Patch for Razer applied to\r\n" + dialog.SelectedPath, "Success", icon: AlertBoxIcon.Success);
             }
         }
 

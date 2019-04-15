@@ -1,4 +1,5 @@
-﻿using Aurora.Devices;
+﻿using Aurora.Controls;
+using Aurora.Devices;
 using Aurora.Settings;
 using Aurora.Utils;
 using System;
@@ -395,7 +396,7 @@ namespace Aurora.Profiles.Dota_2.Layers
                 }
                 else
                 {
-                    MessageBox.Show("You are already recording a key sequence for " + Global.key_recorder.GetRecordingType());
+                    AlertBox.Show(this, "You are already recording a key sequence for " + Global.key_recorder.GetRecordingType(), "Already recording", icon: AlertBoxIcon.Warning);
                 }
             }
             else

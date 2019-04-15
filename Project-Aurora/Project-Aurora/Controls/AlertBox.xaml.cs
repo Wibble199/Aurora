@@ -46,6 +46,14 @@ namespace Aurora.Controls {
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register("Title", typeof(string), typeof(AlertBox), new PropertyMetadata(""));
 
+        /// <summary>A collection of buttons to display on the alert box.</summary>
+        public string[] Buttons {
+            get => (string[])GetValue(ButtonsProperty);
+            set => SetValue(ButtonsProperty, value);
+        }
+        public static readonly DependencyProperty ButtonsProperty =
+            DependencyProperty.Register("Buttons", typeof(string[]), typeof(AlertBox), new PropertyMetadata(new[] { "Okay" }));
+
         /// <summary>Gets or sets the icon that is displayed inside the alert box. Setting to <see cref="AlertBoxIcon.None"/> will collapse the icon.</summary>
         public AlertBoxIcon Icon {
             get => (AlertBoxIcon)GetValue(IconProperty);
@@ -81,12 +89,13 @@ namespace Aurora.Controls {
         /// </summary>
         private void Button_Click(object sender, RoutedEventArgs e) {
             var btn = (Button)sender;
-            var stackpanel = VisualTreeHelper.GetParent(btn) as StackPanel; // Get the parent element
-            Close(stackpanel.Children.IndexOf(btn)); // Find the clicked button's index in parent
+            var buttonContainer = VisualTreeHelper.GetParent(btn) as ContentPresenter; // Get the element that wraps the button
+            var stackpanel = VisualTreeHelper.GetParent(buttonContainer) as StackPanel; // Get the wrapper's parent element
+            Close(stackpanel.Children.IndexOf(buttonContainer)); // Find the clicked button's index (wrapper's index in parent)
         }
 
         /// <summary>
-        /// 
+        /// Closes the button when the backdrop or small 'X' button is pressed. Results in a -1 result from the Task.
         /// </summary>
         private void Backdrop_Click(object sender, RoutedEventArgs e) {
             if (AllowClose)
@@ -136,12 +145,12 @@ namespace Aurora.Controls {
         /// <para>Returns a task that should be awaited. The task will complete when the user chooses an option and the index of the pressed
         /// button will be the resolution value of the task.</para>
         /// </summary>
-        private static Task<int> ShowCore(Panel panel, string content, string title, object[] buttons, AlertBoxIcon icon, bool allowClose) {
+        private static Task<int> ShowCore(Panel panel, string content, string title, string[] buttons, AlertBoxIcon icon, bool allowClose) {
             // Default buttons
-            buttons = buttons ?? new[] { "Okay" };
+            buttons ??= new[] { "Okay" };
 
             // Create the alert
-            var msg = new AlertBox { Title = title, Text = content, Icon = icon, AllowClose = allowClose };
+            var msg = new AlertBox { Title = title, Text = content, Buttons = buttons, Icon = icon, AllowClose = allowClose };
 
             // If a panel is provided, add the alert to the panel
             if (panel != null)
@@ -176,9 +185,9 @@ namespace Aurora.Controls {
         /// Note that the window must have a <see cref="Panel"/> type child (e.g. Grid) at the root or 1-level down. If this is not the case, a new
         /// dedicated window for the alert will be created.
         /// <para>Returns a task that should be awaited. The task will complete when the user chooses an option and the index of the pressed
-        /// button will be the resolution value of the task.</para>
+        /// button will be the resolution value of the task. Will return -1 if the alert was closed without choosing an option.</para>
         /// </summary>
-        public static Task<int> Show(Window parent, string content, string title, object[] buttons = null, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true) {
+        public static Task<int> Show(Window parent, string content, string title, string[] buttons = null, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true) {
             Panel panel = null;
 
             // Attempt to attach the MessageBox to front content of the targetted window
@@ -196,9 +205,9 @@ namespace Aurora.Controls {
         /// Will attempt to search for the parent <see cref="Window"/> of the given <see cref="DependencyObject"/>. This allows for use of the
         /// <see cref="AlertBox"/> within custom controls that do not normally have direct access to the <see cref="Window" /> reference.
         /// <para>Returns a task that should be awaited. The task will complete when the user chooses an option and the index of the pressed
-        /// button will be the resolution value of the task.</para>
+        /// button will be the resolution value of the task. Will return -1 if the alert was closed without choosing an option.</para>
         /// </summary>
-        public static Task<int> Show(DependencyObject obj, string content, string title, object[] buttons = null, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true) {
+        public static Task<int> Show(DependencyObject obj, string content, string title, string[] buttons = null, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true) {
             while (obj != null && !(obj is Window))
                 obj = VisualTreeHelper.GetParent(obj);
             return Show(obj as Window, content, title, buttons, icon, allowClose);
@@ -207,10 +216,22 @@ namespace Aurora.Controls {
         /// <summary>
         /// Shows an alert box that will appear in a dedicated new window.
         /// <para>Returns a task that should be awaited. The task will complete when the user chooses an option and the index of the pressed
-        /// button will be the resolution value of the task.</para>
+        /// button will be the resolution value of the task. Will return -1 if the alert was closed without choosing an option.</para>
         /// </summary>
-        public static Task<int> Show(string content, string title, object[] buttons = null, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true)
+        public static Task<int> Show(string content, string title, string[] buttons = null, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true)
             => ShowCore(null, content, title, buttons, icon, allowClose);
+        #endregion
+        
+        #region Preset Show Methods
+        /// <summary>
+        /// Helper method that uses the `AlertBox.Show` method to show a delete window, asking the user if they want to delete a certain item.
+        /// </summary>
+        /// <param name="itemType">The type of item to delete. E.G. "layer".</param>
+        /// <param name="itemName">An identifying name of the item to delete. E.G. "My Layer".</param>
+        public async static Task<bool> ShowDelete(Window wnd, string itemType, string itemName, bool allowClose = true) =>
+            (await Show(wnd, $"Are you sure you wish to delete {itemType} '{itemName}'? You cannot undo this action.", $"Delete {itemType}?", new[] { "Don't delete", "Delete" }, AlertBoxIcon.Delete, allowClose)) == 1;
+        public async static Task<bool> ShowDelete(DependencyObject obj, string itemType, string itemName, bool allowClose = true) =>
+            (await Show(obj, $"Are you sure you wish to delete {itemType} '{itemName}'? You cannot undo this action.", $"Delete {itemType}?", new[] { "Don't delete", "Delete" }, AlertBoxIcon.Delete, allowClose)) == 1;
         #endregion
     }
 
@@ -226,6 +247,7 @@ namespace Aurora.Controls {
                 AlertBoxIcon.Question => "help",
                 AlertBoxIcon.Warning => "warning",
                 AlertBoxIcon.Error => "error",
+                AlertBoxIcon.Delete => "trash-can",
                 _ => ""
             };
             return new BitmapImage(new Uri($"/Aurora;component/Resources/UIIcons/{name}-50.png", UriKind.Relative));
@@ -246,5 +268,5 @@ namespace Aurora.Controls {
     /// <summary>
     /// An enum that contains possible icons that can be displayed by the <see cref="AlertBox"/>.
     /// </summary>
-    public enum AlertBoxIcon { None, Success, Info, Question, Warning, Error }
+    public enum AlertBoxIcon { None, Success, Info, Question, Warning, Error, Delete }
 }

@@ -19,6 +19,7 @@ using SharpDX.RawInput;
 using NLog;
 using System.Reflection;
 using System.Text;
+using Aurora.Controls;
 
 namespace Aurora
 {
@@ -215,7 +216,7 @@ namespace Aurora
                             }
                             catch (Exception exc)
                             {
-                                System.Windows.MessageBox.Show("Could not patch Logitech LED SDK. Error: \r\n\r\n" + exc, "Aurora Error");
+                                AlertBox.Show("Could not patch Logitech LED SDK. Error: \r\n\r\n" + exc, "Error", icon: AlertBoxIcon.Error);
                             }
 
                             Environment.Exit(0);
@@ -252,7 +253,7 @@ namespace Aurora
                 catch (Exception exc)
                 {
                     Global.logger.Error("Exception during ConfigManager.Load(). Error: " + exc);
-                    System.Windows.MessageBox.Show("Exception during ConfigManager.Load().Error: " + exc.Message + "\r\n\r\n Default configuration loaded.", "Aurora - Error");
+                    AlertBox.Show("Exception during ConfigManager.Load().Error: " + exc.Message + "\r\n\r\n Default configuration loaded.", "Error", icon: AlertBoxIcon.Error);
 
                     Global.Configuration = new Configuration();
                 }
@@ -330,14 +331,14 @@ namespace Aurora
                 catch (Exception exc)
                 {
                     Global.logger.Error("GameStateListener Exception, " + exc);
-                    System.Windows.MessageBox.Show("GameStateListener Exception.\r\n" + exc);
+                    AlertBox.Show("GameStateListener Exception.\r\n" + exc, "Error", icon: AlertBoxIcon.Error);
                     Environment.Exit(0);
                 }
 
                 if (!Global.net_listener.Start())
                 {
                     Global.logger.Error("GameStateListener could not start");
-                    System.Windows.MessageBox.Show("GameStateListener could not start. Try running this program as Administrator.\r\nExiting.");
+                    AlertBox.Show("GameStateListener could not start. Try running this program as Administrator.\r\nExiting.", "Error", icon: AlertBoxIcon.Error);
                     Environment.Exit(0);
                 }
                 Global.logger.Info("Listening for game integration calls...");
@@ -361,7 +362,7 @@ namespace Aurora
                 catch
                 {
                     //Global.logger.LogLine("Aurora is already running.", Logging_Level.Error);
-                    System.Windows.MessageBox.Show("Aurora is already running.\r\nExiting.", "Aurora - Error");
+                    AlertBox.Show("Aurora is already running.\r\nExiting.", "Error", icon: AlertBoxIcon.Error);
                 }
             }
         }
@@ -445,7 +446,7 @@ namespace Aurora
             LogManager.Flush();
 
             
-            System.Windows.MessageBox.Show("Aurora fatally crashed. Please report the follow to author: \r\n\r\n" + exc, "Aurora has stopped working");
+            AlertBox.Show("Aurora fatally crashed. Please report the follow to author: \r\n\r\n" + exc, "Aurora has stopped working", icon: AlertBoxIcon.Error);
             //Perform exit operations
             System.Windows.Application.Current.Shutdown();
         }
@@ -459,7 +460,7 @@ namespace Aurora
                 e.Handled = true;
             else
                 throw exc;
-            System.Windows.MessageBox.Show("Aurora fatally crashed. Please report the follow to author: \r\n\r\n" + exc, "Aurora has stopped working");
+            AlertBox.Show("Aurora fatally crashed. Please report the follow to author: \r\n\r\n" + exc, "Aurora has stopped working", icon: AlertBoxIcon.Error);
             //Perform exit operations
             System.Windows.Application.Current.Shutdown();
         }
@@ -475,7 +476,7 @@ namespace Aurora
             if (!isElevated)
             {
                 Global.logger.Error("Program does not have admin rights");
-                System.Windows.MessageBox.Show("Program does not have admin rights");
+                AlertBox.Show("Program does not have admin rights", "Error", icon: AlertBoxIcon.Error);
                 Environment.Exit(1);
             }
 
@@ -551,7 +552,7 @@ namespace Aurora
             }
 
             Global.logger.Info("Logitech LED SDK patched successfully");
-            System.Windows.MessageBox.Show("Logitech LED SDK patched successfully");
+            AlertBox.Show("Logitech LED SDK patched successfully", "Success", icon: AlertBoxIcon.Success);
 
             //Environment.Exit(0);
         }

@@ -131,7 +131,7 @@ namespace Aurora
                 catch (HttpListenerException exc)
                 {
                     if (exc.ErrorCode == 5)//Access Denied
-                        System.Windows.MessageBox.Show($"Access error during start of network listener.\r\n\r\nTo fix this issue, please run the following commands as admin in Command Prompt:\r\n   netsh http add urlacl url=http://localhost:{Port}/ user=Everyone listen=yes\r\nand\r\n   netsh http add urlacl url=http://127.0.0.1:{Port}/ user=Everyone listen=yes", "Aurora - Error");
+                        Controls.AlertBox.Show($"Access error during start of network listener.\r\n\r\nTo fix this issue, please run the following commands as admin in Command Prompt:\r\n   netsh http add urlacl url=http://localhost:{Port}/ user=Everyone listen=yes\r\nand\r\n   netsh http add urlacl url=http://127.0.0.1:{Port}/ user=Everyone listen=yes", "Error", icon: Controls.AlertBoxIcon.Error);
 
                     Global.logger.Error(exc.ToString());
 

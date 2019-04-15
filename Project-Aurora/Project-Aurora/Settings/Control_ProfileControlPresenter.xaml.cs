@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Aurora.Controls;
 using Aurora.Profiles;
 
 namespace Aurora.Settings
@@ -50,11 +51,11 @@ namespace Aurora.Settings
             isSettingNewLayer = false;
         }
 
-        private void ResetProfile()
+        private async void ResetProfile()
         {
             if (IsLoaded && !isSettingNewLayer && DataContext != null)
             {
-                if (MessageBox.Show($"Are you sure you want to reset the \"{this.Profile.ProfileName}\" profile?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if (await AlertBox.Show(this, $"Are you sure you want to reset the \"{this.Profile.ProfileName}\" profile?", "Confirm reset", new[] { "Don't reset", "Reset" }, AlertBoxIcon.Question) == 1)
                 {
                     this.Profile?.Reset();
                     //SetProfile(this.Profile);

@@ -45,17 +45,17 @@ namespace Aurora.Profiles.DiscoDodgeball
         private void patch_button_Click(object sender, RoutedEventArgs e)
         {
             if (InstallWrapper())
-                MessageBox.Show("Aurora LightFX Wrapper installed successfully.");
+                AlertBox.Show(this, "Aurora LightFX Wrapper installed successfully.", "Success", icon: AlertBoxIcon.Success);
             else
-                MessageBox.Show("Aurora LightFX Wrapper could not be installed.\r\nGame is not installed.");
+                AlertBox.Show(this, "Aurora LightFX Wrapper could not be installed.\r\nGame is not installed.", "Failure", icon: AlertBoxIcon.Error);
         }
 
         private void unpatch_button_Click(object sender, RoutedEventArgs e)
         {
             if (UninstallWrapper())
-                MessageBox.Show("Aurora LightFX Wrapper uninstalled successfully.");
+                AlertBox.Show(this, "Aurora LightFX Wrapper uninstalled successfully.", "Success", icon: AlertBoxIcon.Success);
             else
-                MessageBox.Show("Aurora LightFX Wrapper could not be uninstalled.\r\nGame is not installed.");
+                AlertBox.Show(this, "Aurora LightFX Wrapper could not be uninstalled.\r\nGame is not installed.", "Failure", icon: AlertBoxIcon.Error);
         }
 
         private void patch_drm_button_Click(object sender, RoutedEventArgs e)
@@ -66,9 +66,9 @@ namespace Aurora.Profiles.DiscoDodgeball
             if (result == System.Windows.Forms.DialogResult.OK)
             {
                 if (InstallWrapper(dialog.SelectedPath))
-                    MessageBox.Show("Aurora Wrapper Patch for LightFX applied to\r\n" + dialog.SelectedPath);
+                    AlertBox.Show(this, "Aurora Wrapper Patch for LightFX applied to\r\n" + dialog.SelectedPath, "Success", icon: AlertBoxIcon.Success);
                 else
-                    MessageBox.Show("Aurora LightFX Wrapper could not be installed.\r\nGame is not installed.");
+                    AlertBox.Show(this, "Aurora LightFX Wrapper could not be installed.\r\nGame is not installed.", "Failure", icon: AlertBoxIcon.Error);
             }
         }
 

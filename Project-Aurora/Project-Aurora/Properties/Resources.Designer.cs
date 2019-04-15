@@ -853,6 +853,16 @@ namespace Aurora.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap trash_can_50 {
+            get {
+                object obj = ResourceManager.GetObject("trash_can_50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap unknown_app_icon {
             get {
                 object obj = ResourceManager.GetObject("unknown_app_icon", resourceCulture);

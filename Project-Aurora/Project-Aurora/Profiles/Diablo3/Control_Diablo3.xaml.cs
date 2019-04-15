@@ -1,4 +1,5 @@
-﻿using Aurora.Settings;
+﻿using Aurora.Controls;
+using Aurora.Settings;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -43,7 +44,7 @@ namespace Aurora.Profiles.Diablo3
                     razer_wrapper_64.Write(Properties.Resources.Aurora_RazerLEDWrapper64);
                 }
 
-                MessageBox.Show("Aurora Wrapper Patch for Razer applied to\r\n" + dialog.SelectedPath);
+                AlertBox.Show(this, "Aurora Wrapper Patch for Razer applied to\r\n" + dialog.SelectedPath, "Success", icon: AlertBoxIcon.Success);
             }
         }
 

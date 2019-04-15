@@ -1,4 +1,5 @@
-﻿using Aurora.EffectsEngine.Animations;
+﻿using Aurora.Controls;
+using Aurora.EffectsEngine.Animations;
 using Aurora.Profiles;
 using Aurora.Settings.Layers;
 using Microsoft.Win32;
@@ -116,17 +117,17 @@ namespace Aurora.Settings
             this.lstProfiles.SelectedIndex = this.lstProfiles.Items.Count - 1;
         }
 
-        private void buttonDeleteProfile_Click(object sender, RoutedEventArgs e)
+        private async void buttonDeleteProfile_Click(object sender, RoutedEventArgs e)
         {
             if (this.lstProfiles.SelectedIndex > -1)
             {
                 if (this.FocusedApplication.Profiles.Count == 1)
                 {
-                    MessageBox.Show("You cannot delete the last profile!");
+                    _ = AlertBox.Show(this, "You cannot delete the last profile!", "Cannot delete", icon: AlertBoxIcon.Warning);
                     return;
                 }
 
-                if (MessageBox.Show($"Are you sure you want to delete Profile '{((ApplicationProfile)lstProfiles.SelectedItem).ProfileName}'", "Confirm action", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+                if (await AlertBox.ShowDelete(this, "profile", ((ApplicationProfile)lstProfiles.SelectedItem).ProfileName))
                 {
                     int index = this.lstProfiles.SelectedIndex;
                     ApplicationProfile profile = (ApplicationProfile)this.lstProfiles.SelectedItem;
@@ -147,9 +148,9 @@ namespace Aurora.Settings
         }
 
 
-        private void btnProfileReset_Click(object sender, RoutedEventArgs e)
+        private async void btnProfileReset_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show($"Are you sure you want to reset the \"{this.FocusedApplication.Profile.ProfileName}\" profile?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (await AlertBox.Show(this, $"Are you sure you want to reset the \"{this.FocusedApplication.Profile.ProfileName}\" profile?", "Confirm reset",new[] { "Don't reset", "Reset" }, AlertBoxIcon.Question) == 1)
                 this.FocusedApplication?.ResetProfile();
         }
 

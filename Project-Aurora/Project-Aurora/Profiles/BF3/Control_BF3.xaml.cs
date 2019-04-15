@@ -38,14 +38,13 @@ namespace Aurora.Profiles.BF3
         private void patch_button_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new System.Windows.Forms.FolderBrowserDialog();
-            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
 
-            if (result == System.Windows.Forms.DialogResult.OK)
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 if (InstallWrapper(dialog.SelectedPath))
-                    MessageBox.Show("Aurora Wrapper Patch for LightFX applied to\r\n" + dialog.SelectedPath);
+                    AlertBox.Show(this, "Aurora Wrapper Patch for LightFX applied to\r\n" + dialog.SelectedPath, "Success", icon: AlertBoxIcon.Success);
                 else
-                    MessageBox.Show("Aurora LightFX Wrapper could not be installed.\r\nGame is not installed.");
+                    AlertBox.Show(this, "Aurora LightFX Wrapper could not be installed.\r\nGame is not installed.", "Failure", icon: AlertBoxIcon.Error);
             }
         }
 
@@ -57,9 +56,9 @@ namespace Aurora.Profiles.BF3
             if (result == System.Windows.Forms.DialogResult.OK)
             {
                 if (UninstallWrapper(dialog.SelectedPath))
-                    MessageBox.Show("Aurora LightFX Wrapper uninstalled successfully.");
+                    AlertBox.Show(this, "Aurora LightFX Wrapper uninstalled successfully.", "Success", icon: AlertBoxIcon.Success);
                 else
-                    MessageBox.Show("Aurora LightFX Wrapper could not be installed.\r\nGame is not installed.");
+                    AlertBox.Show(this, "Aurora LightFX Wrapper could not be installed.\r\nGame is not installed.", "Failure", icon: AlertBoxIcon.Error);
             }
         }
 

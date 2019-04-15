@@ -177,11 +177,11 @@ namespace Aurora {
             
         }
 
-        private void Window_Closing(object sender, CancelEventArgs e) {
+        private async void Window_Closing(object sender, CancelEventArgs e) {
             var closeMode = Global.Configuration.close_mode;
 
             if (closeMode == AppExitMode.Ask)
-                closeMode = MessageBox.Show("Would you like to exit Aurora?", "Aurora", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes ? AppExitMode.Exit : AppExitMode.Minimize;
+                closeMode = await AlertBox.Show(this, "Would you like to exit Aurora?", "Aurora", new[] { "Yes", "No" }, AlertBoxIcon.Question, false) == 0 ? AppExitMode.Exit : AppExitMode.Minimize;
 
             if (closeMode == AppExitMode.Exit) {
                 exitApp();
@@ -395,7 +395,7 @@ namespace Aurora {
                     if (Global.LightingStateManager.Events[filename] is GameEvent_Aurora_Wrapper)
                         Global.LightingStateManager.Events.Remove(filename);
                     else {
-                        MessageBox.Show("Cannot add this application. It already exists in the application list.", "Cannot register", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        AlertBox.Show(this, "Cannot add this application. It already exists in the application list.", "Cannot register", icon: AlertBoxIcon.Warning);
                         return;
                     }
                 }

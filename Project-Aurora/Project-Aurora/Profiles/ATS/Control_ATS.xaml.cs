@@ -1,4 +1,5 @@
-﻿using Aurora.Profiles.ETS2.GSI;
+﻿using Aurora.Controls;
+using Aurora.Profiles.ETS2.GSI;
 using System;
 using System.IO;
 using System.Timers;
@@ -72,25 +73,24 @@ namespace Aurora.Profiles.ATS {
         }
 
         private void install_button_Click(object sender, RoutedEventArgs e) {
-            if (!InstallDLL(true)) {
-                MessageBox.Show("64-bit ETS2 Telemetry Server DLL installed failed.");
-            } else if (!InstallDLL(false)) {
-                MessageBox.Show("32-bit ETS2 Telemetry Server DLL installed failed.");
-            } else {
-                MessageBox.Show("ETS2 Telemetry Server DLLs installed successfully.");
-            }
+            if (!InstallDLL(true))
+                AlertBox.Show(this, "64-bit ETS2 Telemetry Server DLL installed failed.", "Failed", icon: AlertBoxIcon.Error);
+            else if (!InstallDLL(false))
+                AlertBox.Show(this, "32-bit ETS2 Telemetry Server DLL installed failed.", "Failed", icon: AlertBoxIcon.Error);
+            else
+                AlertBox.Show(this, "ETS2 Telemetry Server DLLs installed successfully.", "Success", icon: AlertBoxIcon.Success);
         }
 
         private void uninstall_button_Click(object sender, RoutedEventArgs e) {
             string gamePath = Utils.SteamUtils.GetGamePath(270880);
-            if (String.IsNullOrWhiteSpace(gamePath)) return;
-            string x86Path = System.IO.Path.Combine(gamePath, "bin", "win_x86", "plugins", "ets2-telemetry-server.dll");
-            string x64Path = System.IO.Path.Combine(gamePath, "bin", "win_x64", "plugins", "ets2-telemetry-server.dll");
+            if (string.IsNullOrWhiteSpace(gamePath)) return;
+            string x86Path = Path.Combine(gamePath, "bin", "win_x86", "plugins", "ets2-telemetry-server.dll");
+            string x64Path = Path.Combine(gamePath, "bin", "win_x64", "plugins", "ets2-telemetry-server.dll");
             if (File.Exists(x64Path))
                 File.Delete(x64Path);
             if (File.Exists(x86Path))
                 File.Delete(x86Path);
-            MessageBox.Show("ETS2 Telemetry Server DLLs uninstalled successfully.");
+            AlertBox.Show(this, "ETS2 Telemetry Server DLLs uninstalled successfully.", "Success", icon: AlertBoxIcon.Success);
         }
 
         private void visit_ets2ts_button_Click(object sender, RoutedEventArgs e) {

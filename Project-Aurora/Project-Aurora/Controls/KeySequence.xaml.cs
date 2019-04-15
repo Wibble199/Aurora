@@ -212,7 +212,7 @@ namespace Aurora.Controls
                 }
                 else
                 {
-                    MessageBox.Show("You are already recording a key sequence for " + Global.key_recorder.GetRecordingType());
+                    AlertBox.Show(this, "You are already recording a key sequence for " + Global.key_recorder.GetRecordingType(), "Alreay recording", icon: AlertBoxIcon.Warning);
                 }
             }
             else

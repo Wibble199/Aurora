@@ -62,16 +62,16 @@
                     <Path Margin="2" Data="M 0,0 L 6,6 M 6,0 L 0,6" Stroke="{StaticResource BaseButtonForegroundBrush}" Opacity="0.4" />
                 </Button>
 
-                <StackPanel>
-                    <DockPanel Margin="12" LastChildFill="True">
+                <StackPanel SnapsToDevicePixels="True">
+                    <DockPanel Margin="12" LastChildFill="True" SnapsToDevicePixels="True">
                         <!-- Icon -->
                         <Image DockPanel.Dock="Left" Source="{Binding Path=Icon, Converter={StaticResource AlertBoxIconConverter}}" Width="48" Height="48" Margin="0,0,16,0" Visibility="{Binding Path=Icon, Converter={StaticResource AlertBoxIconToVisibilityConverter}}" />
 
                         <!-- Title -->
-                        <TextBlock DockPanel.Dock="Top" Text="{Binding Title}" FontSize="16" FontWeight="Bold" Foreground="{StaticResource ForegroundTextBrush}" />
+                        <TextBlock DockPanel.Dock="Top" Text="{Binding Title}" FontSize="16" FontWeight="Bold" Foreground="{StaticResource ForegroundTextBrush}" SnapsToDevicePixels="True" />
 
                         <!-- Message -->
-                        <TextBlock Margin="0,12" Text="{Binding Text}" TextWrapping="Wrap" Foreground="{StaticResource ForegroundTextBrush}" />
+                        <TextBlock Margin="0,12" Text="{Binding Text}" FontSize="14" TextWrapping="Wrap" Foreground="{StaticResource ForegroundTextBrush}" SnapsToDevicePixels="True" />
                     </DockPanel>
 
                     <!-- Buttons -->
@@ -80,18 +80,19 @@
                             <CornerRadius BottomLeft="{StaticResource ControlBorderRadiusAmount}" BottomRight="{StaticResource ControlBorderRadiusAmount}" />
                         </Border.CornerRadius>
 
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                            <StackPanel.Resources>
-                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource Panel1Button}">
-                                    <Setter Property="Margin" Value="8,0,0,0" />
-                                    <Setter Property="Padding" Value="16,6" />
-                                    <EventSetter Event="Click" Handler="Button_Click" />
-                                </Style>
-                            </StackPanel.Resources>
+                        <ItemsControl ItemsSource="{Binding Buttons}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
 
-                            <Button Content="Yes" />
-                            <Button Content="No" />
-                        </StackPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Content="{Binding .}" Margin="8,0,0,0" Padding="16,6" Click="Button_Click" Style="{StaticResource Panel1Button}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </Border>
                 </StackPanel>
             </Grid>

@@ -92,17 +92,17 @@ namespace Aurora.Profiles.Dota_2
         private void patch_button_Click(object sender, RoutedEventArgs e)
         {
             if (InstallGSI())
-                System.Windows.MessageBox.Show("Aurora GSI Config file installed successfully.");
+                AlertBox.Show(this, "Aurora GSI Config file installed successfully.", "Success", icon: AlertBoxIcon.Success);
             else
-                System.Windows.MessageBox.Show("Aurora GSI Config file could not be installed.\r\nGame is not installed.");
+                AlertBox.Show(this, "Aurora GSI Config file could not be installed.\r\nGame is not installed.", "Error", icon: AlertBoxIcon.Error);
         }
 
         private void unpatch_button_Click(object sender, RoutedEventArgs e)
         {
             if (UninstallGSI())
-                System.Windows.MessageBox.Show("Aurora GSI Config file uninstalled successfully.");
+                AlertBox.Show(this, "Aurora GSI Config file uninstalled successfully.", "Success", icon: AlertBoxIcon.Success);
             else
-                System.Windows.MessageBox.Show("Aurora GSI Config file could not be uninstalled.\r\nGame is not installed.");
+                AlertBox.Show(this, "Aurora GSI Config file could not be uninstalled.\r\nGame is not installed.", "Error", icon: AlertBoxIcon.Error);
         }
 
         private void game_enabled_Checked(object sender, RoutedEventArgs e)

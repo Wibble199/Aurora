@@ -1,4 +1,5 @@
-﻿using Aurora.Settings.Layers;
+﻿using Aurora.Controls;
+using Aurora.Settings.Layers;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -182,8 +183,8 @@ namespace Aurora.Settings {
         /// <summary>
         /// Asks the user if they wish to delete the currently selected layer and does so if they press "Yes".
         /// </summary>
-        private void DeleteButton_Click(object sender, RoutedEventArgs e) {
-            if (ActiveLayerCollection.Contains(SelectedLayer) && MessageBox.Show($"Are you sure you want to delete Layer '{SelectedLayer.Name}'?\n\nYou cannot undo this action.", "Confirm delete", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes) {
+        private async void DeleteButton_Click(object sender, RoutedEventArgs e) {
+            if (ActiveLayerCollection.Contains(SelectedLayer) && await AlertBox.ShowDelete(this, "layer", SelectedLayer.Name)) {
                 ActiveLayerCollection.Remove(SelectedLayer);
                 SelectedLayer = null;
             }
