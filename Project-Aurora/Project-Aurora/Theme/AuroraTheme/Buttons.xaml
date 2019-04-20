@@ -107,6 +107,35 @@
         </Style.Triggers>
     </Style>
 
+    <!-- Danger button definition -->
+    <Style TargetType="{x:Type ButtonBase}" x:Key="DangerButtonBase" BasedOn="{StaticResource {x:Type ButtonBase}}">
+        <Setter Property="Background" Value="{StaticResource DangerButtonBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource DangerButtonForegroundBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource DangerButtonBorderBrush}" />
+
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="Button.MouseEnter">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <u:BrushAnimation Storyboard.TargetProperty="Background" To="{StaticResource DangerButtonBackgroundHoverBrush}" Duration="{StaticResource AnimationDuration}" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+
+            <EventTrigger RoutedEvent="Button.MouseLeave">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <u:BrushAnimation Storyboard.TargetProperty="Background" To="{StaticResource DangerButtonBackgroundBrush}" Duration="{StaticResource AnimationDuration}" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
+
     <!-- Flat button definition -->
     <Style TargetType="{x:Type ButtonBase}" x:Key="FlatButtonBase" BasedOn="{StaticResource {x:Type ButtonBase}}">
         <Setter Property="Background" Value="Transparent" />
@@ -140,18 +169,21 @@
     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type ButtonBase}}" />
     <Style TargetType="{x:Type Button}" x:Key="Panel1Button" BasedOn="{StaticResource Panel1ButtonBase}" />
     <Style TargetType="{x:Type Button}" x:Key="Panel2Button" BasedOn="{StaticResource Panel2ButtonBase}" />
+    <Style TargetType="{x:Type Button}" x:Key="DangerButton" BasedOn="{StaticResource DangerButtonBase}" />
     <Style TargetType="{x:Type Button}" x:Key="FlatButton" BasedOn="{StaticResource FlatButtonBase}" />
 
     <!-- ToggleButton -->
     <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Type ButtonBase}}" />
     <Style TargetType="{x:Type ToggleButton}" x:Key="Panel1ToggleButton" BasedOn="{StaticResource Panel1ButtonBase}" />
     <Style TargetType="{x:Type ToggleButton}" x:Key="Panel2ToggleButton" BasedOn="{StaticResource Panel2ButtonBase}" />
+    <Style TargetType="{x:Type ToggleButton}" x:Key="DangerToggleButton" BasedOn="{StaticResource DangerButtonBase}" />
     <Style TargetType="{x:Type ToggleButton}" x:Key="FlatToggleButton" BasedOn="{StaticResource FlatButtonBase}" />
 
     <!-- RepeatButton -->
     <Style TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource {x:Type ButtonBase}}" />
     <Style TargetType="{x:Type RepeatButton}" x:Key="Panel1RepeatButton" BasedOn="{StaticResource Panel1ButtonBase}" />
     <Style TargetType="{x:Type RepeatButton}" x:Key="Panel2RepeatButton" BasedOn="{StaticResource Panel2ButtonBase}" />
+    <Style TargetType="{x:Type RepeatButton}" x:Key="DangerRepeatButton" BasedOn="{StaticResource DangerButtonBase}" />
     <Style TargetType="{x:Type RepeatButton}" x:Key="FlatRepeatButton" BasedOn="{StaticResource FlatButtonBase}" />
     
     

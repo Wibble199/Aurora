@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -47,12 +49,12 @@ namespace Aurora.Controls {
             DependencyProperty.Register("Title", typeof(string), typeof(AlertBox), new PropertyMetadata(""));
 
         /// <summary>A collection of buttons to display on the alert box.</summary>
-        public string[] Buttons {
-            get => (string[])GetValue(ButtonsProperty);
+        public IEnumerable<ChoiceButton> Buttons {
+            get => (IEnumerable<ChoiceButton>)GetValue(ButtonsProperty);
             set => SetValue(ButtonsProperty, value);
         }
         public static readonly DependencyProperty ButtonsProperty =
-            DependencyProperty.Register("Buttons", typeof(string[]), typeof(AlertBox), new PropertyMetadata(new[] { "Okay" }));
+            DependencyProperty.Register("Buttons", typeof(IEnumerable<ChoiceButton>), typeof(AlertBox), new PropertyMetadata(new[] { new ChoiceButton("Okay") }));
 
         /// <summary>Gets or sets the icon that is displayed inside the alert box. Setting to <see cref="AlertBoxIcon.None"/> will collapse the icon.</summary>
         public AlertBoxIcon Icon {
@@ -145,9 +147,9 @@ namespace Aurora.Controls {
         /// <para>Returns a task that should be awaited. The task will complete when the user chooses an option and the index of the pressed
         /// button will be the resolution value of the task.</para>
         /// </summary>
-        private static Task<int> ShowCore(Panel panel, string content, string title, string[] buttons, AlertBoxIcon icon, bool allowClose) {
+        private static Task<int> ShowCore(Panel panel, string content, string title, IEnumerable<ChoiceButton> buttons, AlertBoxIcon icon, bool allowClose) {
             // Default buttons
-            buttons ??= new[] { "Okay" };
+            buttons ??= new[] { new ChoiceButton("Okay") };
 
             // Create the alert
             var msg = new AlertBox { Title = title, Text = content, Buttons = buttons, Icon = icon, AllowClose = allowClose };
@@ -187,7 +189,7 @@ namespace Aurora.Controls {
         /// <para>Returns a task that should be awaited. The task will complete when the user chooses an option and the index of the pressed
         /// button will be the resolution value of the task. Will return -1 if the alert was closed without choosing an option.</para>
         /// </summary>
-        public static Task<int> Show(Window parent, string content, string title, string[] buttons = null, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true) {
+        public static Task<int> Show(Window parent, string content, string title, IEnumerable<ChoiceButton> buttons = null, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true) {
             Panel panel = null;
 
             // Attempt to attach the MessageBox to front content of the targetted window
@@ -202,26 +204,53 @@ namespace Aurora.Controls {
         }
 
         /// <summary>
+        /// Shows an alert box that will be placed at the root of the given <see cref="Window"/>. Uses the provided content, title, icon and buttons.
+        /// Note that the window must have a <see cref="Panel"/> type child (e.g. Grid) at the root or 1-level down. If this is not the case, a new
+        /// dedicated window for the alert will be created.
+        /// <para>Returns a task that should be awaited. The task will complete when the user chooses an option and the index of the pressed
+        /// button will be the resolution value of the task. Will return -1 if the alert was closed without choosing an option.</para>
+        /// </summary>
+        public static Task<int> Show(Window parent, string content, string title, IEnumerable<string> buttons, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true)
+            => Show(parent, content, title, buttons?.Select(lbl => new ChoiceButton(lbl)), icon, allowClose);
+
+        /// <summary>
         /// Will attempt to search for the parent <see cref="Window"/> of the given <see cref="DependencyObject"/>. This allows for use of the
         /// <see cref="AlertBox"/> within custom controls that do not normally have direct access to the <see cref="Window" /> reference.
         /// <para>Returns a task that should be awaited. The task will complete when the user chooses an option and the index of the pressed
         /// button will be the resolution value of the task. Will return -1 if the alert was closed without choosing an option.</para>
         /// </summary>
-        public static Task<int> Show(DependencyObject obj, string content, string title, string[] buttons = null, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true) {
+        public static Task<int> Show(DependencyObject obj, string content, string title, IEnumerable<ChoiceButton> buttons = null, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true) {
             while (obj != null && !(obj is Window))
                 obj = VisualTreeHelper.GetParent(obj);
             return Show(obj as Window, content, title, buttons, icon, allowClose);
         }
 
         /// <summary>
+        /// Will attempt to search for the parent <see cref="Window"/> of the given <see cref="DependencyObject"/>. This allows for use of the
+        /// <see cref="AlertBox"/> within custom controls that do not normally have direct access to the <see cref="Window" /> reference.
+        /// <para>Returns a task that should be awaited. The task will complete when the user chooses an option and the index of the pressed
+        /// button will be the resolution value of the task. Will return -1 if the alert was closed without choosing an option.</para>
+        /// </summary>
+        public static Task<int> Show(DependencyObject obj, string content, string title, IEnumerable<string> buttons, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true)
+            => Show(obj, content, title, buttons?.Select(lbl => new ChoiceButton(lbl)), icon, allowClose);
+
+        /// <summary>
         /// Shows an alert box that will appear in a dedicated new window.
         /// <para>Returns a task that should be awaited. The task will complete when the user chooses an option and the index of the pressed
         /// button will be the resolution value of the task. Will return -1 if the alert was closed without choosing an option.</para>
         /// </summary>
-        public static Task<int> Show(string content, string title, string[] buttons = null, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true)
+        public static Task<int> Show(string content, string title, IEnumerable<ChoiceButton> buttons = null, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true)
             => ShowCore(null, content, title, buttons, icon, allowClose);
+
+        /// <summary>
+        /// Shows an alert box that will appear in a dedicated new window.
+        /// <para>Returns a task that should be awaited. The task will complete when the user chooses an option and the index of the pressed
+        /// button will be the resolution value of the task. Will return -1 if the alert was closed without choosing an option.</para>
+        /// </summary>
+        public static Task<int> Show(string content, string title, IEnumerable<string> buttons, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true)
+            => ShowCore(null, content, title, buttons?.Select(lbl => new ChoiceButton(lbl)), icon, allowClose);
         #endregion
-        
+
         #region Preset Show Methods
         /// <summary>
         /// Helper method that uses the `AlertBox.Show` method to show a delete window, asking the user if they want to delete a certain item.
@@ -229,10 +258,25 @@ namespace Aurora.Controls {
         /// <param name="itemType">The type of item to delete. E.G. "layer".</param>
         /// <param name="itemName">An identifying name of the item to delete. E.G. "My Layer".</param>
         public async static Task<bool> ShowDelete(Window wnd, string itemType, string itemName, bool allowClose = true) =>
-            (await Show(wnd, $"Are you sure you wish to delete {itemType} '{itemName}'? You cannot undo this action.", $"Delete {itemType}?", new[] { "Don't delete", "Delete" }, AlertBoxIcon.Delete, allowClose)) == 1;
+            (await Show(wnd, $"Are you sure you wish to delete {itemType} '{itemName}'? You cannot undo this action.", $"Delete {itemType}?", new[] { new ChoiceButton("Don't delete", "FlatButton"), new ChoiceButton("Delete", "DangerButton") }, AlertBoxIcon.Delete, allowClose)) == 1;
         public async static Task<bool> ShowDelete(DependencyObject obj, string itemType, string itemName, bool allowClose = true) =>
-            (await Show(obj, $"Are you sure you wish to delete {itemType} '{itemName}'? You cannot undo this action.", $"Delete {itemType}?", new[] { "Don't delete", "Delete" }, AlertBoxIcon.Delete, allowClose)) == 1;
+            (await Show(obj, $"Are you sure you wish to delete {itemType} '{itemName}'? You cannot undo this action.", $"Delete {itemType}?", new[] { new ChoiceButton("Don't delete", "FlatButton"), new ChoiceButton("Delete", "DangerButton") }, AlertBoxIcon.Delete, allowClose)) == 1;
         #endregion
+
+
+        /// <summary>
+        /// Class that defines the a button that will appear in the alertbox.
+        /// </summary>
+        public class ChoiceButton {
+            /// <summary>The text label of the button.</summary>
+            public string Label { get; set; }
+
+            /// <summary>The name of the style this button should use.</summary>
+            public string StyleName { get; set; } = "Panel1Button";
+
+            public ChoiceButton(string label) { Label = label; }
+            public ChoiceButton(string label, string style) { Label = label; StyleName = style; }
+        }
     }
 
 

@@ -33,6 +33,11 @@
     <SolidColorBrush x:Key="Panel2ButtonForegroundBrush" Color="#F9F9F9" /> <!-- Foreground (text) color of base button content. -->
     <SolidColorBrush x:Key="Panel2ButtonBorderBrush" Color="Transparent" /> <!-- Border brush of the panel 2 button. -->
 
+    <SolidColorBrush x:Key="DangerButtonBackgroundBrush" Color="#E74C3C" /> <!-- Color of the buttons that have been marked as a dangerous (e.g. delete buttons). -->
+    <SolidColorBrush x:Key="DangerButtonBackgroundHoverBrush" Color="#D2301F" /> <!-- Same as above but when the user is hovering the button. -->
+    <SolidColorBrush x:Key="DangerButtonForegroundBrush" Color="#FFF" /> <!-- Foreground (text) color of danger buttons' content. -->
+    <SolidColorBrush x:Key="DangerButtonBorderBrush" Color="Transparent" /> <!-- Border brush of the danger buttons. -->
+
     <Thickness x:Key="ButtonBorderThickness" Left="0" Top="0" Right="0" Bottom="0" /> <!-- Thickness of the border line surrounding buttons. -->
     <!-- #endregion -->
     

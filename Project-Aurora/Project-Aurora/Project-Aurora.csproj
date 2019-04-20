@@ -635,11 +635,6 @@
     <Compile Include="Profiles\Witcher3\Witcher3Profile.cs" />
     <Compile Include="Profiles\Witcher3\GSI\GameState_Witcher3.cs" />
     <Compile Include="Profiles\Witcher3\GSI\Nodes\Player.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Settings\Overrides\Logic\Boolean\Control_BooleanGSIEnum.xaml.cs">
       <DependentUpon>Control_BooleanGSIEnum.xaml</DependentUpon>
     </Compile>
@@ -2048,10 +2043,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Settings\Overrides\Logic\Color\Control_ColorFromValues.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Settings\Overrides\Logic\Boolean\Control_BooleanGSIBoolean.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

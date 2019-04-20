@@ -44,4 +44,23 @@ namespace Aurora.Utils {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => this.Aggregate(value, (current, converter) => converter.Convert(current, targetType, parameter, culture));
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
+
+    /// <summary>
+    /// MultiConverter that takes the self (use "&lt;Binding RelativeSource="{RelativeSource Self}" /&gt;") element and a string name of a
+    /// style and returns the actual style resource.
+    /// </summary>
+    /// <remarks>Code adapted from https://stackoverflow.com/a/410681/1305670 </remarks>
+    public class StyleConverter : IMultiValueConverter {
+
+        /// <summary>A default style to resolve if the one from the binding does not exist.</summary>
+        public string DefaultStyleName { get; set; } = "";
+
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {
+            var targetElement = values[0] as FrameworkElement;
+            if (!(values[1] is string styleName)) return null;
+            return (Style)targetElement.TryFindResource(styleName) ?? (Style)targetElement.TryFindResource(DefaultStyleName);
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    }
 }
