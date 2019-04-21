@@ -63,4 +63,18 @@ namespace Aurora.Utils {
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
+
+    /// <summary>
+    /// Calculates the value that represents the percentage of the first value. The percentage is given by the second value out of the third value.
+    /// I.E. returns values[0] * (values[1] / values[2]).
+    /// <para>For using with a width/height, set the first value to be the parent's ActualWidth/ActualHeight, second value to the the value and the
+    /// third value to be the maximum value.</para>
+    /// </summary>
+    public class PercentageDoubleConverter : IMultiValueConverter {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {
+            double actualWidth = (double)values[0], curVal = (double)values[1], maxVal = (double)values[2];
+            return actualWidth * (curVal / maxVal);
+        }
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    }
 }

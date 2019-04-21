@@ -57,6 +57,12 @@
     <SolidColorBrush x:Key="ApplicationListboxItemHoverBrush" Color="#30363E" /> <!-- The background color for the application that the user is hovering over. -->
     <SolidColorBrush x:Key="ApplicationListboxItemSelectedBrush" Color="#48505B" /> <!-- The background color for the application the user has selected. -->
     <!-- #endregion -->
+    
+    <!-- #region Sliders -->
+    <SolidColorBrush x:Key="SliderTrackBackgroundBrush" Color="#242A32" /> <!-- The background color of the slider's track. -->
+    <SolidColorBrush x:Key="SliderTrackBackgroundActiveBrush" Color="#3498DB" /> <!-- The background color of the slider's track that indicates an active slider. -->
+    <SolidColorBrush x:Key="SliderTickMarkBrush" Color="#82868C" /> <!-- The color of the tick marks that may appear above or below the slider track. -->
+    <!-- #endregion -->
 
     <!-- #region Tab Controls -->
     <SolidColorBrush x:Key="TabItemBackgroundBrush" Color="Transparent" /> <!-- The background color of the tab header item. -->

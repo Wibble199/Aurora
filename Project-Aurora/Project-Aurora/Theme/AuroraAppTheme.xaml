@@ -11,6 +11,7 @@
         <ResourceDictionary Source="AuroraTheme/ContextMenu.xaml" />
         <ResourceDictionary Source="AuroraTheme/Listbox.xaml" />
         <ResourceDictionary Source="AuroraTheme/ScrollBar.xaml" />
+        <ResourceDictionary Source="AuroraTheme/Slider.xaml" />
         <ResourceDictionary Source="AuroraTheme/TabControl.xaml" />
         <ResourceDictionary Source="AuroraTheme/Textbox.xaml" />
         <ResourceDictionary Source="AuroraTheme/TextElements.xaml" />
