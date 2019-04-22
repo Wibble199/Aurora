@@ -5,7 +5,7 @@
     <!-- Import other resource dictionaries -->
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="AuroraTheme/Buttons.xaml" />
-        <ResourceDictionary Source="AuroraTheme/Checkbox.xaml" />
+        <ResourceDictionary Source="AuroraTheme/Checkboxes.xaml" />
         <ResourceDictionary Source="AuroraTheme/ColorPicker.xaml" />
         <ResourceDictionary Source="AuroraTheme/Combobox.xaml" />
         <ResourceDictionary Source="AuroraTheme/ContextMenu.xaml" />

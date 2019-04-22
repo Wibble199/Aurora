@@ -190,11 +190,10 @@
                     <Button Margin="2,4" Click="AddApplicationButton_Click" Style="{StaticResource Panel2Button}">
                         <Image Source="Resources/UIIcons/plus-30.png" Margin="2,0" Width="18" Height="18"/>
                     </Button>
+                    <ToggleButton IsChecked="{Binding ShowHiddenApplications, Mode=TwoWay}" Margin="2,4" Style="{StaticResource ToggleHiddenApplicationsButtonStyle}" />
                     <Button Margin="2,4" Click="SettingsButton_Click" Style="{StaticResource Panel2Button}">
                         <Image Source="Resources/UIIcons/maintenance-30.png" Margin="2,0" Width="18" Height="18"/>
                     </Button>
-
-                    <ToggleButton IsChecked="{Binding ShowHiddenApplications, Mode=TwoWay}" Margin="2,4" Style="{StaticResource ToggleHiddenApplicationsButtonStyle}" />
                 </StackPanel>
 
                 <!-- Application list (Last child because we want this one to fill remaining space) -->

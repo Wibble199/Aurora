@@ -49,6 +49,16 @@
     <Thickness x:Key="TextboxBorderThickness" Left="0" Top="0" Right="0" Bottom="0" /> <!-- Thickness of the border line surrounding textboxes. -->
     <!-- #endregion -->
     
+    <!-- #region Checkboxes -->
+    <SolidColorBrush x:Key="SwitchBackgroundBrush" Color="#242A32" />
+    <SolidColorBrush x:Key="SwitchBackgroundSelectedBrush" Color="#3498DB" />
+    <SolidColorBrush x:Key="SwitchThumbBrush" Color="#BABABA" />
+    <SolidColorBrush x:Key="SwitchBorderBrush" Color="Transparent" /> <!-- Border brush of the switch. -->
+    <Thickness x:Key="SwitchBorderThickness" Left="0" Top="0" Right="0" Bottom="0" /> <!-- Thickness of the border line surrounding the switch. -->
+    <SolidColorBrush x:Key="SwitchThumbBorderBrush" Color="#3000" /> <!-- Border brush of the switch thumb. -->
+    <Thickness x:Key="SwitchThumbBorderThickness" Left="1" Top="1" Right="1" Bottom="1" /> <!-- Thickness of the border line surrounding the switch thumb. -->
+    <!-- #endregion -->
+    
     <!-- #region Listboxes -->
     <SolidColorBrush x:Key="ListboxBackgroundBrush" Color="#242A32" /> <!-- The background color of any listboxes (excluding the application listbox). -->
     <SolidColorBrush x:Key="ListboxItemHoverBrush" Color="#30363E" /> <!-- The background color for a listbox item that the user is hovering over. -->

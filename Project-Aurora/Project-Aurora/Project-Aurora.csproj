@@ -2270,7 +2270,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Theme\AuroraTheme\Checkbox.xaml">
+    <Page Include="Theme\AuroraTheme\Checkboxes.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
