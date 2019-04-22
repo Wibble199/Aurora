@@ -15,6 +15,20 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ThumbStyle" TargetType="{x:Type Thumb}">
+        <Setter Property="Background" Value="{StaticResource SliderThumbBackground}" />
+        <Setter Property="BorderThickness" Value="{StaticResource SliderThumbBorderThickness}" />
+        <Setter Property="BorderBrush" Value="{StaticResource SliderThumbBorderBrush}" />
+        <Setter Property="Margin" Value="{StaticResource SliderThumbMargin}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Border Margin="{TemplateBinding Margin}" CornerRadius="{StaticResource ControlBorderRadius}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Cursor="SizeWE" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="{x:Type Slider}">
         <Setter Property="Background" Value="{StaticResource SliderTrackBackgroundBrush}" />
         <Setter Property="Foreground" Value="{StaticResource SliderTrackBackgroundActiveBrush}" />
@@ -29,8 +43,8 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <Border Background="{TemplateBinding Background}" Height="6" Grid.Row="1" CornerRadius="3" SnapsToDevicePixels="True" />
-                        <Border Height="6" Grid.Row="1" CornerRadius="3,0,0,3" HorizontalAlignment="Left" Background="{TemplateBinding Foreground}" SnapsToDevicePixels="True">
+                        <Border Name="TrackBase" Background="{TemplateBinding Background}" CornerRadius="2" Height="4" Grid.Row="1" VerticalAlignment="Center" SnapsToDevicePixels="True" />
+                        <Border Name="TrackActive" Background="{TemplateBinding Foreground}" CornerRadius="2" Height="4" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" SnapsToDevicePixels="True">
                             <Border.Width>
                                 <MultiBinding Converter="{StaticResource SliderTrackWidthConverter}">
                                     <Binding RelativeSource="{RelativeSource AncestorType={x:Type Grid}}" Path="ActualWidth" />
@@ -46,8 +60,7 @@
                             </Track.DecreaseRepeatButton>
 
                             <Track.Thumb>
-                                <Thumb Name="Thumb" Width="10" Height="18">
-                                </Thumb>
+                                <Thumb Name="Thumb" Width="12" Height="12" Style="{StaticResource ThumbStyle}" />
                             </Track.Thumb>
 
                             <Track.IncreaseRepeatButton>
@@ -59,7 +72,8 @@
                         <TickBar Name="BottomTick" Grid.Row="2" Height="4" Placement="Top" Fill="{StaticResource SliderTickMarkBrush}" Visibility="Collapsed" />
                     </Grid>
 
-                    <ControlTemplate.Triggers>
+                    <ControlTemplate.Triggers>                        
+                        <!-- Tick mark placement triggers -->
                         <Trigger Property="TickPlacement" Value="TopLeft">
                             <Setter TargetName="TopTick" Property="Visibility" Value="Visible" />
                         </Trigger>

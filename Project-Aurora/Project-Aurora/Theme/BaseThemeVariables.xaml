@@ -62,6 +62,10 @@
     <SolidColorBrush x:Key="SliderTrackBackgroundBrush" Color="#242A32" /> <!-- The background color of the slider's track. -->
     <SolidColorBrush x:Key="SliderTrackBackgroundActiveBrush" Color="#3498DB" /> <!-- The background color of the slider's track that indicates an active slider. -->
     <SolidColorBrush x:Key="SliderTickMarkBrush" Color="#82868C" /> <!-- The color of the tick marks that may appear above or below the slider track. -->
+    <SolidColorBrush x:Key="SliderThumbBackground" Color="#F9F9F9" /> <!-- The background color of the slider thumb (the bit that can be dragged). -->
+    <SolidColorBrush x:Key="SliderThumbBorderBrush" Color="#3000" /> <!-- Border brush of the slider thumb. -->
+    <Thickness x:Key="SliderThumbBorderThickness" Left="1" Top="1" Right="1" Bottom="1" /> <!-- Thickness of the border line surrounding the slider thumb. -->
+    <Thickness x:Key="SliderThumbMargin" Left="-1" Top="-1" Right="-1" Bottom="-1" /> <!-- Margin of the the slider thumb. Can be used to increase size of thumb. -->
     <!-- #endregion -->
 
     <!-- #region Tab Controls -->
