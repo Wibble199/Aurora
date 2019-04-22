@@ -72,8 +72,9 @@ namespace Aurora.Utils {
     /// </summary>
     public class PercentageDoubleConverter : IMultiValueConverter {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {
-            double actualWidth = (double)values[0], curVal = (double)values[1], maxVal = (double)values[2];
-            return actualWidth * (curVal / maxVal);
+            double actualWidth = (double)values[0], curVal = (double)values[1];
+            double maxVal = values.Length >= 3 ? (double)values[2] : 0, minVal = values.Length >= 4 ? (double)values[3] : 0;
+            return actualWidth * ((curVal - minVal) / (maxVal - minVal));
         }
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
