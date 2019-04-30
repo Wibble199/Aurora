@@ -208,7 +208,7 @@
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="ArrowIcon" Storyboard.TargetProperty="(Image.RenderTransform).(RotateTransform.Angle)" To="-180" Duration="0:0:0.2" />
+                                        <DoubleAnimation Storyboard.TargetName="ArrowIcon" Storyboard.TargetProperty="(Image.RenderTransform).(RotateTransform.Angle)" To="180" Duration="0:0:0.2" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>

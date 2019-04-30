@@ -1,0 +1,11 @@
+{
+  "solution": {
+    "path": "Project-Aurora.sln",
+    "projects": [
+      "..\\SBAuroraR.NET\\SBAuroraReactive\\SBAuroraReactive.vcxproj",
+      "..\\Wooting.NET\\Wooting.NET\\Wooting.NET.csproj",
+      "ColorBox\\ColorBox.csproj",
+      "Project-Aurora\\Project-Aurora.csproj"
+    ]
+  }
+}
