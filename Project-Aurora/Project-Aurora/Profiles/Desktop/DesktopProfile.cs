@@ -8,6 +8,7 @@ using Aurora.Settings.Overrides.Logic;
 using Aurora.EffectsEngine;
 using System.Runtime.Serialization;
 using System.Linq;
+using Aurora.Utils;
 
 namespace Aurora.Profiles.Desktop
 {
@@ -59,7 +60,7 @@ namespace Aurora.Profiles.Desktop
                 },
 
             }) {
-                OverrideLogic = new Dictionary<string, IEvaluatable>() {
+                OverrideLogic = new ObservableDictionary<string, IEvaluatable>() {
                     { "_Enabled", new BooleanOr(new[]{
                         new BooleanKeyDownWithTimer(Keys.VolumeUp, 3),
                         new BooleanKeyDownWithTimer(Keys.VolumeDown, 3)

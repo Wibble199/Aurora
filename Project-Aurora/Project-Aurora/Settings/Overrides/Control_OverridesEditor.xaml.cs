@@ -1,5 +1,6 @@
 ﻿using Aurora.Settings.Layers;
 using Aurora.Settings.Overrides.Logic;
+using Aurora.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -104,7 +105,7 @@ namespace Aurora.Settings.Overrides {
             var layer = (Layer)eventArgs.NewValue;
             // Ensure the layer has the property-override map
             if (layer.OverrideLogic == null)
-                layer.OverrideLogic = new Dictionary<string, IEvaluatable>();
+                layer.OverrideLogic = new ObservableDictionary<string, IEvaluatable>();
             control.SelectedProperty = null;
             control.OnPropertyChanged("Layer", "AvailableLayerProperties");
         }

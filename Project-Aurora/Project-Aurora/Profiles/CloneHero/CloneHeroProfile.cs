@@ -4,6 +4,7 @@ using Aurora.Settings;
 using Aurora.Settings.Layers;
 using Aurora.Settings.Overrides;
 using Aurora.Settings.Overrides.Logic;
+using Aurora.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -40,7 +41,7 @@ namespace Aurora.Profiles.CloneHero
                     }
 
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_Enabled", new BooleanGSIBoolean("Player/IsAtMenu") }
                     }
                 },
@@ -91,7 +92,7 @@ namespace Aurora.Profiles.CloneHero
 
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_Enabled", new BooleanGSIBoolean("Player/IsAtMenu") }
                     }
                 },
@@ -118,7 +119,7 @@ namespace Aurora.Profiles.CloneHero
                         _Sequence = new KeySequence(new[] { DK.O, DK.P, DK.L, DK.SEMICOLON, DK.PERIOD, DK.FORWARD_SLASH })
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_Enabled", new BooleanGSIBoolean("Player/IsOrangePressed") }
                     }
                 },
@@ -130,7 +131,7 @@ namespace Aurora.Profiles.CloneHero
                         _Sequence = new KeySequence(new[] { DK.U, DK.I, DK.J, DK.K, DK.M, DK.COMMA })
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_Enabled", new BooleanGSIBoolean("Player/IsBluePressed") }
                     }
                 },
@@ -142,7 +143,7 @@ namespace Aurora.Profiles.CloneHero
                         _Sequence = new KeySequence(new[] { DK.T, DK.Y, DK.G, DK.H, DK.B, DK.N })
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_Enabled", new BooleanGSIBoolean("Player/IsYellowPressed") }
                     }
                 },
@@ -154,7 +155,7 @@ namespace Aurora.Profiles.CloneHero
                         _Sequence = new KeySequence(new[] { DK.E, DK.R, DK.D, DK.F, DK.C, DK.V })
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_Enabled", new BooleanGSIBoolean("Player/IsRedPressed") }
                     }
                 },
@@ -166,7 +167,7 @@ namespace Aurora.Profiles.CloneHero
                         _Sequence = new KeySequence(new[] { DK.Q, DK.W, DK.A, DK.S, DK.Z, DK.X })
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_Enabled", new BooleanGSIBoolean("Player/IsGreenPressed") }
                     }
                 },
@@ -180,7 +181,7 @@ namespace Aurora.Profiles.CloneHero
                         }),
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_Enabled", new BooleanGSIBoolean("Player/IsFC") }
                     }
                 },
@@ -192,7 +193,7 @@ namespace Aurora.Profiles.CloneHero
                         _Sequence = new KeySequence(new FreeFormObject(-0.78f, 35.13f, 551.5f, 180.7f, 0))
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_PrimaryColor", new IfElseColor(
                             new BooleanGSIBoolean("Player/IsStarPowerActive"), // If
                             new ColorConstant(Color.FromArgb(0, 227, 255)), // Then
@@ -233,7 +234,7 @@ namespace Aurora.Profiles.CloneHero
                                                             DK.DELETE, DK.END, DK.PAGE_DOWN, DK.ARROW_UP, DK.ARROW_LEFT, DK.ARROW_DOWN, DK.ARROW_RIGHT})
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_Enabled", new BooleanGSIBoolean("Player/IsStarPowerActive") }
                     }
                 },
@@ -255,7 +256,7 @@ namespace Aurora.Profiles.CloneHero
                                                             DK.DELETE, DK.END, DK.PAGE_DOWN, DK.ARROW_UP, DK.ARROW_LEFT, DK.ARROW_DOWN, DK.ARROW_RIGHT})
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_Enabled", new BooleanNot(new BooleanGSIBoolean("Player/IsStarPowerActive")) }
                     }
                 },
@@ -274,7 +275,7 @@ namespace Aurora.Profiles.CloneHero
                         _MaxVariablePath = "1",
                     },
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_PrimaryColor", new IfElseColor(
                             new BooleanGSIBoolean("Player/IsStarPowerActive"),
                             new ColorConstant(Color.FromArgb(0, 227, 255)),
@@ -297,7 +298,7 @@ namespace Aurora.Profiles.CloneHero
                         _MaxVariablePath = "10",
                     },
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_PrimaryColor", new IfElseColor(
                             new BooleanGSIBoolean("Player/IsStarPowerActive"),
                             new ColorConstant(Color.FromArgb(0, 227, 255)),
@@ -320,7 +321,7 @@ namespace Aurora.Profiles.CloneHero
                         _MaxVariablePath = "10",
                     },
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_PrimaryColor", new IfElseColor(
                             new BooleanGSIBoolean("Player/IsStarPowerActive"),
                             new ColorConstant(Color.FromArgb(0, 227, 255)),
@@ -343,7 +344,7 @@ namespace Aurora.Profiles.CloneHero
                         _MaxVariablePath = "10",
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_PrimaryColor", new IfElseColor(
                             new BooleanGSIBoolean("Player/IsStarPowerActive"),
                             new ColorConstant(Color.FromArgb(0, 227, 255)),

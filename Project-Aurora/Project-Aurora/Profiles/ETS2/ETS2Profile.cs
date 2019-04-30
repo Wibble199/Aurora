@@ -4,6 +4,7 @@ using Aurora.Profiles.ETS2.Layers;
 using Aurora.Settings;
 using Aurora.Settings.Layers;
 using Aurora.Settings.Overrides.Logic;
+using Aurora.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -44,7 +45,7 @@ namespace Aurora.Profiles.ETS2 {
                         _Sequence = new KeySequence(new DeviceKeys[]{ DeviceKeys.E })
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_Enabled", new BooleanNot(new BooleanGSIBoolean("Truck/engineOn")) }
                     }
                 },
@@ -56,7 +57,7 @@ namespace Aurora.Profiles.ETS2 {
                         _Sequence = new KeySequence(new FreeFormObject(0, 0, 830, 225))
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_Enabled", new BooleanNot(new BooleanGSIBoolean("Truck/electricOn")) }
                     }
                 },
@@ -132,7 +133,7 @@ namespace Aurora.Profiles.ETS2 {
                         _Sequence = new KeySequence(new DeviceKeys[]{ DeviceKeys.SPACE })
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_PrimaryColor", new IfElseColor(new BooleanGSIBoolean("Truck/parkBrakeOn"), Color.Red, brightColor) }
                     }
                 },
@@ -143,7 +144,7 @@ namespace Aurora.Profiles.ETS2 {
                         _Sequence = new KeySequence(new DeviceKeys[]{ DeviceKeys.K })
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_PrimaryColor", new IfElseColor(new BooleanGSIBoolean("Truck/lightsBeamHighOn"), Color.White, dimColor) }
                     }
                 },
@@ -154,7 +155,7 @@ namespace Aurora.Profiles.ETS2 {
                         _Sequence = new KeySequence(new DeviceKeys[]{ DeviceKeys.L })
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_PrimaryColor", new IfElseColor(new ObservableCollection<IfElseGeneric<Color>.Branch> {
                             new IfElseGeneric<Color>.Branch(new BooleanGSIBoolean("Truck/lightsBeamLowOn"), new ColorConstant(Color.White)),
                             new IfElseGeneric<Color>.Branch(new BooleanGSIBoolean("Truck/lightsParkingOn"), new ColorConstant(Color.FromArgb(128, 255, 255, 255))),
@@ -169,7 +170,7 @@ namespace Aurora.Profiles.ETS2 {
                         _Sequence = new KeySequence(new[] { DeviceKeys.F1, DeviceKeys.F2, DeviceKeys.F3, DeviceKeys.F4 })
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_Enabled", new BooleanGSIBoolean("Truck/blinkerLeftOn") }
                     }
                 },
@@ -180,7 +181,7 @@ namespace Aurora.Profiles.ETS2 {
                         _Sequence = new KeySequence(new[] { DeviceKeys.F9, DeviceKeys.F10, DeviceKeys.F11, DeviceKeys.F12 })
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_Enabled", new BooleanGSIBoolean("Truck/blinkerRightOn") }
                     }
                 },
@@ -191,7 +192,7 @@ namespace Aurora.Profiles.ETS2 {
                         _Sequence = new KeySequence(new DeviceKeys[]{ DeviceKeys.OPEN_BRACKET })
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_PrimaryColor", new IfElseColor(new BooleanGSIBoolean("Truck/blinkerLeftActive"), hazardColor, dimColor) }
                     }
                 },
@@ -202,7 +203,7 @@ namespace Aurora.Profiles.ETS2 {
                         _Sequence = new KeySequence(new DeviceKeys[]{ DeviceKeys.CLOSE_BRACKET })
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_PrimaryColor", new IfElseColor(new BooleanGSIBoolean("Truck/blinkerRightActive"), hazardColor, dimColor) }
                     }
                 },
@@ -221,7 +222,7 @@ namespace Aurora.Profiles.ETS2 {
                         _Sequence = new KeySequence(new DeviceKeys[]{ DeviceKeys.O })
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_PrimaryColor", new IfElseColor(new BooleanGSIBoolean("Truck/lightsBeaconOn"), hazardColor, dimColor) }
                     }
                 },
@@ -232,7 +233,7 @@ namespace Aurora.Profiles.ETS2 {
                         _Sequence = new KeySequence(new DeviceKeys[]{ DeviceKeys.T })
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_PrimaryColor", new IfElseColor(new BooleanGSIBoolean("Trailer/attached"), Color.Lime, Color.FromArgb(128, 0, 0, 255)) }
                     }
                 },
@@ -243,7 +244,7 @@ namespace Aurora.Profiles.ETS2 {
                         _Sequence = new KeySequence(new DeviceKeys[]{ DeviceKeys.C })
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_PrimaryColor", new IfElseColor(new BooleanGSIBoolean("Truck/cruiseControlOn"), brightColor, dimColor) }
                     }
                 },
@@ -294,7 +295,7 @@ namespace Aurora.Profiles.ETS2 {
                         _Sequence = new KeySequence(new DeviceKeys[]{ DeviceKeys.P })
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_PrimaryColor", new IfElseColor(new BooleanGSIBoolean("Truck/wipersOn"), brightColor, dimColor) }
                     }
                 }

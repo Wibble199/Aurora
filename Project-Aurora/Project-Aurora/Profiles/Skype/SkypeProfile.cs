@@ -8,6 +8,7 @@ using Aurora.Settings.Overrides.Logic;
 using Aurora.EffectsEngine;
 using System.Runtime.Serialization;
 using System.Linq;
+using Aurora.Utils;
 
 namespace Aurora.Profiles.Skype
 {
@@ -37,7 +38,7 @@ namespace Aurora.Profiles.Skype
                         _EffectSpeed = 2.5f
                     },
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_Enabled", new BooleanMathsComparison(new NumberGSINumeric("Data/MissedMessagesCount"), ComparisonOperator.GT, 0) }
                     }
                 },
@@ -55,7 +56,7 @@ namespace Aurora.Profiles.Skype
                     },
 
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_Enabled", new BooleanGSIBoolean("Data/IsCalled") }
                     }
                 }

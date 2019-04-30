@@ -2,6 +2,7 @@
 using Aurora.Settings;
 using Aurora.Settings.Layers;
 using Aurora.Settings.Overrides.Logic;
+using Aurora.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -28,7 +29,7 @@ namespace Aurora.Profiles.ResidentEvil2
                         _Sequence = new KeySequence(new FreeFormObject(0, 140, 840, 80))
                     }
                 }) {
-                    OverrideLogic = new Dictionary<string, IEvaluatable> {
+                    OverrideLogic = new ObservableDictionary<string, IEvaluatable> {
                         { "_Enabled", new BooleanGSIBoolean("Player/Poison") }
                     }
                 },
