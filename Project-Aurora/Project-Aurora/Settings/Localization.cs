@@ -6,7 +6,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Resources;
+using System.Windows;
 using System.Windows.Data;
+using System.Windows.Markup;
 using System.Windows.Media.Imaging;
 
 namespace Aurora.Settings.Localization {
@@ -127,75 +129,63 @@ namespace Aurora.Settings.Localization {
 
 
     /// <summary>
-    /// Binding extension class that provides a method of fetching the translation in the <see cref="TranslationSource.CurrentCulture" /> culture for a particular string key.
+    /// Binding extension class that provides a method of fetching the translation in the <see cref="TranslationSource.CurrentCulture" />
+    /// culture for a particular string key or string binding. This allows use of localization with controls such as ComboBoxes and
+    /// ItemsControls. Uses a MultiBinding so it can watch for changes notified from the key or from the <see cref="TranslationSource"/>.
     /// </summary>
-    public class LocExtension : Binding {
+    public class LocExtension : MultiBinding {
 
-        private string prefix = "";
-        private string suffix = "";
-        private string[] insertValues = null;
+        // Reference to the converter so parameters can be passed to it.
+        private LocalizationConverter conv;
 
-        public LocExtension(string name) : base($"[{name}]") {
-            // One way binding since you can't set back to the resource dictionary... obviously.
-            Mode = BindingMode.OneWay;
+        /// <summary>Creates a new binding that will use the given string as the key value for localization.</summary>
+        public LocExtension(string key) => Init(new Binding(".") { Source = key });
 
-            // Set the object source of the binding to be the TranslationSource (which provides the strings)
-            Source = TranslationSource.Instance;
+        /// <summary>Creates a new binding that will use the given string as the key value for localization, targetting the given package.</summary>
+        public LocExtension(string key, string package) => Init(new Binding(".") { Source = key }, package);
 
-            // E.G. if the `name` was "Test", the result of the binding would be TranslationSource.Instance["Test"],
-        }
+        /// <summary>Creates a new binding that will use the given binding as the key value for localization.</summary>
+        public LocExtension(BindingBase keyBinding) => Init(keyBinding);
 
-        public LocExtension(string name, string package) : base($"[{name}, {package}]") {
-            Mode = BindingMode.OneWay;
-            Source = TranslationSource.Instance;
+        /// <summary>Creates a new binding that will use the given binding as the key value for localization, targetting the given package.</summary>
+        public LocExtension(BindingBase keyBinding, string package) => Init(keyBinding, package);
+
+        private void Init(BindingBase keyBinding, string package = "aurora") {
+            Bindings.Add(keyBinding);
+            Bindings.Add(new Binding("[LocBinding]") { Source = TranslationSource.Instance }); // Binds to a dummy key so that it's updated if lang is changed
+            Converter = conv = new LocalizationConverter { Package = package };
         }
 
         /// <summary>A substring that is prepended to the start of the localized string.</summary>
-        public string Prefix {
-            get => prefix;
-            set { prefix = value; SetStringFormat(); }
-        }
+        public string Prefix { get => conv.Prefix; set => conv.Prefix = value; }
 
         /// <summary>A substring that is appended to the end of the localized string.</summary>
-        public string Suffix {
-            get => suffix;
-            set { suffix = value; SetStringFormat(); }
-        }
+        public string Suffix { get => conv.Suffix; set => conv.Suffix = value; }
 
-        /// <summary>One or more substrings that are passed to the converter to insert them into the translated string.
+        /// <summary>One or more substrings that are passed to the converter to insert them into the translated string. Multiple substrings
+        /// should be separated using the pipe character ('|').
         /// <para>E.G. if the result from localisation was "Enable {0} profile", and Values was ["Minecraft"], the result
         /// would be "Enable Minecraft profile".</para></summary>
-        public string[] InsertValues {
-            get => insertValues;
-            set { insertValues = value; Converter = value == null ? null : new StringFormatterConverter(value); }
-        }
+        public string InsertValues { set => conv.InsertValues = value.Split('|'); }
 
-        /// <summary> A string that will be inserted into the localized string. This is shorthand for adding an InsertValues of one element.</summary>
-        public string InsertValue { set => InsertValues = new[] { value }; }
+        /// <summary>Basic converter to handle the localization.</summary>
+        private class LocalizationConverter : IMultiValueConverter {
 
-        /// <summary>Update the BindingBase's StringFormat property with the specified prefix and suffix.</summary>
-        /// <remarks>We use the StringFormat system to take the resulting value ("{0}") and add the suffix/prefix The value
-        /// passed to this is the value AFTER running though the converter.</remarks>
-        private void SetStringFormat()
-            => StringFormat = Prefix + "{0}" + Suffix;
+            public string Package { get; set; }
+            public string Prefix { get; set; }
+            public string Suffix { get; set; }
+            public string[] InsertValues { get; set; }
 
-
-        /// <summary>
-        /// Value converter that takes a string value and formats it with the given values.
-        /// <para>E.G. Converting the string "{0} and {1}", with insert values "a", "b" we get "a and b".</para>
-        /// </summary>
-        /// <seealso cref="string.Format(string, object[])"/>
-        private class StringFormatterConverter : IValueConverter {
-
-            private string[] insertValues;
-
-            /// <summary>Creates a new formatter converter with the given substitution values which will be formatted into the string.</summary>
-            public StringFormatterConverter(string[] insertValues) { this.insertValues = insertValues; }
-
-            public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => string.Format(value.ToString(), insertValues);
-            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+            public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {
+                var key = values[0].ToString();
+                var str = TranslationSource.Instance.GetString(key, Package ?? "aurora");
+                if (InsertValues != null) str = string.Format(str, InsertValues);
+                return (Prefix ?? "") + str + (Suffix ?? "");
+            }
+            public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
         }
     }
+
 
 
     /// <summary>
