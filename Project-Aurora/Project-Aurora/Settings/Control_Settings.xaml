@@ -118,8 +118,6 @@
             <DataTemplate x:Key="AppDetectionModeTemplate">
                 <TextBlock Text="{Binding Converter={StaticResource AppDetectionModeToStringVC}}" />
             </DataTemplate>
-
-            <local:CultureInfoToIconConverter x:Key="CultureInfoToIconConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -177,7 +175,7 @@
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding ., Converter={StaticResource CultureInfoToIconConverter}}" Height="18" Margin="0,2,4,2" VerticalAlignment="Center" />
+                                    <Image Source="{Binding Icon}" Height="18" Width="18" Margin="0,2,4,2" VerticalAlignment="Center" />
                                     <TextBlock Text="{Binding NativeName}" VerticalAlignment="Center" />
                                 </StackPanel>
                             </DataTemplate>

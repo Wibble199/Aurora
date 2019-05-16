@@ -130,7 +130,8 @@ namespace Aurora.Settings
             this.updates_autocheck_on_start.IsChecked = Global.Configuration.updates_check_on_start_up;
 
             LangCb.ItemsSource = Localization.CultureUtils.AvailableCultures // Fill the language selection combobox with all detected available languages
-                .OrderBy(culture => culture.NativeName); // Sorted by name
+                .OrderBy(culture => culture.NativeName) // Sorted by name
+                .Select(culture => new { culture.NativeName, culture.IetfLanguageTag, Icon = Localization.CultureUtils.GetIcon(culture.IetfLanguageTag) });
 
             
         }
@@ -900,10 +901,5 @@ namespace Aurora.Settings
                 }
             }
         }
-    }
-
-    public class CultureInfoToIconConverter : IValueConverter {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value == null ? null : new BitmapImage(new Uri($"/Aurora;component/Resources/CultureIcons/{((CultureInfo)value).IetfLanguageTag}.png", UriKind.Relative));
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 }

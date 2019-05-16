@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Resources;
 using System.Windows.Data;
-using System.Windows.Markup;
+using System.Windows.Media.Imaging;
 
 namespace Aurora.Settings.Localization {
 
@@ -20,17 +20,23 @@ namespace Aurora.Settings.Localization {
     /// </remarks>
     public class TranslationSource : INotifyPropertyChanged {
 
+        /// <summary>The base directory which contains folders for each language.</summary>
+        public static string LanguageFileBaseDir { get; } = Path.Combine(Global.ExecutingDirectory, "Localization");
+
         /// <summary>Event called when the culture information is changed, so that XAML elements with the Loc binding know they need to update their values.</summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>Get the singleton instance of <see cref="TranslationSource" />.</summary>
-        public static TranslationSource Instance { get; } = new TranslationSource();
+        public static TranslationSource Instance { get => instance.Value; }
+        private static Lazy<TranslationSource> instance = new Lazy<TranslationSource>(() => new TranslationSource());
 
-        private readonly ResourceManager resManager = Aurora.Localization.Resources.ResourceManager;
         private CultureInfo currentCulture = new CultureInfo(Global.Configuration.LanguageIETF);
 
-        /// <summary>Fetches the string stored in the resource file under the given key in the <see cref="CurrentCulture" /> culture.</summary>
-        public string this[string key] => resManager.GetString(key, currentCulture);
+        private Dictionary<(string package, string key), string> source = new Dictionary<(string package, string key), string>();
+        private Dictionary<(string package, string key), string> sourceFallback = new Dictionary<(string package, string locale), string>();
+
+        /// <summary>Constructor that performs the initial language file loading.</summary>
+        private TranslationSource() => ReloadLanguageFiles();
 
         /// <summary>Gets or sets the current culture which is used to find the correct translation.
         /// Will update all XAML elements that make use of the Loc binding when the culture is set.</summary>
@@ -39,20 +45,85 @@ namespace Aurora.Settings.Localization {
             set {
                 if (currentCulture != value) {
                     currentCulture = value;
-                    Global.Configuration.LanguageIETF = value.IetfLanguageTag;
+                    source.Clear();
+                    LoadLanguageFiles(source, value.IetfLanguageTag);
+                    Global.Configuration.LanguageIETF = value.IetfLanguageTag; // Store the new lang
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("")); // Empty string means all properties have changed (including all values with indexers)
                 }
             }
         }
 
-        /// <summary>
-        /// Gets or sets the IETF Language Tag for the current culture.
-        /// </summary>
+        /// <summary>Gets or sets the IETF Language Tag for the current culture.</summary>
         public string CurrentCultureIetfTag {
             get => CurrentCulture.IetfLanguageTag;
             set => CurrentCulture = new CultureInfo(value);
         }
+
+        /// <summary>Gets the translated string for particular key.</summary>
+        public string this[string key] => GetString(key);
+        /// <summary>Gets the translated string for particular key in a particular package.</summary>
+        public string this[string key, string package] => GetString(key, package);
+
+        /// <summary>Returns the translated string with a particular key, optionally in a particular package group, in the current culture.
+        /// <para>If the current culture does not contain the key, the en-US language is used as a fallback. If the key doesn't exist there
+        /// either, then a warning is shown in the format "#Missing:&lt;package&gt;.&lt;key&gt;".</para></summary>
+        /// <param name="key">The key of the string to get, e.g. "PrimaryColor".</param>
+        /// <param name="package">An optional package the translation is in.</param>
+        public string GetString(string key, string package = "aurora") {
+            var keyTuple = (package.ToLower(), key.ToLower());
+            if (source.ContainsKey(keyTuple))
+                return source[keyTuple];
+            else if (sourceFallback.ContainsKey(keyTuple))
+                return source[keyTuple];
+            return $"#Missing:{package}.{key}";
+        }
+
+        /// <summary>Loads all the language files (of all packages) of the provided culture into the provided dictionary.</summary>
+        /// <param name="into">The dictionary that all the language translations will be stored in.</param>
+        /// <param name="locale">The IETF language code of the culture whose files to load into the dictionary.</param>
+        private static void LoadLanguageFiles(Dictionary<(string package, string key), string> into, string locale) {
+            // Check the specified locale is valid.
+            if (!CultureUtils.IsCultureValid(locale)) {
+                Global.logger.Error(new ArgumentException("Invalid IETF Language Code provided (parameter `locale`). This locale is unavailable."));
+                return;
+            }
+
+            // Check the specified lang files exist
+            var langDir = new DirectoryInfo(Path.Combine(LanguageFileBaseDir, locale));
+            if (!langDir.Exists) {
+                Global.logger.Error(new ArgumentException("The specified locale does not have a language directory assigned. This locale is unavailable."));
+                return;
+            }
+
+            into.Clear();
+
+            // Look though all of the relevant files in the directory
+            foreach (var langFile in langDir.EnumerateFiles("*.lang")) {
+                // Package name is given by filename. E.G. "Wibble.Package.lang" -> Package = "wibble.package"
+                var packageName = Path.GetFileNameWithoutExtension(langFile.Name).ToLower();
+
+                // Read the entire contents of the file, with each line in format "<key>: <translation>"
+                // Add each translation into the target dictionary under the package name given by the filename and the key specified on the line
+                foreach (var line in File.ReadAllLines(langFile.FullName)) {
+                    if (string.IsNullOrWhiteSpace(line) || line[0] == '~') continue;
+                    try {
+                        var idx = line.IndexOf(": ");
+                        into.Add((packageName, line.Substring(0, idx).ToLower()), line.Substring(idx + 2, line.Length - idx - 2).Trim());
+                    } catch (Exception ex) {
+                        Global.logger.Warn($"Exception while parsing line in {langFile.FullName}. Exception: {ex.Message}. Tip: Use '~' to mark lines as comments.");
+                    }
+                }
+            }
+        }
+
+        /// <summary>Can be called to reload the language files. Useful for when additional ones are installed, to save Aurora from needing to restart.</summary>
+        public void ReloadLanguageFiles() {
+            LoadLanguageFiles(sourceFallback, "en-US");
+            LoadLanguageFiles(source, CurrentCultureIetfTag);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(""));
+        }
     }
+
 
 
     /// <summary>
@@ -64,15 +135,19 @@ namespace Aurora.Settings.Localization {
         private string suffix = "";
         private string[] insertValues = null;
 
-        public LocExtension(string name) : base("[" + name + "]") {
+        public LocExtension(string name) : base($"[{name}]") {
             // One way binding since you can't set back to the resource dictionary... obviously.
             Mode = BindingMode.OneWay;
 
             // Set the object source of the binding to be the TranslationSource (which provides the strings)
             Source = TranslationSource.Instance;
 
-            // E.G. if the `name` was "Test", the result of the binding would be TranslationSource.Instance[Test],
-            // which is Localization.Resources.ResourceManager.GetString("Test", CurrentCulture);
+            // E.G. if the `name` was "Test", the result of the binding would be TranslationSource.Instance["Test"],
+        }
+
+        public LocExtension(string name, string package) : base($"[{name}, {package}]") {
+            Mode = BindingMode.OneWay;
+            Source = TranslationSource.Instance;
         }
 
         /// <summary>A substring that is prepended to the start of the localized string.</summary>
@@ -127,26 +202,29 @@ namespace Aurora.Settings.Localization {
     /// Some utility functions for helping with localization and various cultures.
     /// </summary>
     public static class CultureUtils {
-        /// <summary>Gets a list of all available languages in Aurora.</summary>
-        public static IEnumerable<CultureInfo> AvailableCultures { get; } = GetAvailableCultures();
-
-        /// <summary>Gets <see cref="CultureInfo"/>s of all available localization resource files which have been embedded in Aurora.</summary>
-        /// <remarks>Adapted from: https://stackoverflow.com/a/3227549/1305670 </remarks>
-        private static IEnumerable<CultureInfo> GetAvailableCultures() {
-            var programLocation = Process.GetCurrentProcess().MainModule.FileName;
-            var resourceFileName = Path.GetFileNameWithoutExtension(programLocation) + ".resources.dll";
-            var rootDir = new DirectoryInfo(Path.GetDirectoryName(programLocation));
-            var available = from c in CultureInfo.GetCultures(CultureTypes.AllCultures)
-                            join d in rootDir.EnumerateDirectories() on c.IetfLanguageTag equals d.Name
-                            where d.EnumerateFiles(resourceFileName).Any()
-                            select c;
-
-            // Have to add en-US manually since it's the default and thus does not have a folder and won't appear in the available list
-            return new List<CultureInfo> { new CultureInfo("en-US") }.Concat(available);
-        }
+        /// <summary>Gets a list of all available languages in Aurora.
+        /// An available language is one that has a directory in the Localization directory and has a flag icon.</summary>
+        public static IEnumerable<CultureInfo> AvailableCultures { get; } =
+            new DirectoryInfo(TranslationSource.LanguageFileBaseDir).EnumerateDirectories()
+                .Where(d => IsCultureValid(d.Name) && File.Exists(Path.Combine(d.FullName, "icon.png")))
+                .Select(d => new CultureInfo(d.Name));
 
         /// <summary>Returns the user's current culture IETF tag, or defaults to "en-US" if their language is not supported.</summary>
         public static string GetDefaultUserCulture() =>
-            AvailableCultures.Contains(CultureInfo.CurrentCulture) ? CultureInfo.CurrentCulture.IetfLanguageTag : "en-US";
+            IsCultureValid(CultureInfo.CurrentCulture.IetfLanguageTag) ? CultureInfo.CurrentCulture.IetfLanguageTag : "en-US";
+
+        /// <summary>Checks to see if the specified IETF language tag is recognised.</summary>
+        public static bool IsCultureValid(string tag) =>
+            CultureInfo.GetCultures(CultureTypes.AllCultures).FirstOrDefault(c => c.IetfLanguageTag == tag) != null;
+
+        /// <summary>Returns the flag icon for a specific culture, by it's IETF tag (e.g. "en-US").</summary>
+        public static BitmapImage GetIcon(string cultureTag) {
+            var uri = new Uri(Path.Combine(TranslationSource.LanguageFileBaseDir, cultureTag, "icon.png"));
+            var bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = uri;
+            bitmap.EndInit();
+            return bitmap;
+        }
     }
 }

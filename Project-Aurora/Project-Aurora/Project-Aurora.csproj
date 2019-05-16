@@ -355,11 +355,6 @@
     <Compile Include="Controls\Control_GameStateParameterPicker.xaml.cs">
       <DependentUpon>Control_GameStateParameterPicker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Localization\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -866,9 +861,18 @@
     </Compile>
     <Compile Include="Profiles\Metro Last Light\MetroLLApplication.cs" />
     <Compile Include="Profiles\Metro Last Light\MetroLLProfile.cs" />
+    <Content Include="Localization\en-US\icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Localization\readme.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Profiles\Overlays\SkypeOverlay\Event_SkypeOverlay.cs" />
     <Content Include="Profiles\Overlays\SkypeOverlay\SkypeOverlaySettings.cs" />
     <Content Include="Profiles\Overlays\SkypeOverlay\State_SkypeOverlay.cs" />
+    <None Include="Localization\en-US\Aurora.lang">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Profiles\Overlays\VolumeOverlay\Event_VolumeOverlay.cs" />
     <None Include="Profiles\Overlays\VolumeOverlay\VolumeOverlaySettings.cs" />
     <Compile Include="Profiles\Payday 2\Layers\Control_PD2StatesLayer.xaml.cs">
@@ -1542,9 +1546,6 @@
     <Resource Include="Resources\UIIcons\collapse-arrow-30.png" />
     <Resource Include="Resources\UIIcons\expand-arrow-30.png" />
     <Resource Include="Resources\UIIcons\font-size-30.png" />
-    <Resource Include="Resources\CultureIcons\de-DE.png" />
-    <Resource Include="Resources\CultureIcons\en-US.png" />
-    <None Include="Resources\CultureIcons\_source.txt" />
     <Resource Include="Resources\UIIcons\error-50.png" />
     <Resource Include="Resources\UIIcons\help-50.png" />
     <Resource Include="Resources\UIIcons\info-50.png" />
@@ -2322,11 +2323,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Localization\Resources.de-DE.resx" />
-    <EmbeddedResource Include="Localization\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
