@@ -21,9 +21,6 @@ namespace Aurora.Profiles.Payday_2.Layers
     /// </summary>
     public partial class Control_PD2BackgroundLayer : UserControl
     {
-        private bool settingsset = false;
-        private bool profileset = false;
-
         public Control_PD2BackgroundLayer()
         {
             InitializeComponent();
@@ -33,17 +30,6 @@ namespace Aurora.Profiles.Payday_2.Layers
         {
             this.DataContext = datacontext.Properties;
             InitializeComponent();
-        }
-
-
-        internal void SetProfile(Application profile)
-        {
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-
-            this.Loaded -= UserControl_Loaded;
         }
 
         private void sldAssaultSpeed_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

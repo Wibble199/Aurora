@@ -1,14 +1,17 @@
 ﻿<Application x:Class="Aurora.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    DispatcherUnhandledException="App_DispatcherUnhandledException"
->
+    xmlns:Utils="clr-namespace:Aurora.Utils"
+    DispatcherUnhandledException="App_DispatcherUnhandledException">
+    
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Theme/BaseThemeVariables.xaml" />
                 <ResourceDictionary Source="Theme/AuroraAppTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <Utils:ColorConverter x:Key="XctkColorConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

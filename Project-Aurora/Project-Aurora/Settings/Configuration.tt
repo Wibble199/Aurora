@@ -1,0 +1,142 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+<#
+var propertyList = new List<string> {
+	
+
+
+	// Use:  P("type name", "property name")
+	//  Or:  P("type name", "property name", "default value")
+	//  Or:  P("type name", "property name", "default value", "json field name")
+	//  Or:  P("type name", "property name", null, "json field name")
+	// Note that if you are using strings as the default value, these will need to be surrounded
+	// with quotes, E.G. P("string", "X", "\"default string value\"")
+	// Can also add custom lines if needed as direct strings.
+	// There is no need to add a JSON field name to new properties. This is for backwards compatibility
+	// so that when existing properties are renamed, user's settings are not lost.
+
+	// ----------------------  ↓  Add new properties here  ↓  ---------------------- //
+
+
+	// General settings
+	P("AppExitMode", "CloseMode", "AppExitMode.Ask", "close_mode"),
+	P("bool", "StartSilently", "false", "start_silently"),
+	P("bool", "UpdatesCheckOnStartup", "true", "updates_check_on_start_up"),
+	P("string", "LanguageIETF", "Localization.CultureUtils.GetDefaultUserCulture()"),
+	P("string", "ThemeName", ""),
+
+	P("bool", "AllowPeripheralDevices", "true", "allow_peripheral_devices"),
+	P("bool", "AllowWrappersInBackground", "true", "allow_wrappers_in_background"),
+	P("bool", "AllowAllLogitechBitmaps", "true", "allow_all_logitech_bitmaps"),
+	P("bool", "UseVolumeAsBrightness", "false", "use_volume_as_brightness"),
+	P("float", "GlobalBrightness", 1, "global_brightness"),
+	P("float", "KeyboardBrightness", 1, "keyboard_brightness_modifier"),
+	P("float", "PeripheralBrightness", 1, "peripheral_brightness_modifier"),
+	P("bool", "GetDevReleases"),
+	P("bool", "GetPointerUpdates"),
+	P("bool", "HighPriority"),
+	P("BitmapAccuracy", "BitmapAccuracy", "BitmapAccuracy.Okay"),
+	P("ApplicationDetectionMode", "DetectionMode", "ApplicationDetectionMode.WindowsEvents", "detection_mode"),
+	P("HashSet<string>", "ExcludedPrograms", "new HashSet<string>()", "excluded_programs"),
+	P("bool", "OverlaysInPreview", "false"),
+	P("List<string>", "ProfileOrder", "new List<string>()"),
+
+	// Hardware settings
+	P("MouseOrientationType", "MouseOrientation", "MouseOrientationType.RightHanded", "mouse_orientation"),
+	P("PreferredKeyboard", "KeyboardBrand", "PreferredKeyboard.None", "keyboard_brand"),
+	P("PreferredKeyboardLocalization", "KeyboardLocalization", "PreferredKeyboardLocalization.None", "keyboard_localization"),
+	P("PreferredMouse", "MousePreference", "PreferredMouse.None", "mouse_preference"),
+	P("KeycapType", "VirtualKeyboardKeycapType", "KeycapType.Default", "virtualkeyboard_keycap_type"),
+	P("bool", "DevicesDisableKeyboard", "false", "devices_disable_keyboard"),
+	P("bool", "DevicesDisableMouse", "false", "devices_disable_mouse"),
+	P("bool", "DevicesDisableHeadset", "false", "devices_disable_headset"),
+	P("bool", "UnifiedHidDisabled", "false", "unified_hid_disabled"),
+	P("HashSet<Type>", "DevicesDisabled", "new HashSet<Type>()", "devices_disabled"),
+
+	// First time installs
+	P("bool", "RedistFirstTime", "true", "redist_first_time"),
+	P("bool", "LogitechFirstTime", "true", "logitech_first_time"),
+	P("bool", "CorsairFirstTime", "true", "corsair_first_time"),
+	P("bool", "RazerFirstTime", "true", "razer_first_time"),
+	P("bool", "SteelSeriesFirstTime", "true", "steelseries_first_time"),
+	P("bool", "DualShockFirstTime", "true", "dualshock_first_time"),
+	P("bool", "RoccatFirstTime", "true", "roccat_first_time"),
+
+	// Blackout/night mode settings
+	P("bool", "TimeBasedDimmingEnabled", "false", "time_based_dimming_enabled"),
+	P("bool", "TimeBasedDimmingAffectGames", "false", "time_based_dimming_affect_games"),
+	P("int", "TimeBasedDimmingStartHour", 21, "time_based_dimming_start_hour"),
+	P("int", "TimeBasedDimmingStartMinute", 0, "time_based_dimming_start_minute"),
+	P("int", "TimeBasedDimmingEndHour", 8, "time_based_dimming_end_hour"),
+	P("int", "TimeBasedDimmingEndMinute", 0, "time_based_dimming_end_minute"),
+	P("bool", "NightTimeEnabled", "false", "nighttime_enabled"),
+	P("int", "NightTimeStartHour", 20, "nighttime_start_hour"),
+	P("int", "NightTimeStartMinute", 0, "nighttime_start_minute"),
+	P("int", "NightTimeEndHour", 7, "nighttime_end_hour"),
+	P("int", "NightTimeEndMinute", 0, "nighttime_end_minute"),
+
+	// Idle settings. Turn into layer override?
+	P("IdleEffects", "IdleType", "IdleEffects.None", "idle_type"),
+	P("int", "IdleDelay", "5", "idle_delay"),
+	P("float", "IdleSpeed", "1", "idle_speed"),
+	P("Color", "IdlePrimaryColor", "Color.FromArgb(0, 255, 0)", "idle_effect_primary_color"),
+	P("Color", "IdleSecondaryColor", "Color.FromArgb(0, 0, 0)", "idle_effect_secondary_color"),
+	P("int", "IdleAmount", "5", "idle_amount"),
+	P("float", "IdleFrequency", "2.5f", "idle_frequency"),
+
+	// Debug settings
+	P("bool", "BitmapDebugTopMost"),
+	P("bool", "HttpDebugTopMost"),
+
+	// Other
+	P("VariableRegistry", "VarRegistry", "new VariableRegistry()")
+};
+
+// ------  ↓  Add any required using statements here  ↓  ------ //
+#>
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+
+
+<# // ------ Leave the remainder of this file alone ------ // #>
+<#
+
+
+
+
+
+#>
+namespace Aurora.Settings {
+	
+	//          !!!! DO NOT EDIT THIS !!!!
+	// Auto-generated Configuration model. Edit Configuration.tt instead and re-generate.
+	public partial class Configuration : Settings {
+
+<# foreach (var p in propertyList) { #>
+		<#= p #>
+<# } #>
+
+	}
+}
+<#+
+string P(string type, string name) {
+	var fieldName = name[0].ToString().ToLower() + name.Substring(1);
+	return $"private {type} {fieldName};{Environment.NewLine}\t\tpublic {type} {name} {{ get => {fieldName}; set {{ {fieldName} = value; InvokePropertyChanged(); }} }}{Environment.NewLine}";
+}
+
+string P(string type, string name, object @default) {
+	var fieldName = name[0].ToString().ToLower() + name.Substring(1);
+	if (@default == null || string.IsNullOrWhiteSpace(@default.ToString())) @default = $"default({type})";
+	return $"private {type} {fieldName} = {@default.ToString()};{Environment.NewLine}\t\tpublic {type} {name} {{ get => {fieldName}; set {{ {fieldName} = value; InvokePropertyChanged(); }} }}{Environment.NewLine}";
+}
+
+string P(string type, string name, object @default, string overrideJsonName) {
+	var fieldName = name[0].ToString().ToLower() + name.Substring(1);
+	if (@default == null || string.IsNullOrWhiteSpace(@default.ToString())) @default = $"default({type})";
+	return $"private {type} {fieldName} = {@default.ToString()};{Environment.NewLine}\t\t[JsonProperty(PropertyName = \"{overrideJsonName}\")]{Environment.NewLine}\t\tpublic {type} {name} {{ get => {fieldName}; set {{ {fieldName} = value; InvokePropertyChanged(); }} }}{Environment.NewLine}";
+}
+#>

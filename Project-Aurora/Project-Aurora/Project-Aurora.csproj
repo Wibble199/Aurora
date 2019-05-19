@@ -360,6 +360,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Settings\Configuration.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Configuration.tt</DependentUpon>
+    </Compile>
     <Compile Include="Settings\Control_LayerList.xaml.cs">
       <DependentUpon>Control_LayerList.xaml</DependentUpon>
     </Compile>
@@ -1251,7 +1256,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Compile Include="Settings\ColorZone.cs" />
-    <Compile Include="Settings\Configuration.cs" />
+    <Compile Include="Settings\ConfigManager.cs" />
     <Compile Include="Devices\DeviceManager.cs" />
     <Compile Include="Devices\Corsair\CorsairDevice.cs" />
     <Compile Include="Devices\Device.cs" />
@@ -1552,6 +1557,10 @@
     <Resource Include="Resources\UIIcons\ok-50.png" />
     <Resource Include="Resources\UIIcons\warning-50.png" />
     <Resource Include="Resources\UIIcons\trash-can-50.png" />
+    <Content Include="Settings\Configuration.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Configuration.cs</LastGenOutput>
+    </Content>
     <Content Include="wooting-rgb-sdk.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

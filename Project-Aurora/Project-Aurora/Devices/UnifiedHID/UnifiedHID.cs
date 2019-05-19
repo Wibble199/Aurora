@@ -140,7 +140,7 @@ namespace Aurora.Devices.UnifiedHID
                     color = Color.FromArgb(255, Utils.ColorUtils.MultiplyColorByScalar(color, color.A / 255.0D));
 
                     if (e.Cancel) return false;
-                    else if (Global.Configuration.allow_peripheral_devices && !Global.Configuration.devices_disable_mouse)
+                    else if (Global.Configuration.AllowPeripheralDevices && !Global.Configuration.DevicesDisableMouse)
                     {
                         if (key.Key == DeviceKeys.Peripheral_Logo || key.Key == DeviceKeys.Peripheral_ScrollWheel || key.Key == DeviceKeys.Peripheral_FrontLight)
                         {

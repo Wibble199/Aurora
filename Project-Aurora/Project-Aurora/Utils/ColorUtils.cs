@@ -5,30 +5,17 @@ using System.Drawing.Imaging;
 using System.Globalization;
 using System.Windows.Data;
 
+using MColor = System.Windows.Media.Color;
+using DColor = System.Drawing.Color;
+
 namespace Aurora.Utils
 {
-    public static class ColorExt
-    {
-        public static System.Drawing.Color ToDrawingColor(this System.Windows.Media.Color self)
-        {
-            return ColorUtils.MediaColorToDrawingColor(self);
-        }
-
-        public static System.Windows.Media.Color ToMediaColor(this System.Drawing.Color self)
-        {
-            return ColorUtils.DrawingColorToMediaColor(self);
-        }
-
-        public static System.Windows.Media.Color Clone(this System.Windows.Media.Color self)
-        {
-            return ColorUtils.CloneMediaColor(self);
-        }
-
-        public static System.Drawing.Color Clone(this System.Drawing.Color clr)
-        {
-            return ColorUtils.CloneDrawingColor(clr);
-        }
-    }   
+    public static class ColorExt {
+        public static DColor ToDrawingColor(this MColor self) => ColorUtils.MediaColorToDrawingColor(self);
+        public static MColor ToMediaColor(this DColor self) => ColorUtils.DrawingColorToMediaColor(self);
+        public static MColor Clone(this MColor self) => ColorUtils.CloneMediaColor(self);
+        public static DColor Clone(this DColor clr) => ColorUtils.CloneDrawingColor(clr);
+    }
 
     /// <summary>
     /// Various color utilities
@@ -42,9 +29,9 @@ namespace Aurora.Utils
         /// </summary>
         /// <param name="in_color">A Windows Media Color</param>
         /// <returns>A Drawing Color</returns>
-        public static System.Drawing.Color MediaColorToDrawingColor(System.Windows.Media.Color in_color)
+        public static DColor MediaColorToDrawingColor(MColor in_color)
         {
-            return System.Drawing.Color.FromArgb(in_color.A, in_color.R, in_color.G, in_color.B);
+            return DColor.FromArgb(in_color.A, in_color.R, in_color.G, in_color.B);
         }
 
         /// <summary>
@@ -52,9 +39,9 @@ namespace Aurora.Utils
         /// </summary>
         /// <param name="in_color">A Drawing Color</param>
         /// <returns>A Windows Media Color</returns>
-        public static System.Windows.Media.Color DrawingColorToMediaColor(System.Drawing.Color in_color)
+        public static MColor DrawingColorToMediaColor(DColor in_color)
         {
-            return System.Windows.Media.Color.FromArgb(in_color.A, in_color.R, in_color.G, in_color.B);
+            return MColor.FromArgb(in_color.A, in_color.R, in_color.G, in_color.B);
         }
 
         /// <summary>
@@ -84,7 +71,7 @@ namespace Aurora.Utils
         /// <param name="foreground">The foreground color (When percent is at 1.0D, only this color is shown)</param>
         /// <param name="percent">The blending percent value</param>
         /// <returns>The blended color</returns>
-        public static System.Drawing.Color BlendColors(System.Drawing.Color background, System.Drawing.Color foreground, double percent)
+        public static DColor BlendColors(DColor background, DColor foreground, double percent)
         {
             if (percent < 0.0)
                 percent = 0.0;
@@ -96,7 +83,7 @@ namespace Aurora.Utils
             int Blue = (byte)Math.Min((Int32)foreground.B * percent + (Int32)background.B * (1.0 - percent), 255);
             int Alpha = (byte)Math.Min((Int32)foreground.A * percent + (Int32)background.A * (1.0 - percent), 255);
 
-            return System.Drawing.Color.FromArgb(Alpha, Red, Green, Blue);
+            return DColor.FromArgb(Alpha, Red, Green, Blue);
         }
 
         /// <summary>
@@ -106,7 +93,7 @@ namespace Aurora.Utils
         /// <param name="foreground">The foreground color (When percent is at 1.0D, only this color is shown)</param>
         /// <param name="percent">The blending percent value</param>
         /// <returns>The blended color</returns>
-        public static System.Windows.Media.Color BlendColors(System.Windows.Media.Color background, System.Windows.Media.Color foreground, double percent)
+        public static MColor BlendColors(MColor background, MColor foreground, double percent)
         {
             if (percent < 0.0)
                 percent = 0.0;
@@ -118,7 +105,7 @@ namespace Aurora.Utils
             int Blue = (byte)Math.Min((Int32)foreground.B * percent + (Int32)background.B * (1.0 - percent), 255);
             int Alpha = (byte)Math.Min((Int32)foreground.A * percent + (Int32)background.A * (1.0 - percent), 255);
 
-            return System.Windows.Media.Color.FromArgb((byte)Alpha, (byte)Red, (byte)Green, (byte)Blue);
+            return MColor.FromArgb((byte)Alpha, (byte)Red, (byte)Green, (byte)Blue);
         }
 
         /// <summary>
@@ -127,7 +114,7 @@ namespace Aurora.Utils
         /// <param name="background">The background color</param>
         /// <param name="foreground">The foreground color (must have transparency to allow color blending)</param>
         /// <returns>The sum of two colors</returns>
-        public static System.Drawing.Color AddColors(System.Drawing.Color background, System.Drawing.Color foreground)
+        public static DColor AddColors(DColor background, DColor foreground)
         {
             if ((object)background == null)
                 return foreground;
@@ -144,14 +131,14 @@ namespace Aurora.Utils
         /// <param name="color">The color to be multiplied</param>
         /// <param name="scalar">The scalar amount for multiplication</param>
         /// <returns>The multiplied Color</returns>
-        public static System.Drawing.Color MultiplyColorByScalar(System.Drawing.Color color, double scalar)
+        public static DColor MultiplyColorByScalar(DColor color, double scalar)
         {
             int Red = ColorByteMultiplication(color.R, scalar);
             int Green = ColorByteMultiplication(color.G, scalar);
             int Blue = ColorByteMultiplication(color.B, scalar);
             int Alpha = ColorByteMultiplication(color.A, scalar);
 
-            return System.Drawing.Color.FromArgb(Alpha, Red, Green, Blue);
+            return DColor.FromArgb(Alpha, Red, Green, Blue);
         }
 
         /// <summary>
@@ -160,23 +147,23 @@ namespace Aurora.Utils
         /// <param name="color">The color to be multiplied</param>
         /// <param name="scalar">The scalar amount for multiplication</param>
         /// <returns>The multiplied Color</returns>
-        public static System.Windows.Media.Color MultiplyColorByScalar(System.Windows.Media.Color color, double scalar)
+        public static MColor MultiplyColorByScalar(MColor color, double scalar)
         {
             int Red = ColorByteMultiplication(color.R, scalar);
             int Green = ColorByteMultiplication(color.G, scalar);
             int Blue = ColorByteMultiplication(color.B, scalar);
             int Alpha = ColorByteMultiplication(color.A, scalar);
 
-            return System.Windows.Media.Color.FromArgb((byte)Alpha, (byte)Red, (byte)Green, (byte)Blue);
+            return MColor.FromArgb((byte)Alpha, (byte)Red, (byte)Green, (byte)Blue);
         }
 
         /// <summary>
         /// Generates a random color
         /// </summary>
         /// <returns>A random color</returns>
-        public static System.Drawing.Color GenerateRandomColor()
+        public static DColor GenerateRandomColor()
         {
-            return System.Drawing.Color.FromArgb(randomizer.Next(255), randomizer.Next(255), randomizer.Next(255));
+            return DColor.FromArgb(randomizer.Next(255), randomizer.Next(255), randomizer.Next(255));
         }
 
         /// <summary>
@@ -184,14 +171,14 @@ namespace Aurora.Utils
         /// </summary>
         /// <param name="baseColor">A base color range</param>
         /// <returns>A random color within a base range</returns>
-        public static System.Drawing.Color GenerateRandomColor(System.Drawing.Color baseColor)
+        public static DColor GenerateRandomColor(DColor baseColor)
         {
             int red = (randomizer.Next(255) + baseColor.R) / 2;
             int green = (randomizer.Next(255) + baseColor.G) / 2;
             int blue = (randomizer.Next(255) + baseColor.B) / 2;
             int alpha = (255 + baseColor.A) / 2;
 
-            return System.Drawing.Color.FromArgb(alpha, red, green, blue);
+            return DColor.FromArgb(alpha, red, green, blue);
         }
 
         /// <summary>
@@ -199,7 +186,7 @@ namespace Aurora.Utils
         /// </summary>
         /// <param name="bitmap">The bitmap to be evaluated</param>
         /// <returns>An average color from the bitmap</returns>
-        public static Color GetAverageColor(System.Windows.Media.Imaging.BitmapSource bitmap)
+        public static DColor GetAverageColor(System.Windows.Media.Imaging.BitmapSource bitmap)
         {
             var format = bitmap.Format;
 
@@ -230,7 +217,7 @@ namespace Aurora.Utils
                 red += pixelBuffer[i + 2];
             }
 
-            return Color.FromArgb((byte)(red / numPixels), (byte)(green / numPixels), (byte)(blue / numPixels));
+            return DColor.FromArgb((byte)(red / numPixels), (byte)(green / numPixels), (byte)(blue / numPixels));
         }
 
         /// <summary>
@@ -238,7 +225,7 @@ namespace Aurora.Utils
         /// </summary>
         /// <param name="bitmap">The bitmap to be evaluated</param>
         /// <returns>An average color from the bitmap</returns>
-        public static Color GetAverageColor(Bitmap bitmap)
+        public static DColor GetAverageColor(Bitmap bitmap)
         {
             long Red = 0;
             long Green = 0;
@@ -247,14 +234,14 @@ namespace Aurora.Utils
 
             int numPixels = bitmap.Width * bitmap.Height;
 
-            BitmapData srcData = bitmap.LockBits(
+            var srcData = bitmap.LockBits(
                 new Rectangle(0, 0, bitmap.Width, bitmap.Height),
                 ImageLockMode.ReadOnly,
                 PixelFormat.Format32bppArgb);
 
             int stride = srcData.Stride;
 
-            IntPtr Scan0 = srcData.Scan0;
+            var Scan0 = srcData.Scan0;
 
             unsafe
             {
@@ -274,10 +261,10 @@ namespace Aurora.Utils
 
             bitmap.UnlockBits(srcData);
 
-            return Color.FromArgb((int)(Alpha / numPixels), (int)(Red / numPixels), (int)(Green / numPixels), (int)(Blue / numPixels));
+            return DColor.FromArgb((int)(Alpha / numPixels), (int)(Red / numPixels), (int)(Green / numPixels), (int)(Blue / numPixels));
         }
 
-        public static Color GetColorFromInt(int interger)
+        public static DColor GetColorFromInt(int interger)
         {
             if (interger < 0)
                 interger = 0;
@@ -288,10 +275,10 @@ namespace Aurora.Utils
             int G = (interger >> 8) & 255;
             int B = interger & 255;
 
-            return Color.FromArgb(R, G, B);
+            return DColor.FromArgb(R, G, B);
         }
 
-        public static int GetIntFromColor(Color color)
+        public static int GetIntFromColor(DColor color)
         {
             return (color.R << 16) | (color.G << 8) | (color.B);
         }
@@ -301,7 +288,7 @@ namespace Aurora.Utils
         /// </summary>
         /// <param name="color">Color to be evaluated</param>
         /// <returns>The brightness of the color. [0 = Dark, 255 = Bright]</returns>
-        public static byte GetColorBrightness(System.Drawing.Color color)
+        public static byte GetColorBrightness(DColor color)
         {
             //Source: http://stackoverflow.com/a/12043228
             return (byte)(0.2126 * color.R + 0.7152 * color.G + 0.0722 * color.B);
@@ -312,20 +299,20 @@ namespace Aurora.Utils
         /// </summary>
         /// <param name="color">Color to be evaluated</param>
         /// <returns>Whether or not the color is dark</returns>
-        public static bool IsColorDark(System.Drawing.Color color)
+        public static bool IsColorDark(DColor color)
         {
             //Source: http://stackoverflow.com/a/12043228
             return GetColorBrightness(color) < 40;
         }
 
-        public static System.Windows.Media.Color CloneMediaColor(System.Windows.Media.Color clr)
+        public static MColor CloneMediaColor(MColor clr)
         {
-            return System.Windows.Media.Color.FromArgb(clr.A, clr.R, clr.G, clr.B);
+            return MColor.FromArgb(clr.A, clr.R, clr.G, clr.B);
         }
 
-        public static System.Drawing.Color CloneDrawingColor(System.Drawing.Color clr)
+        public static DColor CloneDrawingColor(DColor clr)
         {
-            return System.Drawing.Color.FromArgb(clr.ToArgb());
+            return DColor.FromArgb(clr.ToArgb());
         }
     }
 
@@ -333,12 +320,12 @@ namespace Aurora.Utils
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ColorUtils.DrawingColorToMediaColor((System.Drawing.Color)value);
+            return ColorUtils.DrawingColorToMediaColor((DColor)value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ColorUtils.MediaColorToDrawingColor((System.Windows.Media.Color)value);
+            return ColorUtils.MediaColorToDrawingColor((MColor)value);
         }
     }
 
@@ -347,7 +334,7 @@ namespace Aurora.Utils
     /// </summary>
     public class RealColorConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => ((RealColor)value).GetMediaColor();
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => new RealColor((System.Windows.Media.Color)value);
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => new RealColor((MColor)value);
     }
 
     /// <summary>
@@ -361,15 +348,15 @@ namespace Aurora.Utils
 
     public class BoolToColorConverter : IValueConverter
     {
-        public static Tuple<Color, Color> TextWhiteRed = new Tuple<Color, Color>(Color.FromArgb(255, 186, 186, 186), Color.Red);
+        public static Tuple<DColor, DColor> TextWhiteRed = new Tuple<DColor, DColor>(DColor.FromArgb(255, 186, 186, 186), DColor.Red);
 
-        public static Tuple<Color, Color> TextRedWhite = new Tuple<Color, Color>(Color.Red, Color.FromArgb(255, 186, 186, 186));
+        public static Tuple<DColor, DColor> TextRedWhite = new Tuple<DColor, DColor>(DColor.Red, DColor.FromArgb(255, 186, 186, 186));
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             bool b = (bool)value;
-            Tuple<Color, Color> clrs = parameter as Tuple<Color, Color> ?? TextWhiteRed;
-            Color clr = b ? clrs.Item1 : clrs.Item2;
+            var clrs = parameter as Tuple<DColor, DColor> ?? TextWhiteRed;
+            var clr = b ? clrs.Item1 : clrs.Item2;
 
             return new System.Windows.Media.SolidColorBrush(ColorUtils.DrawingColorToMediaColor(clr));
         }
@@ -383,39 +370,39 @@ namespace Aurora.Utils
     public class RealColor : ICloneable
     {
         [JsonProperty]
-        private System.Drawing.Color Color { get; set; }
+        private DColor Color { get; set; }
 
         public RealColor()
         {
-            Color = Color.Transparent;
+            Color = DColor.Transparent;
         }
 
-        public RealColor(System.Windows.Media.Color clr)
+        public RealColor(MColor clr)
         {
             this.SetMediaColor(clr);
         }
 
-        public RealColor(System.Drawing.Color color)
+        public RealColor(DColor color)
         {
             this.Color = color.Clone();
         }
 
-        public System.Drawing.Color GetDrawingColor()
+        public DColor GetDrawingColor()
         {
             return Color.Clone();
         }
 
-        public System.Windows.Media.Color GetMediaColor()
+        public MColor GetMediaColor()
         {
             return Color.ToMediaColor();
         }
 
-        public void SetDrawingColor(System.Drawing.Color clr)
+        public void SetDrawingColor(DColor clr)
         {
             this.Color = clr.Clone();
         }
 
-        public void SetMediaColor(System.Windows.Media.Color clr)
+        public void SetMediaColor(MColor clr)
         {
             this.Color = clr.ToDrawingColor();
         }
@@ -425,7 +412,7 @@ namespace Aurora.Utils
             return new RealColor(this.Color.Clone());
         }
 
-        public static implicit operator System.Drawing.Color(RealColor c) => c.GetDrawingColor();
-        public static implicit operator System.Windows.Media.Color(RealColor c) => c.GetMediaColor();
+        public static implicit operator DColor(RealColor c) => c.GetDrawingColor();
+        public static implicit operator MColor(RealColor c) => c.GetMediaColor();
     }
 }

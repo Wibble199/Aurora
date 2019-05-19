@@ -13,18 +13,7 @@
              xmlns:Utils="clr-namespace:Aurora.Utils"
              mc:Ignorable="d" Loaded="UserControl_Loaded">
     <UserControl.Resources>
-        <ResourceDictionary>
-            <ObjectDataProvider x:Key="PercentEffectType" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
-                <ObjectDataProvider.MethodParameters>
-                    <x:Type TypeName="EnumPercentEffectType:PercentEffectType" />
-                </ObjectDataProvider.MethodParameters>
-            </ObjectDataProvider>
-            <Utils:PercentEffectTypeToStringVC x:Key="PercentEffectTypeToStringVC"/>
-            <Utils:ColorConverter x:Key="ColorConverter"/>
-            <DataTemplate x:Key="PercentEffectTypeTemplate">
-                <TextBlock Text="{Binding Converter={StaticResource PercentEffectTypeToStringVC}}" />
-            </DataTemplate>
-        </ResourceDictionary>
+        <Utils:ColorConverter x:Key="ColorConverter"/>
     </UserControl.Resources>
     <Grid>
         <Label HorizontalAlignment="Left" Padding="0" Content="Downed Color:" VerticalAlignment="Top" Margin="0,3,0,0"/>

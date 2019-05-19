@@ -35,6 +35,13 @@ namespace Aurora.Utils {
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => !((bool)value);
     }
 
+    /// <summary>Simple converter that takes a double (0-1) and returns a string showing it as a percentage.</summary>
+    public class AsPercentageConverter : IValueConverter {
+        public int NumDecimals { get; set; } = 0;
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => Math.Round((double)value * 100, NumDecimals) + "%";
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    }
+
     /// <summary>
     /// Converter that allows specification of multiple other converters.
     /// Does not support "ConvertBack".

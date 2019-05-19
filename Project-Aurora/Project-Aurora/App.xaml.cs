@@ -89,7 +89,7 @@ namespace Aurora
         public static PluginManager PluginManager;
         public static LightingStateManager LightingStateManager;
         public static NetworkListener net_listener;
-        public static Configuration Configuration;
+        public static Configuration Configuration { get; set; }
         public static DeviceManager dev_manager;
         public static KeyboardLayoutManager kbLayout;
         public static Effects effengine;
@@ -257,14 +257,11 @@ namespace Aurora
 
                     Global.Configuration = new Configuration();
                 }
-
-                Global.Configuration.PropertyChanged += (sender, eventArgs) => {
-                    ConfigManager.Save(Global.Configuration);
-                };
+                Global.Configuration.PropertyChanged += (sender, e) => ConfigManager.Save(Global.Configuration);
 
                 Process.GetCurrentProcess().PriorityClass = Global.Configuration.HighPriority ? ProcessPriorityClass.High : ProcessPriorityClass.Normal;
 
-                if (Global.Configuration.updates_check_on_start_up && !ignore_update)
+                if (Global.Configuration.UpdatesCheckOnStartup && !ignore_update)
                 {
                     string updater_path = System.IO.Path.Combine(Global.ExecutingDirectory, "Aurora-Updater.exe");
 
@@ -398,8 +395,6 @@ namespace Aurora
                         float brightness = Global.Configuration.GlobalBrightness;
                         brightness += keys == Keys.VolumeUp ? 0.05f : -0.05f;
                         Global.Configuration.GlobalBrightness = Math.Max(0f, Math.Min(1f, brightness));
-
-                        ConfigManager.Save(Global.Configuration);
                     }
                 }
                 );

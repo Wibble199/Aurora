@@ -97,15 +97,10 @@ namespace Aurora.Devices.Corsair
                             throw new WrapperException("No devices found");
                         else
                         {
-                            if (Global.Configuration.corsair_first_time)
+                            if (Global.Configuration.CorsairFirstTime)
                             {
-                                App.Current.Dispatcher.Invoke(() =>
-                                {
-                                    CorsairInstallInstructions instructions = new CorsairInstallInstructions();
-                                    instructions.ShowDialog();
-                                });
-                                Global.Configuration.corsair_first_time = false;
-                                Settings.ConfigManager.Save(Global.Configuration);
+                                App.Current.Dispatcher.Invoke(() => new CorsairInstallInstructions().ShowDialog());
+                                Global.Configuration.CorsairFirstTime = false;
                             }
 
                             //SaveLeds();
@@ -306,7 +301,7 @@ namespace Aurora.Devices.Corsair
 
         private void SendColorsToKeyboard(bool forced = false)
         {
-            if (keyboard != null && !Global.Configuration.devices_disable_keyboard)
+            if (keyboard != null && !Global.Configuration.DevicesDisableKeyboard)
             {
                 keyboard.Update(true);
                 keyboard_updated = true;
@@ -323,12 +318,12 @@ namespace Aurora.Devices.Corsair
 
         private void SendColorToMousepad(CorsairLedId zoneKey, Color color)
         {
-            if (Global.Configuration.devices_disable_mouse)
+            if (Global.Configuration.DevicesDisableMouse)
                 return;
 
-            if (Global.Configuration.allow_peripheral_devices)
+            if (Global.Configuration.AllowPeripheralDevices)
             {
-                if (mousemat != null && !Global.Configuration.devices_disable_mouse)
+                if (mousemat != null && !Global.Configuration.DevicesDisableMouse)
             {
                 if (mousemat[zoneKey] != null)
                     mousemat[zoneKey].Color = color;
@@ -349,12 +344,12 @@ namespace Aurora.Devices.Corsair
         {
             if ((!previous_peripheral_Color.Equals(color) || forced))
             {
-                if (Global.Configuration.allow_peripheral_devices)
+                if (Global.Configuration.AllowPeripheralDevices)
                 {
                     //Apply and strip Alpha
                     color = Color.FromArgb(255, Utils.ColorUtils.MultiplyColorByScalar(color, color.A / 255.0D));
 
-                    if (mouse != null && !Global.Configuration.devices_disable_mouse)
+                    if (mouse != null && !Global.Configuration.DevicesDisableMouse)
                     {
                         if (mouse[CorsairLedId.B1] != null)
                             mouse[CorsairLedId.B1].Color = color;
@@ -371,7 +366,7 @@ namespace Aurora.Devices.Corsair
                         mouse.Update(true);
                     }
 
-                    if (headset != null && !Global.Configuration.devices_disable_headset)
+                    if (headset != null && !Global.Configuration.DevicesDisableHeadset)
                     {
                         if (headset[CorsairLedId.LeftLogo] != null)
                             headset[CorsairLedId.LeftLogo].Color = color;
@@ -417,7 +412,7 @@ namespace Aurora.Devices.Corsair
                         mousemat.Update(true);
                     }*/
 
-                    if (headsetstand != null && !Global.Configuration.devices_disable_headset)
+                    if (headsetstand != null && !Global.Configuration.DevicesDisableHeadset)
                     {
                         if (headsetstand[CorsairLedId.HeadsetStandZone1] != null)
                             headsetstand[CorsairLedId.HeadsetStandZone1].Color = color;
@@ -456,10 +451,10 @@ namespace Aurora.Devices.Corsair
 
         private void SendColorToMouse(CorsairLedId ledid, Color color, bool forced = false)
         {
-            if (Global.Configuration.devices_disable_mouse)
+            if (Global.Configuration.DevicesDisableMouse)
                 return;
 
-            if (Global.Configuration.allow_peripheral_devices)
+            if (Global.Configuration.AllowPeripheralDevices)
             {
                 //Apply and strip Alpha
                 color = Color.FromArgb(255, Utils.ColorUtils.MultiplyColorByScalar(color, color.A / 255.0D));

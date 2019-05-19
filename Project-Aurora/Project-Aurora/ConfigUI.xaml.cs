@@ -61,7 +61,7 @@ namespace Aurora {
 
         internal void Display()
         {
-            if (App.isSilent || Global.Configuration.start_silently)
+            if (App.isSilent || Global.Configuration.StartSilently)
             {
                 Visibility = Visibility.Hidden;
                 WindowStyle = WindowStyle.None;
@@ -178,7 +178,7 @@ namespace Aurora {
         }
 
         private async void Window_Closing(object sender, CancelEventArgs e) {
-            var closeMode = Global.Configuration.close_mode;
+            var closeMode = Global.Configuration.CloseMode;
 
             if (closeMode == AppExitMode.Ask)
                 closeMode = await AlertBox.Show(this, "Would you like to exit Aurora?", "Aurora", new[] { "Yes", "No" }, AlertBoxIcon.Question, false) == 0 ? AppExitMode.Exit : AppExitMode.Minimize;

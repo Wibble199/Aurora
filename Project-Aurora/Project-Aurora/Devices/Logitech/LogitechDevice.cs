@@ -194,15 +194,10 @@ namespace Aurora.Devices.Logitech
 
                         if (LogitechGSDK.LogiLedSetTargetDevice(LogitechGSDK.LOGI_DEVICETYPE_ALL) && LogitechGSDK.LogiLedSaveCurrentLighting())
                         {
-                            if (Global.Configuration.logitech_first_time)
+                            if (Global.Configuration.LogitechFirstTime)
                             {
-                                App.Current.Dispatcher.Invoke(() =>
-                                {
-                                    LogitechInstallInstructions instructions = new LogitechInstallInstructions();
-                                    instructions.ShowDialog();
-                                });
-                                Global.Configuration.logitech_first_time = false;
-                                Settings.ConfigManager.Save(Global.Configuration);
+                                App.Current.Dispatcher.Invoke(() =>  new LogitechInstallInstructions().ShowDialog());
+                                Global.Configuration.LogitechFirstTime = false;
                             }
 
                             if (Global.Configuration.VarRegistry.GetVariable<bool>($"{devicename}_set_default"))
@@ -321,7 +316,7 @@ namespace Aurora.Devices.Logitech
             {
                 LogitechGSDK.LogiLedSetTargetDevice(LogitechGSDK.LOGI_DEVICETYPE_RGB);
 
-                if (Global.Configuration.allow_peripheral_devices)
+                if (Global.Configuration.AllowPeripheralDevices)
                 {
                     double alpha_amt = (color.A / 255.0);
                     int red_amt = (int)(((color.R * alpha_amt) / 255.0) * 100.0);
@@ -362,9 +357,9 @@ namespace Aurora.Devices.Logitech
         {
             try
             {
-                bool isZoneKeyboard = (Global.Configuration.keyboard_brand == PreferredKeyboard.Logitech_G213);
+                bool isZoneKeyboard = (Global.Configuration.KeyboardBrand == PreferredKeyboard.Logitech_G213);
 
-                if (!Global.Configuration.devices_disable_keyboard && !isZoneKeyboard)
+                if (!Global.Configuration.DevicesDisableKeyboard && !isZoneKeyboard)
                 {
                     foreach (KeyValuePair<DeviceKeys, Color> key in keyColors)
                     {
@@ -375,8 +370,8 @@ namespace Aurora.Devices.Logitech
                         if (localKey == Logitech_keyboardBitmapKeys.UNKNOWN &&
                             (key.Key == DeviceKeys.Peripheral_Logo || key.Key == DeviceKeys.Peripheral))
                         {
-                            if (!Global.Configuration.devices_disable_mouse ||
-                                !Global.Configuration.devices_disable_headset)
+                            if (!Global.Configuration.DevicesDisableMouse ||
+                                !Global.Configuration.DevicesDisableHeadset)
                                 SendColorToPeripheral((Color)key.Value, forced || !peripheral_updated);
                         }
                         else if (localKey == Logitech_keyboardBitmapKeys.UNKNOWN)
@@ -386,7 +381,7 @@ namespace Aurora.Devices.Logitech
                             int green_amt = (int)(((key.Value.G * alpha_amt) / 255.0) * 100.0);
                             int blue_amt = (int)(((key.Value.B * alpha_amt) / 255.0) * 100.0);
 
-                            if (!Global.Configuration.devices_disable_keyboard)
+                            if (!Global.Configuration.DevicesDisableKeyboard)
                             {
                                 LogitechGSDK.LogiLedSetTargetDevice(LogitechGSDK.LOGI_DEVICETYPE_PERKEY_RGB);
                                 switch (key.Key)
@@ -444,7 +439,7 @@ namespace Aurora.Devices.Logitech
                         }
                         else if (localKey != Logitech_keyboardBitmapKeys.UNKNOWN)
                         {
-                            if (!Global.Configuration.devices_disable_keyboard)
+                            if (!Global.Configuration.DevicesDisableKeyboard)
                             {
                                 LogitechGSDK.LogiLedSetTargetDevice(LogitechGSDK.LOGI_DEVICETYPE_PERKEY_RGB);
                                 SetOneKey(localKey, (Color)key.Value);
@@ -453,7 +448,7 @@ namespace Aurora.Devices.Logitech
                     }
                 }
 
-                else if (!Global.Configuration.devices_disable_keyboard && isZoneKeyboard)
+                else if (!Global.Configuration.DevicesDisableKeyboard && isZoneKeyboard)
                 {
                     List<Color> leftColor = new List<Color>();
                     List<Color> centerColor = new List<Color>();
@@ -470,8 +465,8 @@ namespace Aurora.Devices.Logitech
                         if (localKey == Logitech_keyboardBitmapKeys.UNKNOWN &&
                             (key.Key == DeviceKeys.Peripheral_Logo || key.Key == DeviceKeys.Peripheral))
                         {
-                            if (!Global.Configuration.devices_disable_mouse ||
-                                !Global.Configuration.devices_disable_headset)
+                            if (!Global.Configuration.DevicesDisableMouse ||
+                                !Global.Configuration.DevicesDisableHeadset)
                                 SendColorToPeripheral((Color)key.Value, forced || !peripheral_updated);
                         }
                         else if (localKey == Logitech_keyboardBitmapKeys.UNKNOWN)
@@ -481,7 +476,7 @@ namespace Aurora.Devices.Logitech
                             int green_amt = (int)(((key.Value.G * alpha_amt) / 255.0) * 100.0);
                             int blue_amt = (int)(((key.Value.B * alpha_amt) / 255.0) * 100.0);
 
-                            if (!Global.Configuration.devices_disable_keyboard)
+                            if (!Global.Configuration.DevicesDisableKeyboard)
                             {
                                 LogitechGSDK.LogiLedSetTargetDevice(LogitechGSDK.LOGI_DEVICETYPE_PERKEY_RGB);
                                 switch (key.Key)
@@ -688,7 +683,7 @@ namespace Aurora.Devices.Logitech
                     return false;
                 }
 
-                if (!Global.Configuration.devices_disable_keyboard && !isZoneKeyboard)
+                if (!Global.Configuration.DevicesDisableKeyboard && !isZoneKeyboard)
                 {
                     SendColorsToKeyboard(forced || !keyboard_updated);
                 }

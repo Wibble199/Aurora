@@ -212,15 +212,10 @@ namespace Aurora.Devices.Roccat
                     {
                         throw new Exception("No devices connected");
                     }
-                    if (Global.Configuration.roccat_first_time)
+                    if (Global.Configuration.RoccatFirstTime)
                     {
-                        App.Current.Dispatcher.Invoke(() =>
-                        {
-                            RoccatInstallInstructions instructions = new RoccatInstallInstructions();
-                            instructions.ShowDialog();
-                        });
-                        Global.Configuration.roccat_first_time = false;
-                        Settings.ConfigManager.Save(Global.Configuration);
+                        App.Current.Dispatcher.Invoke(() => new RoccatInstallInstructions().ShowDialog());
+                        Global.Configuration.RoccatFirstTime = false;
                     }
                     isInitialized = true;
                     return true;
@@ -309,11 +304,11 @@ namespace Aurora.Devices.Roccat
             try
             {
                 DeviceLayout layout = DeviceLayout.ISO;
-                if (Global.Configuration.keyboard_localization == PreferredKeyboardLocalization.dvorak
-                    || Global.Configuration.keyboard_localization == PreferredKeyboardLocalization.us
-                    || Global.Configuration.keyboard_localization == PreferredKeyboardLocalization.ru)
+                if (Global.Configuration.KeyboardLocalization == PreferredKeyboardLocalization.dvorak
+                    || Global.Configuration.KeyboardLocalization == PreferredKeyboardLocalization.us
+                    || Global.Configuration.KeyboardLocalization == PreferredKeyboardLocalization.ru)
                     layout = DeviceLayout.ANSI;
-                else if (Global.Configuration.keyboard_localization == PreferredKeyboardLocalization.jpn)
+                else if (Global.Configuration.KeyboardLocalization == PreferredKeyboardLocalization.jpn)
                     layout = DeviceLayout.JP;
 
                 foreach (KeyValuePair<DeviceKeys, System.Drawing.Color> key in keyColors)
