@@ -320,12 +320,12 @@ namespace Aurora.Utils
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ColorUtils.DrawingColorToMediaColor((DColor)value);
+            return value == null ? default(MColor) : ColorUtils.DrawingColorToMediaColor((DColor)value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ColorUtils.MediaColorToDrawingColor((MColor)value);
+            return value == null ? default(DColor) : ColorUtils.MediaColorToDrawingColor((MColor)value);
         }
     }
 
