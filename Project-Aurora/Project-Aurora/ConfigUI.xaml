@@ -184,14 +184,20 @@
             <DockPanel LastChildFill="True" Background="{StaticResource Panel2BackgroundBrush}" Grid.Row="1" Grid.RowSpan="999">
                 <!-- Aurora logo header -->
                 <Image DockPanel.Dock="Top" Source="Resources/aurora_logo.png" Height="48" Margin="8" Grid.RowSpan="999" />
+                
+                <!-- Application search box -->
+                <TextBox x:Name="ApplicationSearchBox" DockPanel.Dock="Top" Margin="8,0,8,8" />
 
                 <!-- Application list controls -->
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Margin="2,4" Click="AddApplicationButton_Click" Style="{StaticResource Panel2Button}">
+                    <Button Margin="2,4" Click="AddApplicationButton_Click" Style="{StaticResource Panel2Button}" ToolTip="Add new application">
                         <Image Source="Resources/UIIcons/plus-30.png" Margin="2,0" Width="18" Height="18"/>
                     </Button>
-                    <ToggleButton IsChecked="{Binding ShowHiddenApplications, Mode=TwoWay}" Margin="2,4" Style="{StaticResource ToggleHiddenApplicationsButtonStyle}" />
-                    <Button Margin="2,4" Click="SettingsButton_Click" Style="{StaticResource Panel2Button}">
+                    <ToggleButton IsChecked="{Binding ShowHiddenApplications, Mode=TwoWay}" Margin="2,4" Style="{StaticResource ToggleHiddenApplicationsButtonStyle}" ToolTip="Show/hide hidden applications" />
+                    <Button Margin="2,4" Style="{StaticResource Panel2Button}" ToolTip="Plugins">
+                        <Image Source="Resources/UIIcons/puzzle-30.png" Margin="2,0" Width="18" Height="18"/>
+                    </Button>
+                    <Button Margin="2,4" Click="SettingsButton_Click" Style="{StaticResource Panel2Button}" ToolTip="Settings">
                         <Image Source="Resources/UIIcons/maintenance-30.png" Margin="2,0" Width="18" Height="18"/>
                     </Button>
                 </StackPanel>
@@ -202,6 +208,7 @@
                         <MultiBinding Converter="{StaticResource FilterVisibleApplications}">
                             <Binding Path="AllApplications" />
                             <Binding Path="ShowHiddenApplications" />
+                            <Binding ElementName="ApplicationSearchBox" Path="Text" />
                         </MultiBinding>
                     </ListBox.ItemsSource>
                     

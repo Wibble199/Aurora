@@ -49,6 +49,8 @@ namespace Aurora.Profiles
 
         public string IconURI { get; set; }
 
+        public string[] SearchAliases { get; set; }
+
         public HashSet<string> ExtraAvailableLayers { get; set; } = new HashSet<string>();
 
         protected LightEventType? type = LightEventType.Normal;

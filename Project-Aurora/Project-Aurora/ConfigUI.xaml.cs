@@ -427,14 +427,22 @@ namespace Aurora {
 
 
     /// <summary>
-    /// Returns a subset of the given list that only shows non-hidden applications or all applications if the given show hidden flag is true.
-    /// Parameter 1 should be bound to the all applications list. Parameter 2 should be bound to the boolean indicating whether to show hidden.
+    /// Returns a subset of the given list of <see cref="Profiles.Application"/>s. If a search term is provided (3rd value), then any applications
+    /// that have that substring in their names or aliases will be shown. If no search term is provided, any non-hidden applications are shown.
     /// </summary>
     public class FilterVisibleApplications : IMultiValueConverter {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {
             var list = (IEnumerable<Profiles.Application>)values[0];
             var showHidden = values[1] != null && (bool)values[1];
-            return list.Where(app => showHidden || !app.Settings.Hidden);
+            var searchTerm = values[2]?.ToString().ToLower() ?? "";
+
+            return string.IsNullOrWhiteSpace(searchTerm)
+                ? list.Where(app => showHidden || !app.Settings.Hidden)
+                : list.Where(app =>
+                    app.Config.Name.ToLower().Contains(searchTerm) || // Search the display name
+                    (app.Config.SearchAliases?.Any(alias => alias.ToLower().Contains(searchTerm)) ?? false) || // Search any aliases
+                    string.Join("", app.Config.Name.Split(' ', '-', ':').Where(p => p.Length > 0).Select(p => p[0])).ToLower().Contains(searchTerm) // Create a new name from the first characters after a space, colon or dash (e.g. "euro truck simulator 2" => "ets2"), then search this
+                );
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();

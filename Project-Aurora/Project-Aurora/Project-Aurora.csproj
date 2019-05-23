@@ -1562,6 +1562,7 @@
     <Resource Include="Resources\UIIcons\discord-24.png" />
     <Resource Include="Resources\UIIcons\github-32.png" />
     <Resource Include="Resources\UIIcons\steam-26.png" />
+    <Resource Include="Resources\UIIcons\puzzle-30.png" />
     <Content Include="Settings\Configuration.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Configuration.cs</LastGenOutput>
@@ -2340,7 +2341,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
-      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
