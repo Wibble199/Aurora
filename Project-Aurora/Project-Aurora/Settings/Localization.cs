@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Resources;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media.Imaging;
@@ -183,6 +184,36 @@ namespace Aurora.Settings.Localization {
                 return (Prefix ?? "") + str + (Suffix ?? "");
             }
             public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        }
+    }
+
+
+
+    /// <summary>
+    /// A class providing Localization-related attached properties. These properties ("Key" and "Package") can be applied to the
+    /// <see cref="TextBlock"/> control to apply localization to the Text property without needing to bind to the text (so that placeholder
+    /// text can be set during design-time to assist with the positioning and designing of the UI). These properties can take bindings.
+    /// </summary>
+    public static class Localization {
+
+        // The main localization key used to lookup the translated phrase in the dictionary.
+        public static string GetKey(DependencyObject obj) => (string)obj.GetValue(KeyProperty);
+        public static void SetKey(DependencyObject obj, string value) => obj.SetValue(KeyProperty, value);
+
+        public static readonly DependencyProperty KeyProperty =
+            DependencyProperty.RegisterAttached("Key", typeof(string), typeof(Localization), new PropertyMetadata("", LocalizationChanged));
+        
+        // The package that is used as a source for the translation. Defaults to "aurora".
+        public static string GetPackage(DependencyObject obj) =>(string)obj.GetValue(PackageProperty);
+        public static void SetPackage(DependencyObject obj, string value) => obj.SetValue(PackageProperty, value);
+
+        public static readonly DependencyProperty PackageProperty =
+            DependencyProperty.RegisterAttached("Package", typeof(string), typeof(Localization), new PropertyMetadata("aurora", LocalizationChanged));
+
+        // Method that updates the TextBlock.TextProperty property with a new binding pointing to the relevant entry whenever the key or package changes.
+        private static void LocalizationChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e) {
+            if (!(depObj is TextBlock textBlock)) return; 
+            textBlock.SetBinding(TextBlock.TextProperty, new Binding($"[{GetKey(depObj)}, {GetPackage(depObj)}]") { Source = TranslationSource.Instance });
         }
     }
 

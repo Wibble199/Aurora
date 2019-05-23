@@ -44,6 +44,7 @@
             <TabItem Header="Complete">
                 <ScrollViewer x:Name="settingsScroller" VirtualizingPanel.ScrollUnit="Pixel">
                     <StackPanel MaxWidth="520" Margin="0,0,0,16">
+                        
                         <!-- Startup settings -->
                         <Label Content="Aurora Startup Settings" Style="{StaticResource SectionHeader}" />
                         <Border Style="{StaticResource GroupPanel}">
@@ -89,13 +90,13 @@
                                 </DockPanel>
 
                                 <DockPanel LastChildFill="False">
-                                    <TextBlock Text="{l:Loc Theme}" />
+                                    <TextBlock Text="Theme" l:Localization.Key="theme" />
                                     <TextBlock Text="(Restart required)" Opacity=".3" FontSize="11" />
                                     <ComboBox ItemsSource="{Binding Path=ThemeList, Source={x:Static s:ThemeManager.Instance}}" SelectedValuePath="Value" DisplayMemberPath="Key" SelectedValue="{Binding Path=ThemeName}" Width="180" DockPanel.Dock="Right" />
                                 </DockPanel>
 
                                 <DockPanel>
-                                    <TextBlock Text="{l:Loc Language}" />
+                                    <TextBlock Text="Language" l:Localization.Key="language" />
                                     <ComboBox x:Name="LangCb" SelectedValuePath="IetfLanguageTag" SelectedValue="{Binding Path=CurrentCultureIetfTag, Mode=TwoWay, Source={x:Static l:TranslationSource.Instance}}" Width="180" DockPanel.Dock="Right">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
