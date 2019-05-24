@@ -1,0 +1,16 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:l="clr-namespace:Aurora.Settings.Localization">
+
+    <!-- This template is used as the template for ComboBoxes and ListViews when the UseLocalizedItemTemplate property
+         is set to true. It is designed for use with the EnumToItemsSource Markup Extension and simply displays a
+         textblock bound to the localization key and package which are given by a LocalizedDescriptionAttribute on an
+         enum member. This allows for the possibility of opt-in localization for itemssources which still react to the
+         TranslationSource's culture being changed. -->
+
+    <DataTemplate x:Key="LocalizedDescriptionItemTemplate">
+        <TextBlock l:Localization.Key="{Binding LocalizationKey}" l:Localization.Package="{Binding LocalizationPackage}" />
+    </DataTemplate>
+
+</ResourceDictionary>

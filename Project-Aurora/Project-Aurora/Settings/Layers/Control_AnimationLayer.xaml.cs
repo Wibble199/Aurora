@@ -3,6 +3,7 @@ using Aurora.Settings.Overrides.Logic;
 using Aurora.Utils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -40,7 +41,7 @@ namespace Aurora.Settings.Layers
             // Populate comboboxs
             var triggerModeLCV = new ListCollectionView(Enum.GetValues(typeof(AnimationTriggerMode))
                 .Cast<AnimationTriggerMode>()
-                .Select(mode => new { Key = mode.GetDescription(), Value = mode, Description = mode.GetCategory() })
+                .Select(mode => new { Key = mode.GetDescription(), Value = mode, Description = mode.GetCustomAttribute<CategoryAttribute>()?.Category ?? "" })
                 .ToList()
             );
             triggerModeLCV.GroupDescriptions.Add(new PropertyGroupDescription("Description"));

@@ -4,6 +4,7 @@ using Aurora.Profiles.GTA5;
 using Aurora.Profiles.Payday_2.GSI.Nodes;
 using Aurora.Settings;
 using Aurora.Settings.Layers;
+using Aurora.Settings.Localization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,11 +16,13 @@ using System.Windows.Markup;
 
 namespace Aurora.Utils {
     public static class EnumUtils {
-        public static string GetDescription(this Enum enumObj) =>
-            enumObj.GetType().GetField(enumObj.ToString()).GetCustomAttribute(typeof(DescriptionAttribute), false) is DescriptionAttribute attr ? attr.Description : enumObj.ToString();
+        
+        /// <summary>Returns the attribute of the given type for this enum.</summary>
+        public static TAttr GetCustomAttribute<TAttr>(this Enum enumObj) where TAttr : Attribute =>
+            enumObj.GetType().GetField(enumObj.ToString()).GetCustomAttribute(typeof(TAttr), false) as TAttr;
 
-        public static string GetCategory(this Enum enumObj) =>
-            enumObj.GetType().GetField(enumObj.ToString()).GetCustomAttribute(typeof(CategoryAttribute), false) is CategoryAttribute attr ? attr.Category : "";
+        /// <summary>Gets the description for this enum value.</summary>
+        public static string GetDescription(this Enum enumObj) => GetCustomAttribute<DescriptionAttribute>(enumObj)?.Description ?? enumObj.ToString();
 
         /// <summary>Takes a particular type of enum and returns all values of the enum and their associated description in a list suitable for use as an ItemsSource.
         /// Returns an enumerable of KeyValuePairs where the key is the description/name and the value is the enum's value.</summary>
@@ -66,7 +69,13 @@ namespace Aurora.Utils {
             if (enumType == null) return new { };
             var lcv = new ListCollectionView(Enum.GetValues(enumType)
                 .Cast<Enum>()
-                .Select(e => new { Text = e.GetDescription(), Value = e, Group = e.GetCategory() })
+                .Select(e => new {
+                    Text = e.GetDescription(),
+                    Value = e,
+                    Group = e.GetCustomAttribute<CategoryAttribute>()?.Category ?? "",
+                    LocalizationKey = e.GetCustomAttribute<LocalizedDescriptionAttribute>()?.Key,
+                    LocalizationPackage = e.GetCustomAttribute<LocalizedDescriptionAttribute>()?.Package ?? TranslationSource.DEFAULT_PACKAGE
+                })
                 .ToList()
             );
             if (DoGroup) lcv.GroupDescriptions.Add(new PropertyGroupDescription("Group"));

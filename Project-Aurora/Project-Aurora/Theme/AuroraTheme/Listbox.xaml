@@ -1,6 +1,11 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:l="clr-namespace:Aurora.Settings.Localization">
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="..\..\Settings\Localization\LocalizedDescriptionItemTemplate.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="{x:Type ListBox}">
         <Setter Property="Background" Value="{StaticResource BaseButtonBackgroundBrush}" />
@@ -15,5 +20,10 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="l:Localization.UseLocalizedItemTemplate" Value="True">
+                <Setter Property="ItemTemplate" Value="{StaticResource LocalizedDescriptionItemTemplate}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

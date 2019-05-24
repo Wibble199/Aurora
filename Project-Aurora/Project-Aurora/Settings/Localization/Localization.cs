@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Resources;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Markup;
 using System.Windows.Media.Imaging;
 
 namespace Aurora.Settings.Localization {
@@ -22,6 +19,9 @@ namespace Aurora.Settings.Localization {
     /// Available here: https://codinginfinity.me/post/2015-05-10/localization_of_a_wpf_app_the_simple_approach
     /// </remarks>
     public class TranslationSource : INotifyPropertyChanged {
+
+        /// <summary>The default localization package used when one is not provided.</summary>
+        public const string DEFAULT_PACKAGE = "aurora";
 
         /// <summary>The base directory which contains folders for each language.</summary>
         public static string LanguageFileBaseDir { get; } = Path.Combine(Global.ExecutingDirectory, "Localization");
@@ -72,7 +72,7 @@ namespace Aurora.Settings.Localization {
         /// either, then a warning is shown in the format "#Missing:&lt;package&gt;.&lt;key&gt;".</para></summary>
         /// <param name="key">The key of the string to get, e.g. "PrimaryColor".</param>
         /// <param name="package">An optional package the translation is in.</param>
-        public string GetString(string key, string package = "aurora") {
+        public string GetString(string key, string package = DEFAULT_PACKAGE) {
             var keyTuple = (package.ToLower(), key.ToLower());
             if (source.ContainsKey(keyTuple))
                 return source[keyTuple];
@@ -151,7 +151,7 @@ namespace Aurora.Settings.Localization {
         /// <summary>Creates a new binding that will use the given binding as the key value for localization, targetting the given package.</summary>
         public LocExtension(BindingBase keyBinding, string package) => Init(keyBinding, package);
 
-        private void Init(BindingBase keyBinding, string package = "aurora") {
+        private void Init(BindingBase keyBinding, string package = TranslationSource.DEFAULT_PACKAGE) {
             Bindings.Add(keyBinding);
             Bindings.Add(new Binding("[LocBinding]") { Source = TranslationSource.Instance }); // Binds to a dummy key so that it's updated if lang is changed
             Converter = conv = new LocalizationConverter { Package = package };
@@ -179,7 +179,7 @@ namespace Aurora.Settings.Localization {
 
             public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {
                 var key = values[0].ToString();
-                var str = TranslationSource.Instance.GetString(key, Package ?? "aurora");
+                var str = TranslationSource.Instance.GetString(key, Package ?? TranslationSource.DEFAULT_PACKAGE);
                 if (InsertValues != null) str = string.Format(str, InsertValues);
                 return (Prefix ?? "") + str + (Suffix ?? "");
             }
@@ -211,15 +211,21 @@ namespace Aurora.Settings.Localization {
         public static void SetPackage(DependencyObject obj, string value) => obj.SetValue(PackageProperty, value);
 
         public static readonly DependencyProperty PackageProperty =
-            DependencyProperty.RegisterAttached("Package", typeof(string), typeof(Localization), new PropertyMetadata("aurora", LocalizationChanged));
+            DependencyProperty.RegisterAttached("Package", typeof(string), typeof(Localization), new PropertyMetadata(TranslationSource.DEFAULT_PACKAGE, LocalizationChanged));
 
         // Specifies the key that will be used for the tooltip of the element. Uses the same package as defined by the "Package" property.
         public static string GetTooltipKey(DependencyObject obj) => (string)obj.GetValue(TooltipKeyProperty);
         public static void SetTooltipKey(DependencyObject obj, string value) => obj.SetValue(TooltipKeyProperty, value);
 
-        // Using a DependencyProperty as the backing store for TooltipKey.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TooltipKeyProperty =
             DependencyProperty.RegisterAttached("TooltipKey", typeof(string), typeof(Localization), new PropertyMetadata("", LocalizationTooltipChanged));
+
+        // Specifies that the itemscontrol should use the custom template created for localized descriptions.
+        public static bool GetUseLocalizedItemTemplate(DependencyObject obj) => (bool)obj.GetValue(UseLocalizedItemTemplateProperty);
+        public static void SetUseLocalizedItemTemplate(DependencyObject obj, bool value) => obj.SetValue(UseLocalizedItemTemplateProperty, value);
+
+        public static readonly DependencyProperty UseLocalizedItemTemplateProperty =
+            DependencyProperty.RegisterAttached("UseLocalizedItemTemplate", typeof(bool), typeof(Localization), new PropertyMetadata(false));
         #endregion
 
 
@@ -237,6 +243,29 @@ namespace Aurora.Settings.Localization {
             if (string.IsNullOrWhiteSpace(GetTooltipKey(depObj)) || !(depObj is FrameworkElement el)) return;
             var binding = new Binding($"[{GetTooltipKey(depObj)}, {GetPackage(depObj)}]") { Source = TranslationSource.Instance };
             el.SetBinding(FrameworkElement.ToolTipProperty, binding);
+        }
+    }
+
+
+
+    /// <summary>
+    /// Attribute that can be applied to classes and members to indicate they have a description that is provided by a localisation key.
+    /// </summary>
+    public class LocalizedDescriptionAttribute : Attribute {
+
+        /// <summary>The value of the key used as the localization key.</summary>
+        public string Key { get; }
+
+        /// <summary>The name of the package that is used as the source dictionary for the localized value.</summary>
+        public string Package { get; }
+
+        /// <summary>Returns the translated text in the language currently set in <see cref="TranslationSource.CurrentCulture"/>.</summary>
+        public string LocalizedText => TranslationSource.Instance[Key, Package];
+        
+        /// <summary>Specifies a description provided by a value in the localization dictionary for a class or member.</summary>
+        public LocalizedDescriptionAttribute(string key, string package = "aurora") {
+            Key = key;
+            Package = package;
         }
     }
 

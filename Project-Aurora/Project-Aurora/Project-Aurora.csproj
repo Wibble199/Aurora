@@ -643,7 +643,7 @@
       <DependentUpon>Control_ColorFromValues.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\GreyscaleEffect.cs" />
-    <Compile Include="Settings\Localization.cs" />
+    <Compile Include="Settings\Localization\Localization.cs" />
     <Compile Include="Settings\Overrides\Logic\Boolean\Boolean_PeripheralInput.cs" />
     <Compile Include="Settings\Overrides\Logic\Color\Color_Ctors.cs" />
     <Compile Include="Settings\Overrides\Logic\Control_BinaryOperationHolder.xaml.cs">
@@ -2056,6 +2056,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Settings\Overrides\Logic\Boolean\Control_BooleanGSIEnum.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Settings\Localization\LocalizedDescriptionItemTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

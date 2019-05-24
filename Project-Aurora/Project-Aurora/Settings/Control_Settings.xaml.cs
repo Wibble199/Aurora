@@ -341,6 +341,14 @@ namespace Aurora.Settings {
             }
         }
 
+        private void DeviceSelectionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            Global.kbLayout.LoadBrandDefault();
+        }
+
+        private void DisableLightingCheckBox_CheckedUnchecked(object sender, RoutedEventArgs e) {
+            Global.dev_manager.ResetDevices();
+        }
+
         private void WinBitmapView_Closed(object sender, EventArgs e) {
             winBitmapView = null;
             Global.effengine.NewLayerRender -= Effengine_NewLayerRender;

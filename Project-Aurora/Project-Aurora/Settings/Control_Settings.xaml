@@ -59,7 +59,7 @@
                                 <CheckBox IsChecked="{Binding HighPriority}" Content="High priority" Checked="HigherPriority_IsCheckedChanged" Unchecked="HigherPriority_IsCheckedChanged" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" l:Localization.Key="high_priority" />
                                 <DockPanel LastChildFill="False">
                                     <TextBlock Text="Closing mode" l:Localization.Key="closing_mode" />
-                                    <ComboBox SelectedValue="{Binding CloseMode}" Width="180" ItemsSource="{u:EnumToItemsSource {x:Type s:AppExitMode}}" DisplayMemberPath="Text" SelectedValuePath="Value" DockPanel.Dock="Right" />
+                                    <ComboBox SelectedValue="{Binding CloseMode}" Width="180" ItemsSource="{u:EnumToItemsSource {x:Type s:AppExitMode}}" SelectedValuePath="Value" DockPanel.Dock="Right" l:Localization.UseLocalizedItemTemplate="True" />
                                 </DockPanel>
                             </c:SpacedStackPanel>
                         </Border>
@@ -86,7 +86,7 @@
 
                                 <DockPanel>
                                     <TextBlock Text="Bitmap quality" l:Localization.Key="bitmap_quality" />
-                                    <ComboBox SelectedValue="{Binding BitmapAccuracy}" ItemsSource="{u:EnumToItemsSource {x:Type s:BitmapAccuracy}}" DisplayMemberPath="Text" SelectedValuePath="Value" Width="180" DockPanel.Dock="Right" />
+                                    <ComboBox SelectedValue="{Binding BitmapAccuracy}" ItemsSource="{u:EnumToItemsSource {x:Type s:BitmapAccuracy}}" SelectedValuePath="Value" Width="180" l:Localization.UseLocalizedItemTemplate="True" DockPanel.Dock="Right" />
                                 </DockPanel>
 
                                 <DockPanel LastChildFill="False">
@@ -117,7 +117,7 @@
                             <c:SpacedStackPanel>
                                 <DockPanel>
                                     <TextBlock Text="Application detection mode" l:Localization.Key="app_detection_mode" />
-                                    <ComboBox SelectedValue="{Binding DetectionMode}" ItemsSource="{u:EnumToItemsSource {x:Type s:ApplicationDetectionMode}}" DisplayMemberPath="Text" SelectedValuePath="Value" Width="180" DockPanel.Dock="Right" />
+                                    <ComboBox SelectedValue="{Binding DetectionMode}" ItemsSource="{u:EnumToItemsSource {x:Type s:ApplicationDetectionMode}}" SelectedValuePath="Value" Width="180" l:Localization.UseLocalizedItemTemplate="True" DockPanel.Dock="Right" />
                                 </DockPanel>
 
                                 <DockPanel>
@@ -208,24 +208,28 @@
                             <c:SpacedStackPanel>
                                 <DockPanel>
                                     <TextBlock Text="Preferred keyboard" l:Localization.Key="preferred_keyboard" />
-                                    <ComboBox SelectedValue="{Binding KeyboardBrand}" ItemsSource="{u:EnumToItemsSource {x:Type s:PreferredKeyboard}}" DisplayMemberPath="Text" SelectedValuePath="Value" Width="180" DockPanel.Dock="Right" />
+                                    <ComboBox SelectedValue="{Binding KeyboardBrand, Mode=TwoWay}" ItemsSource="{u:EnumToItemsSource {x:Type s:PreferredKeyboard}}" DisplayMemberPath="Text" SelectedValuePath="Value" Width="180" SelectionChanged="DeviceSelectionComboBox_SelectionChanged" DockPanel.Dock="Right" />
                                 </DockPanel>
                                 <DockPanel>
                                     <TextBlock Text="Preferred keyboard layout" l:Localization.Key="preferred_keyboard_layout" />
-                                    <ComboBox SelectedValue="{Binding KeyboardLocalization}" ItemsSource="{u:EnumToItemsSource {x:Type s:PreferredKeyboardLocalization}}" DisplayMemberPath="Text" SelectedValuePath="Value" Width="180" DockPanel.Dock="Right" />
-                                </DockPanel>
-                                <DockPanel>
-                                    <TextBlock Text="Preferred keycap type" l:Localization.Key="preferred_keycap" />
-                                    <ComboBox SelectedValue="{Binding KeyboardKeycapType}" ItemsSource="{u:EnumToItemsSource {x:Type s:KeycapType}}" DisplayMemberPath="Text" SelectedValuePath="Value" Width="180" DockPanel.Dock="Right" />
+                                    <ComboBox SelectedValue="{Binding KeyboardLocalization}" ItemsSource="{u:EnumToItemsSource {x:Type s:PreferredKeyboardLocalization}}" DisplayMemberPath="Text" SelectedValuePath="Value" Width="180" SelectionChanged="DeviceSelectionComboBox_SelectionChanged" DockPanel.Dock="Right" />
                                 </DockPanel>
                                 <DockPanel>
                                     <TextBlock Text="Preferred mouse" l:Localization.Key="preferred_mouse" />
-                                    <ComboBox SelectedValue="{Binding MouseOrientation}" ItemsSource="{u:EnumToItemsSource {x:Type s:MouseOrientationType}}" DisplayMemberPath="Text" SelectedValuePath="Value" Width="180" DockPanel.Dock="Right" />
+                                    <ComboBox SelectedValue="{Binding MousePreference}" ItemsSource="{u:EnumToItemsSource {x:Type s:PreferredMouse}}" DisplayMemberPath="Text" SelectedValuePath="Value" Width="180" SelectionChanged="DeviceSelectionComboBox_SelectionChanged" DockPanel.Dock="Right" />
+                                </DockPanel>
+                                <DockPanel>
+                                    <TextBlock Text="Mouse orientation" l:Localization.Key="mouse_orientation" />
+                                    <ComboBox SelectedValue="{Binding MouseOrientation}" ItemsSource="{u:EnumToItemsSource {x:Type s:MouseOrientationType}}" SelectedValuePath="Value" l:Localization.UseLocalizedItemTemplate="True" Width="180" SelectionChanged="DeviceSelectionComboBox_SelectionChanged" DockPanel.Dock="Right" />
+                                </DockPanel>
+                                <DockPanel>
+                                    <TextBlock Text="Preferred keycap type" l:Localization.Key="preferred_keycap" />
+                                    <ComboBox SelectedValue="{Binding KeyboardKeycapType}" ItemsSource="{u:EnumToItemsSource {x:Type s:KeycapType}}" SelectedValuePath="Value" Width="180" l:Localization.UseLocalizedItemTemplate="True" SelectionChanged="DeviceSelectionComboBox_SelectionChanged" DockPanel.Dock="Right" />
                                 </DockPanel>
 
-                                <CheckBox IsChecked="{Binding DevicesDisableKeyboard}" Content="Disable keyboard lighting" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" l:Localization.Key="disable_keyboard_lighting" />
-                                <CheckBox IsChecked="{Binding DevicesDisableMouse}" Content="Disable mouse lighting" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" l:Localization.Key="disable_mouse_lighting" />
-                                <CheckBox IsChecked="{Binding DevicesDisableHeadset}" Content="Disable headset lighting" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" l:Localization.Key="disable_headset_lighting" />
+                                <CheckBox IsChecked="{Binding DevicesDisableKeyboard}" Content="Disable keyboard lighting" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" l:Localization.Key="disable_keyboard_lighting" Checked="DisableLightingCheckBox_CheckedUnchecked" Unchecked="DisableLightingCheckBox_CheckedUnchecked" />
+                                <CheckBox IsChecked="{Binding DevicesDisableMouse}" Content="Disable mouse lighting" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" l:Localization.Key="disable_mouse_lighting" Checked="DisableLightingCheckBox_CheckedUnchecked" Unchecked="DisableLightingCheckBox_CheckedUnchecked" />
+                                <CheckBox IsChecked="{Binding DevicesDisableHeadset}" Content="Disable headset lighting" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" l:Localization.Key="disable_headset_lighting" Checked="DisableLightingCheckBox_CheckedUnchecked" Unchecked="DisableLightingCheckBox_CheckedUnchecked" />
 
                                 <DockPanel>
                                     <TextBlock Text="First-time instructions" l:Localization.Key="first_time_instruct" />
@@ -244,6 +248,8 @@
                                     <Button Content="Razer" Click="wrapper_install_razer_Click" Margin="4,0,0,0" DockPanel.Dock="Right" />
                                     <Button Content="Logitech" Click="wrapper_install_logitech_Click" DockPanel.Dock="Right" />
                                 </DockPanel>
+
+                                <CheckBox IsChecked="{Binding AllowWrappersInBackground}" Content="Allow wrappers to override desktop profile" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" l:Localization.Key="allow_wrapper_priority" />
                             </c:SpacedStackPanel>
                         </Border>
 

@@ -1,3 +1,4 @@
+using Aurora.Settings.Localization;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -114,19 +115,19 @@ namespace Aurora.Settings {
 
     public enum AppExitMode
     {
-        [Description("Always Ask")]
+        [LocalizedDescription("exit_mode.ask")]
         Ask = 0,
-        [Description("Always Minimize")]
+        [LocalizedDescription("exit_mode.minimize")]
         Minimize = 1,
-        [Description("Always Exit")]
+        [LocalizedDescription("exit_mode.exit")]
         Exit = 2
     }
 
     public enum MouseOrientationType
     {
-        [Description("Right Handed")]
+        [LocalizedDescription("mouse.right_handed")]
         RightHanded = 1,
-        [Description("Left Handed")]
+        [LocalizedDescription("mouse.left_handed")]
         LeftHanded = 2
     }
 
@@ -319,33 +320,38 @@ namespace Aurora.Settings {
 
     public enum KeycapType
     {
-        [Description("Default")]
+        [LocalizedDescription("default")]
         Default = 0,
-        [Description("Default (with Backglow)")]
+        [LocalizedDescription("keycap.default_backglow")]
         Default_backglow = 1,
-        [Description("Default (Backglow only)")]
+        [LocalizedDescription("keycap.default_backonly")]
         Default_backglow_only = 2,
-        [Description("Colorized")]
+        [LocalizedDescription("keycap.colorized")]
         Colorized = 3,
-        [Description("Colorized (blank)")]
+        [LocalizedDescription("keycap.colorized_blank")]
         Colorized_blank = 4
     }
 
     public enum ApplicationDetectionMode
     {
-        [Description("Windows Events (Default)")]
+        [LocalizedDescription("app_detection.windows")]
         WindowsEvents = 0,
 
-        [Description("Foreground App Scan")]
+        [LocalizedDescription("app_detection.foreground")]
         ForegroroundApp = 1
     }
 
     public enum BitmapAccuracy
     {
+        [LocalizedDescription("bitmap.best")]
         Best = 1,
+        [LocalizedDescription("bitmap.great")]
         Great = 3,
+        [LocalizedDescription("bitmap.good")]
         Good = 6,
+        [LocalizedDescription("bitmap.okay")]
         Okay = 9,
+        [LocalizedDescription("bitmap.fine")]
         Fine = 12
     }
 
