@@ -1,2 +1,48 @@
-﻿Language: Language
-Theme: Theme
+﻿startup_settings: Aurora Startup Settings
+run_startup: Launch with Windows
+delay: Delay
+~   Seconds as in the time unit
+seconds: Seconds
+start_minimized: Start Aurora minimized
+high_priority: High priority
+closing_mode: Closing mode
+show_overlays_preview: Show overlays in preview
+global_brightness: Global brightness
+keyboard_brightness: Keyboard brightness
+peripheral_brightness: Peripheral brightness
+use_alt_volume: Alt + volume controls change global brightness
+bitmap_quality: Bitmap quality
+restart_required: Restart required
+theme: Theme
+language: Language
+add: Add
+remove: Remove
+application_settings: Application Settings
+app_detection_mode: Application detection mode
+excluded_processes: Excluded processes
+check_updates_start: Check for updates on start
+check_pointers_start: Check for pointer updates on start
+prerelease_updates: Get pre-release updates
+version: Version
+check_for_updates: Check for updates
+update_settings: Update settings
+devices_wrappers: Devices & Wrappers
+preferred_keyboard: Preferred keyboard
+preferred_keyboard_layout: Preferred keyboard layout
+preferred_keycap: Preferred keycap type
+preferred_mouse: Preferred mouse
+disable_keyboard_lighting: Disable keyboard lighting
+disable_mouse_lighting: Disable mouse lighting
+disable_headset_lighting: Disable headset lighting
+first_time_instruct: First-time instructions
+install_wrapper: Install Aurora wrapper patch
+debug_settings: Debug Settings
+show_bmp_window: Show bitmap window
+show_http_window: Show GSI HTTP requests
+always_on_top: Always on top
+show_logs_folder: Show logs folder
+about: About
+about_0: This is a public Beta version of Aurora, there may be bugs and issues.
+about_1: Game logos and other images are owned by their respective owners.
+about_2: Some icons are used with the free license from Icons8.com
+find_us: Find us on

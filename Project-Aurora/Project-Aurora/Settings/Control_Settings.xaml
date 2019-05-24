@@ -18,7 +18,7 @@
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Margin" Value="0,0,8,0" />
         </Style>
-        <Style x:Key="SectionHeader" TargetType="{x:Type Label}">
+        <Style x:Key="SectionHeader" TargetType="{x:Type TextBlock}">
             <Setter Property="Margin" Value="0,16,0,0" />
             <Setter Property="FontSize" Value="14" />
         </Style>
@@ -46,52 +46,52 @@
                     <StackPanel MaxWidth="520" Margin="0,0,0,16">
                         
                         <!-- Startup settings -->
-                        <Label Content="Aurora Startup Settings" Style="{StaticResource SectionHeader}" />
+                        <TextBlock Text="Aurora Startup Settings" Style="{StaticResource SectionHeader}" l:Localization.Key="startup_settings" />
                         <Border Style="{StaticResource GroupPanel}">
                             <c:SpacedStackPanel>
-                                <CheckBox x:Name="RunAtWinStartup" Content="Launch with Windows" Checked="RunAtWinStartup_Checked" Unchecked="RunAtWinStartup_Checked" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" />
+                                <CheckBox x:Name="RunAtWinStartup" Content="Launch with Windows" Checked="RunAtWinStartup_Checked" Unchecked="RunAtWinStartup_Checked" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" l:Localization.Key="run_startup" />
                                 <DockPanel Margin="{StaticResource IndentMargin}">
-                                    <TextBlock Text="Delay" />
-                                    <TextBlock Text="seconds" Margin="6,0,0,0" DockPanel.Dock="Right" />
+                                    <TextBlock Text="Delay" l:Localization.Key="delay" />
+                                    <TextBlock Text="seconds" Margin="6,0,0,0" DockPanel.Dock="Right" l:Localization.Key="seconds" />
                                     <xctk:IntegerUpDown x:Name="startDelayAmount" Width="50" Minimum="0" Increment="15" ValueChanged="startDelayAmount_ValueChanged" DockPanel.Dock="Right" />
                                 </DockPanel>
-                                <CheckBox IsChecked="{Binding StartSilently}" Content="Start Aurora minimized" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" />
-                                <CheckBox IsChecked="{Binding HighPriority}" Content="High priority" Checked="HigherPriority_IsCheckedChanged" Unchecked="HigherPriority_IsCheckedChanged" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" />
+                                <CheckBox IsChecked="{Binding StartSilently}" Content="Start Aurora minimized" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" l:Localization.Key="start_minimized" />
+                                <CheckBox IsChecked="{Binding HighPriority}" Content="High priority" Checked="HigherPriority_IsCheckedChanged" Unchecked="HigherPriority_IsCheckedChanged" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" l:Localization.Key="high_priority" />
                                 <DockPanel LastChildFill="False">
-                                    <TextBlock Text="Closing mode" />
+                                    <TextBlock Text="Closing mode" l:Localization.Key="closing_mode" />
                                     <ComboBox SelectedValue="{Binding CloseMode}" Width="180" ItemsSource="{u:EnumToItemsSource {x:Type s:AppExitMode}}" DisplayMemberPath="Text" SelectedValuePath="Value" DockPanel.Dock="Right" />
                                 </DockPanel>
                             </c:SpacedStackPanel>
                         </Border>
 
                         <!-- General Aurora settings -->
-                        <Label Content="Aurora General Settings" Style="{StaticResource SectionHeader}" />
+                        <TextBlock Text="Aurora General Settings" Style="{StaticResource SectionHeader}" />
                         <Border Style="{StaticResource GroupPanel}">
                             <c:SpacedStackPanel>
-                                <CheckBox IsChecked="{Binding OverlaysInPreview}" Content="Show overlays in preview" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" />
+                                <CheckBox IsChecked="{Binding OverlaysInPreview}" Content="Show overlays in preview" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" l:Localization.Key="show_overlays_preview" />
 
                                 <DockPanel>
-                                    <TextBlock Text="Global brightness" />
+                                    <TextBlock Text="Global brightness" l:Localization.Key="global_brightness" />
                                     <Slider Value="{Binding GlobalBrightness}" Width="180" Maximum="1" DockPanel.Dock="Right" />
                                 </DockPanel>
                                 <DockPanel>
-                                    <TextBlock Text="Keyboard brightness" VerticalAlignment="Top" />
+                                    <TextBlock Text="Keyboard brightness" l:Localization.Key="keyboard_brightness" />
                                     <Slider Value="{Binding KeyboardBrightness}" Width="180" Maximum="1" DockPanel.Dock="Right" />
                                 </DockPanel>
                                 <DockPanel>
-                                    <TextBlock Text="Peripheral brightness" />
+                                    <TextBlock Text="Peripheral brightness" l:Localization.Key="peripheral_brightness" />
                                     <Slider Value="{Binding PeripheralBrightness}" Width="180" Maximum="1" DockPanel.Dock="Right" />
                                 </DockPanel>
-                                <CheckBox IsChecked="{Binding UseVolumeAsBrightness}" Content="Alt + volume controls changes global brightness" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" />
+                                <CheckBox IsChecked="{Binding UseVolumeAsBrightness}" Content="Alt + volume controls change global brightness" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" l:Localization.Key="use_alt_volume" />
 
                                 <DockPanel>
-                                    <TextBlock Text="Bitmap quality" />
+                                    <TextBlock Text="Bitmap quality" l:Localization.Key="bitmap_quality" />
                                     <ComboBox SelectedValue="{Binding BitmapAccuracy}" ItemsSource="{u:EnumToItemsSource {x:Type s:BitmapAccuracy}}" DisplayMemberPath="Text" SelectedValuePath="Value" Width="180" DockPanel.Dock="Right" />
                                 </DockPanel>
 
                                 <DockPanel LastChildFill="False">
                                     <TextBlock Text="Theme" l:Localization.Key="theme" />
-                                    <TextBlock Text="(Restart required)" Opacity=".3" FontSize="11" />
+                                    <TextBlock Text="{l:Loc restart_required, Prefix='(', Suffix=')'}" Opacity=".3" FontSize="11" />
                                     <ComboBox ItemsSource="{Binding Path=ThemeList, Source={x:Static s:ThemeManager.Instance}}" SelectedValuePath="Value" DisplayMemberPath="Key" SelectedValue="{Binding Path=ThemeName}" Width="180" DockPanel.Dock="Right" />
                                 </DockPanel>
 
@@ -112,21 +112,21 @@
                         </Border>
 
                         <!-- Application settings -->
-                        <Label Content="Application Settings" Style="{StaticResource SectionHeader}" />
+                        <TextBlock Text="Application Settings" Style="{StaticResource SectionHeader}" l:Localization.Key="application_settings" />
                         <Border Style="{StaticResource GroupPanel}">
                             <c:SpacedStackPanel>
                                 <DockPanel>
-                                    <TextBlock Text="Application detection mode" />
+                                    <TextBlock Text="Application detection mode" l:Localization.Key="app_detection_mode" />
                                     <ComboBox SelectedValue="{Binding DetectionMode}" ItemsSource="{u:EnumToItemsSource {x:Type s:ApplicationDetectionMode}}" DisplayMemberPath="Text" SelectedValuePath="Value" Width="180" DockPanel.Dock="Right" />
                                 </DockPanel>
 
                                 <DockPanel>
-                                    <TextBlock Text="Excluded processes" VerticalAlignment="Top" />
+                                    <TextBlock Text="Excluded processes" VerticalAlignment="Top" l:Localization.Key="excluded_processes" />
                                     <c:SpacedStackPanel SpacingAmount="8" DockPanel.Dock="Right" Margin="8,0,0,0">
-                                        <Button Click="ExcludedAdd_Click" ToolTip="Add" ToolTipService.Placement="Left" ToolTipService.VerticalOffset="1" ToolTipService.InitialShowDelay="0">
+                                        <Button Click="ExcludedAdd_Click" ToolTip="Add" l:Localization.TooltipKey="add" ToolTipService.Placement="Left" ToolTipService.VerticalOffset="1" ToolTipService.InitialShowDelay="0">
                                             <Image Source="/Aurora;component/Resources/UIIcons/plus-30.png" Margin="2,0" Width="18" Height="18" />
                                         </Button>
-                                        <Button Click="ExcludedRemove_Click" ToolTip="Remove" ToolTipService.Placement="Left" ToolTipService.VerticalOffset="1" ToolTipService.InitialShowDelay="0">
+                                        <Button Click="ExcludedRemove_Click" ToolTip="Remove" l:Localization.TooltipKey="remove" ToolTipService.Placement="Left" ToolTipService.VerticalOffset="1" ToolTipService.InitialShowDelay="0">
                                             <Image Source="/Aurora;component/Resources/UIIcons/delete-30.png" Margin="2,0" Width="18" Height="18" />
                                         </Button>
                                     </c:SpacedStackPanel>
@@ -136,9 +136,10 @@
                         </Border>
 
                         <!-- Blackout settings -->
-                        <Label Content="Blackout Settings" Style="{StaticResource SectionHeader}" />
+                        <TextBlock Text="Blackout Settings" Style="{StaticResource SectionHeader}" />
                         <Border Style="{StaticResource GroupPanel}">
                             <!-- TODO: These could be made as an overlay system with the overrides? -->
+                            <!-- Note that these settiungs have not been localised for that reason ^ -->
                             <c:SpacedStackPanel>
                                 <CheckBox IsChecked="{Binding TimeBasedDimmingEnabled}" Content="Enable timed keyboard blackout" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" />
                                 <CheckBox IsChecked="{Binding TimeBasedDimmingAffectGames}" Content="Apply blackout to game profiles" Margin="24,0,0,0" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" />
@@ -188,46 +189,46 @@
                         </Border>
 
                         <!-- Update settings -->
-                        <Label Content="Update Settings" Style="{StaticResource SectionHeader}" />
+                        <TextBlock Text="Update Settings" Style="{StaticResource SectionHeader}" l:Localization.Key="update_settings" />
                         <Border Style="{StaticResource GroupPanel}">
                             <c:SpacedStackPanel>
-                                <CheckBox IsChecked="{Binding UpdatesCheckOnStartup}" Content="Check for updates on start" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" />
-                                <CheckBox IsChecked="{Binding GetPointerUpdates}" Content="Check for pointer updates on start" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" />
-                                <CheckBox IsChecked="{Binding GetDevReleases}" Content="Get pre-release updates" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" />
+                                <CheckBox IsChecked="{Binding UpdatesCheckOnStartup}" Content="Check for updates on start" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" l:Localization.Key="check_updates_start" />
+                                <CheckBox IsChecked="{Binding GetPointerUpdates}" Content="Check for pointer updates on start" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" l:Localization.Key="check_pointers_start" />
+                                <CheckBox IsChecked="{Binding GetDevReleases}" Content="Get pre-release updates" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" l:Localization.Key="prerelease_updates" />
                                 <DockPanel>
-                                    <TextBlock Text="Version" />
+                                    <TextBlock Text="Version" l:Localization.Key="version" />
                                     <Label x:Name="lblVersion" Content="beta v0.6.0-dev2" DockPanel.Dock="Right" />
                                 </DockPanel>
-                                <Button Content="Check for updates" HorizontalAlignment="Right" Padding="12,4" Click="updates_check_Click" />
+                                <Button Content="Check for updates" HorizontalAlignment="Right" Padding="12,4" Click="updates_check_Click" l:Localization.Key="check_for_updates" />
                             </c:SpacedStackPanel>
                         </Border>
 
-                        <Label Content="Devices &amp; Wrappers" Style="{StaticResource SectionHeader}" />
+                        <TextBlock Text="Devices &amp; Wrappers" Style="{StaticResource SectionHeader}" l:Localization.Key="devices_wrappers" />
                         <Border Style="{StaticResource GroupPanel}">
                             <c:SpacedStackPanel>
                                 <DockPanel>
-                                    <TextBlock Text="Preferred keyboard" />
+                                    <TextBlock Text="Preferred keyboard" l:Localization.Key="preferred_keyboard" />
                                     <ComboBox SelectedValue="{Binding KeyboardBrand}" ItemsSource="{u:EnumToItemsSource {x:Type s:PreferredKeyboard}}" DisplayMemberPath="Text" SelectedValuePath="Value" Width="180" DockPanel.Dock="Right" />
                                 </DockPanel>
                                 <DockPanel>
-                                    <TextBlock Text="Preferred keyboard layout" />
+                                    <TextBlock Text="Preferred keyboard layout" l:Localization.Key="preferred_keyboard_layout" />
                                     <ComboBox SelectedValue="{Binding KeyboardLocalization}" ItemsSource="{u:EnumToItemsSource {x:Type s:PreferredKeyboardLocalization}}" DisplayMemberPath="Text" SelectedValuePath="Value" Width="180" DockPanel.Dock="Right" />
                                 </DockPanel>
                                 <DockPanel>
-                                    <TextBlock Text="Preferred keycap type" />
+                                    <TextBlock Text="Preferred keycap type" l:Localization.Key="preferred_keycap" />
                                     <ComboBox SelectedValue="{Binding KeyboardKeycapType}" ItemsSource="{u:EnumToItemsSource {x:Type s:KeycapType}}" DisplayMemberPath="Text" SelectedValuePath="Value" Width="180" DockPanel.Dock="Right" />
                                 </DockPanel>
                                 <DockPanel>
-                                    <TextBlock Text="Preferred mouse" />
+                                    <TextBlock Text="Preferred mouse" l:Localization.Key="preferred_mouse" />
                                     <ComboBox SelectedValue="{Binding MouseOrientation}" ItemsSource="{u:EnumToItemsSource {x:Type s:MouseOrientationType}}" DisplayMemberPath="Text" SelectedValuePath="Value" Width="180" DockPanel.Dock="Right" />
                                 </DockPanel>
 
-                                <CheckBox IsChecked="{Binding DevicesDisableKeyboard}" Content="Disable keyboard lighting" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" />
-                                <CheckBox IsChecked="{Binding DevicesDisableMouse}" Content="Disable mouse lighting" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" />
-                                <CheckBox IsChecked="{Binding DevicesDisableHeadset}" Content="Disable headset lighting" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" />
+                                <CheckBox IsChecked="{Binding DevicesDisableKeyboard}" Content="Disable keyboard lighting" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" l:Localization.Key="disable_keyboard_lighting" />
+                                <CheckBox IsChecked="{Binding DevicesDisableMouse}" Content="Disable mouse lighting" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" l:Localization.Key="disable_mouse_lighting" />
+                                <CheckBox IsChecked="{Binding DevicesDisableHeadset}" Content="Disable headset lighting" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" l:Localization.Key="disable_headset_lighting" />
 
                                 <DockPanel>
-                                    <TextBlock Text="First-time instructions" />
+                                    <TextBlock Text="First-time instructions" l:Localization.Key="first_time_instruct" />
                                     <Button Content="Roccat" Click="devices_view_first_time_roccat_Click" Margin="4,0,0,0" DockPanel.Dock="Right" />
                                     <Button Content="DS4" Click="devices_view_first_time_dualshock_Click" Margin="4,0,0,0" DockPanel.Dock="Right" />
                                     <Button Content="SteelSeries" Click="devices_view_first_time_steelseries_Click" Margin="4,0,0,0" DockPanel.Dock="Right" />
@@ -237,7 +238,7 @@
                                 </DockPanel>
 
                                 <DockPanel>
-                                    <TextBlock Text="Install Aurora wrapper patch" />
+                                    <TextBlock Text="Install Aurora wrapper patch" l:Localization.Key="install_wrapper" />
                                     <Button Content="LightFX (64 bit)" Click="wrapper_install_lightfx_64_Click" Margin="4,0,0,0" DockPanel.Dock="Right" />
                                     <Button Content="LightFX (32 bit)" Click="wrapper_install_lightfx_32_Click" Margin="4,0,0,0" DockPanel.Dock="Right" />
                                     <Button Content="Razer" Click="wrapper_install_razer_Click" Margin="4,0,0,0" DockPanel.Dock="Right" />
@@ -246,20 +247,20 @@
                             </c:SpacedStackPanel>
                         </Border>
 
-                        <Label Content="Debug Settings" Style="{StaticResource SectionHeader}" />
+                        <TextBlock Text="Debug Settings" Style="{StaticResource SectionHeader}" l:Localization.Key="debug_settings" />
                         <Border Style="{StaticResource GroupPanel}">
                             <c:SpacedStackPanel>
                                 <DockPanel>
-                                    <Button Content="Show Bitmap Window" Click="btnShowBitmapWindow_Click" />
-                                    <CheckBox IsChecked="{Binding HttpDebugTopMost}" Content="Always on top" Margin="{StaticResource IndentMargin}" Style="{StaticResource CheckboxSwitch}" DockPanel.Dock="Right" HorizontalContentAlignment="Left" />
+                                    <Button Content="Show bitmap window" Click="btnShowBitmapWindow_Click" l:Localization.Key="show_bmp_window" />
+                                    <CheckBox IsChecked="{Binding HttpDebugTopMost}" Content="Always on top" Margin="{StaticResource IndentMargin}" Style="{StaticResource CheckboxSwitch}" DockPanel.Dock="Right" HorizontalContentAlignment="Left" l:Localization.Key="always_on_top" />
                                 </DockPanel>
 
                                 <DockPanel>
-                                    <Button Content="Show GSI HTTP requests" Click="btnShowGSILog_Click" />
-                                    <CheckBox IsChecked="{Binding BitmapDebugTopMost}" Content="Always on top" Margin="{StaticResource IndentMargin}" Style="{StaticResource CheckboxSwitch}" DockPanel.Dock="Right" HorizontalContentAlignment="Left" />
+                                    <Button Content="Show GSI HTTP requests" Click="btnShowGSILog_Click" l:Localization.Key="show_http_window" />
+                                    <CheckBox IsChecked="{Binding BitmapDebugTopMost}" Content="Always on top" Margin="{StaticResource IndentMargin}" Style="{StaticResource CheckboxSwitch}" DockPanel.Dock="Right" HorizontalContentAlignment="Left" l:Localization.Key="always_on_top" />
                                 </DockPanel>
 
-                                <Button Content="Show Logs Folder" Click="btnShowLogsFolder_Click" HorizontalAlignment="Left" />
+                                <Button Content="Show logs folder" Click="btnShowLogsFolder_Click" HorizontalAlignment="Left" l:Localization.Key="show_logs_folder" />
 
 
                                 <Image x:Name="debug_bitmap_preview" MaxHeight="400" Margin="4,0" />
@@ -268,15 +269,15 @@
                             </c:SpacedStackPanel>
                         </Border>
 
-                        <Label Content="About" Style="{StaticResource SectionHeader}" />
+                        <TextBlock Text="About" Style="{StaticResource SectionHeader}" l:Localization.Key="about" />
                         <Border Style="{StaticResource GroupPanel}">
                             <c:SpacedStackPanel>
-                                <TextBlock Text="This is a public Beta version of Aurora, there may be bugs and issues." />
-                                <TextBlock Text="Game logos and other images are owned by their respective owners." />
-                                <TextBlock Text="Some icons are used with the free license from Icons8.com" />
+                                <TextBlock Text="This is a public Beta version of Aurora, there may be bugs and issues." l:Localization.Key="about_0" />
+                                <TextBlock Text="Game logos and other images are owned by their respective owners." l:Localization.Key="about_1" />
+                                <TextBlock Text="Some icons are used with the free license from Icons8.com" l:Localization.Key="about_2" />
 
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Find us on" />
+                                    <TextBlock Text="Find us on" l:Localization.Key="find_us" />
                                     <Button Click="GithubButton_Click">
                                         <StackPanel Margin="2,0" Orientation="Horizontal">
                                             <Image Source="/Aurora;component/Resources/UIIcons/github-32.png" Width="18" Height="18" Margin="0,0,8,0" />
