@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
@@ -155,11 +156,13 @@ namespace Aurora.Controls {
             var msg = new AlertBox { Title = title, Text = content, Buttons = buttons, Icon = icon, AllowClose = allowClose };
 
             // If a panel is provided, add the alert to the panel
-            if (panel != null)
+            if (panel != null) {
                 panel.Children.Add(msg);
+                FocusManager.SetIsFocusScope(msg, true);
+                FocusManager.SetFocusedElement(panel, msg);
 
             // If not parent panel is provided, create a separate window for the alert
-            else {
+            }  else {
                 var w = new Window {
                     ShowInTaskbar = false,
                     WindowStyle = WindowStyle.ToolWindow,
@@ -268,14 +271,17 @@ namespace Aurora.Controls {
         /// Class that defines the a button that will appear in the alertbox.
         /// </summary>
         public class ChoiceButton {
+
+            /// <summary>The name of the default style, if none is provided.</summary>
+            private const string DEFAULT_STYLE = "Panel1Button";
+
             /// <summary>The text label of the button.</summary>
-            public string Label { get; set; }
+            public string Label { get; }
 
             /// <summary>The name of the style this button should use.</summary>
-            public string StyleName { get; set; } = "Panel1Button";
+            public string StyleName { get; }
 
-            public ChoiceButton(string label) { Label = label; }
-            public ChoiceButton(string label, string style) { Label = label; StyleName = style; }
+            public ChoiceButton(string label, string style = DEFAULT_STYLE) { Label = label; StyleName = style; }
         }
     }
 
