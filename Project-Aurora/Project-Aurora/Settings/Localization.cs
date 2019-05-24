@@ -77,7 +77,7 @@ namespace Aurora.Settings.Localization {
             if (source.ContainsKey(keyTuple))
                 return source[keyTuple];
             else if (sourceFallback.ContainsKey(keyTuple))
-                return source[keyTuple];
+                return sourceFallback[keyTuple];
             return $"#Missing:{package}.{key}";
         }
 
@@ -190,30 +190,53 @@ namespace Aurora.Settings.Localization {
 
 
     /// <summary>
-    /// A class providing Localization-related attached properties. These properties ("Key" and "Package") can be applied to the
-    /// <see cref="TextBlock"/> control to apply localization to the Text property without needing to bind to the text (so that placeholder
-    /// text can be set during design-time to assist with the positioning and designing of the UI). These properties can take bindings.
+    /// A class providing Localization-related attached properties. These properties ("Key" and "Package") can be applied to a <see cref="ContentControl"/>
+    /// to set the content to the translation of the given key, or a <see cref="TextBlock"/> to apply localization to the Text property.
+    /// Can also apply a translation binding to the tooltip of any <see cref="FrameworkElement"/>.
+    /// <para>This is done without needing to bind to the text/content (so that placeholder text can be set during design-time to assist
+    /// with the positioning and designing of the UI). These properties can take bindings.</para>
     /// </summary>
     public static class Localization {
 
+        #region Attached Property Definitions
         // The main localization key used to lookup the translated phrase in the dictionary.
         public static string GetKey(DependencyObject obj) => (string)obj.GetValue(KeyProperty);
         public static void SetKey(DependencyObject obj, string value) => obj.SetValue(KeyProperty, value);
 
         public static readonly DependencyProperty KeyProperty =
             DependencyProperty.RegisterAttached("Key", typeof(string), typeof(Localization), new PropertyMetadata("", LocalizationChanged));
-        
+
         // The package that is used as a source for the translation. Defaults to "aurora".
-        public static string GetPackage(DependencyObject obj) =>(string)obj.GetValue(PackageProperty);
+        public static string GetPackage(DependencyObject obj) => (string)obj.GetValue(PackageProperty);
         public static void SetPackage(DependencyObject obj, string value) => obj.SetValue(PackageProperty, value);
 
         public static readonly DependencyProperty PackageProperty =
             DependencyProperty.RegisterAttached("Package", typeof(string), typeof(Localization), new PropertyMetadata("aurora", LocalizationChanged));
 
+        // Specifies the key that will be used for the tooltip of the element. Uses the same package as defined by the "Package" property.
+        public static string GetTooltipKey(DependencyObject obj) => (string)obj.GetValue(TooltipKeyProperty);
+        public static void SetTooltipKey(DependencyObject obj, string value) => obj.SetValue(TooltipKeyProperty, value);
+
+        // Using a DependencyProperty as the backing store for TooltipKey.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TooltipKeyProperty =
+            DependencyProperty.RegisterAttached("TooltipKey", typeof(string), typeof(Localization), new PropertyMetadata("", LocalizationTooltipChanged));
+        #endregion
+
+
         // Method that updates the TextBlock.TextProperty property with a new binding pointing to the relevant entry whenever the key or package changes.
         private static void LocalizationChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e) {
-            if (!(depObj is TextBlock textBlock)) return; 
-            textBlock.SetBinding(TextBlock.TextProperty, new Binding($"[{GetKey(depObj)}, {GetPackage(depObj)}]") { Source = TranslationSource.Instance });
+            var binding = new Binding($"[{GetKey(depObj)}, {GetPackage(depObj)}]") { Source = TranslationSource.Instance };
+            switch (depObj) {
+                case ContentControl contentControl: contentControl.SetBinding(ContentControl.ContentProperty, binding); break;
+                case TextBlock textBlock: textBlock.SetBinding(TextBlock.TextProperty, binding); break;
+            }
+        }
+
+        // Method that updates the target's Tooltip property with a new binding pointing to the relevant entry
+        private static void LocalizationTooltipChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e) {
+            if (string.IsNullOrWhiteSpace(GetTooltipKey(depObj)) || !(depObj is FrameworkElement el)) return;
+            var binding = new Binding($"[{GetTooltipKey(depObj)}, {GetPackage(depObj)}]") { Source = TranslationSource.Instance };
+            el.SetBinding(FrameworkElement.ToolTipProperty, binding);
         }
     }
 
