@@ -81,6 +81,25 @@ namespace Aurora.Settings.Localization {
             return $"#Missing:{package}.{key}";
         }
 
+        /// <summary>Returns the translated string with a particular key in the current culture.
+        /// The returned srting will be interpolated with the provided values. E.G. if the translation contains any {i}, this will be replaced
+        /// by the 'i'th value in the insertValues array.</summary>
+        /// <param name="key">The key of the string to get, e.g. "PrimaryColor".</param>
+        /// <param name="interpolationValues">Any strings to insert into the localized string.</param>
+        public string GetInterpolatedString(string key, params string[] interpolationValues) {
+            return string.Format(GetString(key), interpolationValues);
+        }
+
+        /// <summary>Returns the translated string with a particular key, in a particular package group, in the current culture.
+        /// The returned srting will be interpolated with the provided values. E.G. if the translation contains any {i}, this will be replaced
+        /// by the 'i'th value in the insertValues array.</summary>
+        /// <param name="key">The key of the string to get, e.g. "PrimaryColor".</param>
+        /// <param name="package">A package the translation is in.</param>
+        /// <param name="interpolationValues">Any strings to insert into the localized string.</param>
+        public string GetInterpolatedStringPackage(string key, string package, params string[] interpolationValues) {
+            return string.Format(GetString(key, package), interpolationValues);
+        }
+
         /// <summary>Loads all the language files (of all packages) of the provided culture into the provided dictionary.</summary>
         /// <param name="into">The dictionary that all the language translations will be stored in.</param>
         /// <param name="locale">The IETF language code of the culture whose files to load into the dictionary.</param>

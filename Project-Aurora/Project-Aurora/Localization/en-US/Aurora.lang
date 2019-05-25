@@ -65,3 +65,7 @@ bitmap.great: Great
 bitmap.good: Good
 bitmap.okay: Okay
 bitmap.fine: Fine
+alert_delete_text: Are you sure you wish to delete {0} '{1}'? You cannot undo this action.
+alert_delete_title: Delete {0}?
+delete: Delete
+dont_delete: Don't delete

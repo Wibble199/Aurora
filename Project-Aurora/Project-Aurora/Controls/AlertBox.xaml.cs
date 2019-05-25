@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Aurora.Settings.Localization;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -256,14 +257,14 @@ namespace Aurora.Controls {
 
         #region Preset Show Methods
         /// <summary>
-        /// Helper method that uses the `AlertBox.Show` method to show a delete window, asking the user if they want to delete a certain item.
+        /// Helper method that uses the `AlertBox.Show` method to show a localized delete window, asking the user if they want to delete a certain item.
         /// </summary>
         /// <param name="itemType">The type of item to delete. E.G. "layer".</param>
         /// <param name="itemName">An identifying name of the item to delete. E.G. "My Layer".</param>
         public async static Task<bool> ShowDelete(Window wnd, string itemType, string itemName, bool allowClose = true) =>
-            (await Show(wnd, $"Are you sure you wish to delete {itemType} '{itemName}'? You cannot undo this action.", $"Delete {itemType}?", new[] { new ChoiceButton("Don't delete", "FlatButton"), new ChoiceButton("Delete", "DangerButton") }, AlertBoxIcon.Delete, allowClose)) == 1;
+            (await Show(wnd, TranslationSource.Instance.GetInterpolatedString("alert_delete_text", itemType, itemName), TranslationSource.Instance.GetInterpolatedString("alert_delete_title", itemType), new[] { new ChoiceButton(TranslationSource.Instance["dont_delete"], "FlatButton"), new ChoiceButton(TranslationSource.Instance["delete"], "DangerButton") }, AlertBoxIcon.Delete, allowClose)) == 1;
         public async static Task<bool> ShowDelete(DependencyObject obj, string itemType, string itemName, bool allowClose = true) =>
-            (await Show(obj, $"Are you sure you wish to delete {itemType} '{itemName}'? You cannot undo this action.", $"Delete {itemType}?", new[] { new ChoiceButton("Don't delete", "FlatButton"), new ChoiceButton("Delete", "DangerButton") }, AlertBoxIcon.Delete, allowClose)) == 1;
+            (await Show(obj, TranslationSource.Instance.GetInterpolatedString("alert_delete_text", itemType, itemName), TranslationSource.Instance.GetInterpolatedString("alert_delete_title", itemType), new[] { new ChoiceButton(TranslationSource.Instance["dont_delete"], "FlatButton"), new ChoiceButton(TranslationSource.Instance["delete"], "DangerButton") }, AlertBoxIcon.Delete, allowClose)) == 1;
         #endregion
 
 
