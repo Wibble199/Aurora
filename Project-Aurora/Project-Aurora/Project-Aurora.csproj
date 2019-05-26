@@ -728,6 +728,7 @@
     <Compile Include="Settings\Window_ProcessSelection.xaml.cs">
       <DependentUpon>Window_ProcessSelection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Theme\Addons\TextboxAttachedProperties.cs" />
     <Compile Include="Utils\BrushAnimation.cs" />
     <Compile Include="Utils\Converters.cs" />
     <Compile Include="Utils\DesktopUtils.cs" />
@@ -1563,6 +1564,7 @@
     <Resource Include="Resources\UIIcons\github-32.png" />
     <Resource Include="Resources\UIIcons\steam-26.png" />
     <Resource Include="Resources\UIIcons\puzzle-30.png" />
+    <Resource Include="Resources\UIIcons\search-30.png" />
     <Content Include="Settings\Configuration.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Configuration.cs</LastGenOutput>

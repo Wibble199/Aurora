@@ -10,6 +10,7 @@
     xmlns:settings="clr-namespace:Aurora.Settings"
     xmlns:l="clr-namespace:Aurora.Settings.Localization"
     xmlns:u="clr-namespace:Aurora.Utils"
+    xmlns:a="clr-namespace:Aurora.Theme.Addons"
     x:Class="Aurora.ConfigUI"
     mc:Ignorable="d"
     Width="1280" Height="820"
@@ -186,7 +187,7 @@
                 <Image DockPanel.Dock="Top" Source="Resources/aurora_logo.png" Height="48" Margin="8" Grid.RowSpan="999" />
                 
                 <!-- Application search box -->
-                <TextBox x:Name="ApplicationSearchBox" DockPanel.Dock="Top" Margin="8,0,8,8" />
+                <TextBox x:Name="ApplicationSearchBox" DockPanel.Dock="Top" Margin="8,0,8,8" a:TextboxAddons.Icon="UIIcons/search-30.png" a:TextboxAddons.Placeholder="Search applications..." />
 
                 <!-- Application list controls -->
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">

@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Media.Imaging;
 
 namespace Aurora.Utils {
 
@@ -84,5 +85,14 @@ namespace Aurora.Utils {
             return actualWidth * ((curVal - minVal) / (maxVal - minVal));
         }
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// Converts an string path into an ImageSource representing that resource. The path should be relative to the 'Resources' directory.
+    /// </summary>
+    public class StringToImageSourceConverter : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+            => value == null ? null : new BitmapImage(new Uri($"/Aurora;component/Resources/{value.ToString()}", UriKind.Relative));
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 }

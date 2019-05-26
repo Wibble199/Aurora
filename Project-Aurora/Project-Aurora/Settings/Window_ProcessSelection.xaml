@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Aurora.Settings"
+             xmlns:a="clr-namespace:Aurora.Theme.Addons"
              mc:Ignorable="d" 
              Height="480" Width="340"
              Title="Exclude process" ResizeMode="NoResize" Background="#181818">
@@ -39,19 +40,7 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
 
-                    <TextBox x:Name="RunningProcessListFilterText" Grid.Row="1" TextChanged="RunningListFilter_TextChanged" PreviewKeyDown="RunningProcessListFilterText_KeyDown" />
-                    <TextBlock IsHitTestVisible="False" Text="Filter list..." VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3,0,0,0" Foreground="#757575" Grid.Row="1">
-                        <TextBlock.Style>
-                            <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Text, ElementName=RunningProcessListFilterText}" Value="">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
+                    <TextBox x:Name="RunningProcessListFilterText" Grid.Row="1" TextChanged="RunningListFilter_TextChanged" PreviewKeyDown="RunningProcessListFilterText_KeyDown" a:TextboxAddons.Placeholder="Filter list..." />
                 </Grid>
             </TabItem>
             

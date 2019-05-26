@@ -18,7 +18,7 @@
         <CheckBox Content="Pulse" Margin="10,85,324,0" VerticalAlignment="Top" IsChecked="{Binding Path=Properties._Pulse}"/>
 
         <Label Content="Lock Key:" Padding="0" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top"/>
-        <ComboBox x:Name="cmbKey" Margin="54,0,0,0" VerticalAlignment="Top" ItemTemplate="{utils:EnumToItemsSource {x:Type forms:Keys}}" SelectedValue="{Binding Path=Properties._ToggledKey}" DisplayMemberPath="Text" SelectedValuePath="Value" HorizontalAlignment="Left" Width="211"/>
+        <ComboBox x:Name="cmbKey" Margin="54,0,0,0" VerticalAlignment="Top" SelectedItem="{Binding Path=Properties._ToggledKey}" HorizontalAlignment="Left" Width="211"/>
         <Controls:KeySequence x:Name="keysLock" HorizontalAlignment="Left" Margin="270,36,0,10" Title="Lock Colour Affected Keys" RecordingTag="Lock Colour Affected Keys" SequenceUpdated="keysLock_SequenceUpdated"/>
     </Grid>
 </UserControl>
