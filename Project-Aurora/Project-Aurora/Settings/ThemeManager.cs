@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -24,9 +25,13 @@ namespace Aurora.Settings {
 
         /// <summary>A list of all possible themes the user can choose from. Includes any files in the "Themes" directory as well as a "Default" theme.
         /// <para>Returns a KeyValuePair enumberable where the key is the user-friendly name and the value is the raw file name.</para></summary>
-        public IEnumerable<KeyValuePair<string, string>> ThemeList { get; private set; }
+        public ObservableCollection<KeyValuePair<string, string>> ThemeList { get; private set; }
 
         private ThemeManager() {
+            // Create the theme directory if it doesn't exist
+            if (!Directory.Exists(ThemePath))
+                Directory.CreateDirectory(ThemePath);
+
             // Do an initial theme scan
             UpdateThemeList();
 
@@ -46,11 +51,13 @@ namespace Aurora.Settings {
 
         /// <summary>Refreshes the <see cref="ThemeList"/> property with all available themes in the theme directory.</summary>
         private void UpdateThemeList() {
-            ThemeList = new[] { new KeyValuePair<string, string>("Default", "") }
-                .Concat(
-                    Directory.EnumerateFiles(ThemePath, "*.xaml")
-                    .Select(s => Path.GetFileNameWithoutExtension(s))
-                    .Select(s => new KeyValuePair<string, string>(s.Replace('_', ' '), s))
+            ThemeList = new ObservableCollection<KeyValuePair<string, string>>(
+                new[] { new KeyValuePair<string, string>("Default", "") }
+                    .Concat(
+                        Directory.EnumerateFiles(ThemePath, "*.xaml")
+                        .Select(s => Path.GetFileNameWithoutExtension(s))
+                        .Select(s => new KeyValuePair<string, string>(s.Replace('_', ' '), s))
+                    )
                 );
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ThemeList"));
         }

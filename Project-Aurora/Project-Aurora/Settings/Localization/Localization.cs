@@ -303,7 +303,7 @@ namespace Aurora.Settings.Localization {
 
         /// <summary>Returns the user's current culture IETF tag, or defaults to "en-US" if their language is not supported.</summary>
         public static string GetDefaultUserCulture() =>
-            IsCultureValid(CultureInfo.CurrentCulture.IetfLanguageTag) ? CultureInfo.CurrentCulture.IetfLanguageTag : "en-US";
+            AvailableCultures.FirstOrDefault(culture => culture == CultureInfo.CurrentCulture)?.IetfLanguageTag ?? "en-US";
 
         /// <summary>Checks to see if the specified IETF language tag is recognised.</summary>
         public static bool IsCultureValid(string tag) =>

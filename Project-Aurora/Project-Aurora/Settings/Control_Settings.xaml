@@ -258,12 +258,12 @@
                             <c:SpacedStackPanel>
                                 <DockPanel>
                                     <Button Content="Show bitmap window" Click="btnShowBitmapWindow_Click" l:Localization.Key="show_bmp_window" />
-                                    <CheckBox IsChecked="{Binding HttpDebugTopMost}" Content="Always on top" Margin="{StaticResource IndentMargin}" Style="{StaticResource CheckboxSwitch}" DockPanel.Dock="Right" HorizontalContentAlignment="Left" l:Localization.Key="always_on_top" />
+                                    <CheckBox IsChecked="{Binding BitmapDebugTopMost}" Content="Always on top" Margin="{StaticResource IndentMargin}" Style="{StaticResource CheckboxSwitch}" DockPanel.Dock="Right" HorizontalContentAlignment="Left" l:Localization.Key="always_on_top" />
                                 </DockPanel>
 
                                 <DockPanel>
                                     <Button Content="Show GSI HTTP requests" Click="btnShowGSILog_Click" l:Localization.Key="show_http_window" />
-                                    <CheckBox IsChecked="{Binding BitmapDebugTopMost}" Content="Always on top" Margin="{StaticResource IndentMargin}" Style="{StaticResource CheckboxSwitch}" DockPanel.Dock="Right" HorizontalContentAlignment="Left" l:Localization.Key="always_on_top" />
+                                    <CheckBox IsChecked="{Binding HttpDebugTopMost}" Content="Always on top" Margin="{StaticResource IndentMargin}" Style="{StaticResource CheckboxSwitch}" DockPanel.Dock="Right" HorizontalContentAlignment="Left" l:Localization.Key="always_on_top" />
                                 </DockPanel>
 
                                 <Button Content="Show logs folder" Click="btnShowLogsFolder_Click" HorizontalAlignment="Left" l:Localization.Key="show_logs_folder" />
