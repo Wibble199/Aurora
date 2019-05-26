@@ -22,7 +22,7 @@
                             <Image Source="{Binding Path=(a:TextboxAddons.Icon), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource StringToImageSourceConverter}}" Width="18" Margin="6,0" HorizontalAlignment="Right" IsHitTestVisible="False" />
 
                             <!-- Placeholder text displayer -->
-                            <TextBlock x:Name="PlaceholderText" IsHitTestVisible="False" Text="{Binding Path=(a:TextboxAddons.Placeholder), RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3,0,0,0" Foreground="{TemplateBinding Foreground}" Opacity=".4" Visibility="Collapsed" />
+                            <TextBlock x:Name="PlaceholderText" IsHitTestVisible="False" Text="{Binding Path=(a:TextboxAddons.Placeholder), RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="7,0,0,0" Foreground="{TemplateBinding Foreground}" Opacity=".4" Visibility="Collapsed" />
                         </Grid>
                     </Border>
 

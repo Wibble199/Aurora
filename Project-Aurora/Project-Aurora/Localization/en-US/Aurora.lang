@@ -69,3 +69,6 @@ alert_delete_text: Are you sure you wish to delete {0} '{1}'? You cannot undo th
 alert_delete_title: Delete {0}?
 delete: Delete
 dont_delete: Don't delete
+yes: Yes
+no: No
+alert_exit_text: Would you like to exit Aurora?

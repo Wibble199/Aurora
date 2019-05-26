@@ -19,6 +19,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Data;
 using System.Globalization;
 using System.Windows.Threading;
+using Aurora.Settings.Localization;
 
 namespace Aurora {
     partial class ConfigUI : Window, INotifyPropertyChanged
@@ -177,17 +178,23 @@ namespace Aurora {
             
         }
 
-        private async void Window_Closing(object sender, CancelEventArgs e) {
-            var closeMode = Global.Configuration.CloseMode;
+        private void Window_Closing(object sender, CancelEventArgs e) {
+            e.Cancel = true; // Window_Closing cannot be async, so we must always cancel the close to show our async alertbox. We also cannot use Task.Wait, as this will block the UI thread, therefore blocking the alertbox buttons
 
-            if (closeMode == AppExitMode.Ask)
-                closeMode = await AlertBox.Show(this, "Would you like to exit Aurora?", "Aurora", new[] { "Yes", "No" }, AlertBoxIcon.Question, false) == 0 ? AppExitMode.Exit : AppExitMode.Minimize;
-
-            if (closeMode == AppExitMode.Exit) {
-                exitApp();
-            } else {
-                minimizeApp();
-                e.Cancel = true;
+            switch (Global.Configuration.CloseMode) {
+                case AppExitMode.Ask:
+                    AlertBox.Show(this, TranslationSource.Instance["alert_exit_text"], "Aurora", new[] { TranslationSource.Instance["yes"], TranslationSource.Instance["no"] }, AlertBoxIcon.Question, false)
+                        .ContinueWith(alert => Dispatcher.Invoke(() => {
+                            if (alert.Result == 0) exitApp();
+                            else minimizeApp();
+                        }));
+                    break;
+                case AppExitMode.Exit:
+                    exitApp();
+                    break;
+                case AppExitMode.Minimize:
+                    minimizeApp();
+                    break;
             }
         }
 
