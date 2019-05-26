@@ -27,14 +27,11 @@ namespace Aurora.Settings {
         public IEnumerable<KeyValuePair<string, string>> ThemeList { get; private set; }
 
         private ThemeManager() {
-            // Do an initial theme application
-            ApplyTheme();
-
             // Do an initial theme scan
             UpdateThemeList();
 
-            // Register our interest in watching for config changes (specifically ThemeName changes)
-            Global.Configuration.PropertyChanged += Configuration_PropertyChanged;
+            // Do an initial theme application
+            ApplyTheme();
 
             // Setup a watcher that will update the theme when it is changed and refresh the list when files
             // are added or removed to the themes directory.
@@ -43,21 +40,8 @@ namespace Aurora.Settings {
                 Filter = "*.xaml",
                 EnableRaisingEvents = true
             };
-            watcher.Changed += ThemeFileWatcher_Changed;
             watcher.Created += (sender, e) => UpdateThemeList();
             watcher.Deleted += (sender, e) => UpdateThemeList();
-        }
-
-        /// <summary>Event handler for when the configuration changes. If ThemeName was changed, we apply the selected theme.</summary>
-        private void Configuration_PropertyChanged(object sender, PropertyChangedEventArgs e) {
-            if (e.PropertyName == "ThemeName")
-                ApplyTheme();
-        }
-
-        /// <summary>Event handler for Theme file changes. If the changed theme is the current one, we re-apply that theme.</summary>
-        private void ThemeFileWatcher_Changed(object sender, FileSystemEventArgs e) {
-            if (Path.GetFileNameWithoutExtension(e.Name) == Global.Configuration.ThemeName)
-                ApplyTheme();
         }
 
         /// <summary>Refreshes the <see cref="ThemeList"/> property with all available themes in the theme directory.</summary>
