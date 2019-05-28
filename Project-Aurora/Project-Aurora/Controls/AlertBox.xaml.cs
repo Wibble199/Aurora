@@ -282,7 +282,24 @@ namespace Aurora.Controls {
         public async static Task<bool> ShowDelete(Window wnd, string itemType, string itemName, bool allowClose = true) =>
             (await Show(wnd, TranslationSource.Instance.GetInterpolatedString("alert_delete_text", itemType, itemName), TranslationSource.Instance.GetInterpolatedString("alert_delete_title", itemType), new[] { new ChoiceButton(TranslationSource.Instance["dont_delete"], "FlatButton"), new ChoiceButton(TranslationSource.Instance["delete"], "DangerButton") }, AlertBoxIcon.Delete, allowClose)) == 1;
         public async static Task<bool> ShowDelete(DependencyObject obj, string itemType, string itemName, bool allowClose = true) =>
-            (await Show(obj, TranslationSource.Instance.GetInterpolatedString("alert_delete_text", itemType, itemName), TranslationSource.Instance.GetInterpolatedString("alert_delete_title", itemType), new[] { new ChoiceButton(TranslationSource.Instance["dont_delete"], "FlatButton"), new ChoiceButton(TranslationSource.Instance["delete"], "DangerButton") }, AlertBoxIcon.Delete, allowClose)) == 1;
+            //(await Show(obj, TranslationSource.Instance.GetInterpolatedString("alert_delete_text", itemType, itemName), TranslationSource.Instance.GetInterpolatedString("alert_delete_title", itemType), new[] { new ChoiceButton(TranslationSource.Instance["dont_delete"], "FlatButton"), new ChoiceButton(TranslationSource.Instance["delete"], "DangerButton") }, AlertBoxIcon.Delete, allowClose)) == 1;
+            (await ShowInput(obj, "TItle", "Message", "default", str => str == "hello", "Please enter 'hello'")) == "";
+
+        /// <summary>
+        /// Helper method that creates a text input AlertBox. If provided, the validate method will be run each time the user submits the input
+        /// and if it returns false, the user is asked again and the `invalidMessage` is shown.
+        /// </summary>
+        public async static Task<string> ShowInput(DependencyObject obj, string title, string message, string @default = "", Func<string, bool> validate = null, string invalidMessage = "") {
+            var buttons = new[] { new ChoiceButton("Cancel", "FlatButton"), new ChoiceButton("Okay") };
+            var textbox = new TextBox { Text = @default };
+            var firstRun = true;
+            do {
+                var result = await Show(obj, firstRun || string.IsNullOrWhiteSpace(invalidMessage) ? new object[] { message, textbox } : new object[] { message, textbox, invalidMessage }, title, buttons, AlertBoxIcon.Question, false, 9999d);
+                if (result != 1) return null;
+                firstRun = false;
+            } while (validate != null && !validate(textbox.Text));
+            return textbox.Text;
+        }
         #endregion
 
 
