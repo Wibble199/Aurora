@@ -72,3 +72,11 @@ dont_delete: Don't delete
 yes: Yes
 no: No
 alert_exit_text: Would you like to exit Aurora?
+fatal_error_title: Fatal error
+fatal_error_text: Aurora has fatally crashed. Please report the follow to author:
+fatal_missing_admin_rights: Aurora has not been started as an administrator.
+fatal_already_running: An instance of Aurora is already running. This process will now exit.
+fatal_gamestate_error: An error occured trying to start GameStateListener.
+fatal_gamestate_start_error: An error occured trying to start the GameStateListener. Ensure you are running Aurora as an administrator and nothing is using port {0}.
+fatal_configmanager_load_error: An error occured while attempting to load configuration data. The default configuration has been loaded.
+show_exception_details: Show exception details

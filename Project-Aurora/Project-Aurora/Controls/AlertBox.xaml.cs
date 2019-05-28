@@ -22,25 +22,27 @@ namespace Aurora.Controls {
         /// <summary>Used to create a task that will be completed when the user presses one of the alert's buttons.</summary>
         private readonly TaskCompletionSource<int> buttonClickCompletionSource = new TaskCompletionSource<int>();
 
-        /// <summary>A bool to track whether or not the alert has been created with it's own dedicated window.</summary>
-        private bool isDedicatedWindow = false;
-
         /// <summary>
         /// Creates a new <see cref="AlertBox"/> and sets the DataContext.
         /// </summary>
         private AlertBox() {
             InitializeComponent();
-            ((FrameworkElement)Content).DataContext = this;
+            ((FrameworkElement)base.Content).DataContext = this;
         }
 
         #region Properties
-        /// <summary>Gets or sets the text that is displayed inside the alert box.</summary>
-        public string Text {
-            get => (string)GetValue(TextProperty);
-            set => SetValue(TextProperty, value);
+        /// <summary>Sets the content of the AlertBox to be the given content.</summary>
+        public new object Content {
+            get => GetValue(ContentProperty);
+            set => SetValue(ContentProperty, value);
         }
-        public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register("Text", typeof(string), typeof(AlertBox), new PropertyMetadata(""));
+        public static new readonly DependencyProperty ContentProperty =
+            DependencyProperty.Register("Content", typeof(object), typeof(AlertBox), new FrameworkPropertyMetadata(null, coerceValueCallback: CoerceContentCallback));
+
+        /// <summary>Method to coerce arrays. If an array is passed, a ItemsControl is used inside the ContentControl, which will render any UIElements or text instead.
+        /// Without this, if an array was passed, the ContentControl would display something such as the literal string "object[]" instead of the objects themselves.</summary>
+        public static object CoerceContentCallback(DependencyObject _, object value) =>
+            value.GetType().IsArray ? new ItemsControl { ItemsSource = (Array)value, HorizontalAlignment = HorizontalAlignment.Stretch } : value;
 
         /// <summary>Gets or sets the title that is displayed inside the alert box.</summary>
         public string Title {
@@ -75,7 +77,22 @@ namespace Aurora.Controls {
         public static readonly DependencyProperty AllowCloseProperty =
             DependencyProperty.Register("AllowClose", typeof(bool), typeof(AlertBox), new PropertyMetadata(true));
 
+        /// <summary>Sets the width of the AlertBox.</summary>
+        /// <remarks>This hides the normal width property, as if that's changed it affects the size of the backdrop - not what is wanted.</remarks>
+        public new double Width {
+            get => (double)GetValue(WidthProperty);
+            set => SetValue(WidthProperty, value);
+        }
+        public static new readonly DependencyProperty WidthProperty =
+            DependencyProperty.Register("Width", typeof(double), typeof(AlertBox), new PropertyMetadata(double.NaN));
 
+        /// <summary>Indicates to the AlertBox whether it is running inside a dedicated window or as a child of another window.</summary>
+        public bool IsDedicatedWindow {
+            get => (bool)GetValue(IsDedicatedWindowProperty);
+            set => SetValue(IsDedicatedWindowProperty, value);
+        }
+        public static readonly DependencyProperty IsDedicatedWindowProperty =
+            DependencyProperty.Register("IsDedicatedWindow", typeof(bool), typeof(AlertBox), new PropertyMetadata(false));
         #endregion
 
         /// <summary>
@@ -84,7 +101,7 @@ namespace Aurora.Controls {
         private void UserControl_Loaded(object sender, RoutedEventArgs e) {
             // If the window is not in it's own dedicated one (i.e. it's been attached to an existing window), play an animation.
             // We don't play one in a dedicated window since it looks weird: the window appears immediately and then the contents fade in.
-            if (!isDedicatedWindow)
+            if (!IsDedicatedWindow)
                 (Resources["AnimationIn"] as Storyboard).Begin(this, true);
         }
 
@@ -115,7 +132,7 @@ namespace Aurora.Controls {
             buttonClickCompletionSource.SetResult(result);
 
             // If we created a window dedicated for this alert box, set the dialog result (releasing the wait on `ShowDialog`)
-            if (isDedicatedWindow && Parent is Window w)
+            if (IsDedicatedWindow && Parent is Window w)
                 w.DialogResult = true;
 
             // Else if it's not a dedicated window, we need to remove it from the panel it is residing in
@@ -149,12 +166,12 @@ namespace Aurora.Controls {
         /// <para>Returns a task that should be awaited. The task will complete when the user chooses an option and the index of the pressed
         /// button will be the resolution value of the task.</para>
         /// </summary>
-        private static Task<int> ShowCore(Panel panel, string content, string title, IEnumerable<ChoiceButton> buttons, AlertBoxIcon icon, bool allowClose) {
+        private static Task<int> ShowCore(Panel panel, object content, string title, IEnumerable<ChoiceButton> buttons, AlertBoxIcon icon, bool allowClose, double width) {
             // Default buttons
             buttons ??= new[] { new ChoiceButton("Okay") };
 
             // Create the alert
-            var msg = new AlertBox { Title = title, Text = content, Buttons = buttons, Icon = icon, AllowClose = allowClose };
+            var msg = new AlertBox { Title = title, Content = content, Buttons = buttons, Icon = icon, AllowClose = allowClose, Width = width };
 
             // If a panel is provided, add the alert to the panel
             if (panel != null) {
@@ -169,7 +186,8 @@ namespace Aurora.Controls {
                     WindowStyle = WindowStyle.ToolWindow,
                     ResizeMode = ResizeMode.NoResize,
                     Content = msg,
-                    SizeToContent = SizeToContent.WidthAndHeight
+                    SizeToContent = SizeToContent.WidthAndHeight,
+                    Topmost = true
                 };
                 // Add a close event that checks if the button task is complete, if not it returns -1. This means -1
                 // will be returned if there wasn't a button that was clicked.
@@ -177,7 +195,7 @@ namespace Aurora.Controls {
                     if (!msg.buttonClickCompletionSource.Task.IsCompleted)
                         msg.buttonClickCompletionSource.SetResult(-1);
                 };
-                msg.isDedicatedWindow = true;
+                msg.IsDedicatedWindow = true;
                 w.ShowDialog();
             }
 
@@ -193,7 +211,7 @@ namespace Aurora.Controls {
         /// <para>Returns a task that should be awaited. The task will complete when the user chooses an option and the index of the pressed
         /// button will be the resolution value of the task. Will return -1 if the alert was closed without choosing an option.</para>
         /// </summary>
-        public static Task<int> Show(Window parent, string content, string title, IEnumerable<ChoiceButton> buttons = null, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true) {
+        public static Task<int> Show(Window parent, object content, string title, IEnumerable<ChoiceButton> buttons = null, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true, double width = double.NaN) {
             Panel panel = null;
 
             // Attempt to attach the MessageBox to front content of the targetted window
@@ -204,7 +222,7 @@ namespace Aurora.Controls {
             else if (parent != null && parent.Content is ContentControl c && c.Content is Panel) panel = (Panel)c.Content;
             else if (parent != null && parent.Content is Decorator d && d.Child is Panel) panel = (Panel)d.Child;
 
-            return ShowCore(panel, content, title, buttons, icon, allowClose);
+            return ShowCore(panel, content, title, buttons, icon, allowClose, width);
         }
 
         /// <summary>
@@ -214,8 +232,8 @@ namespace Aurora.Controls {
         /// <para>Returns a task that should be awaited. The task will complete when the user chooses an option and the index of the pressed
         /// button will be the resolution value of the task. Will return -1 if the alert was closed without choosing an option.</para>
         /// </summary>
-        public static Task<int> Show(Window parent, string content, string title, IEnumerable<string> buttons, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true)
-            => Show(parent, content, title, buttons?.Select(lbl => new ChoiceButton(lbl)), icon, allowClose);
+        public static Task<int> Show(Window parent, object content, string title, IEnumerable<string> buttons, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true, double width = double.NaN)
+            => Show(parent, content, title, buttons?.Select(lbl => new ChoiceButton(lbl)), icon, allowClose, width);
 
         /// <summary>
         /// Will attempt to search for the parent <see cref="Window"/> of the given <see cref="DependencyObject"/>. This allows for use of the
@@ -223,10 +241,10 @@ namespace Aurora.Controls {
         /// <para>Returns a task that should be awaited. The task will complete when the user chooses an option and the index of the pressed
         /// button will be the resolution value of the task. Will return -1 if the alert was closed without choosing an option.</para>
         /// </summary>
-        public static Task<int> Show(DependencyObject obj, string content, string title, IEnumerable<ChoiceButton> buttons = null, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true) {
+        public static Task<int> Show(DependencyObject obj, object content, string title, IEnumerable<ChoiceButton> buttons = null, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true, double width = double.NaN) {
             while (obj != null && !(obj is Window))
                 obj = VisualTreeHelper.GetParent(obj);
-            return Show(obj as Window, content, title, buttons, icon, allowClose);
+            return Show(obj as Window, content, title, buttons, icon, allowClose, width);
         }
 
         /// <summary>
@@ -235,24 +253,24 @@ namespace Aurora.Controls {
         /// <para>Returns a task that should be awaited. The task will complete when the user chooses an option and the index of the pressed
         /// button will be the resolution value of the task. Will return -1 if the alert was closed without choosing an option.</para>
         /// </summary>
-        public static Task<int> Show(DependencyObject obj, string content, string title, IEnumerable<string> buttons, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true)
-            => Show(obj, content, title, buttons?.Select(lbl => new ChoiceButton(lbl)), icon, allowClose);
+        public static Task<int> Show(DependencyObject obj, object content, string title, IEnumerable<string> buttons, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true, double width = double.NaN)
+            => Show(obj, content, title, buttons?.Select(lbl => new ChoiceButton(lbl)), icon, allowClose, width);
 
         /// <summary>
         /// Shows an alert box that will appear in a dedicated new window.
         /// <para>Returns a task that should be awaited. The task will complete when the user chooses an option and the index of the pressed
         /// button will be the resolution value of the task. Will return -1 if the alert was closed without choosing an option.</para>
         /// </summary>
-        public static Task<int> Show(string content, string title, IEnumerable<ChoiceButton> buttons = null, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true)
-            => ShowCore(null, content, title, buttons, icon, allowClose);
+        public static Task<int> Show(object content, string title, IEnumerable<ChoiceButton> buttons = null, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true, double width = double.NaN)
+            => ShowCore(null, content, title, buttons, icon, allowClose, width);
 
         /// <summary>
         /// Shows an alert box that will appear in a dedicated new window.
         /// <para>Returns a task that should be awaited. The task will complete when the user chooses an option and the index of the pressed
         /// button will be the resolution value of the task. Will return -1 if the alert was closed without choosing an option.</para>
         /// </summary>
-        public static Task<int> Show(string content, string title, IEnumerable<string> buttons, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true)
-            => ShowCore(null, content, title, buttons?.Select(lbl => new ChoiceButton(lbl)), icon, allowClose);
+        public static Task<int> Show(object content, string title, IEnumerable<string> buttons, AlertBoxIcon icon = AlertBoxIcon.None, bool allowClose = true, double width = double.NaN)
+            => ShowCore(null, content, title, buttons?.Select(lbl => new ChoiceButton(lbl)), icon, allowClose, width);
         #endregion
 
         #region Preset Show Methods

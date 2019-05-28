@@ -14,7 +14,10 @@
         <ResourceDictionary>
             <c:AlertBoxIconConverter x:Key="AlertBoxIconConverter" />
             <c:AlertBoxIconToVisibilityConverter x:Key="AlertBoxIconToVisibilityConverter" />
-            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <utils:ValueConverterGroup x:Key="InverseBooleanToVisibilityConverter">
+                <utils:BooleanInverterConverter />
+                <BooleanToVisibilityConverter />
+            </utils:ValueConverterGroup>
             <utils:StyleConverter x:Key="StyleConverter" DefaultStyleName="Panel1Button" />
 
             <Duration x:Key="AnimationInDuration">0:0:0.3</Duration>
@@ -52,7 +55,7 @@
         </Button>
 
         <!-- AlertBox -->
-        <Border x:Name="Panel" MaxWidth="520" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="1" BorderBrush="{StaticResource ForegroundElementBrush}" Background="{StaticResource BaseBackgroundBrush}" CornerRadius="{StaticResource ControlBorderRadius}" SnapsToDevicePixels="True" ClipToBounds="True" RenderTransformOrigin="0.5,0.5">
+        <Border x:Name="Panel" Width="{Binding Width}" MaxWidth="520" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="1" BorderBrush="{StaticResource ForegroundElementBrush}" Background="{StaticResource BaseBackgroundBrush}" CornerRadius="{StaticResource ControlBorderRadius}" SnapsToDevicePixels="True" ClipToBounds="True" RenderTransformOrigin="0.5,0.5">
             <!-- RenderTransform (required for animations) -->
             <Border.RenderTransform>
                 <ScaleTransform />
@@ -60,7 +63,7 @@
 
             <!-- AlertBox content -->
             <Grid>
-                <Button HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource FlatButton}" Visibility="{Binding Path=AllowClose, Converter={StaticResource BooleanToVisibilityConverter}}" Click="Backdrop_Click">
+                <Button HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource FlatButton}" Visibility="{Binding Path=IsDedicatedWindow, Converter={StaticResource InverseBooleanToVisibilityConverter}}" Click="Backdrop_Click">
                     <Path Margin="2" Data="M 0,0 L 6,6 M 6,0 L 0,6" Stroke="{StaticResource BaseButtonForegroundBrush}" Opacity="0.4" />
                 </Button>
 
@@ -72,8 +75,14 @@
                         <!-- Title -->
                         <TextBlock DockPanel.Dock="Top" Text="{Binding Title}" FontSize="16" FontWeight="Bold" Foreground="{StaticResource ForegroundTextBrush}" SnapsToDevicePixels="True" />
 
-                        <!-- Message -->
-                        <TextBlock Margin="0,12" Text="{Binding Text}" FontSize="14" TextWrapping="Wrap" Foreground="{StaticResource ForegroundTextBrush}" SnapsToDevicePixels="True" />
+                        <!-- Non-text content -->
+                        <ContentPresenter Content="{Binding Content}" Margin="0,12" SnapsToDevicePixels="True" TextBlock.Foreground="{StaticResource ForegroundTextBrush}" TextBlock.FontSize="14">
+                            <ContentPresenter.Resources>
+                                <Style TargetType="{x:Type c:SpacedStackPanel}">
+                                    <Setter Property="SpacingAmount" Value="8" />
+                                </Style>
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
                     </DockPanel>
 
                     <!-- Buttons -->

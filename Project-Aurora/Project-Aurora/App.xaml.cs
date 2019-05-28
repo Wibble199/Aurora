@@ -20,6 +20,9 @@ using NLog;
 using System.Reflection;
 using System.Text;
 using Aurora.Controls;
+using TS = Aurora.Settings.Localization.TranslationSource;
+using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace Aurora
 {
@@ -246,16 +249,12 @@ namespace Aurora
 
                 //Load config
                 Global.logger.Info("Loading Configuration");
-                try
-                {
+                try {
                     Global.Configuration = ConfigManager.Load();
-                }
-                catch (Exception exc)
-                {
+                } catch (Exception exc) {
                     Global.logger.Error("Exception during ConfigManager.Load(). Error: " + exc);
-                    AlertBox.Show("Exception during ConfigManager.Load().Error: " + exc.Message + "\r\n\r\n Default configuration loaded.", "Error", icon: AlertBoxIcon.Error);
-
                     Global.Configuration = new Configuration();
+                    ShowError(exc, "fatal_configmanager_load_error");
                 }
                 Global.Configuration.PropertyChanged += (sender, e) => ConfigManager.Save(Global.Configuration);
 
@@ -328,14 +327,14 @@ namespace Aurora
                 catch (Exception exc)
                 {
                     Global.logger.Error("GameStateListener Exception, " + exc);
-                    AlertBox.Show("GameStateListener Exception.\r\n" + exc, "Error", icon: AlertBoxIcon.Error);
+                    ShowError(exc, "fatal_gamestate_error");
                     Environment.Exit(0);
                 }
 
                 if (!Global.net_listener.Start())
                 {
                     Global.logger.Error("GameStateListener could not start");
-                    AlertBox.Show("GameStateListener could not start. Try running this program as Administrator.\r\nExiting.", "Error", icon: AlertBoxIcon.Error);
+                    AlertBox.Show(TS.Instance.GetInterpolatedString("fatal_gamestate_start_error", "9088"), "Error", icon: AlertBoxIcon.Error);
                     Environment.Exit(0);
                 }
                 Global.logger.Info("Listening for game integration calls...");
@@ -359,7 +358,7 @@ namespace Aurora
                 catch
                 {
                     //Global.logger.LogLine("Aurora is already running.", Logging_Level.Error);
-                    AlertBox.Show("Aurora is already running.\r\nExiting.", "Error", icon: AlertBoxIcon.Error);
+                    AlertBox.Show(TS.Instance["fatal_already_running"], TS.Instance["fatal_error_title"], icon: AlertBoxIcon.Error);
                 }
             }
         }
@@ -433,31 +432,31 @@ namespace Aurora
             LogManager.Shutdown();
         }
 
+        [DebuggerStepThrough]
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            Exception exc = (Exception)e.ExceptionObject;
-            Global.logger.Fatal("Fatal Exception caught : " + exc);
-            Global.logger.Fatal(String.Format("Runtime terminating: {0}", e.IsTerminating));
+            var exc = (Exception)e.ExceptionObject;
+            Global.logger.Fatal("Fatal Exception caught: " + exc);
+            Global.logger.Fatal("Runtime terminating: " + e.IsTerminating);
             LogManager.Flush();
-
             
-            AlertBox.Show("Aurora fatally crashed. Please report the follow to author: \r\n\r\n" + exc, "Aurora has stopped working", icon: AlertBoxIcon.Error);
+            ShowError(exc, "fatal_error_text");
             //Perform exit operations
-            System.Windows.Application.Current.Shutdown();
+            Current.Shutdown();
         }
 
+        //[DebuggerStepThrough]
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            Exception exc = (Exception)e.Exception;
-            Global.logger.Fatal("Fatal Exception caught : " + exc);
+            Global.logger.Fatal("Fatal Exception caught: " + e.Exception);
             LogManager.Flush();
             if (!Global.isDebug)
                 e.Handled = true;
             else
-                throw exc;
-            AlertBox.Show("Aurora fatally crashed. Please report the follow to author: \r\n\r\n" + exc, "Aurora has stopped working", icon: AlertBoxIcon.Error);
+                throw e.Exception;
+            ShowError(e.Exception, "fatal_error_text");
             //Perform exit operations
-            System.Windows.Application.Current.Shutdown();
+            Current.Shutdown();
         }
 
         public static void InstallLogitech()
@@ -471,7 +470,7 @@ namespace Aurora
             if (!isElevated)
             {
                 Global.logger.Error("Program does not have admin rights");
-                AlertBox.Show("Program does not have admin rights", "Error", icon: AlertBoxIcon.Error);
+                AlertBox.Show(TS.Instance["fatal_missing_admin_rights"], TS.Instance["fatal_error_title"], icon: AlertBoxIcon.Error);
                 Environment.Exit(1);
             }
 
@@ -550,6 +549,29 @@ namespace Aurora
             AlertBox.Show("Logitech LED SDK patched successfully", "Success", icon: AlertBoxIcon.Success);
 
             //Environment.Exit(0);
+        }
+
+        public static void ShowError(Exception ex, string textLocalizationKey) {
+            var innerMessage = new System.Windows.Controls.TextBox {
+                TextWrapping = TextWrapping.Wrap,
+                Text = ex.ToString(),
+                MinHeight = 120,
+                IsReadOnly = true
+            };
+            Theme.Addons.TextboxAddons.SetIcon(innerMessage, null);
+
+            AlertBox.Show(
+                new object[] {
+                    TS.Instance[textLocalizationKey],
+                    new Expander {
+                        Header = TS.Instance["show_exception_details"],
+                        Content = new ScrollViewer { Content = innerMessage, Height = 120, Margin =  new Thickness(0,4,0,0) },
+                        Margin = new Thickness(0,8,0,0)
+                    }
+                },
+                TS.Instance["fatal_error_title"],
+                icon: AlertBoxIcon.Error
+            );
         }
     }
 }

@@ -4,6 +4,7 @@
 
     <Style TargetType="{x:Type TextBlock}">
         <Setter Property="Foreground" Value="{StaticResource BaseTextBrush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
 
 </ResourceDictionary>
