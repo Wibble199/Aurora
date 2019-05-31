@@ -25,7 +25,7 @@ var propertyList = new List<string> {
 	P("bool", "StartSilently", "false", "start_silently"),
 	P("bool", "UpdatesCheckOnStartup", "true", "updates_check_on_start_up"),
 	P("string", "LanguageIETF", "Localization.CultureUtils.GetDefaultUserCulture()"),
-	P("string", "ThemeName", ""),
+	P("string", "ThemeName", "\"\""),
 
 	P("bool", "AllowPeripheralDevices", "true", "allow_peripheral_devices"),
 	P("bool", "AllowWrappersInBackground", "true", "allow_wrappers_in_background"),

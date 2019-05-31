@@ -25,7 +25,7 @@ namespace Aurora.Settings {
 		private string languageIETF = Localization.CultureUtils.GetDefaultUserCulture();
 		public string LanguageIETF { get => languageIETF; set { languageIETF = value; InvokePropertyChanged(); } }
 
-		private string themeName = default(string);
+		private string themeName = "";
 		public string ThemeName { get => themeName; set { themeName = value; InvokePropertyChanged(); } }
 
 		private bool allowPeripheralDevices = true;
