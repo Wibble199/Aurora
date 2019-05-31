@@ -53,6 +53,10 @@
                     </BeginStoryboard>
                 </Trigger.ExitActions>
             </Trigger>
+
+            <Trigger Property="IsReadOnly" Value="True">
+                <Setter Property="a:TextboxAddons.Icon" Value="{x:Null}" />
+            </Trigger>
         </Style.Triggers>
     </Style>
 
