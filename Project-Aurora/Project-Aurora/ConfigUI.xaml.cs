@@ -392,17 +392,19 @@ namespace Aurora {
 
         private void CloseButton_Click(object sender, RoutedEventArgs e) => Close();
 
-        private void AddApplicationButton_Click(object sender, RoutedEventArgs e) {
-            var dialog = new Window_ProcessSelection { CheckCustomPathExists = true, ButtonLabel = "Add Application", Title = "Add Application" };
-            if (dialog.ShowDialog() == true && !string.IsNullOrWhiteSpace(dialog.ChosenExecutablePath)) {
+        private async void AddApplicationButton_Click(object sender, RoutedEventArgs e) {
 
-                string filename = Path.GetFileName(dialog.ChosenExecutablePath.ToLowerInvariant());
+            var result = await Control_ProcessSelection.ShowDialog(this, TranslationSource.Instance["new_application_profile"]);
+
+            if (result.HasValue) {
+                (_, string path) = result.Value;
+                string filename = Path.GetFileName(path.ToLowerInvariant());
 
                 if (Global.LightingStateManager.Events.ContainsKey(filename)) {
                     if (Global.LightingStateManager.Events[filename] is GameEvent_Aurora_Wrapper)
                         Global.LightingStateManager.Events.Remove(filename);
                     else {
-                        AlertBox.Show(this, "Cannot add this application. It already exists in the application list.", "Cannot register", icon: AlertBoxIcon.Warning);
+                        _ = AlertBox.Show(this, TranslationSource.Instance["error_cannot_register_text"], TranslationSource.Instance["error_cannot_register_title"], icon: AlertBoxIcon.Warning);
                         return;
                     }
                 }
@@ -411,7 +413,7 @@ namespace Aurora {
                 newApplication.Initialize();
                 ((GenericApplicationSettings)newApplication.Settings).ApplicationName = Path.GetFileNameWithoutExtension(filename);
 
-                var ico = System.Drawing.Icon.ExtractAssociatedIcon(dialog.ChosenExecutablePath.ToLowerInvariant());
+                var ico = System.Drawing.Icon.ExtractAssociatedIcon(path.ToLowerInvariant());
 
                 if (!Directory.Exists(newApplication.GetProfileFolderPath()))
                     Directory.CreateDirectory(newApplication.GetProfileFolderPath());

@@ -11,6 +11,7 @@ using Microsoft.Win32;
 using System.Diagnostics;
 using Microsoft.Win32.TaskScheduler;
 using System.Windows.Data;
+using Aurora.Settings.Localization;
 
 namespace Aurora.Settings {
     /// <summary>
@@ -143,10 +144,10 @@ namespace Aurora.Settings {
             }
         }
 
-        private void ExcludedAdd_Click(object sender, RoutedEventArgs e) {
-            var dialog = new Window_ProcessSelection { ButtonLabel = "Exclude Process" };
-            if (dialog.ShowDialog() == true && !string.IsNullOrWhiteSpace(dialog.ChosenExecutableName)) // do not need to check if dialog is already in excluded_programs since it is a Set and only contains unique items by definition
-                Global.Configuration.ExcludedPrograms.Add(dialog.ChosenExecutableName);
+        private async void ExcludedAdd_Click(object sender, RoutedEventArgs e) {
+            var result = await Control_ProcessSelection.ShowDialog(this, TranslationSource.Instance["exclude_process"]);
+            if (result.HasValue) // do not need to check if dialog is already in excluded_programs since it is a Set and only contains unique items by definition
+                Global.Configuration.ExcludedPrograms.Add(result.Value.name);
         }
 
         private void ExcludedRemove_Click(object sender, RoutedEventArgs e) {

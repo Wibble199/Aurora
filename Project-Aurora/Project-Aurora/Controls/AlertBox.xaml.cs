@@ -112,7 +112,9 @@ namespace Aurora.Controls {
             var btn = (Button)sender;
             var buttonContainer = VisualTreeHelper.GetParent(btn) as ContentPresenter; // Get the element that wraps the button
             var stackpanel = VisualTreeHelper.GetParent(buttonContainer) as StackPanel; // Get the wrapper's parent element
-            Close(stackpanel.Children.IndexOf(buttonContainer)); // Find the clicked button's index (wrapper's index in parent)
+            var btnIndex = stackpanel.Children.IndexOf(buttonContainer); // Find the clicked button's index (wrapper's index in parent)
+            var valid = (btn.DataContext as ChoiceButton)?.Validate?.Invoke(btnIndex) ?? true; // Check to see if the button has a defined `Validate` function that should be run first.
+            if (valid) Close(btnIndex);
         }
 
         /// <summary>
@@ -316,7 +318,14 @@ namespace Aurora.Controls {
             /// <summary>The name of the style this button should use.</summary>
             public string StyleName { get; }
 
-            public ChoiceButton(string label, string style = DEFAULT_STYLE) { Label = label; StyleName = style; }
+            /// <summary>A function that is run once the user clicks this button. If false is returned, the alert will not close.</summary>
+            public Func<int, bool> Validate { get; }
+
+            public ChoiceButton(string label, string style = DEFAULT_STYLE, Func<int, bool> validate = null) {
+                Label = label;
+                StyleName = style;
+                Validate = validate;
+            }
         }
     }
 

@@ -725,8 +725,8 @@
     <Compile Include="Settings\Overrides\Control_OverridesEditor.xaml.cs">
       <DependentUpon>Control_OverridesEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Settings\Window_ProcessSelection.xaml.cs">
-      <DependentUpon>Window_ProcessSelection.xaml</DependentUpon>
+    <Compile Include="Settings\Control_ProcessSelection.xaml.cs">
+      <DependentUpon>Control_ProcessSelection.xaml</DependentUpon>
     </Compile>
     <Compile Include="Theme\Addons\TextboxAttachedProperties.cs" />
     <Compile Include="Utils\BrushAnimation.cs" />
@@ -2257,7 +2257,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Settings\Window_ProcessSelection.xaml">
+    <Page Include="Settings\Control_ProcessSelection.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -1,16 +1,16 @@
-﻿<Window x:Class="Aurora.Settings.Window_ProcessSelection"
+﻿<UserControl x:Class="Aurora.Settings.Control_ProcessSelection"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Aurora.Settings"
+             xmlns:loc="clr-namespace:Aurora.Settings.Localization"
              xmlns:a="clr-namespace:Aurora.Theme.Addons"
              mc:Ignorable="d" 
-             Height="480" Width="340"
-             Title="Exclude process" ResizeMode="NoResize" Background="#181818">
-    <Window.Resources>
+             Height="480" Width="340">
+    <UserControl.Resources>
         <local:IconToImageConverter x:Key="IconToImageConverter" />
-    </Window.Resources>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -18,7 +18,7 @@
         </Grid.RowDefinitions>
         
         <TabControl x:Name="MainTabControl" BorderThickness="0">
-            <TabItem Header="Select running process">
+            <TabItem Header="{loc:Loc select_running}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -40,12 +40,12 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
 
-                    <TextBox x:Name="RunningProcessListFilterText" Grid.Row="1" TextChanged="RunningListFilter_TextChanged" PreviewKeyDown="RunningProcessListFilterText_KeyDown" a:TextboxAddons.Placeholder="Filter list..." />
+                    <TextBox x:Name="RunningProcessListFilterText" Grid.Row="1" TextChanged="RunningListFilter_TextChanged" PreviewKeyDown="RunningProcessListFilterText_KeyDown" a:TextboxAddons.Placeholder="{loc:Loc filter_list}" a:TextboxAddons.Icon="search-30.png" />
                 </Grid>
             </TabItem>
             
 
-            <TabItem Header="Browse for executable">
+            <TabItem Header="{loc:Loc browse}">
                 <Grid Margin="0,10,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -55,29 +55,11 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    
-                    <TextBox x:Name="ProcessBrowseResult" />
-                    <TextBlock IsHitTestVisible="False" Text="Browse for executable..." VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3,0,0,0" Foreground="#757575">
-                        <TextBlock.Style>
-                            <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Text, ElementName=ProcessBrowseResult}" Value="">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                    
-                    <Button Content="Browse" Grid.Column="1" Margin="10,0,0,0" Padding="5,0" Click="BrowseButton_Click" />
+
+                    <TextBox x:Name="ProcessBrowseResult" a:TextboxAddons.Placeholder="{loc:Loc browse_for_exe}" a:TextboxAddons.Icon="{x:Null}" />
+                    <Button Content="Browse" Grid.Column="1" Margin="10,0,0,0" Padding="5,0" Click="BrowseButton_Click" loc:Localization.Key="browse" />
                 </Grid>
             </TabItem>
         </TabControl>
-
-        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" Margin="0,10">
-            <Button x:Name="okayButton" Content="Select process" Padding="5,0" Click="OkayButton_Click" IsDefault="True" />
-            <Button Content="Cancel" Margin="10,0" Padding="5,0" Click="CancelButton_Click" IsCancel="True" />
-        </StackPanel>
     </Grid>
-</Window>
+</UserControl>

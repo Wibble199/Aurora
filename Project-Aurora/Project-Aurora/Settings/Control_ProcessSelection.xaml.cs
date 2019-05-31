@@ -1,4 +1,6 @@
-﻿using Microsoft.Win32;
+﻿using Aurora.Controls;
+using Aurora.Settings.Localization;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,22 +8,18 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using static Aurora.Controls.AlertBox;
 
 namespace Aurora.Settings {
-    public partial class Window_ProcessSelection : Window {
+    public partial class Control_ProcessSelection : UserControl {
 
-        public Window_ProcessSelection() {
+        public Control_ProcessSelection() {
             InitializeComponent();
 
             // Scan running processes and add them to a list
@@ -47,22 +45,6 @@ namespace Aurora.Settings {
             CollectionViewSource.GetDefaultView(RunningProcessList.ItemsSource).Filter = RunningProcessFilterPredicate;
             RunningProcessListFilterText.Focus();
         }
-
-        /// <summary>Gets or sets the okay button's label. Default: "Select process".</summary>
-        public string ButtonLabel {
-            get { return okayButton.Content.ToString(); }
-            set { okayButton.Content = value; }
-        }
-
-        /// <summary>Dictates whether to check if a path entered by the user in the "Browse for executable" tab exists.
-        /// The user can type text here and so may point to an exe that does not exist. Default: false.</summary>
-        public bool CheckCustomPathExists { get; set; } = false;
-
-        /// <summary>The name and extension of the application the user has chosen (e.g. 'Aurora.exe').</summary>
-        public string ChosenExecutableName { get; private set; } = "";
-
-        /// <summary>The full path of the process the user has chosen (e.g. 'C:\Program Files\Aurora\Aurora.exe').</summary>
-        public string ChosenExecutablePath { get; private set; } = "";
 
         /// <summary>
         /// Handler for the browse button on the custom exe path tab. Sets
@@ -107,37 +89,34 @@ namespace Aurora.Settings {
         private bool RunningProcessFilterPredicate(object item) {
             return ((RunningProcess)item).Name.IndexOf(RunningProcessListFilterText.Text, StringComparison.InvariantCultureIgnoreCase) >= 0;
         }
+        
+
 
         /// <summary>
-        /// Handler for when the confimation button is clicked. Handles closing and informing the result of the dialog.
+        /// Shows an <see cref="AlertBox"/> with the process picker as the content. Returns a Task that will complete when the dialog is
+        /// closed. If nothing was selected (i.e. the operation was cancelled), the result of the Task will be null. If the user selected a
+        /// process, that process's details will be returned.
         /// </summary>
-        private void OkayButton_Click(object sender, RoutedEventArgs e) {
-            // If the user is on the running process list tab
-            if (MainTabControl.SelectedIndex == 0) {
-                if (RunningProcessList.SelectedItem == null) return; // Cannot OK if there is no item selected
-                ChosenExecutableName = ((RunningProcess)RunningProcessList.SelectedItem).Name;
-                ChosenExecutablePath = ((RunningProcess)RunningProcessList.SelectedItem).Path;
+        public static async Task<(string name, string path)?> ShowDialog(DependencyObject container, string title) {
+            var processPicker = new Control_ProcessSelection();
 
-                // Else if user is on browse tab
+            // Function that validates the click event for the picker
+            bool validatePP(int _) =>
+                (processPicker.MainTabControl.SelectedIndex == 0 && processPicker.RunningProcessList.SelectedItem != null) // If the user is on the active process list, ensure that they have actually selected a process
+                || (processPicker.MainTabControl.SelectedIndex == 1 && !string.IsNullOrWhiteSpace(processPicker.ProcessBrowseResult.Text) && File.Exists(processPicker.ProcessBrowseResult.Text)); // Else if the user is on the exe browse page, ensure the file exists
+
+            // Show the dialog
+            var result = await Show(container, processPicker, title, new[] { new ChoiceButton(TranslationSource.Instance["cancel"], "FlatButton"), new ChoiceButton(TranslationSource.Instance["select_process"], validate: validatePP) });
+
+            // Handle the output (thanks to the button's Validate method, we don't need to check if this is valid since for this to be triggered it must have passed)
+            if (result != 1) return null;
+            if (processPicker.MainTabControl.SelectedIndex == 0) {
+                var exe = (RunningProcess)processPicker.RunningProcessList.SelectedItem;
+                return (exe.Name, exe.Path);
             } else {
-                string exe = ProcessBrowseResult.Text;
-                if (string.IsNullOrWhiteSpace(exe)) return; // Cannot OK if there is no text entered
-                if (CheckCustomPathExists && !File.Exists(exe)) return; // Cannot OK if we require validation and the file doesn't exist
-                ChosenExecutableName = exe.Substring(exe.LastIndexOfAny(new[] { '/', '\\' }) + 1); // Get just the exe name
-                ChosenExecutablePath = exe;
+                var exe = processPicker.ProcessBrowseResult.Text;
+                return (Path.GetFileNameWithoutExtension(exe), exe);
             }
-
-            // Close the window and set result as successful
-            DialogResult = true;
-            Close();
-        }
-
-        /// <summary>
-        /// Handler for when the cancel button is clicked. Closes the window.
-        /// </summary>
-        private void CancelButton_Click(object sender, RoutedEventArgs e) {
-            DialogResult = false;
-            Close();
         }
     }
 

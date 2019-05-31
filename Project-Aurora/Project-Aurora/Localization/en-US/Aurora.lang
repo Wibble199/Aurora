@@ -78,5 +78,16 @@ fatal_missing_admin_rights: Aurora has not been started as an administrator.
 fatal_already_running: An instance of Aurora is already running. This process will now exit.
 fatal_gamestate_error: An error occured trying to start GameStateListener.
 fatal_gamestate_start_error: An error occured trying to start the GameStateListener. Ensure you are running Aurora as an administrator and nothing is using port {0}.
-fatal_configmanager_load_error: An error occured while attempting to load configuration data. The default configuration has been loaded.
+fatal_configmanager_load_error: An errolanr occured while attempting to load configuration data. The default configuration has been loaded.
 show_exception_details: Show exception details
+exclude_process: Exclude process
+new_application_profile: New application profile
+select_process: Select process
+cancel: Cancel
+error_cannot_register_title: Cannot register profile
+error_cannot_register_text: Cannot add a profile for this application. It already exists in the application list.
+browse: Browse
+browse_for_exe: Browse for executable...
+~ In the context of running process
+select_running: Select running
+filter_list: Filter list...
