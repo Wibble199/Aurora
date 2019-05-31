@@ -224,7 +224,7 @@
                                 </DockPanel>
                                 <DockPanel>
                                     <TextBlock Text="Preferred keycap type" l:Localization.Key="preferred_keycap" />
-                                    <ComboBox SelectedValue="{Binding KeyboardKeycapType}" ItemsSource="{u:EnumToItemsSource {x:Type s:KeycapType}}" SelectedValuePath="Value" Width="180" l:Localization.UseLocalizedItemTemplate="True" SelectionChanged="DeviceSelectionComboBox_SelectionChanged" DockPanel.Dock="Right" />
+                                    <ComboBox SelectedValue="{Binding VirtualKeyboardKeycapType}" ItemsSource="{u:EnumToItemsSource {x:Type s:KeycapType}}" SelectedValuePath="Value" Width="180" l:Localization.UseLocalizedItemTemplate="True" SelectionChanged="DeviceSelectionComboBox_SelectionChanged" DockPanel.Dock="Right" />
                                 </DockPanel>
 
                                 <CheckBox IsChecked="{Binding DevicesDisableKeyboard}" Content="Disable keyboard lighting" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" l:Localization.Key="disable_keyboard_lighting" Checked="DisableLightingCheckBox_CheckedUnchecked" Unchecked="DisableLightingCheckBox_CheckedUnchecked" />
