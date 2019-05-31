@@ -39,91 +39,90 @@
 
     <!-- Resources -->
     <Window.Resources>
-        <ResourceDictionary>
-            <local:ProfileNameResolver x:Key="ProfileNameResolver" />
-            <local:FilterVisibleApplications x:Key="FilterVisibleApplications" />
+        <local:ProfileNameResolver x:Key="ProfileNameResolver" />
+        <local:FilterVisibleApplications x:Key="FilterVisibleApplications" />
+        <local:ApplicationIsGenericToVisibilityConverter x:Key="IsGenericToVisConv" />
 
-            <!-- Style that sets the image of the hidden toggle button to be an eye or an eye with a slash depending on the toggle state. -->
-            <Style x:Key="ToggleHiddenApplicationsButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource Panel2ToggleButton}">
-                <Setter Property="Content">
-                    <Setter.Value>
-                        <Image Source="Resources/UIIcons/eye-30.png" Margin="2,0" Width="18" Height="18" />
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="ToolTip" Value="Show hidden applications" />
-                <Style.Triggers>
-                    <Trigger Property="IsChecked" Value="True">
-                        <Setter Property="Content">
-                            <Setter.Value>
-                                <Image Source="Resources/UIIcons/hide-30.png" Margin="2,0" Width="18" Height="18" />
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="ToolTip" Value="Hide hidden applications" />
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
+        <!-- Style that sets the image of the hidden toggle button to be an eye or an eye with a slash depending on the toggle state. -->
+        <Style x:Key="ToggleHiddenApplicationsButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource Panel2ToggleButton}">
+            <Setter Property="Content">
+                <Setter.Value>
+                    <Image Source="Resources/UIIcons/eye-30.png" Margin="2,0" Width="18" Height="18" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ToolTip" Value="Show hidden applications" />
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <Image Source="Resources/UIIcons/hide-30.png" Margin="2,0" Width="18" Height="18" />
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="ToolTip" Value="Hide hidden applications" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
-            <!-- Style (including hover/select effects) for the application list box item -->
-            <Style x:Key="ApplicationsListItemStyle" TargetType="{x:Type ListBoxItem}">
-                <Setter Property="Background" Value="{StaticResource Panel2BackgroundBrush}" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                            <Border CornerRadius="{StaticResource ControlBorderRadius}" BorderThickness="0" Background="{TemplateBinding Background}">
-                                <ContentPresenter />
-                            </Border>
+        <!-- Style (including hover/select effects) for the application list box item -->
+        <Style x:Key="ApplicationsListItemStyle" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Background" Value="{StaticResource Panel2BackgroundBrush}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border CornerRadius="{StaticResource ControlBorderRadius}" BorderThickness="0" Background="{TemplateBinding Background}">
+                            <ContentPresenter />
+                        </Border>
 
-                            <ControlTemplate.Triggers>
-                                <MultiTrigger>
-                                    <MultiTrigger.Conditions>
-                                        <Condition Property="IsMouseOver" Value="True" />
-                                        <Condition Property="IsSelected" Value="False" />
-                                    </MultiTrigger.Conditions>
-                                    <MultiTrigger.EnterActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <u:BrushAnimation Storyboard.TargetProperty="Background" To="{StaticResource ApplicationListboxItemHoverBrush}" Duration="{StaticResource AnimationDuration}" />
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </MultiTrigger.EnterActions>
-                                    <MultiTrigger.ExitActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <u:BrushAnimation Storyboard.TargetProperty="Background" To="Transparent" Duration="{StaticResource AnimationDuration}" />
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </MultiTrigger.ExitActions>
-                                </MultiTrigger>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Trigger.EnterActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <u:BrushAnimation Storyboard.TargetProperty="Background" To="{StaticResource ApplicationListboxItemSelectedBrush}" Duration="{StaticResource AnimationDuration}" />
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.EnterActions>
-                                    <Trigger.ExitActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <u:BrushAnimation Storyboard.TargetProperty="Background" To="Transparent" Duration="{StaticResource AnimationDuration}" />
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.ExitActions>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="True" />
+                                    <Condition Property="IsSelected" Value="False" />
+                                </MultiTrigger.Conditions>
+                                <MultiTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <u:BrushAnimation Storyboard.TargetProperty="Background" To="{StaticResource ApplicationListboxItemHoverBrush}" Duration="{StaticResource AnimationDuration}" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </MultiTrigger.EnterActions>
+                                <MultiTrigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <u:BrushAnimation Storyboard.TargetProperty="Background" To="Transparent" Duration="{StaticResource AnimationDuration}" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </MultiTrigger.ExitActions>
+                            </MultiTrigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <u:BrushAnimation Storyboard.TargetProperty="Background" To="{StaticResource ApplicationListboxItemSelectedBrush}" Duration="{StaticResource AnimationDuration}" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <u:BrushAnimation Storyboard.TargetProperty="Background" To="Transparent" Duration="{StaticResource AnimationDuration}" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-            <!-- Visual brush for a hatched brush for the application icons when the application is hidden. -->
-            <VisualBrush x:Key="HatchedBrush" TileMode="Tile" Viewport="0,0,5,5" ViewportUnits="Absolute" Viewbox="0,0,5,5" ViewboxUnits="Absolute">
-                <VisualBrush.Visual>
-                    <!-- Sourced from: https://stackoverflow.com/questions/22919296/create-a-hatch-pattern-in-wpf -->
-                    <Path Data="M 0 5 L 5 0 M -2 2 L 2 -2 M 3 7 L 7 3" StrokeThickness="2" Stroke="#FFFFFF" StrokeEndLineCap="Square" RenderOptions.EdgeMode="Aliased" />
-                </VisualBrush.Visual>
-            </VisualBrush>
-        </ResourceDictionary>
+        <!-- Visual brush for a hatched brush for the application icons when the application is hidden. -->
+        <VisualBrush x:Key="HatchedBrush" TileMode="Tile" Viewport="0,0,5,5" ViewportUnits="Absolute" Viewbox="0,0,5,5" ViewboxUnits="Absolute">
+            <VisualBrush.Visual>
+                <!-- Sourced from: https://stackoverflow.com/questions/22919296/create-a-hatch-pattern-in-wpf -->
+                <Path Data="M 0 5 L 5 0 M -2 2 L 2 -2 M 3 7 L 7 3" StrokeThickness="2" Stroke="#FFFFFF" StrokeEndLineCap="Square" RenderOptions.EdgeMode="Aliased" />
+            </VisualBrush.Visual>
+        </VisualBrush>
     </Window.Resources>
 
     <!-- Window Edge Border -->
@@ -240,6 +239,7 @@
                         <ContextMenu Opened="ApplicationContext_Opened">
                             <MenuItem Header="Enabled" IsCheckable="True" IsChecked="{Binding Settings.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             <MenuItem Header="Hidden" IsCheckable="True" IsChecked="{Binding Settings.Hidden, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Checked="ApplicationContextHidden_Checked" Unchecked="ApplicationContextHidden_Checked"/>
+                            <MenuItem Header="Delete" Click="RemoveApplicationButton_Click" Visibility="{Binding ., Converter={StaticResource IsGenericToVisConv}}" />
                         </ContextMenu>
                     </ListBox.ContextMenu>
                 </ListBox>

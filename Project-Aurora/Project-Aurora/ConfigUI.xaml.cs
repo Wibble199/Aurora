@@ -424,6 +424,18 @@ namespace Aurora {
 
                 Global.LightingStateManager.RegisterEvent(newApplication);
                 ConfigManager.Save(Global.Configuration);
+
+                // TODO: make the lighting manager use an observablecollection so that this HORRID HACK isn't required and the list will update automagically
+                ShowHiddenApplications = ShowHiddenApplications;
+            }
+        }
+
+        private async void RemoveApplicationButton_Click(object sender, RoutedEventArgs e) {
+            if ((sender as MenuItem).DataContext is GenericApplication app && await AlertBox.ShowDelete(this, "application", ((GenericApplicationSettings)app.Settings).ApplicationName)) {
+                Global.LightingStateManager.RemoveGenericProfile(app.ID);
+
+                // TODO: make the lighting manager use an observablecollection so that this HORRID HACK isn't required and the list will update automagically
+                ShowHiddenApplications = ShowHiddenApplications;
             }
         }
 
@@ -455,6 +467,15 @@ namespace Aurora {
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    }
+
+
+    /// <summary>
+    /// Simple converter that determines if the value is a GenericApplication. If so, returns Visible, else Collapsed. Used for application Delete button.
+    /// </summary>
+    public class ApplicationIsGenericToVisibilityConverter : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value is GenericApplication ? Visibility.Visible : Visibility.Collapsed;
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 
 
