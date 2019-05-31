@@ -282,8 +282,7 @@ namespace Aurora.Controls {
         public async static Task<bool> ShowDelete(Window wnd, string itemType, string itemName, bool allowClose = true) =>
             (await Show(wnd, TranslationSource.Instance.GetInterpolatedString("alert_delete_text", itemType, itemName), TranslationSource.Instance.GetInterpolatedString("alert_delete_title", itemType), new[] { new ChoiceButton(TranslationSource.Instance["dont_delete"], "FlatButton"), new ChoiceButton(TranslationSource.Instance["delete"], "DangerButton") }, AlertBoxIcon.Delete, allowClose)) == 1;
         public async static Task<bool> ShowDelete(DependencyObject obj, string itemType, string itemName, bool allowClose = true) =>
-            //(await Show(obj, TranslationSource.Instance.GetInterpolatedString("alert_delete_text", itemType, itemName), TranslationSource.Instance.GetInterpolatedString("alert_delete_title", itemType), new[] { new ChoiceButton(TranslationSource.Instance["dont_delete"], "FlatButton"), new ChoiceButton(TranslationSource.Instance["delete"], "DangerButton") }, AlertBoxIcon.Delete, allowClose)) == 1;
-            (await ShowInput(obj, "TItle", "Message", "default", str => str == "hello", "Please enter 'hello'")) == "";
+            (await Show(obj, TranslationSource.Instance.GetInterpolatedString("alert_delete_text", itemType, itemName), TranslationSource.Instance.GetInterpolatedString("alert_delete_title", itemType), new[] { new ChoiceButton(TranslationSource.Instance["dont_delete"], "FlatButton"), new ChoiceButton(TranslationSource.Instance["delete"], "DangerButton") }, AlertBoxIcon.Delete, allowClose)) == 1;
 
         /// <summary>
         /// Helper method that creates a text input AlertBox. If provided, the validate method will be run each time the user submits the input
