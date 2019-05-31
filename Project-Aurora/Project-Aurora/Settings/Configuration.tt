@@ -16,6 +16,8 @@ var propertyList = new List<string> {
 	// Can also add custom lines if needed as direct strings.
 	// There is no need to add a JSON field name to new properties. This is for backwards compatibility
 	// so that when existing properties are renamed, user's settings are not lost.
+	// Note that ObservableCollections or other INotifyPropertyChanged need to be setup in the load method
+	// of the ConfigManager
 
 	// ----------------------  ↓  Add new properties here  ↓  ---------------------- //
 
@@ -39,7 +41,7 @@ var propertyList = new List<string> {
 	P("bool", "HighPriority"),
 	P("BitmapAccuracy", "BitmapAccuracy", "BitmapAccuracy.Okay"),
 	P("ApplicationDetectionMode", "DetectionMode", "ApplicationDetectionMode.WindowsEvents", "detection_mode"),
-	P("HashSet<string>", "ExcludedPrograms", "new HashSet<string>()", "excluded_programs"),
+	P("ObservableCollection<string>", "ExcludedPrograms", "new ObservableCollection<string>()", "excluded_programs"),
 	P("bool", "OverlaysInPreview", "false"),
 	P("List<string>", "ProfileOrder", "new List<string>()"),
 
@@ -99,6 +101,7 @@ var propertyList = new List<string> {
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 
 
@@ -113,7 +116,9 @@ using System.Drawing;
 namespace Aurora.Settings {
 	
 	//          !!!! DO NOT EDIT THIS !!!!
+	//
 	// Auto-generated Configuration model. Edit Configuration.tt instead and re-generate.
+	//
 	public partial class Configuration : Settings {
 
 <# foreach (var p in propertyList) { #>
@@ -125,18 +130,30 @@ namespace Aurora.Settings {
 <#+
 string P(string type, string name) {
 	var fieldName = name[0].ToString().ToLower() + name.Substring(1);
-	return $"private {type} {fieldName};{Environment.NewLine}\t\tpublic {type} {name} {{ get => {fieldName}; set {{ {fieldName} = value; InvokePropertyChanged(); }} }}{Environment.NewLine}";
+	return $"private {type} {fieldName};{Environment.NewLine}{GetSet(type, name, fieldName)}{Environment.NewLine}";
 }
 
 string P(string type, string name, object @default) {
 	var fieldName = name[0].ToString().ToLower() + name.Substring(1);
 	if (@default == null || string.IsNullOrWhiteSpace(@default.ToString())) @default = $"default({type})";
-	return $"private {type} {fieldName} = {@default.ToString()};{Environment.NewLine}\t\tpublic {type} {name} {{ get => {fieldName}; set {{ {fieldName} = value; InvokePropertyChanged(); }} }}{Environment.NewLine}";
+	return $"private {type} {fieldName} = {@default.ToString()};{Environment.NewLine}{GetSet(type, name, fieldName)}{Environment.NewLine}";
 }
 
 string P(string type, string name, object @default, string overrideJsonName) {
 	var fieldName = name[0].ToString().ToLower() + name.Substring(1);
 	if (@default == null || string.IsNullOrWhiteSpace(@default.ToString())) @default = $"default({type})";
-	return $"private {type} {fieldName} = {@default.ToString()};{Environment.NewLine}\t\t[JsonProperty(PropertyName = \"{overrideJsonName}\")]{Environment.NewLine}\t\tpublic {type} {name} {{ get => {fieldName}; set {{ {fieldName} = value; InvokePropertyChanged(); }} }}{Environment.NewLine}";
+	return $"private {type} {fieldName} = {@default.ToString()};{Environment.NewLine}\t\t[JsonProperty(PropertyName = \"{overrideJsonName}\")]{Environment.NewLine}{GetSet(type, name, fieldName)}{Environment.NewLine}";
+}
+
+string GetSet(string type, string name, string fieldName) {
+	if (type.StartsWith("ObservableCollection<"))
+		return GetSetEvent(type, name, fieldName, "CollectionChanged");
+	else
+		return $"\t\tpublic {type} {name} {{ get => {fieldName}; set {{ {fieldName} = value; InvokePropertyChanged(); }} }}";
+}
+
+// For observables, we implement event listening (maybe this should be weak) on the relevant event
+string GetSetEvent(string type, string name, string fieldName, string @event) {
+	return $"\t\tpublic {type} {name} {{\n\t\t\tget => {fieldName};\n\t\t\tset {{\n\t\t\t\t{fieldName} = value;\n\t\t\t\tif (value != null)\n\t\t\t\t\tvalue.{@event} += (sender, e) => InvokePropertyChanged(\"{name}\");\n\t\t\t}}\n\t\t}}";
 }
 #>

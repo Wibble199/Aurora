@@ -1,13 +1,16 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 
 
 namespace Aurora.Settings {
 	
 	//          !!!! DO NOT EDIT THIS !!!!
+	//
 	// Auto-generated Configuration model. Edit Configuration.tt instead and re-generate.
+	//
 	public partial class Configuration : Settings {
 
 		private AppExitMode closeMode = AppExitMode.Ask;
@@ -72,9 +75,16 @@ namespace Aurora.Settings {
 		[JsonProperty(PropertyName = "detection_mode")]
 		public ApplicationDetectionMode DetectionMode { get => detectionMode; set { detectionMode = value; InvokePropertyChanged(); } }
 
-		private HashSet<string> excludedPrograms = new HashSet<string>();
+		private ObservableCollection<string> excludedPrograms = new ObservableCollection<string>();
 		[JsonProperty(PropertyName = "excluded_programs")]
-		public HashSet<string> ExcludedPrograms { get => excludedPrograms; set { excludedPrograms = value; InvokePropertyChanged(); } }
+		public ObservableCollection<string> ExcludedPrograms {
+			get => excludedPrograms;
+			set {
+				excludedPrograms = value;
+				if (value != null)
+					value.CollectionChanged += (sender, e) => InvokePropertyChanged("ExcludedPrograms");
+			}
+		}
 
 		private bool overlaysInPreview = false;
 		public bool OverlaysInPreview { get => overlaysInPreview; set { overlaysInPreview = value; InvokePropertyChanged(); } }

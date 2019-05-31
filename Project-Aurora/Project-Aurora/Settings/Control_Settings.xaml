@@ -130,7 +130,7 @@
                                             <Image Source="/Aurora;component/Resources/UIIcons/delete-30.png" Margin="2,0" Width="18" Height="18" />
                                         </Button>
                                     </c:SpacedStackPanel>
-                                    <ListBox x:Name="excludedListbox" HorizontalAlignment="Left" Height="80" Width="142" DockPanel.Dock="Right" />
+                                    <ListBox x:Name="excludedListbox" ItemsSource="{Binding ExcludedPrograms, Mode=OneWay}" HorizontalAlignment="Left" Height="80" Width="142" DockPanel.Dock="Right" />
                                 </DockPanel>
                             </c:SpacedStackPanel>
                         </Border>
@@ -267,7 +267,6 @@
                                 </DockPanel>
 
                                 <Button Content="Show logs folder" Click="btnShowLogsFolder_Click" HorizontalAlignment="Left" l:Localization.Key="show_logs_folder" />
-
 
                                 <Image x:Name="debug_bitmap_preview" MaxHeight="400" Margin="4,0" />
 

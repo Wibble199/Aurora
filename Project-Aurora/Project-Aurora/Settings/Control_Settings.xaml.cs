@@ -146,13 +146,13 @@ namespace Aurora.Settings {
 
         private async void ExcludedAdd_Click(object sender, RoutedEventArgs e) {
             var result = await Control_ProcessSelection.ShowDialog(this, TranslationSource.Instance["exclude_process"]);
-            if (result.HasValue) // do not need to check if dialog is already in excluded_programs since it is a Set and only contains unique items by definition
+            if (result.HasValue && !Global.Configuration.ExcludedPrograms.Contains(result.Value.name)) // do not need to check if dialog is already in excluded_programs since it is a Set and only contains unique items by definition
                 Global.Configuration.ExcludedPrograms.Add(result.Value.name);
         }
 
         private void ExcludedRemove_Click(object sender, RoutedEventArgs e) {
-            if (excludedListbox.SelectedItem != null)
-                Global.Configuration.ExcludedPrograms.Remove(excludedListbox.SelectedItem.ToString());
+            if (excludedListbox.SelectedIndex >= 0)
+                Global.Configuration.ExcludedPrograms.RemoveAt(excludedListbox.SelectedIndex);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e) {
