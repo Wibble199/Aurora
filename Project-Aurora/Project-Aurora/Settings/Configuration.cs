@@ -7,7 +7,16 @@ using System.Drawing;
 namespace Aurora.Settings {
 
     public class Configuration : AutoNotifyPropertyChanged<Configuration> {
-        
+
+        public Configuration() {
+            // Add any initial event handling here.
+            // The proxy will handle adding CollectionChanged and PropertyChanged events to relevant properties when their setters are called
+            // (i.e. when the values are replaced), however the proxy is not capable of intercepting the constructor, so in the case of a new
+            // config being made (i.e. not loaded from JSON), the events need to be added.
+            ExcludedPrograms.CollectionChanged += (sender, e) => NotifyPropertyChanged("ExcludedPrograms");
+        }
+
+                
         [JsonProperty(PropertyName = "close_mode")]
         public virtual AppExitMode CloseMode { get; set; } = AppExitMode.Ask;
 
