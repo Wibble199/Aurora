@@ -341,6 +341,10 @@
                     <c:Control_PluginManager x:Name="ctrlPluginManager" Margin="10" />
                 </Grid>
             </TabItem>
+
+            <TabItem Header="StringPropertyEditor Test">
+                <c:Control_StringPropertyEditor />
+            </TabItem>
         </TabControl>
     </Grid>
 </UserControl>

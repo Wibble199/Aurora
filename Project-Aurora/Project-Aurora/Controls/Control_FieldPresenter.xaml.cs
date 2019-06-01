@@ -51,9 +51,9 @@ namespace Aurora.Controls {
         }
 
         // The value of the field to edit
-        private static void OnValueChange(DependencyObject fieldPresenter, DependencyPropertyChangedEventArgs eventArgs) {
-            var control = (Control_FieldPresenter)fieldPresenter;
-            // Do something?
+        private static void OnValueChange(DependencyObject depObj, DependencyPropertyChangedEventArgs e) {
+            var presenter = (Control_FieldPresenter)depObj;
+            if (presenter.Type == null) presenter.Type = e.NewValue?.GetType();
         }
 
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(object), typeof(Control_FieldPresenter), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnValueChange));

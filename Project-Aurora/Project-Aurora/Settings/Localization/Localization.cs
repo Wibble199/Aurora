@@ -282,10 +282,18 @@ namespace Aurora.Settings.Localization {
         public string LocalizedText => TranslationSource.Instance[Key, Package];
         
         /// <summary>Specifies a description provided by a value in the localization dictionary for a class or member.</summary>
-        public LocalizedDescriptionAttribute(string key, string package = "aurora") {
+        public LocalizedDescriptionAttribute(string key, string package = TranslationSource.DEFAULT_PACKAGE) {
             Key = key;
             Package = package;
         }
+    }
+
+    /// <summary>
+    /// Attribute that can be used to mark classes and members with a name that should be localized. Functionally identical to the
+    /// <see cref="LocalizedDescriptionAttribute"/>.
+    /// </summary>
+    public class LocalizedNameAttribute : LocalizedDescriptionAttribute {
+        public LocalizedNameAttribute(string key, string package = TranslationSource.DEFAULT_PACKAGE) : base(key, package) { }
     }
 
 

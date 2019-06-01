@@ -445,7 +445,7 @@ namespace Aurora
             Current.Shutdown();
         }
 
-        //[DebuggerStepThrough]
+        [DebuggerStepThrough]
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             Global.logger.Fatal("Fatal Exception caught: " + e.Exception);

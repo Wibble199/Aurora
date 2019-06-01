@@ -346,6 +346,9 @@
     <Compile Include="Controls\AlertBox.xaml.cs">
       <DependentUpon>AlertBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Control_StringPropertyEditor.xaml.cs">
+      <DependentUpon>Control_StringPropertyEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SpacedStackPanel.cs" />
     <Compile Include="Profiles\Skype\Control_Skype.xaml.cs">
       <DependentUpon>Control_Skype.xaml</DependentUpon>
@@ -1662,6 +1665,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\AlertBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Control_StringPropertyEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
