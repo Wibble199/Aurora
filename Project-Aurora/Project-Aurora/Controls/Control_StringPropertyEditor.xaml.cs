@@ -1,6 +1,8 @@
 ﻿using Aurora.Profiles;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -31,44 +33,33 @@ namespace Aurora.Controls {
             DependencyProperty.Register("TargetInstance", typeof(IStringProperty), typeof(Control_StringPropertyEditor), new PropertyMetadata(null));
     }
 
+
     /// <summary>
-    /// Specialised Multi-Binding that is capable of binding to a specific key in the bound <see cref="IStringProperty"/> target. The ctor
-    /// should be passed a binding indicating which property should be accessed. This binding MUST be <see cref="BindingMode.OneWay"/>.
+    /// Converter that takes a <see cref="IStringProperty"/> instance and returns a <see cref="IEnumerable{T}"/> of <see cref="PropertyProxyAccessProvider"/>s
+    /// that provide proxy access to all of the <see cref="IMember"/>s in the <see cref="StringProperty{TBase}.PropertyLookup"/> dictionary.
     /// </summary>
-    public class PropertyAccessProxyBinding : MultiBinding {
-        
-        public PropertyAccessProxyBinding(BindingBase propNameBinding) {
-            Bindings.Add(propNameBinding);
-            Bindings.Add(new Binding("DataContext.TargetInstance") {
-                RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(Grid), 1),
-                Mode = BindingMode.OneWay
-            });
-            Mode = BindingMode.TwoWay;
-            Converter = new PropertyAccessProxyBindingMultiValueConverter();
+    public class PropertyLookupToProxyConverter : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+            var target = value as IStringProperty;
+            return target.PropertyLookup.Select(m => new PropertyProxyAccessProvider { Target = target, Member = m.Value });
         }
 
-        class PropertyAccessProxyBindingMultiValueConverter : IMultiValueConverter {
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    }
 
-            private IStringProperty target;
-            private string key;
-
-            public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {
-                // Store the key and the target IStringProperty so it can be retrieved during the convert back
-                key = values[0] as string;
-                target = values[1] as IStringProperty;
-
-                // Get the target property's value and return it
-                return target.GetValueFromString(key);
-            }
-            public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) {
-                // ConvertBack is called when the view control changes, so write the value back into the cached target.
-                target.SetValueFromString(key, value);
-
-                // Since both individual bindings that make up the PropertyAccessProxyBinding Multibinding are OneWay, we can just return an empty array.
-                return new object[2];
-            }
+    /// <summary>
+    /// Provides proxy access to a specific property on a specific instance of an <see cref="IStringProperty"/>. The getters and setters
+    /// of the <see cref="IMember"/> are exposed using a property on this class, allowing it to be bound using WPF bindings.
+    /// </summary>
+    public class PropertyProxyAccessProvider {
+        public IStringProperty Target { get; set; }
+        public IMember Member { get; set; }
+        public object Value {
+            get => Member.Get(Target);
+            set => Member.Set(Target, value);
         }
     }
+
 
     public class TestClass : StringPropertyNotify<TestClass> {
 

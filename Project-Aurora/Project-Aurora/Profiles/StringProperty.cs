@@ -1,7 +1,9 @@
 ﻿using Aurora.Settings.Localization;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -33,7 +35,7 @@ namespace Aurora.Profiles {
         }
 
         // Interface member
-        IReadOnlyDictionary<string, IMember> IStringProperty.PropertyLookup => (IReadOnlyDictionary<string, IMember>)PropertyLookup;
+        IReadOnlyDictionary<string, IMember> IStringProperty.PropertyLookup => new ReadOnlyDictionary<string, IMember>(PropertyLookup.ToDictionary(kvp => kvp.Key, kvp => (IMember)kvp.Value));
 
         /// <summary>
         /// Generates a property lookup dictionary for the given type, `T`.
@@ -91,6 +93,7 @@ namespace Aurora.Profiles {
                     var lda = member.GetCustomAttribute<LocalizedDescriptionAttribute>();
                     if (!lookup.ContainsKey(member.Name))
                         lookup.Add(member.Name, new Member<T> {
+                            Name = member.Name,
                             NameLocalizationKey = lna == null ? ((string, string)?)null : (lna.Key, lna.Package),
                             Description = member.GetCustomAttribute<DescriptionAttribute>()?.Description ?? "",
                             DescriptionLocalizationKey = lda == null ? ((string, string)?)null : (lda.Key, lda.Package),
@@ -140,6 +143,9 @@ namespace Aurora.Profiles {
     /// Class that holds pre-compiled delegates for getting/setting a particular property of by name.
     /// </summary>
     public class Member<T> : IMember {
+        /// <summary>The code name of the member.</summary>
+        public string Name { get; internal set; }
+
         /// <summary>A localization key for the description provided by a <see cref="LocalizedNameAttribute"/> on the this member.</summary>
         public (string key, string package)? NameLocalizationKey { get; internal set; }
 
@@ -166,6 +172,7 @@ namespace Aurora.Profiles {
 
     /// <summary>Type-less <see cref="Member{T}"/> interface.</summary>
     public interface IMember {
+        public string Name { get; }
         public (string key, string package)? NameLocalizationKey { get; }
         public string Description { get; }
         public (string key, string package)? DescriptionLocalizationKey { get; }

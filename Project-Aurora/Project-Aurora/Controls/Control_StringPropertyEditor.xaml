@@ -6,16 +6,24 @@
              xmlns:local="clr-namespace:Aurora.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <local:PropertyLookupToProxyConverter x:Key="ProxyAccessConv" />
+    </UserControl.Resources>
     <Grid>
-        <ItemsControl ItemsSource="{Binding TargetInstance.PropertyLookup}">
+        <ItemsControl ItemsSource="{Binding TargetInstance, Converter={StaticResource ProxyAccessConv}}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Key, Mode=OneWay}" />
-                        <local:Control_FieldPresenter Value="{local:PropertyAccessProxyBinding {Binding Key, Mode=OneWay}}" />
-                    </StackPanel>
+                    <DockPanel LastChildFill="False">
+                        <TextBlock Text="{Binding Member.Name, Mode=OneWay}" VerticalAlignment="Center" DockPanel.Dock="Left" />
+                        <local:Control_FieldPresenter Value="{Binding Value}" DockPanel.Dock="Right" Width="120" />
+                    </DockPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <local:SpacedStackPanel IsItemsHost="True" SpacingAmount="8" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
         </ItemsControl>
     </Grid>
 </UserControl>
