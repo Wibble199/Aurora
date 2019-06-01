@@ -703,7 +703,7 @@ namespace Aurora.Settings
             if (!String.IsNullOrWhiteSpace(layoutConfigPath) && File.Exists(layoutConfigPath))
             {
                 string content = File.ReadAllText(layoutConfigPath, Encoding.UTF8);
-                VirtualGroupConfiguration layoutConfig = JsonConvert.DeserializeObject<VirtualGroupConfiguration>(content, new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace });
+                VirtualGroupConfiguration layoutConfig = JsonConvert.DeserializeObject<VirtualGroupConfiguration>(content, Utils.JSONUtils.GetDefaultSerializerSettings());
 
                 virtualKeyboardGroup.AdjustKeys(layoutConfig.key_modifications);
                 virtualKeyboardGroup.RemoveKeys(layoutConfig.keys_to_remove);

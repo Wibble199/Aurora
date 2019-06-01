@@ -1,4 +1,5 @@
-﻿using Aurora.Settings.Localization;
+﻿using Aurora.Settings;
+using Aurora.Settings.Localization;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,13 +27,16 @@ namespace Aurora.Profiles {
     /// Provides a property lookup for all properties on the given TBase class. Also provides the ability to get and set these properties
     /// by name quickly using a compiled expression (faster than using <see cref="PropertyInfo.SetValue(object, object)"/>).
     /// </summary>
-    public abstract class StringProperty<TBase> : IStringProperty where TBase : StringProperty<TBase> {
+    public abstract class StringProperty<TBase> : AutoNotifyPropertyChanged<StringProperty<TBase>>, IStringProperty where TBase : StringProperty<TBase> {
         public static IReadOnlyDictionary<string, Member<TBase>> PropertyLookup { get; set; } = null;
         public static object DictLock = new object();
 
         public StringProperty() {
             PropertyLookup = GeneratePropertyLookup<TBase>();
         }
+
+        public static new TBase Create() =>
+            Global.ProxyGenerator.CreateClassProxy<TBase>(new NotifyChangedInterceptor());
 
         // Interface member
         IReadOnlyDictionary<string, IMember> IStringProperty.PropertyLookup => new ReadOnlyDictionary<string, IMember>(PropertyLookup.ToDictionary(kvp => kvp.Key, kvp => (IMember)kvp.Value));
@@ -121,24 +125,6 @@ namespace Aurora.Profiles {
         }
 
         public IStringProperty Clone() => (IStringProperty)MemberwiseClone();
-    }
-
-    /// <summary>
-    /// Functionally identical to the <see cref="StringProperty{TBase}"/>, but implenting <see cref="INotifyPropertyChanged"/> and providing
-    /// a method to raise the <see cref="INotifyPropertyChanged.PropertyChanged"/> event.
-    /// </summary>
-    public class StringPropertyNotify<TBase> : StringProperty<TBase>, INotifyPropertyChanged where TBase : StringPropertyNotify<TBase> {
-
-        /// <summary>Fired when a property in this instance changes.</summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>Sets the given referenced field to the given value. If the field does not equal the value, the <see cref="PropertyChanged"/> event is fired.</summary>
-        internal void SetAndNotify<TField>(ref TField field, TField value, [CallerMemberName] string propertyName = null) {
-            if (Comparer<TField>.Default.Compare(field, value) != 0) {
-                field = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
     }
 
 

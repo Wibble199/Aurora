@@ -1,4 +1,5 @@
 ﻿using Aurora.Profiles;
+using Aurora.Settings;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -17,7 +18,9 @@ namespace Aurora.Controls {
         public Control_StringPropertyEditor() {
             InitializeComponent();
 
-            TargetInstance = new TestClass();
+            TestClass c;
+            TargetInstance = c = TestClass.Create();
+            c.PropertyChanged += (sender, e) => Console.WriteLine("Property changed");
 
             ((FrameworkElement)Content).DataContext = this;
         }
@@ -61,14 +64,12 @@ namespace Aurora.Controls {
     }
 
 
-    public class TestClass : StringPropertyNotify<TestClass> {
-
-        private string hello = "Hello!";
+    public class TestClass : StringProperty<TestClass> {
 
         [System.ComponentModel.DisplayName("Non-localized name"), System.ComponentModel.Description("Non-localized description")]
-        public string Hello { get => hello; set => SetAndNotify(ref hello, value); }
+        public virtual string Hello { get; set; }
 
         [Settings.Localization.LocalizedName("cancel"), Settings.Localization.LocalizedDescription("restart_required")]
-        public int World { get; set; } = 5;
+        public virtual int World { get; set; } = 5;
     }
 }

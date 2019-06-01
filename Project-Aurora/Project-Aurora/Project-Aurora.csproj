@@ -78,6 +78,9 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.4.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Corale.Colore, Version=5.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Colore.5.2.0\lib\net35\Corale.Colore.dll</HintPath>
     </Reference>
@@ -94,6 +97,9 @@
     <Reference Include="DS4WindowsApi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\DS4WindowsApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Elasticsearch.Net, Version=6.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Elasticsearch.Net.6.8.0\lib\net461\Elasticsearch.Net.dll</HintPath>
     </Reference>
     <Reference Include="Gma.System.MouseKeyHook, Version=5.6.130.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MouseKeyHook.5.6.0\lib\net40\Gma.System.MouseKeyHook.dll</HintPath>
@@ -364,11 +370,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Settings\Configuration.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Configuration.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Settings\Configuration.cs" />
     <Compile Include="Settings\Control_LayerList.xaml.cs">
       <DependentUpon>Control_LayerList.xaml</DependentUpon>
     </Compile>
@@ -642,6 +644,7 @@
     <Compile Include="Settings\Overrides\Logic\Boolean\Control_BooleanGSIEnum.xaml.cs">
       <DependentUpon>Control_BooleanGSIEnum.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Settings\NotifyPropertyChangedProxy.cs" />
     <Compile Include="Settings\Overrides\Logic\Color\Control_ColorFromValues.xaml.cs">
       <DependentUpon>Control_ColorFromValues.xaml</DependentUpon>
     </Compile>
@@ -1568,10 +1571,6 @@
     <Resource Include="Resources\UIIcons\steam-26.png" />
     <Resource Include="Resources\UIIcons\puzzle-30.png" />
     <Resource Include="Resources\UIIcons\search-30.png" />
-    <Content Include="Settings\Configuration.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Configuration.cs</LastGenOutput>
-    </Content>
     <Content Include="wooting-rgb-sdk.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

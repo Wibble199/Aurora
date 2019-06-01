@@ -375,7 +375,9 @@ namespace Aurora.Settings {
             if (String.IsNullOrWhiteSpace(content))
                 return CreateDefaultConfigurationFile();
 
-            Configuration config = JsonConvert.DeserializeObject<Configuration>(content, new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace, TypeNameHandling = TypeNameHandling.All, SerializationBinder = Aurora.Utils.JSONUtils.SerializationBinder, Error = DeserializeErrorHandler });
+            var settings = Utils.JSONUtils.GetDefaultSerializerSettings();
+            settings.Error = DeserializeErrorHandler;
+            Configuration config = JsonConvert.DeserializeObject<Configuration>(content, settings);
 
             if (!config.UnifiedHidDisabled)
             {
@@ -405,19 +407,19 @@ namespace Aurora.Settings {
                 _last_save_time = current_time;
 
             var configPath = ConfigPath + ConfigExtension;
-            string content = JsonConvert.SerializeObject(configuration, Formatting.Indented, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, Binder = Aurora.Utils.JSONUtils.SerializationBinder });
+            string content = JsonConvert.SerializeObject(configuration, Formatting.Indented, Utils.JSONUtils.GetDefaultSerializerSettings());
 
-            Directory.CreateDirectory(System.IO.Path.GetDirectoryName(configPath));
+            Directory.CreateDirectory(Path.GetDirectoryName(configPath));
             File.WriteAllText(configPath, content, Encoding.UTF8);
         }
 
         private static Configuration CreateDefaultConfigurationFile()
         {
-            Configuration config = new Configuration();
-            var configData = JsonConvert.SerializeObject(config, Formatting.Indented, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, Binder = Aurora.Utils.JSONUtils.SerializationBinder });
+            Configuration config = Configuration.Create();
+            var configData = JsonConvert.SerializeObject(config, Formatting.Indented, Utils.JSONUtils.GetDefaultSerializerSettings());
             var configPath = ConfigPath + ConfigExtension;
 
-            Directory.CreateDirectory(System.IO.Path.GetDirectoryName(configPath));
+            Directory.CreateDirectory(Path.GetDirectoryName(configPath));
             File.WriteAllText(configPath, configData, Encoding.UTF8);
 
             return config;

@@ -23,6 +23,7 @@ using Aurora.Controls;
 using TS = Aurora.Settings.Localization.TranslationSource;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using Castle.DynamicProxy;
 
 namespace Aurora
 {
@@ -97,6 +98,8 @@ namespace Aurora
         public static KeyboardLayoutManager kbLayout;
         public static Effects effengine;
         public static KeyRecorder key_recorder;
+
+        public static ProxyGenerator ProxyGenerator { get; } = new ProxyGenerator();
 
         /// <summary>
         /// Currently held down modifer key
@@ -253,7 +256,7 @@ namespace Aurora
                     Global.Configuration = ConfigManager.Load();
                 } catch (Exception exc) {
                     Global.logger.Error("Exception during ConfigManager.Load(). Error: " + exc);
-                    Global.Configuration = new Configuration();
+                    Global.Configuration = Configuration.Create();
                     ShowError(exc, "fatal_configmanager_load_error");
                 }
                 Global.Configuration.PropertyChanged += (sender, e) => ConfigManager.Save(Global.Configuration);

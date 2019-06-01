@@ -2,19 +2,62 @@
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using Aurora.Settings;
+using System.Reflection;
+using System.Linq;
+using Castle.DynamicProxy;
 
-namespace Aurora.Utils
-{
-    public static class JSONUtils
-    {
+namespace Aurora.Utils {
+
+    public static class JSONUtils {
+
+        public static JsonSerializerSettings GetDefaultSerializerSettings() => new JsonSerializerSettings {
+            ObjectCreationHandling = ObjectCreationHandling.Replace,
+            TypeNameHandling = TypeNameHandling.All,
+            Binder = SerializationBinder,
+            Converters = new List<JsonConverter>() {
+                new AutoNotifyPropertyChangedResolver()
+            }
+        };
+    
         public static AuroraSerializationBinder SerializationBinder { get; } = new AuroraSerializationBinder();
     }
+
+
+    /// <summary>
+    /// JsonConverter that intercepts the creation of any <see cref="AutoNotifyPropertyChanged{TSelf}" /> types and replaces the call to the
+    /// contructor with a call to the ProxyGenerator's CreateClassProxy method, else the Castle interceptor will not be applied and the
+    /// automatic property notification will not work.
+    /// </summary>
+    class AutoNotifyPropertyChangedResolver : JsonConverter {
+
+        /// <summary>Will convert any types that are marked with the <see cref="HasProxyInterceptorsAttribute"/>.</summary>
+        public override bool CanConvert(Type objectType) =>
+            objectType.GetCustomAttribute<HasProxyInterceptorsAttribute>(true) != null;
+
+        /// <summary>Overrides the standard object instantiation with the custom one for proxies.</summary>
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) {
+            // Get the list of interceptor types and instantiate them for use with the proxy.
+            // objectType is guaranteed to be a type that has a HasProxyInterceptorsAttribute. If it didn't, it wouldn't pass the CanConvert check.
+            var interceptors = objectType.GetCustomAttribute<HasProxyInterceptorsAttribute>().InterceptorTypes
+                .Select(type => (IInterceptor)Activator.CreateInstance(type))
+                .ToArray();
+
+            // Create a new proxy of the target type with the interceptors as provided by the attribute.
+            var instance = Global.ProxyGenerator.CreateClassProxy(objectType, interceptors);
+
+            // Populate the fields on the new instance with the JSON data
+            serializer.Populate(reader, instance);
+
+            return instance;
+        }
+
+        public override bool CanWrite => false;
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => throw new NotImplementedException();
+    }
+
 
     public class AuroraSerializationBinder : DefaultSerializationBinder
     {
@@ -63,6 +106,7 @@ namespace Aurora.Utils
         }
     }
 
+
     /// <summary>
     /// JsonConvert that serialize/deserialize any object and adds a type parameter to it.
     /// <para>This is useful as it allows serialization/deserialization of unknown structs. When (some?/all? idk) structs are serialized, they are
@@ -95,6 +139,30 @@ namespace Aurora.Utils
             writer.WritePropertyName("$type"); writer.WriteValue(value.GetType().AssemblyQualifiedName);
             writer.WritePropertyName("$value"); writer.WriteValue(JsonConvert.SerializeObject(value));
             writer.WriteEndObject();
+        }
+    }
+
+
+    /// <summary>
+    /// Marks that when this class is deserialized using Newtonsoft, the regular constructor should not be used and should be instantiated
+    /// using the ProxyGenerator's CreateClassProxy method instead.
+    /// <para>This only has an effect during JSON serialization. CreateClassProxy must be manually called otherwise.</para>
+    /// </summary>
+    public class HasProxyInterceptorsAttribute : Attribute {
+
+        /// <summary>The types of interceptors that the proxy should be created with.</summary>
+        public Type[] InterceptorTypes { get; }
+
+        /// <summary>Indicates this class is a proxy and should be instantiated with the given interceptor.</summary>
+        /// <param name="interceptorType">The type of interceptor that the proxy should be created with.</param>
+        public HasProxyInterceptorsAttribute(Type interceptorType) {
+            InterceptorTypes = new[] { interceptorType };
+        }
+
+        /// <summary>Indicates this class is a proxy and should be instantiated with the given collection of interceptors.</summary>
+        /// <param name="interceptorTypes">The types of interceptors that the proxy should be created with.</param>
+        public HasProxyInterceptorsAttribute(Type[] interceptorTypes) {
+            InterceptorTypes = interceptorTypes;
         }
     }
 }
