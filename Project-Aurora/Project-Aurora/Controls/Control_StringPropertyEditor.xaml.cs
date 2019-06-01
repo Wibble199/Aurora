@@ -64,8 +64,11 @@ namespace Aurora.Controls {
     public class TestClass : StringPropertyNotify<TestClass> {
 
         private string hello = "Hello!";
+
+        [System.ComponentModel.DisplayName("Non-localized name"), System.ComponentModel.Description("Non-localized description")]
         public string Hello { get => hello; set => SetAndNotify(ref hello, value); }
 
+        [Settings.Localization.LocalizedName("cancel"), Settings.Localization.LocalizedDescription("restart_required")]
         public int World { get; set; } = 5;
     }
 }

@@ -94,9 +94,12 @@ namespace Aurora.Profiles {
                     if (!lookup.ContainsKey(member.Name))
                         lookup.Add(member.Name, new Member<T> {
                             Name = member.Name,
-                            NameLocalizationKey = lna == null ? ((string, string)?)null : (lna.Key, lna.Package),
+                            DisplayName = member.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName ?? member.Name,
+                            NameLocalizationKey = lna?.Key,
+                            NameLocalizationPackage = lna?.Package,
                             Description = member.GetCustomAttribute<DescriptionAttribute>()?.Description ?? "",
-                            DescriptionLocalizationKey = lda == null ? ((string, string)?)null : (lda.Key, lda.Package),
+                            DescriptionLocalizationKey = lda?.Key,
+                            DescriptionLocalizationPackage = lda?.Package,
                             Get = getter,
                             Set = setter,
                             MemberType = memberType,
@@ -146,14 +149,19 @@ namespace Aurora.Profiles {
         /// <summary>The code name of the member.</summary>
         public string Name { get; internal set; }
 
-        /// <summary>A localization key for the description provided by a <see cref="LocalizedNameAttribute"/> on the this member.</summary>
-        public (string key, string package)? NameLocalizationKey { get; internal set; }
+        /// <summary>The static (unlocalized) display name of the member.</summary>
+        public string DisplayName { get; internal set; }
 
-        /// <summary>A description provided by a <see cref="DescriptionAttribute"/> on the this member.</summary>
+        /// <summary>A localization key for the description provided by a <see cref="LocalizedNameAttribute"/> on the this member.</summary>
+        public string NameLocalizationKey { get; internal set; }
+        public string NameLocalizationPackage { get; internal set; }
+
+        /// <summary>An unlocalized description provided by a <see cref="DescriptionAttribute"/> on the this member.</summary>
         public string Description { get; internal set; }
 
         /// <summary>A localization key for the description provided by a <see cref="LocalizedDescriptionAttribute"/> on the this member.</summary>
-        public (string key, string package)? DescriptionLocalizationKey { get; internal set; }
+        public string DescriptionLocalizationKey { get; internal set; }
+        public string DescriptionLocalizationPackage { get; internal set; }
 
         /// <summary>A function that when called and provided with an instance of T, returns the value of this member.</summary>
         public Func<T, object> Get { get; internal set; }
@@ -173,9 +181,12 @@ namespace Aurora.Profiles {
     /// <summary>Type-less <see cref="Member{T}"/> interface.</summary>
     public interface IMember {
         public string Name { get; }
-        public (string key, string package)? NameLocalizationKey { get; }
+        public string DisplayName { get; }
+        public string NameLocalizationKey { get; }
+        public string NameLocalizationPackage { get; }
         public string Description { get; }
-        public (string key, string package)? DescriptionLocalizationKey { get; }
+        public string DescriptionLocalizationKey { get; }
+        public string DescriptionLocalizationPackage { get; }
         public Func<object, object> Get { get; }
         public Action<object, object> Set { get; }
         public Type MemberType { get; }

@@ -91,7 +91,7 @@
 
                                 <DockPanel LastChildFill="False">
                                     <TextBlock Text="Theme" l:Localization.Key="theme" />
-                                    <TextBlock Text="{l:Loc restart_required, Prefix='(', Suffix=')'}" Opacity=".3" FontSize="11" />
+                                    <TextBlock Text="{l:Loc restart_required, {x:Null}, Prefix='(', Suffix=')'}" Opacity=".3" FontSize="11" />
                                     <ComboBox ItemsSource="{Binding Path=ThemeList, Source={x:Static s:ThemeManager.Instance}}" SelectedValuePath="Value" DisplayMemberPath="Key" SelectedValue="{Binding Path=ThemeName}" Width="180" DockPanel.Dock="Right" />
                                 </DockPanel>
 

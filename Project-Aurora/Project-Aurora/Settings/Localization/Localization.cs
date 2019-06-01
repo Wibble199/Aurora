@@ -162,18 +162,23 @@ namespace Aurora.Settings.Localization {
         public LocExtension(string key) => Init(new Binding(".") { Source = key });
 
         /// <summary>Creates a new binding that will use the given string as the key value for localization, targetting the given package.</summary>
-        public LocExtension(string key, string package) => Init(new Binding(".") { Source = key }, package);
+        public LocExtension(string key, string package) => Init(new Binding(".") { Source = key }, new Binding(".") { Source = package });
 
         /// <summary>Creates a new binding that will use the given binding as the key value for localization.</summary>
         public LocExtension(BindingBase keyBinding) => Init(keyBinding);
 
         /// <summary>Creates a new binding that will use the given binding as the key value for localization, targetting the given package.</summary>
-        public LocExtension(BindingBase keyBinding, string package) => Init(keyBinding, package);
+        public LocExtension(BindingBase keyBinding, string package) => Init(keyBinding, new Binding(".") { Source = package });
 
-        private void Init(BindingBase keyBinding, string package = TranslationSource.DEFAULT_PACKAGE) {
+        /// <summary>Creates a new binding that will use the given binding as the key value for localization, and the given binding as the package.</summary>
+        public LocExtension(BindingBase keyBinding, BindingBase package) => Init(keyBinding, package);
+
+        private void Init(BindingBase keyBinding, BindingBase packageBinding = null) {
+            packageBinding ??= new Binding("");
             Bindings.Add(keyBinding);
+            Bindings.Add(packageBinding);
             Bindings.Add(new Binding("[LocBinding]") { Source = TranslationSource.Instance }); // Binds to a dummy key so that it's updated if lang is changed
-            Converter = conv = new LocalizationConverter { Package = package };
+            Converter = conv = new LocalizationConverter();
         }
 
         /// <summary>A substring that is prepended to the start of the localized string.</summary>
@@ -191,14 +196,14 @@ namespace Aurora.Settings.Localization {
         /// <summary>Basic converter to handle the localization.</summary>
         private class LocalizationConverter : IMultiValueConverter {
 
-            public string Package { get; set; }
             public string Prefix { get; set; }
             public string Suffix { get; set; }
             public string[] InsertValues { get; set; }
 
             public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {
-                var key = values[0].ToString();
-                var str = TranslationSource.Instance.GetString(key, Package ?? TranslationSource.DEFAULT_PACKAGE);
+                var key = values[0]?.ToString() ?? "";
+                var package = values[1]?.ToString();
+                var str = TranslationSource.Instance.GetString(key, package ?? TranslationSource.DEFAULT_PACKAGE);
                 if (InsertValues != null) str = string.Format(str, InsertValues);
                 return (Prefix ?? "") + str + (Suffix ?? "");
             }
@@ -250,6 +255,7 @@ namespace Aurora.Settings.Localization {
 
         // Method that updates the TextBlock.TextProperty property with a new binding pointing to the relevant entry whenever the key or package changes.
         private static void LocalizationChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e) {
+            if (string.IsNullOrWhiteSpace(GetKey(depObj))) return; // Do nothing if no key has been provided
             var binding = new Binding($"[{GetKey(depObj)}, {GetPackage(depObj)}]") { Source = TranslationSource.Instance };
             switch (depObj) {
                 case ContentControl contentControl: contentControl.SetBinding(ContentControl.ContentProperty, binding); break;
@@ -292,8 +298,23 @@ namespace Aurora.Settings.Localization {
     /// Attribute that can be used to mark classes and members with a name that should be localized. Functionally identical to the
     /// <see cref="LocalizedDescriptionAttribute"/>.
     /// </summary>
-    public class LocalizedNameAttribute : LocalizedDescriptionAttribute {
-        public LocalizedNameAttribute(string key, string package = TranslationSource.DEFAULT_PACKAGE) : base(key, package) { }
+    // Cannot extend the LocalizedDescriptionAttribute else it will show up when you do GetCustomAttribute<LocalizedDescriptionAttribute>(), which is wrong
+    public class LocalizedNameAttribute : Attribute {
+
+        /// <summary>The value of the key used as the localization key.</summary>
+        public string Key { get; }
+
+        /// <summary>The name of the package that is used as the source dictionary for the localized value.</summary>
+        public string Package { get; }
+
+        /// <summary>Returns the translated text in the language currently set in <see cref="TranslationSource.CurrentCulture"/>.</summary>
+        public string LocalizedText => TranslationSource.Instance[Key, Package];
+
+        /// <summary>Specifies a description provided by a value in the localization dictionary for a class or member.</summary>
+        public LocalizedNameAttribute(string key, string package = TranslationSource.DEFAULT_PACKAGE) {
+            Key = key;
+            Package = package;
+        }
     }
 
 
