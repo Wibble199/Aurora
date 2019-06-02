@@ -30,6 +30,13 @@
                         <!-- Placeholder text triggers -->
                         <Trigger Property="Text" Value="">
                             <Setter TargetName="PlaceholderText" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        
+                        <!-- Trigger to remove margin of text when there is no icon -->
+                        <Trigger Property="a:TextboxAddons.Icon" Value="">
+                            <Setter TargetName="PART_ContentHost" Property="Margin" Value="3,5" />
+                        </Trigger>
+                        <Trigger Property="a:TextboxAddons.Icon" Value="{x:Null}">
                             <Setter TargetName="PART_ContentHost" Property="Margin" Value="3,5" />
                         </Trigger>
                     </ControlTemplate.Triggers>
