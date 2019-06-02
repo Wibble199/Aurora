@@ -22,28 +22,35 @@ namespace Aurora.Settings {
         public Control_ProcessSelection() {
             InitializeComponent();
 
-            // Scan running processes and add them to a list
-            List<RunningProcess> processList = new List<RunningProcess>();
-            foreach (var p in Process.GetProcesses())
-                try {
-                    // Get the exe name
-                    string name = System.IO.Path.GetFileName(p.MainModule.FileName);
-                    // Check if we've already got an exe by that name, if not add it
-                    if (!processList.Any(x => x.Name == name))
-                        processList.Add(new RunningProcess {
-                            Name = name,
-                            Path = p.MainModule.FileName,
-                            Icon = System.Drawing.Icon.ExtractAssociatedIcon(p.MainModule.FileName)
-                        });
-                } catch { }
+            // Scan running processes (in another Task, so it doesn't cause the delay to the user) and add them to a list
+            Task.Run(() => {
+                var processList = new List<RunningProcess>();
+                foreach (var p in Process.GetProcesses())
+                    try {
+                        // Get the exe name
+                        string name = System.IO.Path.GetFileName(p.MainModule.FileName);
+                        // Check if we've already got an exe by that name, if not add it
+                        if (!processList.Any(x => x.Name == name))
+                            processList.Add(new RunningProcess {
+                                Name = name,
+                                Path = p.MainModule.FileName,
+                                Icon = System.Drawing.Icon.ExtractAssociatedIcon(p.MainModule.FileName)
+                            });
+                    } catch { }
 
-            // Sort the list, set the ListBox control to use that list
-            RunningProcessList.ItemsSource = processList.OrderBy(p => p.Name);
-            RunningProcessList.SelectedIndex = 0;
+                Dispatcher.Invoke(() => {
+                    // Sort the list, set the ListBox control to use that list
+                    RunningProcessList.ItemsSource = processList.OrderBy(p => p.Name);
+                    RunningProcessList.SelectedIndex = 0;
 
-            // CollectionViewSorce to provide search/filter feature
-            CollectionViewSource.GetDefaultView(RunningProcessList.ItemsSource).Filter = RunningProcessFilterPredicate;
-            RunningProcessListFilterText.Focus();
+                    // CollectionViewSorce to provide search/filter feature
+                    CollectionViewSource.GetDefaultView(RunningProcessList.ItemsSource).Filter = RunningProcessFilterPredicate;
+                    RunningProcessListFilterText.Focus();
+
+                    // Hide the loading overlay
+                    LoadingOverlay.Visibility = Visibility.Collapsed;
+                });
+            });
         }
 
         /// <summary>

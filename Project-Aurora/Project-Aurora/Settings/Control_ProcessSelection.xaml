@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Aurora.Settings"
              xmlns:loc="clr-namespace:Aurora.Settings.Localization"
              xmlns:a="clr-namespace:Aurora.Theme.Addons"
+             xmlns:controls="clr-namespace:Aurora.Controls"
              mc:Ignorable="d" 
              Height="480" Width="340">
     <UserControl.Resources>
@@ -16,7 +17,7 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
+
         <TabControl x:Name="MainTabControl" BorderThickness="0">
             <TabItem Header="{loc:Loc select_running}">
                 <Grid>
@@ -61,5 +62,9 @@
                 </Grid>
             </TabItem>
         </TabControl>
+
+        <Border x:Name="LoadingOverlay" Background="#7000">
+            <controls:LoadingSpinner Width="24" Height="24" />
+        </Border>
     </Grid>
 </UserControl>

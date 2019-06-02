@@ -170,11 +170,11 @@ namespace Aurora.Settings.Localization {
         /// <summary>Creates a new binding that will use the given binding as the key value for localization, targetting the given package.</summary>
         public LocExtension(BindingBase keyBinding, string package) => Init(keyBinding, new Binding(".") { Source = package });
 
-        /// <summary>Creates a new binding that will use the given binding as the key value for localization, and the given binding as the package.</summary>
-        public LocExtension(BindingBase keyBinding, BindingBase package) => Init(keyBinding, package);
+        /// <summary>Creates a new binding that will use the given binding as the key value for localization, and another binding for the target package.</summary>
+        public LocExtension(BindingBase keyBinding, BindingBase packageBinding) => Init(keyBinding, packageBinding);
 
         private void Init(BindingBase keyBinding, BindingBase packageBinding = null) {
-            packageBinding ??= new Binding("");
+            packageBinding ??= new Binding(".") { Source = TranslationSource.DEFAULT_PACKAGE };
             Bindings.Add(keyBinding);
             Bindings.Add(packageBinding);
             Bindings.Add(new Binding("[LocBinding]") { Source = TranslationSource.Instance }); // Binds to a dummy key so that it's updated if lang is changed
@@ -192,6 +192,10 @@ namespace Aurora.Settings.Localization {
         /// <para>E.G. if the result from localisation was "Enable {0} profile", and Values was ["Minecraft"], the result
         /// would be "Enable Minecraft profile".</para></summary>
         public string InsertValues { set => conv.InsertValues = value.Split('|'); }
+
+        /// <summary>Sets the package to be the given binding.</summary>
+        /// <remarks>For some reason, having an overloaded ctor with a bindingbase was causing </remarks>
+        //public BindingBase PackageBinding { get => Bindings[1]; set => Bindings[1] = value; }
 
         /// <summary>Basic converter to handle the localization.</summary>
         private class LocalizationConverter : IMultiValueConverter {
