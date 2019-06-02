@@ -28,6 +28,8 @@ namespace Aurora.Controls {
         private AlertBox() {
             InitializeComponent();
             ((FrameworkElement)base.Content).DataContext = this;
+
+            WeakEventManager<AlertBox, KeyEventArgs>.AddHandler(this, "KeyDown", UserControl_KeyDown);
         }
 
         #region Properties
@@ -113,7 +115,14 @@ namespace Aurora.Controls {
             var buttonContainer = VisualTreeHelper.GetParent(btn) as ContentPresenter; // Get the element that wraps the button
             var stackpanel = VisualTreeHelper.GetParent(buttonContainer) as StackPanel; // Get the wrapper's parent element
             var btnIndex = stackpanel.Children.IndexOf(buttonContainer); // Find the clicked button's index (wrapper's index in parent)
-            var valid = (btn.DataContext as ChoiceButton)?.Validate?.Invoke(btnIndex) ?? true; // Check to see if the button has a defined `Validate` function that should be run first.
+            PerformButtonClick(btnIndex);
+        }
+
+        /// <summary>
+        /// Handles the click logic of a button, running the button's Validate method and if allowed, closing the AlertBox.
+        /// </summary>
+        private void PerformButtonClick(int btnIndex) {
+            var valid = Buttons.ElementAtOrDefault(btnIndex)?.Validate?.Invoke(btnIndex) ?? true; // Check to see if the button has a defined `Validate` function that should be run first.
             if (valid) Close(btnIndex);
         }
 
@@ -123,6 +132,20 @@ namespace Aurora.Controls {
         private void Backdrop_Click(object sender, RoutedEventArgs e) {
             if (AllowClose)
                 Close(-1);
+        }
+
+        /// <summary>
+        /// Handler for key input. Allows key presses to trigger the default choice buttons and the close.
+        /// </summary>
+        private void UserControl_KeyDown(object sender, KeyEventArgs e) {
+            // If the return/numpad enter key are pressed, trigger the "default" button
+            if (e.Key == Key.Return || e.Key == Key.Enter) {
+                var defIdx = Buttons.Select((b, i) => new { b, i }).FirstOrDefault(x => x.b.IsDefault)?.i;
+                if (defIdx.HasValue) PerformButtonClick(defIdx.Value);
+
+            // If the escape key was pressed, simulate a click on the backdrop. This will then respect the `AllowClose` flag.
+            } else if (e.Key == Key.Escape)
+                Backdrop_Click(sender, null);
         }
 
         /// <summary>
@@ -282,16 +305,16 @@ namespace Aurora.Controls {
         /// <param name="itemType">The type of item to delete. E.G. "layer".</param>
         /// <param name="itemName">An identifying name of the item to delete. E.G. "My Layer".</param>
         public async static Task<bool> ShowDelete(Window wnd, string itemType, string itemName, bool allowClose = true) =>
-            (await Show(wnd, TranslationSource.Instance.GetInterpolatedString("alert_delete_text", itemType, itemName), TranslationSource.Instance.GetInterpolatedString("alert_delete_title", itemType), new[] { new ChoiceButton(TranslationSource.Instance["dont_delete"], "FlatButton"), new ChoiceButton(TranslationSource.Instance["delete"], "DangerButton") }, AlertBoxIcon.Delete, allowClose)) == 1;
+            (await Show(wnd, TranslationSource.Instance.GetInterpolatedString("alert_delete_text", itemType, itemName), TranslationSource.Instance.GetInterpolatedString("alert_delete_title", itemType), new[] { new ChoiceButton(TranslationSource.Instance["dont_delete"], "FlatButton"), new ChoiceButton(TranslationSource.Instance["delete"], "DangerButton", true) }, AlertBoxIcon.Delete, allowClose)) == 1;
         public async static Task<bool> ShowDelete(DependencyObject obj, string itemType, string itemName, bool allowClose = true) =>
-            (await Show(obj, TranslationSource.Instance.GetInterpolatedString("alert_delete_text", itemType, itemName), TranslationSource.Instance.GetInterpolatedString("alert_delete_title", itemType), new[] { new ChoiceButton(TranslationSource.Instance["dont_delete"], "FlatButton"), new ChoiceButton(TranslationSource.Instance["delete"], "DangerButton") }, AlertBoxIcon.Delete, allowClose)) == 1;
+            (await Show(obj, TranslationSource.Instance.GetInterpolatedString("alert_delete_text", itemType, itemName), TranslationSource.Instance.GetInterpolatedString("alert_delete_title", itemType), new[] { new ChoiceButton(TranslationSource.Instance["dont_delete"], "FlatButton"), new ChoiceButton(TranslationSource.Instance["delete"], "DangerButton", true) }, AlertBoxIcon.Delete, allowClose)) == 1;
 
         /// <summary>
         /// Helper method that creates a text input AlertBox. If provided, the validate method will be run each time the user submits the input
         /// and if it returns false, the user is asked again and the `invalidMessage` is shown.
         /// </summary>
         public async static Task<string> ShowInput(DependencyObject obj, string title, string message, string @default = "", Func<string, bool> validate = null, string invalidMessage = "") {
-            var buttons = new[] { new ChoiceButton("Cancel", "FlatButton"), new ChoiceButton("Okay") };
+            var buttons = new[] { new ChoiceButton("Cancel", "FlatButton"), new ChoiceButton("Okay", isDefault: true) };
             var textbox = new TextBox { Text = @default };
             var firstRun = true;
             do {
@@ -318,12 +341,16 @@ namespace Aurora.Controls {
             /// <summary>The name of the style this button should use.</summary>
             public string StyleName { get; }
 
+            /// <summary>Whether or not this is the 'default' button that will accept enter keypresses.</summary>
+            public bool IsDefault { get; }
+
             /// <summary>A function that is run once the user clicks this button. If false is returned, the alert will not close.</summary>
             public Func<int, bool> Validate { get; }
 
-            public ChoiceButton(string label, string style = DEFAULT_STYLE, Func<int, bool> validate = null) {
+            public ChoiceButton(string label, string style = DEFAULT_STYLE, bool isDefault = false, Func<int, bool> validate = null) {
                 Label = label;
                 StyleName = style;
+                IsDefault = isDefault;
                 Validate = validate;
             }
         }
