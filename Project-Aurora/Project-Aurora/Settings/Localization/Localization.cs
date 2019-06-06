@@ -179,6 +179,7 @@ namespace Aurora.Settings.Localization {
             Bindings.Add(packageBinding);
             Bindings.Add(new Binding("[LocBinding]") { Source = TranslationSource.Instance }); // Binds to a dummy key so that it's updated if lang is changed
             Converter = conv = new LocalizationConverter();
+            Mode = BindingMode.OneWay;
         }
 
         /// <summary>A substring that is prepended to the start of the localized string.</summary>

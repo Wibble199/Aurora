@@ -11,6 +11,7 @@
     xmlns:l="clr-namespace:Aurora.Settings.Localization"
     xmlns:u="clr-namespace:Aurora.Utils"
     xmlns:a="clr-namespace:Aurora.Theme.Addons"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     x:Class="Aurora.ConfigUI"
     mc:Ignorable="d"
     Width="1280" Height="820"
@@ -43,6 +44,12 @@
         <local:FilterVisibleApplications x:Key="FilterVisibleApplications" />
         <local:ApplicationIsGenericToVisibilityConverter x:Key="IsGenericToVisConv" />
 
+        <!-- Converter that checks if a value is 0 and returns a visibility -->
+        <u:ValueConverterGroup x:Key="IsZeroToVisConverter">
+            <u:NumericComparisonConverter CompareTo=".1" Type="{x:Type sys:Single}" Comparison="LT" />
+            <BooleanToVisibilityConverter />
+        </u:ValueConverterGroup>
+        
         <!-- Style that sets the image of the hidden toggle button to be an eye or an eye with a slash depending on the toggle state. -->
         <Style x:Key="ToggleHiddenApplicationsButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource Panel2ToggleButton}">
             <Setter Property="Content">
@@ -211,7 +218,7 @@
                             <Binding ElementName="ApplicationSearchBox" Path="Text" />
                         </MultiBinding>
                     </ListBox.ItemsSource>
-                    
+
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -272,6 +279,11 @@
                     </Grid>
                 </Border>
             </Viewbox>
+
+            <!-- 0% brightness warning -->
+            <Border Grid.Column="2" Grid.Row="1" Background="{StaticResource Panel1BackgroundBrush}" BorderBrush="#E67E22" BorderThickness="1" CornerRadius="{StaticResource ControlBorderRadius}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="16,8" Padding="4" Visibility="{Binding Path=GlobalBrightness, Source={x:Static local:Global.Configuration}, Converter={StaticResource IsZeroToVisConverter}}" l:Localization.TooltipKey="low_brightness_warn">
+                <Image Width="24" Source="Resources/UIIcons/warning-50.png" />
+            </Border>
 
             <!-- Properties panel -->
             <ContentPresenter Margin="8" Grid.Row="2" Grid.Column="2" Content="{Binding SelectedControl}" />

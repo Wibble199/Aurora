@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Markup;
 using System.Windows.Media.Imaging;
 
 namespace Aurora.Utils {
@@ -34,6 +35,24 @@ namespace Aurora.Utils {
     public class BooleanInverterConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => !((bool)value);
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => !((bool)value);
+    }
+
+    /// <summary>Returns true if the given value compares in such a way to the supplied <see cref="CompareTo"/> property.</summary>
+    public class NumericComparisonConverter : IValueConverter {
+        public object CompareTo { get; set; }
+        public ComparisonType Comparison { get; set; }
+        public Type Type { set => CompareTo = (IComparable)System.ComponentModel.TypeDescriptor.GetConverter(value).ConvertFrom(CompareTo); }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+            if (!(value is IComparable val) || !(CompareTo is IComparable compTo)) return false;
+            var comparison = compTo.CompareTo(val);
+            return (Comparison == ComparisonType.EQ && comparison == 0)
+                || (Comparison == ComparisonType.GT && comparison < 0)
+                || (Comparison == ComparisonType.LT && comparison > 0);
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+
+        public enum ComparisonType { EQ, GT, LT }
     }
 
     /// <summary>Simple converter that takes a double (0-1) and returns a string showing it as a percentage.</summary>
