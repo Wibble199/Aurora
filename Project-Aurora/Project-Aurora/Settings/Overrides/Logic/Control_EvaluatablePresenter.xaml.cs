@@ -51,6 +51,11 @@ namespace Aurora.Settings.Overrides.Logic {
             if (settingTypeSelection) return; // Do nothing if the source is NOT from the combobox being changed (we dont want to create a new instance when it's being set from Binding)
             var selectedType = (Type)expressionSelection.SelectedValue; // The SelectedValue (NOT SelectedItem) of the combobox references a Type that implements IEvaluatable.
             if (selectedType == null || Expression == null || selectedType == Expression.GetType()) return; // Do nothing if the types are the same.
+
+            // If the only value exists and is disposable, dispose it properly
+            if (Expression != null && Expression is IDisposable d) d.Dispose();
+
+            // Create the instance of the newly selected evaluatable
             var newExpression = (IEvaluatable)Activator.CreateInstance(selectedType); // Create an instance from the selected type
             ExpressionChanged?.Invoke(this, new ExpressionChangeEventArgs { OldExpression = Expression, NewExpression = newExpression });
             Expression = newExpression;
@@ -81,7 +86,6 @@ namespace Aurora.Settings.Overrides.Logic {
         private static void OnExpressionChange(DependencyObject evaluatablePresenter, DependencyPropertyChangedEventArgs eventArgs) {
             var control = (Control_EvaluatablePresenter)evaluatablePresenter;
             var expr = (IEvaluatable)eventArgs.NewValue;
-            var x = expr?.GetType();
             control.ContentContainer.Content = expr?.GetControl(control.Application);
             control.settingTypeSelection = true;
             control.expressionSelection.SelectedValue = expr?.GetType();

@@ -1,12 +1,12 @@
 ﻿using Aurora.Profiles;
+using SharpDX.RawInput;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using Xceed.Wpf.Toolkit;
 using Keys = System.Windows.Forms.Keys;
 
 namespace Aurora.Settings.Overrides.Logic {
@@ -48,8 +48,7 @@ namespace Aurora.Settings.Overrides.Logic {
     /// Condition that is true when a specific keyboard button is held down.
     /// </summary>
     [Evaluatable("Key Press (Retain for duration)", category: OverrideLogicCategory.Input)]
-    public class BooleanKeyDownWithTimer : IEvaluatable<bool>
-    {
+    public class BooleanKeyDownWithTimer : IEvaluatable<bool> {
         private Stopwatch watch = new Stopwatch();
 
         /// <summary>Creates a new key held condition with the default key (Space) as the trigger key.</summary>
@@ -62,8 +61,7 @@ namespace Aurora.Settings.Overrides.Logic {
         public float Seconds { get; set; } = 1;
 
         /// <summary>Create a control where the user can select the key they wish to detect.</summary>
-        public Visual GetControl(Application application)
-        {
+        public Visual GetControl(Application application) {
             StackPanel panel = new StackPanel();
 
             var c = new Controls.Control_FieldPresenter { Type = typeof(Keys), Margin = new System.Windows.Thickness(0, 0, 0, 6) };
@@ -83,22 +81,18 @@ namespace Aurora.Settings.Overrides.Logic {
             text = new TextBlock();
             text.Text = "Seconds";
             time.Children.Add(text);
-            
+
             panel.Children.Add(time);
             return panel;
         }
         /// <summary>True if the global event bus's pressed key list contains the target key.</summary>
         public bool Evaluate(IGameState gameState) {
-            if (Global.InputEvents.PressedKeys.Contains(TargetKey))
-            {
+            if (Global.InputEvents.PressedKeys.Contains(TargetKey)) {
                 watch.Restart();
                 return true;
-            }
-            else if (watch.IsRunning && watch.Elapsed.TotalSeconds <= Seconds)
-            {
+            } else if (watch.IsRunning && watch.Elapsed.TotalSeconds <= Seconds) {
                 return true;
-            }
-            else
+            } else
                 watch.Stop();
 
             return false;
@@ -126,7 +120,7 @@ namespace Aurora.Settings.Overrides.Logic {
 
         /// <summary>The mouse button to be checked to see if it is held down.</summary>
         public System.Windows.Forms.MouseButtons TargetButton { get; set; } = System.Windows.Forms.MouseButtons.Left;
-        
+
         /// <summary>Create a control where the user can select the mouse button they wish to detect.</summary>
         public Visual GetControl(Application application) {
             var c = new Controls.Control_FieldPresenter { Type = typeof(System.Windows.Forms.MouseButtons), Margin = new System.Windows.Thickness(0, 0, 0, 6) };
@@ -162,7 +156,7 @@ namespace Aurora.Settings.Overrides.Logic {
         /// <summary>Create a control allowing the user to specify which lock key to check.</summary>
         public Visual GetControl(Application application) {
             var cb = new ComboBox { ItemsSource = new[] { Keys.CapsLock, Keys.NumLock, Keys.Scroll } };
-            cb.SetBinding(ComboBox.SelectedValueProperty, new Binding("TargetKey") { Source = this, Mode=BindingMode.TwoWay });
+            cb.SetBinding(ComboBox.SelectedValueProperty, new Binding("TargetKey") { Source = this, Mode = BindingMode.TwoWay });
             return cb;
         }
 
@@ -176,4 +170,72 @@ namespace Aurora.Settings.Overrides.Logic {
         public IEvaluatable<bool> Clone() => new BooleanLockKeyActive { TargetKey = TargetKey };
         IEvaluatable IEvaluatable.Clone() => Clone();
     }
+
+
+    /// <summary>
+    /// An evaluatable that returns true when the specified time has elapsed without the user pressing a keyboard button or clicking the mouse.
+    /// </summary>
+    [Evaluatable("Away Timer", category: OverrideLogicCategory.Input)]
+    public class BooleanAwayTimer : IEvaluatable<bool>, IDisposable {
+
+        /// <summary>Times the time since the last input event was detected.</summary>
+        private Stopwatch stopwatch = new Stopwatch();
+        /// <summary>Gets or sets the time before this timer starts returning true after there has been no user input.</summary>
+        public double InactiveTime { get; set; }
+        /// <summary>Gets or sets the time unit that is being used to measure the AFK time.</summary>
+        public TimeUnit TimeUnit { get; set; }
+
+        #region ctors
+        /// <summary>Create a new away timer condition with the default time (60 seconds).</summary>
+        public BooleanAwayTimer() : this(60) { }
+
+        /// <summary>Creates a new away timer with the specified time before activating.</summary>
+        public BooleanAwayTimer(double time) {
+            InactiveTime = time;
+            stopwatch.Start();
+            Global.InputEvents.MouseButtonDown += OnMouseInput;
+            Global.InputEvents.KeyDown += OnKeyboardInput;
+        }
+        #endregion
+        
+        /// <summary>Creates a control allowing the user to change the inactive time.</summary>
+        public Visual GetControl(Application application) {
+            var value = new DoubleUpDown { Minimum = 0, Maximum = double.MaxValue, Margin = new System.Windows.Thickness(0, 0, 8, 0) };
+            value.SetBinding(DoubleUpDown.ValueProperty, new Binding("InactiveTime") { Source = this, Mode = BindingMode.TwoWay });
+
+            var unit = new ComboBox { ItemsSource = Utils.EnumToItemsSourceExtension.GetListFor(typeof(TimeUnit)), DisplayMemberPath = "Text", SelectedValuePath = "Value", Width = 100  };
+            unit.SetBinding(ComboBox.SelectedValueProperty, new Binding("TimeUnit") { Source = this, Mode = BindingMode.TwoWay });
+
+            var sp = new StackPanel { Orientation = Orientation.Horizontal };
+            sp.Children.Add(value);
+            sp.Children.Add(unit);
+            return sp;
+        }
+
+        // Event handlers (we have them as methods instead of lambdas so they can be safely unregistered)
+        private void OnMouseInput(object sender, MouseInputEventArgs e) => stopwatch.Restart();
+        private void OnKeyboardInput(object sender, KeyboardInputEventArgs e) => stopwatch.Restart();
+
+        /// <summary>Checks to see if the duration since the last input is greater than the given inactive time.</summary>
+        public bool Evaluate(IGameState gameState) => TimeUnit switch {
+            TimeUnit.Seconds => stopwatch.Elapsed.TotalSeconds > InactiveTime,
+            TimeUnit.Minutes => stopwatch.Elapsed.TotalMinutes > InactiveTime,
+            TimeUnit.Hours => stopwatch.Elapsed.TotalHours > InactiveTime,
+            _ => false
+        };
+        object IEvaluatable.Evaluate(IGameState gameState) => Evaluate(gameState);
+
+        // Do nothing - this is an application-independent condition.
+        public void SetApplication(Application application) { }
+
+        public IEvaluatable<bool> Clone() => new BooleanAwayTimer { InactiveTime = InactiveTime };
+        IEvaluatable IEvaluatable.Clone() => Clone();
+
+        // Stop listening to the InputEvents object as this will prevent the GC from collecting this object.
+        public void Dispose() {
+            Global.InputEvents.MouseButtonDown -= OnMouseInput;
+            Global.InputEvents.KeyDown -= OnKeyboardInput;
+        }
+    }
+    public enum TimeUnit { Seconds, Minutes, Hours }
 }

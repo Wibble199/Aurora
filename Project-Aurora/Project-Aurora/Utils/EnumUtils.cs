@@ -65,8 +65,13 @@ namespace Aurora.Utils {
             this.enumType = enumType;
         }
 
-        public override object ProvideValue(IServiceProvider serviceProvider) {
-            if (enumType == null) return new { };
+        public override object ProvideValue(IServiceProvider serviceProvider) => enumType == null ? (object)new { } : GetListFor(enumType, DoGroup);
+
+        /// <summary>
+        /// Creates a <see cref="ListCollectionView"/> for the given enum type. The items in the collection have properties: 'Text', 'Value',
+        /// 'Group', 'LocalizationKey' and 'LocalizationPackage'.
+        /// </summary>
+        public static ListCollectionView GetListFor(Type enumType, bool doGroup = false) {
             var lcv = new ListCollectionView(Enum.GetValues(enumType)
                 .Cast<Enum>()
                 .Select(e => new {
@@ -78,7 +83,7 @@ namespace Aurora.Utils {
                 })
                 .ToList()
             );
-            if (DoGroup) lcv.GroupDescriptions.Add(new PropertyGroupDescription("Group"));
+            if (doGroup) lcv.GroupDescriptions.Add(new PropertyGroupDescription("Group"));
             return lcv;
         }
     }
