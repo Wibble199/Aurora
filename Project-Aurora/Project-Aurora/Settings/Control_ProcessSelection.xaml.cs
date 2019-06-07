@@ -15,6 +15,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using static Aurora.Controls.AlertBox;
+using Icon = System.Drawing.Icon;
 
 namespace Aurora.Settings {
     public partial class Control_ProcessSelection : UserControl {
@@ -34,7 +35,7 @@ namespace Aurora.Settings {
                             processList.Add(new RunningProcess {
                                 Name = name,
                                 Path = p.MainModule.FileName,
-                                Icon = System.Drawing.Icon.ExtractAssociatedIcon(p.MainModule.FileName)
+                                Icon = Icon.ExtractAssociatedIcon(p.MainModule.FileName)
                             });
                     } catch { }
 
