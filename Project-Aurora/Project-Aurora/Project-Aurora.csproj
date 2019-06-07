@@ -661,6 +661,12 @@
     <Compile Include="Settings\Overrides\Logic\Control_BinaryOperationHolder.xaml.cs">
       <DependentUpon>Control_BinaryOperationHolder.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Settings\Overrides\Logic\Time\Control_TimeBetween.xaml.cs">
+      <DependentUpon>Control_TimeBetween.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\Overrides\Logic\Time\Time.cs" />
+    <Compile Include="Settings\Overrides\Logic\Time\TimeComparison.cs" />
+    <Compile Include="Settings\Overrides\Logic\Time\Time_Ctors.cs" />
     <Compile Include="Settings\Overrides\Logic\Generic\Control_IfElse.xaml.cs">
       <DependentUpon>Control_IfElse.xaml</DependentUpon>
     </Compile>
