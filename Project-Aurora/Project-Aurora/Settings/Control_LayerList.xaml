@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:Controls="clr-namespace:Aurora.Controls"
+             xmlns:c="clr-namespace:Aurora.Controls"
              xmlns:Utils="clr-namespace:Aurora.Utils"
              xmlns:Win="System.Windows"
              mc:Ignorable="d" 
@@ -30,18 +30,18 @@
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,4">
             <Button ToolTip="Add a new layer" Margin="2,0" Click="AddButton_Click" Style="{StaticResource Panel1Button}">
                 <DockPanel Margin="2,0">
-                    <Image Source="/Aurora;component/Resources/UIIcons/plus-30.png" Width="18" Height="18"/>
+                    <c:Icon Source="/Aurora;component/Resources/UIIcons/plus-30.png" Foreground="{StaticResource SuccessBrush}" Width="18" Height="18"/>
                     <TextBlock>Add</TextBlock>
                 </DockPanel>
             </Button>
             <Button ToolTip="Copy the selected layer (Ctrl + C)" Margin="2,0" Click="CopyButton_Click" Style="{StaticResource Panel1Button}">
-                <Image Source="/Aurora;component/Resources/UIIcons/copy-30.png" Margin="2,0" Width="18" Height="18"/>
+                <c:Icon Source="/Aurora;component/Resources/UIIcons/copy-30.png" Margin="2,0" Width="18" Height="18"/>
             </Button>
             <Button ToolTip="Paste layer from clipboard (Ctrl + V)" Margin="2,0" Click="PasteButton_Click" Style="{StaticResource Panel1Button}">
-                <Image Source="/Aurora;component/Resources/UIIcons/clipboard-30.png" Margin="2,0" Width="18" Height="18"/>
+                <c:Icon Source="/Aurora;component/Resources/UIIcons/clipboard-30.png" Margin="2,0" Width="18" Height="18"/>
             </Button>
             <Button ToolTip="Remove selected layer (Del)" Margin="2,0" IsEnabled="{Binding Path=SelectedLayer, Converter={StaticResource NullToBoolConv}}" Click="DeleteButton_Click" Style="{StaticResource Panel1Button}">
-                <Image Source="/Aurora;component/Resources/UIIcons/delete-30.png" Margin="2,0" Width="18" Height="18" />
+                <c:Icon Source="/Aurora;component/Resources/UIIcons/delete-30.png" Foreground="{StaticResource DangerBrush}" Margin="2,0" Width="18" Height="18" />
             </Button>
         </StackPanel>
         
@@ -61,7 +61,7 @@
                 </RadioButton>
             </StackPanel>
 
-            <Controls:ReorderableListBox Background="{StaticResource Panel1BackgroundBrush}" BorderThickness="0" ItemsSource="{Binding ActiveLayerCollection}" SelectedItem="{Binding Path=SelectedLayer, Mode=TwoWay}" DragElementTag="Dragger" SelectionMode="Single" DockPanel.Dock="Bottom" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" KeyDown="ReorderableListBox_KeyDown">
+            <c:ReorderableListBox Background="{StaticResource Panel1BackgroundBrush}" BorderThickness="0" ItemsSource="{Binding ActiveLayerCollection}" SelectedItem="{Binding Path=SelectedLayer, Mode=TwoWay}" DragElementTag="Dragger" SelectionMode="Single" DockPanel.Dock="Bottom" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" KeyDown="ReorderableListBox_KeyDown">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <DockPanel HorizontalAlignment="Stretch" LastChildFill="True" Margin="2,2,0,2">
@@ -95,7 +95,7 @@
                         </DockPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
-            </Controls:ReorderableListBox>
+            </c:ReorderableListBox>
         </DockPanel>
     </Grid>
 </UserControl>

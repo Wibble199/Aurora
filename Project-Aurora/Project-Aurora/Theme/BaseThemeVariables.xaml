@@ -2,41 +2,74 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:s="clr-namespace:System;assembly=mscorlib"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
-    <!-- #region Base Colors -->
-    <SolidColorBrush x:Key="ForegroundElementBrush" Color="#0F141A" /> <!-- Color of a foreground element such as a tooltip or context menu. -->
-    <SolidColorBrush x:Key="ForegroundTextBrush" Color="#F9F9F9" /> <!-- Text color for foreground text elements. -->
-
-    <SolidColorBrush x:Key="BaseBackgroundBrush" Color="#323942" /> <!-- Color of the main area background. -->
-    <SolidColorBrush x:Key="BaseTextBrush" Color="#F9F9F9" /> <!-- Text color for text elements on the main area. -->
-
-    <SolidColorBrush x:Key="Panel1BackgroundBrush" Color="#232932" /> <!-- Background color of the "level 1" panels (will usually be adjacent to the base). -->
-    <SolidColorBrush x:Key="Panel1TextBrush" Color="#F9F9F9" /> <!-- Text color for text elements on "level 1" panels. -->
-
-    <SolidColorBrush x:Key="Panel2BackgroundBrush" Color="#1A1F26" /> <!-- Background color of the "level 2" panels (will usually be adjacent to the level 1 panels). -->
-    <SolidColorBrush x:Key="Panel2TextBrush" Color="#F9F9F9" /> <!-- Text color for text elements on "level 2" panels. -->
+    
+    <!-- #region Color variables -->
+    <!-- Theme colors that are used for coloring various parts of the UI such as icons. -->
+    <SolidColorBrush x:Key="PrimaryBrush" Color="#3498DB" />
+    <SolidColorBrush x:Key="DangerBrush" Color="#E7433C" />
+    <SolidColorBrush x:Key="SuccessBrush" Color="#2ECC71" />
+    <SolidColorBrush x:Key="WarningBrush" Color="#E67E22" />
+    <SolidColorBrush x:Key="InfoBrush" Color="#1ABC9C" />
     <!-- #endregion -->
 
-    <!-- #region Buttons -->
-    <SolidColorBrush x:Key="BaseButtonBackgroundBrush" Color="#242A32" /> <!-- Color of the buttons that will usually appear on the "base" backgrounds. -->
-    <SolidColorBrush x:Key="BaseButtonBackgroundHoverBrush" Color="#181D24" /> <!-- Same as above but when the user is hovering the button. -->
-    <SolidColorBrush x:Key="BaseButtonForegroundBrush" Color="#F9F9F9" /> <!-- Foreground (text) color of base button content. -->
-    <SolidColorBrush x:Key="BaseButtonBorderBrush" Color="Transparent" /> <!-- Border brush of the base button. -->
+    <!-- #region Base Colors -->
+    <!-- Style of a foreground element such as a tooltip or context menu. -->
+    <SolidColorBrush x:Key="ForegroundElementBrush" Color="#0F141A" />
+    <SolidColorBrush x:Key="ForegroundTextBrush" Color="#F9F9F9" />
 
-    <SolidColorBrush x:Key="Panel1ButtonBackgroundBrush" Color="#333D4C" /> <!-- Color of the buttons that will usually appear on the "panel 1"s. -->
-    <SolidColorBrush x:Key="Panel1ButtonBackgroundHoverBrush" Color="#485364" /> <!-- Same as above but when the user is hovering the button. -->
-    <SolidColorBrush x:Key="Panel1ButtonForegroundBrush" Color="#F9F9F9" /> <!-- Foreground (text) color of base button content. -->
-    <SolidColorBrush x:Key="Panel1ButtonBorderBrush" Color="Transparent" /> <!-- Border brush of the panel 1 button. -->
+    <!-- Style of the main area background. -->
+    <SolidColorBrush x:Key="BaseBackgroundBrush" Color="#323942" />
+    <SolidColorBrush x:Key="BaseTextBrush" Color="#F9F9F9" />
+
+    <!-- Style of the "level 1" panels (will usually be adjacent to the base). -->
+    <SolidColorBrush x:Key="Panel1BackgroundBrush" Color="#232932" />
+    <SolidColorBrush x:Key="Panel1TextBrush" Color="#F9F9F9" />
+
+    <!-- Style color of the "level 2" panels (will usually be adjacent to the level 1 panels). -->
+    <SolidColorBrush x:Key="Panel2BackgroundBrush" Color="#1A1F26" />
+    <SolidColorBrush x:Key="Panel2TextBrush" Color="#F9F9F9" />
+    <!-- #endregion -->
     
-    <SolidColorBrush x:Key="Panel2ButtonBackgroundBrush" Color="#2A3340" /> <!-- Color of the buttons that will usually appear on the "panel 2"s. -->
-    <SolidColorBrush x:Key="Panel2ButtonBackgroundHoverBrush" Color="#3F4958" /> <!-- Same as above but when the user is hovering the button. -->
-    <SolidColorBrush x:Key="Panel2ButtonForegroundBrush" Color="#F9F9F9" /> <!-- Foreground (text) color of base button content. -->
-    <SolidColorBrush x:Key="Panel2ButtonBorderBrush" Color="Transparent" /> <!-- Border brush of the panel 2 button. -->
+    <!-- #region Buttons -->
+    <!-- Style of the buttons that will appear on the "base" backgrounds. -->
+    <SolidColorBrush x:Key="BaseButtonBackgroundBrush" Color="#242A32" />
+    <SolidColorBrush x:Key="BaseButtonBackgroundHoverBrush" Color="#181D24" />
+    <SolidColorBrush x:Key="BaseButtonForegroundBrush" Color="#F9F9F9" />
+    <SolidColorBrush x:Key="BaseButtonForegroundHoverBrush" Color="#F9F9F9" />
+    <SolidColorBrush x:Key="BaseButtonBorderBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="BaseButtonBorderHoverBrush" Color="Transparent" />
 
-    <SolidColorBrush x:Key="DangerButtonBackgroundBrush" Color="#E74C3C" /> <!-- Color of the buttons that have been marked as a dangerous (e.g. delete buttons). -->
-    <SolidColorBrush x:Key="DangerButtonBackgroundHoverBrush" Color="#D2301F" /> <!-- Same as above but when the user is hovering the button. -->
-    <SolidColorBrush x:Key="DangerButtonForegroundBrush" Color="#FFF" /> <!-- Foreground (text) color of danger buttons' content. -->
-    <SolidColorBrush x:Key="DangerButtonBorderBrush" Color="Transparent" /> <!-- Border brush of the danger buttons. -->
+    <!-- Style of the buttons that will usually appear on the "panel 1"s. -->
+    <SolidColorBrush x:Key="Panel1ButtonBackgroundBrush" Color="#333D4C" />
+    <SolidColorBrush x:Key="Panel1ButtonBackgroundHoverBrush" Color="#485364" />
+    <SolidColorBrush x:Key="Panel1ButtonForegroundBrush" Color="#F9F9F9" />
+    <SolidColorBrush x:Key="Panel1ButtonForegroundHoverBrush" Color="#F9F9F9" />
+    <SolidColorBrush x:Key="Panel1ButtonBorderBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="Panel1ButtonBorderHoverBrush" Color="Transparent" />
+
+    <!-- Style of the buttons that will usually appear on the "panel 2"s. -->
+    <SolidColorBrush x:Key="Panel2ButtonBackgroundBrush" Color="#2A3340" />
+    <SolidColorBrush x:Key="Panel2ButtonBackgroundHoverBrush" Color="#3F4958" />
+    <SolidColorBrush x:Key="Panel2ButtonForegroundBrush" Color="#F9F9F9" />
+    <SolidColorBrush x:Key="Panel2ButtonForegroundHoverBrush" Color="#F9F9F9" />
+    <SolidColorBrush x:Key="Panel2ButtonBorderBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="Panel2ButtonBorderHoverBrush" Color="Transparent" />
+
+    <!-- Style of the buttons that have been marked as a dangerous (e.g. delete buttons). -->
+    <SolidColorBrush x:Key="DangerButtonBackgroundBrush" Color="#E74C3C" />
+    <SolidColorBrush x:Key="DangerButtonBackgroundHoverBrush" Color="#D2301F" />
+    <SolidColorBrush x:Key="DangerButtonForegroundBrush" Color="#FFF" />
+    <SolidColorBrush x:Key="DangerButtonForegroundHoverBrush" Color="#FFF" />
+    <SolidColorBrush x:Key="DangerButtonBorderBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="DangerButtonBorderHoverBrush" Color="Transparent" />
+
+    <!-- Style of flat, inconspicious buttons (e.g. secondary alert box buttons). -->
+    <SolidColorBrush x:Key="FlatButtonBackgroundBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="FlatButtonBackgroundHoverBrush" Color="#2FFF" />
+    <SolidColorBrush x:Key="FlatButtonForegroundBrush" Color="#FFF" />
+    <SolidColorBrush x:Key="FlatButtonForegroundHoverBrush" Color="#FFF" />
+    <SolidColorBrush x:Key="FlatButtonBorderBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="FlatButtonBorderHoverBrush" Color="Transparent" />
 
     <Thickness x:Key="ButtonBorderThickness" Left="0" Top="0" Right="0" Bottom="0" /> <!-- Thickness of the border line surrounding buttons. -->
     <!-- #endregion -->

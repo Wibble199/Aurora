@@ -124,10 +124,10 @@
                                     <TextBlock Text="Excluded processes" VerticalAlignment="Top" l:Localization.Key="excluded_processes" />
                                     <c:SpacedStackPanel SpacingAmount="8" DockPanel.Dock="Right" Margin="8,0,0,0">
                                         <Button Click="ExcludedAdd_Click" ToolTip="Add" l:Localization.TooltipKey="add" ToolTipService.Placement="Left" ToolTipService.VerticalOffset="1" ToolTipService.InitialShowDelay="0">
-                                            <Image Source="/Aurora;component/Resources/UIIcons/plus-30.png" Margin="2,0" Width="18" Height="18" />
+                                            <c:Icon Source="/Aurora;component/Resources/UIIcons/plus-30.png" Foreground="{StaticResource SuccessBrush}" Margin="2,0" Width="18" Height="18" />
                                         </Button>
                                         <Button Click="ExcludedRemove_Click" ToolTip="Remove" l:Localization.TooltipKey="remove" ToolTipService.Placement="Left" ToolTipService.VerticalOffset="1" ToolTipService.InitialShowDelay="0">
-                                            <Image Source="/Aurora;component/Resources/UIIcons/delete-30.png" Margin="2,0" Width="18" Height="18" />
+                                            <c:Icon Source="/Aurora;component/Resources/UIIcons/delete-30.png" Foreground="{StaticResource DangerBrush}" Margin="2,0" Width="18" Height="18" />
                                         </Button>
                                     </c:SpacedStackPanel>
                                     <ListBox x:Name="excludedListbox" ItemsSource="{Binding ExcludedPrograms, Mode=OneWay}" HorizontalAlignment="Left" Height="80" Width="142" DockPanel.Dock="Right" />
@@ -285,19 +285,19 @@
                                     <TextBlock Text="Find us on" l:Localization.Key="find_us" />
                                     <Button Click="GithubButton_Click">
                                         <StackPanel Margin="2,0" Orientation="Horizontal">
-                                            <Image Source="/Aurora;component/Resources/UIIcons/github-32.png" Width="18" Height="18" Margin="0,0,8,0" />
+                                            <c:Icon Source="/Aurora;component/Resources/UIIcons/github-32.png" Width="18" Height="18" Margin="0,0,8,0" />
                                             <TextBlock>GitHub</TextBlock>
                                         </StackPanel>
                                     </Button>
                                     <Button Click="DiscordButton_Click" Margin="6,0">
                                         <StackPanel Margin="2,0" Orientation="Horizontal">
-                                            <Image Source="/Aurora;component/Resources/UIIcons/discord-24.png" Width="18" Height="18" Margin="0,0,8,0" />
+                                            <c:Icon Source="/Aurora;component/Resources/UIIcons/discord-24.png" Width="18" Height="18" Margin="0,0,8,0" />
                                             <TextBlock>Discord</TextBlock>
                                         </StackPanel>
                                     </Button>
                                     <Button Click="SteamButton_Click">
                                         <StackPanel Margin="2,0" Orientation="Horizontal">
-                                            <Image Source="/Aurora;component/Resources/UIIcons/steam-26.png" Width="16" Height="16" Margin="0,0,8,0" />
+                                            <c:Icon Source="/Aurora;component/Resources/UIIcons/steam-26.png" Width="16" Height="16" Margin="0,0,8,0" />
                                             <TextBlock>Steam</TextBlock>
                                         </StackPanel>
                                     </Button>

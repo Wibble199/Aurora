@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -355,9 +355,7 @@
     <Compile Include="Controls\Control_StringPropertyEditor.xaml.cs">
       <DependentUpon>Control_StringPropertyEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Icon.xaml.cs">
-      <DependentUpon>Icon.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Controls\Icon.cs" />
     <Compile Include="Controls\LoadingSpinner.xaml.cs">
       <DependentUpon>LoadingSpinner.xaml</DependentUpon>
     </Compile>
@@ -746,7 +744,7 @@
     <Compile Include="Settings\Control_ProcessSelection.xaml.cs">
       <DependentUpon>Control_ProcessSelection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Theme\Addons\TextboxAttachedProperties.cs" />
+    <Compile Include="Theme\Addons\TextboxAddons.cs" />
     <Compile Include="Utils\BrushAnimation.cs" />
     <Compile Include="Utils\Converters.cs" />
     <Compile Include="Utils\DesktopUtils.cs" />
@@ -1583,6 +1581,10 @@
     <Resource Include="Resources\UIIcons\steam-26.png" />
     <Resource Include="Resources\UIIcons\puzzle-30.png" />
     <Resource Include="Resources\UIIcons\search-30.png" />
+    <Content Include="Theme\AuroraTheme\Buttons.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Buttons.xaml</LastGenOutput>
+    </Content>
     <Content Include="wooting-rgb-sdk.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1680,10 +1682,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Control_StringPropertyEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Icon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -2295,6 +2293,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\AuroraTheme\Buttons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Buttons.tt</DependentUpon>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Theme\AuroraTheme\Slider.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -2328,10 +2337,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Theme\AuroraTheme\TextElements.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Theme\AuroraTheme\Buttons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -2404,7 +2409,6 @@
   <ItemGroup>
     <Folder Include="Profiles\Subnautica\Layers\" />
     <Folder Include="Properties\DataSources\" />
-    <Folder Include="Themes\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="CroccatTalkWrapper\win32-x86-64\talkfx-c.dll">
