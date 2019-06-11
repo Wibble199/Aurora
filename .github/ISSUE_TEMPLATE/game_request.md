@@ -1,7 +1,12 @@
 ---
 name: Game Request
 about: Request support for a new game or application.
+title: ''
+labels: ''
+assignees: ''
+
 ---
+
 <!--
 Please make sure you SEARCH for any other issues requesting this game before submitting your issue - it might already have been requested.
 

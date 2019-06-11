@@ -1,7 +1,12 @@
 ---
 name: Bug Report
 about: Report an issue with how the program works.
+title: ''
+labels: help wanted, invalid
+assignees: ''
+
 ---
+
 <!--
 Thank you for reporting your issues to us, helping to make Aurora better! :)
 
