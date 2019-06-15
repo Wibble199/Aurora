@@ -113,8 +113,8 @@ namespace Aurora.Controls {
         private void Button_Click(object sender, RoutedEventArgs e) {
             var btn = (Button)sender;
             var buttonContainer = VisualTreeHelper.GetParent(btn) as ContentPresenter; // Get the element that wraps the button
-            var stackpanel = VisualTreeHelper.GetParent(buttonContainer) as StackPanel; // Get the wrapper's parent element
-            var btnIndex = stackpanel.Children.IndexOf(buttonContainer); // Find the clicked button's index (wrapper's index in parent)
+            var panel = VisualTreeHelper.GetParent(buttonContainer) as Panel; // Get the wrapper's parent element
+            var btnIndex = panel.Children.IndexOf(buttonContainer); // Find the clicked button's index (wrapper's index in parent)
             PerformButtonClick(btnIndex);
         }
 

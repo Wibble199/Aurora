@@ -31,7 +31,7 @@
         </Style>
         <Style TargetType="{x:Type c:SpacedStackPanel}">
             <Setter Property="SpacingAmount" Value="8" />
-            <Setter Property="MinimumItemHeight" Value="0" />
+            <Setter Property="MinimumItemSize" Value="0" />
         </Style>
         <Style TargetType="{x:Type DockPanel}">
             <Setter Property="LastChildFill" Value="False" />

@@ -95,13 +95,13 @@
                         <ItemsControl ItemsSource="{Binding Buttons}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal" />
+                                    <c:SpacedStackPanel Orientation="Horizontal" SpacingAmount="8" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
 
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Button Content="{Binding Label}" Margin="8,0,0,0" Padding="16,6" Click="Button_Click">
+                                    <Button Content="{Binding Label}" Padding="16,6" Click="Button_Click">
                                         <Button.Style>
                                             <MultiBinding Converter="{StaticResource StyleConverter}">
                                                 <MultiBinding.Bindings>
