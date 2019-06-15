@@ -87,7 +87,7 @@ namespace Aurora.Controls {
         }
         public static new readonly DependencyProperty WidthProperty =
             DependencyProperty.Register("Width", typeof(double), typeof(AlertBox), new PropertyMetadata(double.NaN));
-
+               
         /// <summary>Indicates to the AlertBox whether it is running inside a dedicated window or as a child of another window.</summary>
         public bool IsDedicatedWindow {
             get => (bool)GetValue(IsDedicatedWindowProperty);
@@ -371,8 +371,21 @@ namespace Aurora.Controls {
                 AlertBoxIcon.Delete => "trash-can",
                 _ => ""
             };
-            return new BitmapImage(new Uri($"/Aurora;component/Resources/UIIcons/{name}-50.png", UriKind.Relative));
+            return new BitmapImage(new Uri($"pack://application:,,,/Aurora;component/Resources/UIIcons/{name}-50.png"));
         }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    }
+
+    public class AlertBoxIconBrushConverter : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => (Brush)Application.Current.FindResource((AlertBoxIcon)value switch {
+            AlertBoxIcon.Success => "SuccessBrush",
+            AlertBoxIcon.Info => "InfoBrush",
+            AlertBoxIcon.Question => "InfoBrush",
+            AlertBoxIcon.Warning => "WarningBrush",
+            AlertBoxIcon.Error => "DangerBrush",
+            AlertBoxIcon.Delete => "DangerBrush",
+            _ => "BaseTextBrush"
+        });
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 

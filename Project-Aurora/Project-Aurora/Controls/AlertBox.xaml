@@ -13,6 +13,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <c:AlertBoxIconConverter x:Key="AlertBoxIconConverter" />
+            <c:AlertBoxIconBrushConverter x:Key="AlertBoxIconBrushConverter" />
             <c:AlertBoxIconToVisibilityConverter x:Key="AlertBoxIconToVisibilityConverter" />
             <utils:ValueConverterGroup x:Key="InverseBooleanToVisibilityConverter">
                 <utils:BooleanInverterConverter />
@@ -70,7 +71,7 @@
                 <StackPanel SnapsToDevicePixels="True">
                     <DockPanel Margin="12" LastChildFill="True" SnapsToDevicePixels="True">
                         <!-- Icon -->
-                        <Image DockPanel.Dock="Left" Source="{Binding Path=Icon, Converter={StaticResource AlertBoxIconConverter}}" Width="48" Height="48" Margin="0,0,16,0" Visibility="{Binding Path=Icon, Converter={StaticResource AlertBoxIconToVisibilityConverter}}" />
+                        <c:Icon DockPanel.Dock="Left" Source="{Binding Path=Icon, Converter={StaticResource AlertBoxIconConverter}}" Foreground="{Binding Path=Icon, Converter={StaticResource AlertBoxIconBrushConverter}}" Width="48" Height="48" Margin="0,0,16,0" Visibility="{Binding Path=Icon, Converter={StaticResource AlertBoxIconToVisibilityConverter}}" />
 
                         <!-- Title -->
                         <TextBlock DockPanel.Dock="Top" Text="{Binding Title}" FontSize="16" FontWeight="Bold" Foreground="{StaticResource ForegroundTextBrush}" SnapsToDevicePixels="True" />
