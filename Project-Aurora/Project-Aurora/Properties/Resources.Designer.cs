@@ -623,16 +623,6 @@ namespace Aurora.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap moon_and_stars_30 {
-            get {
-                object obj = ResourceManager.GetObject("moon_and_stars_30", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap numbers_30 {
             get {
                 object obj = ResourceManager.GetObject("numbers_30", resourceCulture);
@@ -856,16 +846,6 @@ namespace Aurora.Properties {
         internal static System.Drawing.Bitmap Subnautica {
             get {
                 object obj = ResourceManager.GetObject("Subnautica", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap sun_30 {
-            get {
-                object obj = ResourceManager.GetObject("sun_30", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
