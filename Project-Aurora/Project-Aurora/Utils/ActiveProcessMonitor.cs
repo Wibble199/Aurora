@@ -9,10 +9,13 @@ using System.Threading.Tasks;
 
 namespace Aurora.Utils
 {
-	public struct tagLASTINPUTINFO
+    [StructLayout(LayoutKind.Sequential)]
+	struct tagLASTINPUTINFO
 	{
-		public uint cbSize;
-		public Int32 dwTime;
+        [MarshalAs(UnmanagedType.U4)]
+		public UInt32 cbSize;
+        [MarshalAs(UnmanagedType.U4)]
+        public UInt32 dwTime;
 	}
 
 	public sealed class ActiveProcessMonitor
@@ -58,7 +61,7 @@ namespace Aurora.Utils
 
 		// TODO: Move this to own util
 		[DllImport("user32.dll")]
-		public static extern Boolean GetLastInputInfo(ref tagLASTINPUTINFO plii);
+		private static extern Boolean GetLastInputInfo(ref tagLASTINPUTINFO plii);
 
 		[DllImport("user32.dll", SetLastError = true)]
 		static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
@@ -107,7 +110,14 @@ namespace Aurora.Utils
 		[DllImport("kernel32.dll", SetLastError = true)]
 		private static extern bool CloseHandle(IntPtr hHandle);
 
-		private static string GetExecutablePath(Process Process)
+        public static TimeSpan GetLastInput() {
+            var inf = new tagLASTINPUTINFO { cbSize = (uint)Marshal.SizeOf<tagLASTINPUTINFO>() };
+            if (!GetLastInputInfo(ref inf)) return new TimeSpan(0);
+            return new TimeSpan(0, 0, 0, 0, Environment.TickCount - (int)inf.dwTime);
+        }
+
+
+        private static string GetExecutablePath(Process Process)
 		{
 			//If running on Vista or later use the new function
 			if (Environment.OSVersion.Version.Major >= 6)

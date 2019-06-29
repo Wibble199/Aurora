@@ -120,60 +120,6 @@ namespace Aurora.Settings {
         [JsonProperty(PropertyName = "roccat_first_time")]
         public virtual bool RoccatFirstTime { get; set; } = true;
 
-        [JsonProperty(PropertyName = "time_based_dimming_enabled")]
-        public virtual bool TimeBasedDimmingEnabled { get; set; } = false;
-
-        [JsonProperty(PropertyName = "time_based_dimming_affect_games")]
-        public virtual bool TimeBasedDimmingAffectGames { get; set; } = false;
-
-        [JsonProperty(PropertyName = "time_based_dimming_start_hour")]
-        public virtual int TimeBasedDimmingStartHour { get; set; } = 21;
-
-        [JsonProperty(PropertyName = "time_based_dimming_start_minute")]
-        public virtual int TimeBasedDimmingStartMinute { get; set; } = 0;
-
-        [JsonProperty(PropertyName = "time_based_dimming_end_hour")]
-        public virtual int TimeBasedDimmingEndHour { get; set; } = 8;
-
-        [JsonProperty(PropertyName = "time_based_dimming_end_minute")]
-        public virtual int TimeBasedDimmingEndMinute { get; set; } = 0;
-
-        [JsonProperty(PropertyName = "nighttime_enabled")]
-        public virtual bool NightTimeEnabled { get; set; } = false;
-
-        [JsonProperty(PropertyName = "nighttime_start_hour")]
-        public virtual int NightTimeStartHour { get; set; } = 20;
-
-        [JsonProperty(PropertyName = "nighttime_start_minute")]
-        public virtual int NightTimeStartMinute { get; set; } = 0;
-
-        [JsonProperty(PropertyName = "nighttime_end_hour")]
-        public virtual int NightTimeEndHour { get; set; } = 7;
-
-        [JsonProperty(PropertyName = "nighttime_end_minute")]
-        public virtual int NightTimeEndMinute { get; set; } = 0;
-
-        [JsonProperty(PropertyName = "idle_type")]
-        public virtual IdleEffects IdleType { get; set; } = IdleEffects.None;
-
-        [JsonProperty(PropertyName = "idle_delay")]
-        public virtual int IdleDelay { get; set; } = 5;
-
-        [JsonProperty(PropertyName = "idle_speed")]
-        public virtual float IdleSpeed { get; set; } = 1;
-
-        [JsonProperty(PropertyName = "idle_effect_primary_color")]
-        public virtual Color IdlePrimaryColor { get; set; } = Color.FromArgb(0, 255, 0);
-
-        [JsonProperty(PropertyName = "idle_effect_secondary_color")]
-        public virtual Color IdleSecondaryColor { get; set; } = Color.FromArgb(0, 0, 0);
-
-        [JsonProperty(PropertyName = "idle_amount")]
-        public virtual int IdleAmount { get; set; } = 5;
-
-        [JsonProperty(PropertyName = "idle_frequency")]
-        public virtual float IdleFrequency { get; set; } = 2.5f;
-
         public virtual bool BitmapDebugTopMost { get; set; }
 
         public virtual bool HttpDebugTopMost { get; set; }

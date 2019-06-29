@@ -21,20 +21,10 @@ namespace Aurora.Profiles.Generic_Application
 
             GenericApplicationProfile settings = (GenericApplicationProfile)this.Application.Profile;
 
-            ObservableCollection<Layer> timeLayers = settings.Layers;
-
             //Scripts
             //this.Application.UpdateEffectScripts(layers);
 
-            if ((Global.Configuration.NightTimeEnabled &&
-                Utils.Time.IsCurrentTimeBetween(Global.Configuration.NightTimeStartHour, Global.Configuration.NightTimeStartMinute, Global.Configuration.NightTimeEndHour, Global.Configuration.NightTimeEndMinute)) ||
-                settings._simulateNighttime
-                )
-            {
-                timeLayers = settings.Layers_NightTime;
-            }
-
-            foreach (var layer in timeLayers.Reverse().ToArray())
+            foreach (var layer in settings.Layers.Reverse().ToArray())
             {
                 if (layer.Enabled)
                     layers.Enqueue(layer.Render(_game_state));

@@ -26,7 +26,7 @@
         <Border Background="#54A8A8A8" CornerRadius="8" VerticalAlignment="Top" Height="25">
             <TextBlock TextWrapping="Wrap" Text="{Binding ListTitle}" VerticalAlignment="Top" Margin="10,3,10,0"/>
         </Border>
-        
+
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,4">
             <Button ToolTip="Add a new layer" Margin="2,0" Click="AddButton_Click" Style="{StaticResource Panel1Button}">
                 <DockPanel Margin="2,0">
@@ -44,58 +44,41 @@
                 <c:Icon Source="/Aurora;component/Resources/UIIcons/delete-30.png" Foreground="{StaticResource DangerBrush}" Margin="2,0" Width="18" Height="18" />
             </Button>
         </StackPanel>
-        
-        <DockPanel Grid.Row="2">
-            <StackPanel Margin="0,0,0,6" Orientation="Horizontal" DockPanel.Dock="Top" Visibility="{Binding DayNightCheckboxesVisiblity}">
-                <RadioButton GroupName="TimeSelection" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTip="Daytime" IsChecked="True" Checked="CollectionSelection_Checked">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Aurora;component/Resources/UIIcons/sun-30.png" Height="18" HorizontalAlignment="Left" />
-                        <TextBlock Margin="4,0,0,0">Daytime</TextBlock>
-                    </StackPanel>
-                </RadioButton>
-                <RadioButton x:Name="showSecondaryCollection" GroupName="TimeSelection" HorizontalAlignment="Left" Margin="8,0,0,0" VerticalAlignment="Top" ToolTip="Nighttime" Checked="CollectionSelection_Checked">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Aurora;component/Resources/UIIcons/moon-and-stars-30.png" Height="18" HorizontalAlignment="Left" />
-                        <TextBlock Margin="4,0,0,0">Nighttime</TextBlock>
-                    </StackPanel>
-                </RadioButton>
-            </StackPanel>
 
-            <c:ReorderableListBox Background="{StaticResource Panel1BackgroundBrush}" BorderThickness="0" ItemsSource="{Binding ActiveLayerCollection}" SelectedItem="{Binding Path=SelectedLayer, Mode=TwoWay}" DragElementTag="Dragger" SelectionMode="Single" DockPanel.Dock="Bottom" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" KeyDown="ReorderableListBox_KeyDown">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <DockPanel HorizontalAlignment="Stretch" LastChildFill="True" Margin="2,2,0,2">
-                            <CheckBox IsChecked="{Binding Path=Enabled, Mode=TwoWay}" />
-                            <Image Source="/Aurora;component/Resources/UIIcons/resize-vertical-30.png" Tag="Dragger" Cursor="SizeNS" Height="16" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="0,0,5,0" ToolTip="Drag to rearrange layers">
-                                <Image.Style>
-                                    <Style TargetType="{x:Type Image}">
-                                        <Setter Property="Opacity" Value="0" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
-                                                <DataTrigger.EnterActions>
-                                                    <BeginStoryboard>
-                                                        <Storyboard>
-                                                            <DoubleAnimation Storyboard.TargetProperty="(Image.Opacity)" To="1" Duration="{StaticResource AnimationDuration}" />
-                                                        </Storyboard>
-                                                    </BeginStoryboard>
-                                                </DataTrigger.EnterActions>
-                                                <DataTrigger.ExitActions>
-                                                    <BeginStoryboard>
-                                                        <Storyboard>
-                                                            <DoubleAnimation Storyboard.TargetProperty="(Image.Opacity)" To="0" Duration="{StaticResource AnimationDuration}" />
-                                                        </Storyboard>
-                                                    </BeginStoryboard>
-                                                </DataTrigger.ExitActions>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Image.Style>
-                            </Image>
-                            <TextBlock Text="{Binding Path=Name, Converter={StaticResource ResourceKey=TextCharacterLimitConv}}"/>
-                        </DockPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </c:ReorderableListBox>
-        </DockPanel>
+        <c:ReorderableListBox Grid.Row="2" Background="{StaticResource Panel1BackgroundBrush}" BorderThickness="0" ItemsSource="{Binding LayerCollection}" SelectedItem="{Binding Path=SelectedLayer, Mode=TwoWay}" DragElementTag="Dragger" SelectionMode="Single" DockPanel.Dock="Bottom" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" KeyDown="ReorderableListBox_KeyDown">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel HorizontalAlignment="Stretch" LastChildFill="True" Margin="2,2,0,2">
+                        <CheckBox IsChecked="{Binding Path=Enabled, Mode=TwoWay}" />
+                        <Image Source="/Aurora;component/Resources/UIIcons/resize-vertical-30.png" Tag="Dragger" Cursor="SizeNS" Height="16" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="0,0,5,0" ToolTip="Drag to rearrange layers">
+                            <Image.Style>
+                                <Style TargetType="{x:Type Image}">
+                                    <Setter Property="Opacity" Value="0" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                            <DataTrigger.EnterActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(Image.Opacity)" To="1" Duration="{StaticResource AnimationDuration}" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </DataTrigger.EnterActions>
+                                            <DataTrigger.ExitActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(Image.Opacity)" To="0" Duration="{StaticResource AnimationDuration}" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </DataTrigger.ExitActions>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                        <TextBlock Text="{Binding Path=Name, Converter={StaticResource ResourceKey=TextCharacterLimitConv}}"/>
+                    </DockPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </c:ReorderableListBox>
     </Grid>
 </UserControl>

@@ -1306,7 +1306,6 @@
     </Compile>
     <Compile Include="Profiles\Desktop\DesktopProfile.cs" />
     <Compile Include="Profiles\Desktop\Event_Desktop.cs" />
-    <Compile Include="Profiles\Desktop\Event_Idle.cs" />
     <Compile Include="Profiles\Dota 2\Control_Dota2.xaml.cs">
       <DependentUpon>Control_Dota2.xaml</DependentUpon>
     </Compile>

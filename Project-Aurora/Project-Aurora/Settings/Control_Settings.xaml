@@ -135,59 +135,6 @@
                             </c:SpacedStackPanel>
                         </Border>
 
-                        <!-- Blackout settings -->
-                        <TextBlock Text="Blackout Settings" Style="{StaticResource SectionHeader}" />
-                        <Border Style="{StaticResource GroupPanel}">
-                            <!-- TODO: These could be made as an overlay system with the overrides? -->
-                            <!-- Note that these settiungs have not been localised for that reason ^ -->
-                            <c:SpacedStackPanel>
-                                <CheckBox IsChecked="{Binding TimeBasedDimmingEnabled}" Content="Enable timed keyboard blackout" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" />
-                                <CheckBox IsChecked="{Binding TimeBasedDimmingAffectGames}" Content="Apply blackout to game profiles" Margin="24,0,0,0" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" />
-                                <DockPanel Margin="{StaticResource IndentMargin}">
-                                    <TextBlock Text="Blackout start time" />
-                                    <Border CornerRadius="{StaticResource ControlBorderRadius}" Background="{StaticResource TextboxBackgroundBrush}" DockPanel.Dock="Right">
-                                        <StackPanel Orientation="Horizontal">
-                                            <xctk:IntegerUpDown Value="{Binding TimeBasedDimmingStartHour}" Width="50" Maximum="23" Minimum="0" MouseWheelActiveOnFocus="True" />
-                                            <TextBlock Text=":" VerticalAlignment="Center" />
-                                            <xctk:IntegerUpDown Value="{Binding TimeBasedDimmingStartMinute}" Width="50" Maximum="60" Minimum="0" MouseWheelActiveOnFocus="True" />
-                                        </StackPanel>
-                                    </Border>
-                                </DockPanel>
-                                <DockPanel Margin="{StaticResource IndentMargin}">
-                                    <TextBlock Text="Blackout end time" />
-                                    <Border CornerRadius="{StaticResource ControlBorderRadius}" Background="{StaticResource TextboxBackgroundBrush}" DockPanel.Dock="Right">
-                                        <StackPanel Orientation="Horizontal">
-                                            <xctk:IntegerUpDown Value="{Binding TimeBasedDimmingEndHour}" Width="50" Maximum="23" Minimum="0" MouseWheelActiveOnFocus="True" />
-                                            <TextBlock Text=":" VerticalAlignment="Center" />
-                                            <xctk:IntegerUpDown Value="{Binding TimeBasedDimmingEndMinute}" Width="50" Maximum="60" Minimum="0" MouseWheelActiveOnFocus="True" />
-                                        </StackPanel>
-                                    </Border>
-                                </DockPanel>
-
-                                <CheckBox IsChecked="{Binding NightTimeEnabled}" Content="Enable night-time layers for general profiles" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" />
-                                <DockPanel Margin="{StaticResource IndentMargin}">
-                                    <TextBlock Text="Night-time start time" />
-                                    <Border CornerRadius="{StaticResource ControlBorderRadius}" Background="{StaticResource TextboxBackgroundBrush}" DockPanel.Dock="Right">
-                                        <StackPanel Orientation="Horizontal">
-                                            <xctk:IntegerUpDown Value="{Binding NightTimeStartHour}" Width="50" Maximum="23" Minimum="0" MouseWheelActiveOnFocus="True" />
-                                            <TextBlock Text=":" VerticalAlignment="Center" />
-                                            <xctk:IntegerUpDown Value="{Binding NightTimeStartMinute}" Width="50" Maximum="60" Minimum="0" MouseWheelActiveOnFocus="True" />
-                                        </StackPanel>
-                                    </Border>
-                                </DockPanel>
-                                <DockPanel Margin="{StaticResource IndentMargin}">
-                                    <TextBlock Text="Night-time end time" />
-                                    <Border CornerRadius="{StaticResource ControlBorderRadius}" Background="{StaticResource TextboxBackgroundBrush}" DockPanel.Dock="Right">
-                                        <StackPanel Orientation="Horizontal">
-                                            <xctk:IntegerUpDown Value="{Binding NightTimeEndHour}" Width="50" Maximum="23" Minimum="0" MouseWheelActiveOnFocus="True" />
-                                            <TextBlock Text=":" VerticalAlignment="Center" />
-                                            <xctk:IntegerUpDown Value="{Binding NightTimeEndMinute}" Width="50" Maximum="60" Minimum="0" MouseWheelActiveOnFocus="True" />
-                                        </StackPanel>
-                                    </Border>
-                                </DockPanel>
-                            </c:SpacedStackPanel>
-                        </Border>
-
                         <!-- Update settings -->
                         <TextBlock Text="Update Settings" Style="{StaticResource SectionHeader}" l:Localization.Key="update_settings" />
                         <Border Style="{StaticResource GroupPanel}">

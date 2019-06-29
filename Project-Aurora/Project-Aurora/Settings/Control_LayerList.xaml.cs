@@ -80,27 +80,6 @@ namespace Aurora.Settings {
             DependencyProperty.Register("LayerCollection", typeof(ObservableCollection<Layer>), typeof(Control_LayerList), new PropertyMetadata(null, NotifyCb("ActiveLayerCollection", "DayNightCheckboxesVisiblity")));
         #endregion
 
-        #region SecondaryLayerCollection Property
-        /// <summary>
-        /// This collection of layers is a secondary set of layers to display to the user. If this is given a value and the relevant setting is enabled, a pair of checkboxs
-        /// will show that allow the user to choose between day and night time layers. This collection is the nighttime collection.
-        /// </summary>
-        public ObservableCollection<Layer> SecondaryLayerCollection {
-            get => (ObservableCollection<Layer>)GetValue(SecondaryLayerCollectionProperty);
-            set => SetValue(SecondaryLayerCollectionProperty, value);
-        }
-
-        public static readonly DependencyProperty SecondaryLayerCollectionProperty =
-            DependencyProperty.Register("SecondaryLayerCollection", typeof(ObservableCollection<Layer>), typeof(Control_LayerList), new PropertyMetadata(null, NotifyCb("ActiveLayerCollection", "DayNightCheckboxesVisiblity")));
-        #endregion
-
-        #region ActiveLayerCollection Property
-        /// <summary>
-        /// This returns the currently selected layer collection.
-        /// </summary>
-        public ObservableCollection<Layer> ActiveLayerCollection => Global.Configuration.NightTimeEnabled && showSecondaryCollection.IsChecked == true ? SecondaryLayerCollection : LayerCollection;
-        #endregion
-
         #region SelectedLayer Property
         /// <summary>
         /// The currently selected layer.
@@ -131,12 +110,6 @@ namespace Aurora.Settings {
         public static readonly DependencyProperty ListTitleProperty =
             DependencyProperty.Register("ListTitle", typeof(string), typeof(Control_LayerList), new PropertyMetadata("Layers"));
         #endregion
-        
-        /// <summary>
-        /// Property that returns a <see cref="Visibility"/> indicating whether or not the day/night (collection/secondary collection) checkboxes should be shown
-        /// based on whether night time feature is enabled and whether a secondary collection has been provided or not.
-        /// </summary>
-        public Visibility DayNightCheckboxesVisiblity => Global.Configuration.NightTimeEnabled && SecondaryLayerCollection != null ? Visibility.Visible : Visibility.Collapsed;
         #endregion
 
         #region Methods
@@ -146,7 +119,7 @@ namespace Aurora.Settings {
         private void AddLayer(Layer layer) {
             layer.AnythingChanged += FocusedApplication.SaveProfilesEvent;
             layer.SetProfile(FocusedApplication);
-            ActiveLayerCollection.Insert(0, layer);
+            LayerCollection.Insert(0, layer);
             SelectedLayer = layer;
         }
 
@@ -184,8 +157,8 @@ namespace Aurora.Settings {
         /// Asks the user if they wish to delete the currently selected layer and does so if they press "Yes".
         /// </summary>
         private async void DeleteButton_Click(object sender, RoutedEventArgs e) {
-            if (ActiveLayerCollection.Contains(SelectedLayer) && await AlertBox.ShowDelete(this, "layer", SelectedLayer.Name)) {
-                ActiveLayerCollection.Remove(SelectedLayer);
+            if (LayerCollection.Contains(SelectedLayer) && await AlertBox.ShowDelete(this, Localization.TranslationSource.Instance["layer"], SelectedLayer.Name)) {
+                LayerCollection.Remove(SelectedLayer);
                 SelectedLayer = null;
             }
         }

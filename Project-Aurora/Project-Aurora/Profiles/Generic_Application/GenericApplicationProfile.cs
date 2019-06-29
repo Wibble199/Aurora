@@ -20,8 +20,6 @@ namespace Aurora.Profiles.Generic_Application
         [Newtonsoft.Json.JsonIgnore]
         public bool _simulateDaytime = false;
 
-        public ObservableCollection<Layer> Layers_NightTime { get; set; }
-
         public GenericApplicationProfile() : base()
         {
 
@@ -30,8 +28,6 @@ namespace Aurora.Profiles.Generic_Application
         public override void Reset()
         {
             base.Reset();
-            Layers_NightTime = new ObservableCollection<Layer>();
-
         }
     }
 }

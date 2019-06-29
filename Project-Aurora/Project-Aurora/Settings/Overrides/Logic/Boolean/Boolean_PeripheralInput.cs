@@ -1,4 +1,5 @@
 ﻿using Aurora.Profiles;
+using Aurora.Utils;
 using SharpDX.RawInput;
 using System;
 using System.Diagnostics;
@@ -176,10 +177,8 @@ namespace Aurora.Settings.Overrides.Logic {
     /// An evaluatable that returns true when the specified time has elapsed without the user pressing a keyboard button or clicking the mouse.
     /// </summary>
     [Evaluatable("Away Timer", category: OverrideLogicCategory.Input)]
-    public class BooleanAwayTimer : IEvaluatable<bool>, IDisposable {
+    public class BooleanAwayTimer : IEvaluatable<bool> {
 
-        /// <summary>Times the time since the last input event was detected.</summary>
-        private Stopwatch stopwatch = new Stopwatch();
         /// <summary>Gets or sets the time before this timer starts returning true after there has been no user input.</summary>
         public double InactiveTime { get; set; }
         /// <summary>Gets or sets the time unit that is being used to measure the AFK time.</summary>
@@ -189,12 +188,13 @@ namespace Aurora.Settings.Overrides.Logic {
         /// <summary>Create a new away timer condition with the default time (60 seconds).</summary>
         public BooleanAwayTimer() : this(60) { }
 
+        /// <summary>Creates a new away timer with the specified number of seconds before activating.</summary>
+        public BooleanAwayTimer(double time) : this(time, TimeUnit.Seconds) { }
+
         /// <summary>Creates a new away timer with the specified time before activating.</summary>
-        public BooleanAwayTimer(double time) {
+        public BooleanAwayTimer(double time, TimeUnit unit) {
             InactiveTime = time;
-            stopwatch.Start();
-            Global.InputEvents.MouseButtonDown += OnMouseInput;
-            Global.InputEvents.KeyDown += OnKeyboardInput;
+            TimeUnit = unit;
         }
         #endregion
         
@@ -212,17 +212,16 @@ namespace Aurora.Settings.Overrides.Logic {
             return sp;
         }
 
-        // Event handlers (we have them as methods instead of lambdas so they can be safely unregistered)
-        private void OnMouseInput(object sender, MouseInputEventArgs e) => stopwatch.Restart();
-        private void OnKeyboardInput(object sender, KeyboardInputEventArgs e) => stopwatch.Restart();
-
         /// <summary>Checks to see if the duration since the last input is greater than the given inactive time.</summary>
-        public bool Evaluate(IGameState gameState) => TimeUnit switch {
-            TimeUnit.Seconds => stopwatch.Elapsed.TotalSeconds > InactiveTime,
-            TimeUnit.Minutes => stopwatch.Elapsed.TotalMinutes > InactiveTime,
-            TimeUnit.Hours => stopwatch.Elapsed.TotalHours > InactiveTime,
-            _ => false
-        };
+        public bool Evaluate(IGameState gameState) {
+            var idleTime = ActiveProcessMonitor.GetLastInput();
+            return TimeUnit switch {
+                TimeUnit.Seconds => idleTime.TotalSeconds > InactiveTime,
+                TimeUnit.Minutes => idleTime.TotalMinutes > InactiveTime,
+                TimeUnit.Hours => idleTime.TotalHours > InactiveTime,
+                _ => false
+            };
+        }
         object IEvaluatable.Evaluate(IGameState gameState) => Evaluate(gameState);
 
         // Do nothing - this is an application-independent condition.
@@ -230,12 +229,6 @@ namespace Aurora.Settings.Overrides.Logic {
 
         public IEvaluatable<bool> Clone() => new BooleanAwayTimer { InactiveTime = InactiveTime };
         IEvaluatable IEvaluatable.Clone() => Clone();
-
-        // Stop listening to the InputEvents object as this will prevent the GC from collecting this object.
-        public void Dispose() {
-            Global.InputEvents.MouseButtonDown -= OnMouseInput;
-            Global.InputEvents.KeyDown -= OnKeyboardInput;
-        }
     }
     public enum TimeUnit { Seconds, Minutes, Hours }
 }

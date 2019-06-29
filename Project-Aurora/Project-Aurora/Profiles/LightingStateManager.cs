@@ -482,7 +482,6 @@ namespace Aurora.Profiles
         private string previewModeProfileKey = "";
 
         private List<TimedListObject> overlays = new List<TimedListObject>();
-        private Event_Idle idle_e = new Event_Idle();
 
         public string PreviewProfileKey { get { return previewModeProfileKey; } set { previewModeProfileKey = value ?? string.Empty; } }
 
@@ -521,37 +520,9 @@ namespace Aurora.Profiles
             }
         }
 
-        private void UpdateIdleEffects(EffectsEngine.EffectFrame newFrame)
-        {
-            tagLASTINPUTINFO LastInput = new tagLASTINPUTINFO();
-            Int32 IdleTime;
-            LastInput.cbSize = (uint)Marshal.SizeOf(LastInput);
-            LastInput.dwTime = 0;
-
-            if (ActiveProcessMonitor.GetLastInputInfo(ref LastInput))
-            {
-                IdleTime = System.Environment.TickCount - LastInput.dwTime;
-
-                if (IdleTime >= Global.Configuration.IdleDelay * 60 * 1000)
-                {
-                    if (!(Global.Configuration.TimeBasedDimmingEnabled &&
-                    Utils.Time.IsCurrentTimeBetween(Global.Configuration.TimeBasedDimmingStartHour, Global.Configuration.TimeBasedDimmingStartMinute, Global.Configuration.TimeBasedDimmingEndHour, Global.Configuration.TimeBasedDimmingEndMinute))
-                    )
-                    {
-                        idle_e.UpdateLights(newFrame);
-                    }
-                }
-            }
-        }
-
         private void Update()
         {
             PreUpdate?.Invoke(this, null);
-
-            //Blackout. TODO: Cleanup this a bit. Maybe push blank effect frame to keyboard incase it has existing stuff displayed
-            if ((Global.Configuration.TimeBasedDimmingEnabled &&
-               Utils.Time.IsCurrentTimeBetween(Global.Configuration.TimeBasedDimmingStartHour, Global.Configuration.TimeBasedDimmingStartMinute, Global.Configuration.TimeBasedDimmingEndHour, Global.Configuration.TimeBasedDimmingEndMinute)))
-                return;
 
             string raw_process_name = Path.GetFileName(processMonitor.ProcessPath);
 
@@ -618,8 +589,6 @@ namespace Aurora.Profiles
 
                 foreach (var @event in events)
                     @event.UpdateOverlayLights(newFrame);
-                
-                UpdateIdleEffects(newFrame);
             }
 
             Global.effengine.PushFrame(newFrame);
