@@ -61,6 +61,14 @@ namespace Aurora.Controls {
         public static readonly DependencyProperty FreestyleEnabledProperty = DependencyProperty.Register("FreestyleEnabled", typeof(bool), typeof(KeySequence), new PropertyMetadata(true));
         #endregion
 
+        #region Freestyle Key Light
+        public SolidColorBrush FreestyleKeyLight {
+            get => (SolidColorBrush)GetValue(FreestyleKeyLightProperty);
+            set => SetValue(FreestyleKeyLightProperty, value);
+        }
+        public static readonly DependencyProperty FreestyleKeyLightProperty =
+            DependencyProperty.Register("FreestyleKeyLight", typeof(SolidColorBrush), typeof(KeySequence), new PropertyMetadata(Brushes.Black));
+        #endregion
 
 
         /// <summary>Fired whenever the KeySequence object is changed or re-created. Does NOT trigger when keys are changed.</summary>
@@ -78,7 +86,7 @@ namespace Aurora.Controls {
             if (Sequence != null && IsInitialized && IsVisible && IsEnabled) {
                 if (Sequence.Type == Settings.KeySequenceType.FreeForm) {
                     Sequence.Freeform.ValuesChanged += freeform_updated;
-                    LayerEditor.AddKeySequenceElement(Sequence.Freeform, Title);
+                    FreestyleKeyLight = LayerEditor.AddKeySequenceElement(Sequence.Freeform, Title);
                 } else {
                     Sequence.Freeform.ValuesChanged -= freeform_updated;
                     LayerEditor.RemoveKeySequenceElement(Sequence.Freeform);

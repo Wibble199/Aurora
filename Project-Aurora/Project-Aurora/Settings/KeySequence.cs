@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 
 namespace Aurora.Settings {
     /// <summary>
@@ -23,7 +25,7 @@ namespace Aurora.Settings {
     /// <summary>
     /// A class representing a series of DeviceKeys keys or a freeform region
     /// </summary>
-    public class KeySequence : ICloneable
+    public class KeySequence : ICloneable, INotifyPropertyChanged
     {
         // Write-only property to set the original keys as a List, since it won't work if trying to set the observable collection as a list directly.
         #pragma warning Should be removed in a future (breaking) version.
@@ -34,19 +36,22 @@ namespace Aurora.Settings {
         /// An array of DeviceKeys keys to be used with KeySequenceType.Sequence type.
         /// </summary>
         [JsonProperty("keyCollection")]
-        public ObservableCollection<Devices.DeviceKeys> Keys { get; set; }
+        public ObservableCollection<Devices.DeviceKeys> Keys { get => keys; set => SetAndNotify(ref keys, value); }
+        private ObservableCollection<Devices.DeviceKeys> keys;
 
         /// <summary>
         /// The type of this KeySequence instance.
         /// </summary>
         [JsonProperty("type")]
-        public KeySequenceType Type { get; set; }
+        public KeySequenceType Type { get => type; set => SetAndNotify(ref type, value); }
+        private KeySequenceType type;
 
         /// <summary>
         /// The Freeform object to be used with KeySequenceType.FreeForm type
         /// </summary>
         [JsonProperty("freeform")]
-        public FreeFormObject Freeform { get; set; }
+        public FreeFormObject Freeform { get => freeform; set => SetAndNotify(ref freeform, value); }
+        private FreeFormObject freeform;
 
         public KeySequence()
         {
@@ -75,6 +80,8 @@ namespace Aurora.Settings {
             Type = KeySequenceType.Sequence;
             Freeform = new FreeFormObject();
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public RectangleF GetAffectedRegion()
         {
@@ -151,6 +158,11 @@ namespace Aurora.Settings {
         public object Clone()
         {
             return new KeySequence(this);
+        }
+
+        private void SetAndNotify<T>(ref T field, T value, [CallerMemberName] string prop = null) {
+            field = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
     }
 }

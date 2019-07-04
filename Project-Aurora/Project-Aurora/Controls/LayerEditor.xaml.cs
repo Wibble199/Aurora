@@ -39,11 +39,12 @@ namespace Aurora.Controls
         /// </summary>
         /// <param name="element">The freeform object to provide an editor control for.</param>
         /// <param name="caption">The label given to the freeform control.</param>
-        public static void AddKeySequenceElement(FreeFormObject element, string caption) {
+        public static SolidColorBrush AddKeySequenceElement(FreeFormObject element, string caption) {
             // If this element already exists, do nothing
-            if (subcontrols.ContainsKey(element)) return;
+            if (subcontrols.ContainsKey(element)) return (SolidColorBrush)subcontrols[element].Foreground;
 
-            var newcontrol = new ContentControl { Width = element.Width, Height = element.Height, Style = style, Tag = element, Foreground = GetNextColor() };
+            var brush = GetNextColor();
+            var newcontrol = new ContentControl { Width = element.Width, Height = element.Height, Style = style, Tag = element, Foreground = brush };
             newcontrol.SetValue(Selector.IsSelectedProperty, true);
             newcontrol.SetValue(Canvas.TopProperty, (double)(element.Y + Effects.grid_baseline_y));
             newcontrol.SetValue(Canvas.LeftProperty, (double)(element.X + Effects.grid_baseline_x));
@@ -60,6 +61,8 @@ namespace Aurora.Controls
 
             static_canvas.Children.Add(newcontrol);
             subcontrols.Add(element, newcontrol);
+
+            return brush;
         }
 
         /// <summary>
