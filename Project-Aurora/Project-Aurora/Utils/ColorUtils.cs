@@ -367,6 +367,18 @@ namespace Aurora.Utils
         }
     }
 
+    /// <summary>
+    /// Takes a color and returns it with a modified opacity. The opacity should be specified as the converter parameter.
+    /// </summary>
+    public class OpacityConverter : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+            var c = ((System.Windows.Media.SolidColorBrush)value).Color; var a = byte.Parse((string)parameter);
+            c.A = a;
+            return new System.Windows.Media.SolidColorBrush(c);
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    }
+
     public class RealColor : ICloneable
     {
         [JsonProperty]

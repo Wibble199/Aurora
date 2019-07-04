@@ -376,4 +376,16 @@
   <data name="search_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\UIIcons\search-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="up_down_arrow_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\up-down-arrow-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="checkmark_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\checkmark-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="restart_30_modified" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\restart-30-modified.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="process_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\process-30.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

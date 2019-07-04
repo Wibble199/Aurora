@@ -63,7 +63,7 @@ namespace Aurora.Settings.Layers {
         
         public override EffectLayer Render(IGameState _) {
             EffectLayer layer = new EffectLayer();
-            foreach (var key in Properties.Sequence.keys)
+            foreach (var key in Properties.Sequence.Keys)
                 layer.Set(key, key == activeKey ? Properties.SecondaryColor : Properties.PrimaryColor);
             return layer;
         }
@@ -72,7 +72,7 @@ namespace Aurora.Settings.Layers {
         /// Handler for when any keyboard button is pressed.
         /// </summary>
         private void InputEvents_KeyDown(object sender, SharpDX.RawInput.KeyboardInputEventArgs e) {
-            if (Properties.Sequence.keys.Contains(e.GetDeviceKey()))
+            if (Properties.Sequence.Keys.Contains(e.GetDeviceKey()))
                 activeKey = e.GetDeviceKey();
         }
 
@@ -80,28 +80,28 @@ namespace Aurora.Settings.Layers {
         /// Handler for the ScrollWheel.
         /// </summary>
         private void InputEvents_Scroll(object sender, SharpDX.RawInput.MouseInputEventArgs e) {
-            if (Properties.EnableScroll && Properties.Sequence.keys.Count > 1) {
+            if (Properties.EnableScroll && Properties.Sequence.Keys.Count > 1) {
                 // If there's no active key or the ks doesn't contain it (e.g. the sequence was just changed), make the first one active.
-                if (activeKey == DeviceKeys.NONE || !Properties.Sequence.keys.Contains(activeKey))
-                    activeKey = Properties.Sequence.keys[0];
+                if (activeKey == DeviceKeys.NONE || !Properties.Sequence.Keys.Contains(activeKey))
+                    activeKey = Properties.Sequence.Keys[0];
 
                 // If there's an active key make scroll move up/down
                 else {
                     // Target index is the current index +/- 1 depending on the scroll value
-                    int idx = Properties.Sequence.keys.IndexOf(activeKey) + (e.WheelDelta > 0 ? -1 : 1);
+                    int idx = Properties.Sequence.Keys.IndexOf(activeKey) + (e.WheelDelta > 0 ? -1 : 1);
 
                     // If scroll loop is enabled, allow the index to wrap around from start to end or end to start.
                     if (Properties.ScrollLoop) {
                         if (idx < 0) // If index is now negative (if first item selected and scrolling down), add the length to loop back
-                            idx += Properties.Sequence.keys.Count;
-                        idx = idx % Properties.Sequence.keys.Count;
+                            idx += Properties.Sequence.Keys.Count;
+                        idx = idx % Properties.Sequence.Keys.Count;
 
                         // If scroll loop isn't enabled, cap the index so that it stops at either end
                     } else {
-                        idx = Math.Max(Math.Min(idx, Properties.Sequence.keys.Count - 1), 0);
+                        idx = Math.Max(Math.Min(idx, Properties.Sequence.Keys.Count - 1), 0);
                     }
 
-                    activeKey = Properties.Sequence.keys[idx];
+                    activeKey = Properties.Sequence.Keys[idx];
                 }
             }
         }

@@ -1578,6 +1578,10 @@
     <Resource Include="Resources\UIIcons\steam-26.png" />
     <Resource Include="Resources\UIIcons\puzzle-30.png" />
     <Resource Include="Resources\UIIcons\search-30.png" />
+    <Resource Include="Resources\UIIcons\up-down-arrow-30.png" />
+    <Resource Include="Resources\UIIcons\checkmark-30.png" />
+    <Resource Include="Resources\UIIcons\restart-30-modified.png" />
+    <Resource Include="Resources\UIIcons\process-30.cur" />
     <Content Include="Theme\AuroraTheme\Buttons.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Buttons.xaml</LastGenOutput>

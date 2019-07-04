@@ -123,5 +123,12 @@
 
     <s:Double x:Key="ControlBorderRadiusAmount">2</s:Double> <!-- How rounded the corners of controls such as buttons are. -->
     <CornerRadius x:Key="ControlBorderRadius" TopLeft="{StaticResource ControlBorderRadiusAmount}" TopRight="{StaticResource ControlBorderRadiusAmount}" BottomLeft="{StaticResource ControlBorderRadiusAmount}" BottomRight="{StaticResource ControlBorderRadiusAmount}" /> <!-- If you're wondering why I don't get rid of the ControlBorderRadius double and just have a fixed value here instead, it's because some controls (e.g. stepper buttons) create new corner radiuses with some corners being 0, therefore I want to keep track of corner radius individually. -->
+
+    <x:Array x:Key="FreeformEditorColors" Type="{x:Type SolidColorBrush}"> <!-- The colors used for the FreeformObject editors. -->
+        <SolidColorBrush Color="Magenta" />
+        <SolidColorBrush Color="Cyan" />
+        <SolidColorBrush Color="Yellow" />
+        <SolidColorBrush Color="Lime" />
+    </x:Array>
     <!-- #endregion -->
 </ResourceDictionary>

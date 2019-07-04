@@ -173,6 +173,16 @@ namespace Aurora.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap checkmark_30 {
+            get {
+                object obj = ResourceManager.GetObject("checkmark_30", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap clipboard_30 {
             get {
                 object obj = ResourceManager.GetObject("clipboard_30", resourceCulture);
@@ -701,6 +711,16 @@ namespace Aurora.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] process_30 {
+            get {
+                object obj = ResourceManager.GetObject("process_30", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap puzzle_30 {
@@ -746,6 +766,16 @@ namespace Aurora.Properties {
         internal static System.Drawing.Bitmap resize_vertical_30 {
             get {
                 object obj = ResourceManager.GetObject("resize_vertical_30", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap restart_30_modified {
+            get {
+                object obj = ResourceManager.GetObject("restart_30_modified", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -876,6 +906,16 @@ namespace Aurora.Properties {
         internal static System.Drawing.Bitmap unknown_app_icon {
             get {
                 object obj = ResourceManager.GetObject("unknown_app_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap up_down_arrow_30 {
+            get {
+                object obj = ResourceManager.GetObject("up_down_arrow_30", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

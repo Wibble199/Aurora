@@ -144,24 +144,11 @@
         }
 
         /// <summary>
-        /// An equals function, compares this instance of FreeFormObject to another object and returns whether or not they are equal.
-        /// </summary>
-        /// <param name="obj">An object to be compared</param>
-        /// <returns>A boolean value representing equality</returns>
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((FreeFormObject)obj);
-        }
-
-        /// <summary>
-        /// An equals function, compares this instance of FreeFormObject to another instance of FreeFormObject and returns whether or not they are equal.
+        /// An equals function, compares this instance of FreeFormObject to another instance of FreeFormObject and returns whether or not they contain equal values.
         /// </summary>
         /// <param name="p">An instance of FreeFormObject to be compared</param>
         /// <returns>A boolean value representing equality</returns>
-        public bool Equals(FreeFormObject p)
+        public bool ValuesEqual(FreeFormObject p)
         {
             return _type == p._type &&
                 _x == p._x &&
@@ -171,23 +158,19 @@
                 _angle == p._angle;
         }
 
-        /// <summary>
-        /// Generates a hash code representing this FreeFormObject
-        /// </summary>
-        /// <returns>A hashcode unique to this FreeFormObject</returns>
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                int hash = 17;
-                hash = hash * 23 + _type.GetHashCode();
-                hash = hash * 23 + _x.GetHashCode();
-                hash = hash * 23 + _y.GetHashCode();
-                hash = hash * 23 + _width.GetHashCode();
-                hash = hash * 23 + _height.GetHashCode();
-                hash = hash * 23 + _angle.GetHashCode();
-                return hash;
-            }
-        }
+
+        /* There used to be an override for this class's hashcode method here. It has now been removed.
+         * This was what was causing the to be collisions when two freeform objects were overlapping to be treated as equal.
+         * The hashcode was based purely off the mutable elements of the class, and therefore if two classes had identical elements
+         * they were treated equal. This is fine until you have multiple freeforms active at a time (e.g. some of the more complex layers
+         * such as ETS2 blinker layer, or when the user has two from using the overrides system with the affect keys). When you have two
+         * freeform objects with the same values, there is weird behaviour if the user decides to not use the freeform and they both disappear.
+         * Additionally, this means the freeform object cannot be used in a dictionary as the dictionary uses the hascode when creating the keys.
+         * There is plenty of discussion to be had online as to why you should not use mutable fields to generate hashcodes. Such as this from
+         * StackOverflow:
+         * "If you have a mutable object, there isn't much point in overriding the GetHashCode method, as you can't really use it. It's used
+         * for example by the Dictionary and HashSet collections to place each item in a bucket. If you change the object while it's used as
+         * a key in the collection, the hash code no longer matches the bucket that the object is in, so the collection doesn't work properly
+         * and you may never find the object again." */
     }
 }

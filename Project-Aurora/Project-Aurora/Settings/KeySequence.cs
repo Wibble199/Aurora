@@ -1,12 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Aurora.Settings
-{
+namespace Aurora.Settings {
     /// <summary>
     /// The type of the KeySequence
     /// </summary>
@@ -27,55 +25,63 @@ namespace Aurora.Settings
     /// </summary>
     public class KeySequence : ICloneable
     {
+        // Write-only property to set the original keys as a List, since it won't work if trying to set the observable collection as a list directly.
+        #pragma warning Should be removed in a future (breaking) version.
+        [JsonProperty("keys"), Obsolete("For Newtonsoft.Json use only.")]
+        private List<Devices.DeviceKeys> RawList { set => Keys = new ObservableCollection<Devices.DeviceKeys>(value); }
+
         /// <summary>
         /// An array of DeviceKeys keys to be used with KeySequenceType.Sequence type.
         /// </summary>
-        public List<Devices.DeviceKeys> keys;
+        [JsonProperty("keyCollection")]
+        public ObservableCollection<Devices.DeviceKeys> Keys { get; set; }
 
         /// <summary>
         /// The type of this KeySequence instance.
         /// </summary>
-        public KeySequenceType type;
+        [JsonProperty("type")]
+        public KeySequenceType Type { get; set; }
 
         /// <summary>
         /// The Freeform object to be used with KeySequenceType.FreeForm type
         /// </summary>
-        public FreeFormObject freeform;
+        [JsonProperty("freeform")]
+        public FreeFormObject Freeform { get; set; }
 
         public KeySequence()
         {
-            keys = new List<Devices.DeviceKeys>();
-            type = KeySequenceType.Sequence;
-            freeform = new FreeFormObject();
+            Keys = new ObservableCollection<Devices.DeviceKeys>();
+            Type = KeySequenceType.Sequence;
+            Freeform = new FreeFormObject();
         }
 
         public KeySequence(KeySequence otherKeysequence)
         {
-            this.keys = new List<Devices.DeviceKeys>(otherKeysequence.keys);
-            type = otherKeysequence.type;
-            this.freeform = otherKeysequence.freeform;
+            Keys = new ObservableCollection<Devices.DeviceKeys>(otherKeysequence.Keys);
+            Type = otherKeysequence.Type;
+            Freeform = otherKeysequence.Freeform;
         }
 
         public KeySequence(FreeFormObject freeform)
         {
-            this.keys = new List<Devices.DeviceKeys>();
-            type = KeySequenceType.FreeForm;
-            this.freeform = freeform;
+            Keys = new ObservableCollection<Devices.DeviceKeys>();
+            Type = KeySequenceType.FreeForm;
+            Freeform = freeform;
         }
 
-        public KeySequence(Devices.DeviceKeys[] keys)
+        public KeySequence(IEnumerable<Devices.DeviceKeys> keys)
         {
-            this.keys = new List<Devices.DeviceKeys>(keys);
-            type = KeySequenceType.Sequence;
-            freeform = new FreeFormObject();
+            Keys = new ObservableCollection<Devices.DeviceKeys>(keys);
+            Type = KeySequenceType.Sequence;
+            Freeform = new FreeFormObject();
         }
 
         public RectangleF GetAffectedRegion()
         {
-            switch (type)
+            switch (Type)
             {
                 case KeySequenceType.FreeForm:
-                    return new RectangleF((this.freeform.X + Effects.grid_baseline_x) * Effects.editor_to_canvas_width, (this.freeform.Y + Effects.grid_baseline_y) * Effects.editor_to_canvas_height, this.freeform.Width * Effects.editor_to_canvas_width, this.freeform.Height * Effects.editor_to_canvas_height);
+                    return new RectangleF((this.Freeform.X + Effects.grid_baseline_x) * Effects.editor_to_canvas_width, (this.Freeform.Y + Effects.grid_baseline_y) * Effects.editor_to_canvas_height, this.Freeform.Width * Effects.editor_to_canvas_width, this.Freeform.Height * Effects.editor_to_canvas_height);
                 default:
 
                     float left = 0.0f;
@@ -83,7 +89,7 @@ namespace Aurora.Settings
                     float right = top;
                     float bottom = right;
 
-                    foreach(Devices.DeviceKeys key in this.keys)
+                    foreach(Devices.DeviceKeys key in this.Keys)
                     {
                         BitmapRectangle keyMapping = Effects.GetBitmappingFromDeviceKey(key);
 
@@ -125,9 +131,9 @@ namespace Aurora.Settings
             if (ReferenceEquals(null, p)) return false;
             if (ReferenceEquals(this, p)) return true;
 
-            return (new HashSet<Devices.DeviceKeys>(keys).SetEquals(p.keys)) &&
-                type == p.type &&
-                freeform.Equals(p.freeform);
+            return (new HashSet<Devices.DeviceKeys>(Keys).SetEquals(p.Keys)) &&
+                Type == p.Type &&
+                Freeform.ValuesEqual(p.Freeform);
         }
 
         public override int GetHashCode()
@@ -135,9 +141,9 @@ namespace Aurora.Settings
             unchecked
             {
                 int hash = 17;
-                hash = hash * 23 + keys.GetHashCode();
-                hash = hash * 23 + type.GetHashCode();
-                hash = hash * 23 + freeform.GetHashCode();
+                hash = hash * 23 + Keys.GetHashCode();
+                hash = hash * 23 + Type.GetHashCode();
+                hash = hash * 23 + Freeform.GetHashCode();
                 return hash;
             }
         }

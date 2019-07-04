@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:s="clr-namespace:Aurora.Controls.EditorResources">
+                    xmlns:s="clr-namespace:Aurora.Controls.EditorResources"
+                    xmlns:c="clr-namespace:Aurora.Controls">
 
     <!-- RotateThumb Style -->
     <Style TargetType="{x:Type s:RotateThumb}">
@@ -10,10 +11,16 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type s:RotateThumb}">
                     <Grid Width="30" Height="30">
-                        <Path Fill="#AAD0D0DD"
-                  Stretch="Fill"
-                  Data="M 50,100 A 50,50 0 1 1 100,50 H 50 V 100"/>
+                        <c:Icon x:Name="Icon" Source="pack://application:,,,/Resources/UIIcons/restart-30-modified.png" Margin="0,10,10,0" Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentControl}}}" Opacity=".15" />
                     </Grid>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentControl}}}" Value="True">
+                            <Setter TargetName="Icon" Property="Opacity" Value=".4" />
+                        </DataTrigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Icon" Property="Opacity" Value="1" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -22,22 +29,22 @@
     <!-- RotateDecorator Template -->
     <ControlTemplate x:Key="RotateDecoratorTemplate" TargetType="{x:Type Control}">
         <Grid>
-            <s:RotateThumb Margin="-18,-18,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-            <s:RotateThumb Margin="0,-18,-18,0" VerticalAlignment="Top" HorizontalAlignment="Right">
+            <s:RotateThumb Margin="-18,-18,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
                 <s:RotateThumb.RenderTransform>
                     <RotateTransform Angle="90" />
                 </s:RotateThumb.RenderTransform>
             </s:RotateThumb>
-            <s:RotateThumb Margin="0,0,-18,-18" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <s:RotateThumb Margin="0,-18,-18,0" VerticalAlignment="Top" HorizontalAlignment="Right">
                 <s:RotateThumb.RenderTransform>
                     <RotateTransform Angle="180" />
                 </s:RotateThumb.RenderTransform>
             </s:RotateThumb>
-            <s:RotateThumb Margin="-18,0,0,-18" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+            <s:RotateThumb Margin="0,0,-18,-18" VerticalAlignment="Bottom" HorizontalAlignment="Right">
                 <s:RotateThumb.RenderTransform>
                     <RotateTransform Angle="270" />
                 </s:RotateThumb.RenderTransform>
             </s:RotateThumb>
+            <s:RotateThumb Margin="-18,0,0,-18" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
         </Grid>
     </ControlTemplate>
 

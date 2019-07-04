@@ -3,7 +3,15 @@
                     xmlns:s="clr-namespace:Aurora.Controls.EditorResources">
 
     <ControlTemplate x:Key="MoveThumbTemplate" TargetType="{x:Type s:MoveThumb}">
-        <Rectangle Fill="Transparent"/>
+        <Rectangle x:Name="Background" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentControl}}}" Opacity="0" />
+        <ControlTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentControl}}}" Value="True">
+                <Setter TargetName="Background" Property="Opacity" Value=".1" />
+            </DataTrigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Background" Property="Opacity" Value=".2" />
+            </Trigger>
+        </ControlTemplate.Triggers>
     </ControlTemplate>
 
 </ResourceDictionary>

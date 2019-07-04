@@ -443,19 +443,19 @@ namespace Aurora.EffectsEngine
         /// <returns>Itself</returns>
         public EffectLayer Set(KeySequence sequence, Color color)
         {
-            if (sequence.type == KeySequenceType.Sequence)
+            if (sequence.Type == KeySequenceType.Sequence)
             {
-                foreach (var key in sequence.keys)
+                foreach (var key in sequence.Keys)
                     Set(key, color);
             }
             else
             {
                 using (Graphics g = Graphics.FromImage(colormap))
                 {
-                    float x_pos = (float)Math.Round((sequence.freeform.X + Effects.grid_baseline_x) * Effects.editor_to_canvas_width);
-                    float y_pos = (float)Math.Round((sequence.freeform.Y + Effects.grid_baseline_y) * Effects.editor_to_canvas_height);
-                    float width = (float)(sequence.freeform.Width * Effects.editor_to_canvas_width);
-                    float height = (float)(sequence.freeform.Height * Effects.editor_to_canvas_height);
+                    float x_pos = (float)Math.Round((sequence.Freeform.X + Effects.grid_baseline_x) * Effects.editor_to_canvas_width);
+                    float y_pos = (float)Math.Round((sequence.Freeform.Y + Effects.grid_baseline_y) * Effects.editor_to_canvas_height);
+                    float width = (float)(sequence.Freeform.Width * Effects.editor_to_canvas_width);
+                    float height = (float)(sequence.Freeform.Height * Effects.editor_to_canvas_height);
 
                     if (width < 3) width = 3;
                     if (height < 3) height = 3;
@@ -465,7 +465,7 @@ namespace Aurora.EffectsEngine
                     PointF rotatePoint = new PointF(x_pos + (width / 2.0f), y_pos + (height / 2.0f));
 
                     Matrix myMatrix = new Matrix();
-                    myMatrix.RotateAt(sequence.freeform.Angle, rotatePoint, MatrixOrder.Append);
+                    myMatrix.RotateAt(sequence.Freeform.Angle, rotatePoint, MatrixOrder.Append);
 
                     g.Transform = myMatrix;
                     g.FillRectangle(new SolidBrush(color), rect);
@@ -682,10 +682,10 @@ namespace Aurora.EffectsEngine
         /// <returns>Itself</returns>
         public EffectLayer PercentEffect(Color foregroundColor, Color backgroundColor, Settings.KeySequence sequence, double value, double total = 1.0D, PercentEffectType percentEffectType = PercentEffectType.Progressive, double flash_past = 0.0, bool flash_reversed = false, bool blink_background = false)
         {
-            if (sequence.type == KeySequenceType.Sequence)
-                PercentEffect(foregroundColor, backgroundColor, sequence.keys.ToArray(), value, total, percentEffectType, flash_past, flash_reversed, blink_background);
+            if (sequence.Type == KeySequenceType.Sequence)
+                PercentEffect(foregroundColor, backgroundColor, sequence.Keys.ToArray(), value, total, percentEffectType, flash_past, flash_reversed, blink_background);
             else
-                PercentEffect(foregroundColor, backgroundColor, sequence.freeform, value, total, percentEffectType, flash_past, flash_reversed);
+                PercentEffect(foregroundColor, backgroundColor, sequence.Freeform, value, total, percentEffectType, flash_past, flash_reversed);
 
             return this;
         }
@@ -701,10 +701,10 @@ namespace Aurora.EffectsEngine
         /// <returns>Itself</returns>
         public EffectLayer PercentEffect(ColorSpectrum spectrum, Settings.KeySequence sequence, double value, double total = 1.0D, PercentEffectType percentEffectType = PercentEffectType.Progressive, double flash_past = 0.0, bool flash_reversed = false, bool blink_background = false)
         {
-            if (sequence.type == KeySequenceType.Sequence)
-                PercentEffect(spectrum, sequence.keys.ToArray(), value, total, percentEffectType, flash_past, flash_reversed);
+            if (sequence.Type == KeySequenceType.Sequence)
+                PercentEffect(spectrum, sequence.Keys.ToArray(), value, total, percentEffectType, flash_past, flash_reversed);
             else
-                PercentEffect(spectrum, sequence.freeform, value, total, percentEffectType, flash_past, flash_reversed);
+                PercentEffect(spectrum, sequence.Freeform, value, total, percentEffectType, flash_past, flash_reversed);
 
             return this;
         }
@@ -1017,16 +1017,16 @@ namespace Aurora.EffectsEngine
         {
             foreach (ColorZone cz in colorzones.Reverse())
             {
-                if (cz.keysequence.type == KeySequenceType.Sequence)
+                if (cz.keysequence.Type == KeySequenceType.Sequence)
                 {
-                    foreach (var key in cz.keysequence.keys)
+                    foreach (var key in cz.keysequence.Keys)
                         Set(key, cz.color);
 
                     if (cz.effect != LayerEffects.None)
                     {
                         EffectLayer temp_layer = new EffectLayer("Color Zone Effect", cz.effect, cz.effect_config);
 
-                        foreach (var key in cz.keysequence.keys)
+                        foreach (var key in cz.keysequence.Keys)
                             Set(key, Utils.ColorUtils.AddColors(Get(key), temp_layer.Get(key)));
 
                         temp_layer.Dispose();
@@ -1036,14 +1036,14 @@ namespace Aurora.EffectsEngine
                 {
                     if (cz.effect == LayerEffects.None)
                     {
-                        DrawFreeForm(cz.keysequence.freeform, cz.color);
+                        DrawFreeForm(cz.keysequence.Freeform, cz.color);
                     }
                     else
                     {
-                        float x_pos = (float)Math.Round((cz.keysequence.freeform.X + Effects.grid_baseline_x) * Effects.editor_to_canvas_width);
-                        float y_pos = (float)Math.Round((cz.keysequence.freeform.Y + Effects.grid_baseline_y) * Effects.editor_to_canvas_height);
-                        float width = (float)Math.Round((double)(cz.keysequence.freeform.Width * Effects.editor_to_canvas_width));
-                        float height = (float)Math.Round((double)(cz.keysequence.freeform.Height * Effects.editor_to_canvas_height));
+                        float x_pos = (float)Math.Round((cz.keysequence.Freeform.X + Effects.grid_baseline_x) * Effects.editor_to_canvas_width);
+                        float y_pos = (float)Math.Round((cz.keysequence.Freeform.Y + Effects.grid_baseline_y) * Effects.editor_to_canvas_height);
+                        float width = (float)Math.Round((double)(cz.keysequence.Freeform.Width * Effects.editor_to_canvas_width));
+                        float height = (float)Math.Round((double)(cz.keysequence.Freeform.Height * Effects.editor_to_canvas_height));
 
                         if (width < 3) width = 3;
                         if (height < 3) height = 3;
@@ -1057,7 +1057,7 @@ namespace Aurora.EffectsEngine
                             PointF rotatePoint = new PointF(x_pos + (width / 2.0f), y_pos + (height / 2.0f));
 
                             Matrix myMatrix = new Matrix();
-                            myMatrix.RotateAt(cz.keysequence.freeform.Angle, rotatePoint, MatrixOrder.Append);
+                            myMatrix.RotateAt(cz.keysequence.Freeform.Angle, rotatePoint, MatrixOrder.Append);
 
                             g.Transform = myMatrix;
                             g.DrawImage(temp_layer.GetBitmap(), rect, rect, GraphicsUnit.Pixel);

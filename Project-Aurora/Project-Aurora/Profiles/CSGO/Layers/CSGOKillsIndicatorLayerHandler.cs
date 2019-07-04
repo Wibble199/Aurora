@@ -92,17 +92,17 @@ namespace Aurora.Profiles.CSGO.Layers
 
                 if (csgostate.Provider.SteamID.Equals(csgostate.Player.SteamID))
                 {
-                    for (int pos = 0; pos < Properties.Sequence.keys.Count(); pos++)
+                    for (int pos = 0; pos < Properties.Sequence.Keys.Count(); pos++)
                     {
                         if (pos < roundKills.Count)
                         {
                             switch (roundKills[pos])
                             {
                                 case (RoundKillType.Regular):
-                                    kills_indicator_layer.Set(Properties.Sequence.keys[pos], Properties.RegularKillColor);
+                                    kills_indicator_layer.Set(Properties.Sequence.Keys[pos], Properties.RegularKillColor);
                                     break;
                                 case (RoundKillType.Headshot):
-                                    kills_indicator_layer.Set(Properties.Sequence.keys[pos], Properties.HeadshotKillColor);
+                                    kills_indicator_layer.Set(Properties.Sequence.Keys[pos], Properties.HeadshotKillColor);
                                     break;
                             }
                         }

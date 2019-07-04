@@ -52,19 +52,19 @@ namespace Aurora.Settings.Layers
         {
             EffectLayer gradient_layer = new EffectLayer();
 
-            if (Properties.Sequence.type == KeySequenceType.Sequence)
+            if (Properties.Sequence.Type == KeySequenceType.Sequence)
             {
                 temp_layer = new EffectLayer("Color Zone Effect", LayerEffects.GradientShift_Custom_Angle, Properties.GradientConfig);
 
-                foreach (var key in Properties.Sequence.keys)
+                foreach (var key in Properties.Sequence.Keys)
                     gradient_layer.Set(key, Utils.ColorUtils.AddColors(gradient_layer.Get(key), temp_layer.Get(key)));
             }
             else
             {
-                float x_pos = (float)Math.Round((Properties.Sequence.freeform.X + Effects.grid_baseline_x) * Effects.editor_to_canvas_width);
-                float y_pos = (float)Math.Round((Properties.Sequence.freeform.Y + Effects.grid_baseline_y) * Effects.editor_to_canvas_height);
-                float width = (float)Math.Round((double)(Properties.Sequence.freeform.Width * Effects.editor_to_canvas_width));
-                float height = (float)Math.Round((double)(Properties.Sequence.freeform.Height * Effects.editor_to_canvas_height));
+                float x_pos = (float)Math.Round((Properties.Sequence.Freeform.X + Effects.grid_baseline_x) * Effects.editor_to_canvas_width);
+                float y_pos = (float)Math.Round((Properties.Sequence.Freeform.Y + Effects.grid_baseline_y) * Effects.editor_to_canvas_height);
+                float width = (float)Math.Round((double)(Properties.Sequence.Freeform.Width * Effects.editor_to_canvas_width));
+                float height = (float)Math.Round((double)(Properties.Sequence.Freeform.Height * Effects.editor_to_canvas_height));
 
                 if (width < 3) width = 3;
                 if (height < 3) height = 3;
@@ -78,7 +78,7 @@ namespace Aurora.Settings.Layers
                     PointF rotatePoint = new PointF(x_pos + (width / 2.0f), y_pos + (height / 2.0f));
 
                     Matrix myMatrix = new Matrix();
-                    myMatrix.RotateAt(Properties.Sequence.freeform.Angle, rotatePoint, MatrixOrder.Append);
+                    myMatrix.RotateAt(Properties.Sequence.Freeform.Angle, rotatePoint, MatrixOrder.Append);
 
                     g.Transform = myMatrix;
                     g.DrawImage(temp_layer.GetBitmap(), rect, rect, GraphicsUnit.Pixel);

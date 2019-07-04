@@ -181,7 +181,7 @@ namespace Aurora.Settings.Layers
                 }
             }
 
-            if (device_key != Devices.DeviceKeys.NONE && !Properties.Sequence.keys.Contains(device_key))
+            if (device_key != Devices.DeviceKeys.NONE && !Properties.Sequence.Keys.Contains(device_key))
             {
                 PointF pt = Effects.GetBitmappingFromDeviceKey(device_key).Center;
                 if (pt != new PointF(0, 0))

@@ -310,7 +310,7 @@ namespace Aurora.Settings.Layers
             if (!IsTriggerKeyBased(Properties.TriggerMode)) return;
 
             // If triggering on any key or the pressed key is in the trigger list AND the pressed key has not already been handled (i.e. it's not being held)
-            if ((Properties.TriggerAnyKey || Properties.TriggerKeySequence.keys.Contains(e.GetDeviceKey())) && !_pressedKeys.Contains(e.GetDeviceKey())) {
+            if ((Properties.TriggerAnyKey || Properties.TriggerKeySequence.Keys.Contains(e.GetDeviceKey())) && !_pressedKeys.Contains(e.GetDeviceKey())) {
                 // Start an animation if trigger is for 'press' event
                 if (Properties.TriggerMode == AnimationTriggerMode.OnKeyPress)
                     StartAnimation(e.GetDeviceKey());
