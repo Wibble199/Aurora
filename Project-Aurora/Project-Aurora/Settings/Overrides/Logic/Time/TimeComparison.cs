@@ -8,7 +8,7 @@ namespace Aurora.Settings.Overrides.Logic {
     /// will gracefully wrap the time around midnight.
     /// </summary>
     [Evaluatable("Time between", category: OverrideLogicCategory.Time)]
-    public class BooleanTimeBetween : IEvaluatable<bool> {
+    public class BooleanTimeBetween : Evaluatable<bool, Control_TimeBetween> {
 
         /// <summary>Creates a new Time-Between evaluatable that will have the default values.</summary>
         public BooleanTimeBetween() { }
@@ -26,16 +26,13 @@ namespace Aurora.Settings.Overrides.Logic {
         /// <summary>Evaluatable that represents the end of the between time.</summary>
         public IEvaluatable<Time> End { get; set; } = new TimeConstant(08,00);
 
+        public override Control_TimeBetween CreateControl() => new Control_TimeBetween(this);
+
         /// <summary>Returns whether or not the evaluation of the `Value` time is between the evaluation of the `Start` and `End` times.</summary>
-        public bool Evaluate(IGameState gameState) => Time.IsBetween(Value.Evaluate(gameState), Start.Evaluate(gameState), End.Evaluate(gameState));
-        object IEvaluatable.Evaluate(IGameState gameState) => Evaluate(gameState);
+        public override bool Evaluate(IGameState gameState) => Time.IsBetween(Value.Evaluate(gameState), Start.Evaluate(gameState), End.Evaluate(gameState));
 
-        [Newtonsoft.Json.JsonIgnore]
-        private Control_TimeBetween control;
-        public Visual GetControl(Application application) => control ?? (control = new Control_TimeBetween(this));
-        public void SetApplication(Application application) => control?.SetApplication(application);
+        public override void SetApplication(Application application) => Control.SetApplication(application);
 
-        public IEvaluatable<bool> Clone() => new BooleanTimeBetween { Value = Value.Clone(), Start = Start.Clone(), End = End.Clone() };
-        IEvaluatable IEvaluatable.Clone() => Clone();
+        public override IEvaluatable<bool> Clone() => new BooleanTimeBetween { Value = Value.Clone(), Start = Start.Clone(), End = End.Clone() };
     }
 }

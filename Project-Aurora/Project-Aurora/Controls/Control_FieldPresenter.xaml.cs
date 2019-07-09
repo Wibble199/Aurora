@@ -37,7 +37,7 @@ namespace Aurora.Controls {
                         Label = t.GetMember(@enum.ToString()).FirstOrDefault()?.GetCustomAttribute<DescriptionAttribute>()?.Description ?? @enum.ToString(),
                         Value = @enum
                     })
-                }.SetBindingChain(ComboBox.SelectedValueProperty, new Binding("Value") { Source = control });
+                }.WithBinding(ComboBox.SelectedValueProperty, new Binding("Value") { Source = control });
 
             } else
                 // If there is no predefined type and the type is not an enum, we don't know what to do
@@ -69,50 +69,35 @@ namespace Aurora.Controls {
         private static Dictionary<Type, Func<Binding, Visual>> TypeControlMap = new Dictionary<Type, Func<Binding, Visual>> {
 
             // Boolean
-            { typeof(bool), bind => new CheckBox().SetBindingChain(CheckBox.IsCheckedProperty, bind) },
+            { typeof(bool), bind => new CheckBox().WithBinding(CheckBox.IsCheckedProperty, bind) },
 
             // String
-            { typeof(string), bind => new TextBox().SetBindingChain(TextBox.TextProperty, bind) },
+            { typeof(string), bind => new TextBox().WithBinding(TextBox.TextProperty, bind) },
 
             // Numbers
-            { typeof(int), bind => new IntegerUpDown().SetBindingChain(IntegerUpDown.ValueProperty, bind) },
-            { typeof(long), bind => new LongUpDown().SetBindingChain(LongUpDown.ValueProperty, bind) },
-            { typeof(double), bind => new DoubleUpDown().SetBindingChain(DoubleUpDown.ValueProperty, bind) },
-            { typeof(float), bind => new SingleUpDown{ Increment = .1f }.SetBindingChain(SingleUpDown.ValueProperty, bind) },
+            { typeof(int), bind => new IntegerUpDown().WithBinding(IntegerUpDown.ValueProperty, bind) },
+            { typeof(long), bind => new LongUpDown().WithBinding(LongUpDown.ValueProperty, bind) },
+            { typeof(double), bind => new DoubleUpDown().WithBinding(DoubleUpDown.ValueProperty, bind) },
+            { typeof(float), bind => new SingleUpDown{ Increment = .1f }.WithBinding(SingleUpDown.ValueProperty, bind) },
 
             // Colours
-            { typeof(System.Drawing.Color), bind => new ColorPicker{ ColorMode = ColorMode.ColorCanvas }.SetBindingChain(ColorPicker.SelectedColorProperty, bind, new Utils.ColorConverter()) },
-            { typeof(RealColor), bind => new ColorPicker{ ColorMode = ColorMode.ColorCanvas }.SetBindingChain(ColorPicker.SelectedColorProperty, bind, new RealColorConverter()) },
+            { typeof(System.Drawing.Color), bind => new ColorPicker{ ColorMode = ColorMode.ColorCanvas }.WithBinding(ColorPicker.SelectedColorProperty, bind, new Utils.ColorConverter()) },
+            { typeof(RealColor), bind => new ColorPicker{ ColorMode = ColorMode.ColorCanvas }.WithBinding(ColorPicker.SelectedColorProperty, bind, new RealColorConverter()) },
 
             // Gradient colour
             { typeof(Settings.LayerEffectConfig), bind => new Control_GradientEditor((Settings.LayerEffectConfig)((Control_FieldPresenter)bind.Source).Value) },
-            { typeof(EffectsEngine.EffectBrush), bind => new ColorBox.ColorBox().SetBindingChain(ColorBox.ColorBox.BrushProperty, bind, new EffectBrushToBrushConverter(), BindingMode.TwoWay) },
+            { typeof(EffectsEngine.EffectBrush), bind => new ColorBox.ColorBox().WithBinding(ColorBox.ColorBox.BrushProperty, bind, new EffectBrushToBrushConverter(), BindingMode.TwoWay) },
 
             // KeySequences
             { typeof(Settings.KeySequence), bind => new Controls.KeySequence {
                     Title = "Assigned Keys",
                     RecordingTag = "FieldPresenterKeySequence",
                     Height = 120,
-                }.SetBindingChain(Controls.KeySequence.SequenceProperty, bind, bindingMode: BindingMode.TwoWay)
+                }.WithBinding(Controls.KeySequence.SequenceProperty, bind, bindingMode: BindingMode.TwoWay)
             },
 
             // Single key inputs
-            { typeof(System.Windows.Forms.Keys), bind => new Control_SingleKeyEditor().SetBindingChain(Control_SingleKeyEditor.SelectedKeyProperty, bind, bindingMode: BindingMode.TwoWay) }
+            { typeof(System.Windows.Forms.Keys), bind => new Control_SingleKeyEditor().WithBinding(Control_SingleKeyEditor.SelectedKeyProperty, bind, bindingMode: BindingMode.TwoWay) }
         };
-    }
-    
-    static class FrameworkElementExtension {
-        /// <summary>
-        /// Tiny extension for the FrameworkElement that allows to set a binding on an element and return that element (so it can be chained).
-        /// Used in the TypeControlMap to shorten the code.
-        /// </summary>
-        public static FrameworkElement SetBindingChain(this FrameworkElement self, DependencyProperty dp, Binding binding, IValueConverter converter = null, BindingMode? bindingMode = null) {
-            if (converter != null)
-                binding.Converter = converter;
-            if (bindingMode.HasValue)
-                binding.Mode = bindingMode.Value;
-            self.SetBinding(dp, binding);
-            return self;
-        }
-    }
+    }    
 }

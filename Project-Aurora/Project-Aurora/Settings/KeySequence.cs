@@ -28,7 +28,7 @@ namespace Aurora.Settings {
     public class KeySequence : ICloneable, INotifyPropertyChanged
     {
         // Write-only property to set the original keys as a List, since it won't work if trying to set the observable collection as a list directly.
-        #pragma warning Should be removed in a future (breaking) version.
+        #warning Should be removed in a future (breaking) version.
         [JsonProperty("keys"), Obsolete("For Newtonsoft.Json use only.")]
         private List<Devices.DeviceKeys> RawList { set => Keys = new ObservableCollection<Devices.DeviceKeys>(value); }
 

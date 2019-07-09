@@ -53,5 +53,7 @@
         <Button Margin="0,9,10,0" Grid.ColumnSpan="999" HorizontalAlignment="Right" VerticalAlignment="Top" Click="HelpButton_Click">
             <Image Source="/Aurora;component/Resources/UIIcons/questions-30.png" Width="23" Height="23" Margin="2"/>
         </Button>
+
+        <TextBlock Background="Yellow" Margin="0,9,100,0" Grid.ColumnSpan="999" HorizontalAlignment="Right" VerticalAlignment="Top" MouseDown="Button_MouseDown" Text="Create Boolean" />
     </Grid>
 </UserControl>

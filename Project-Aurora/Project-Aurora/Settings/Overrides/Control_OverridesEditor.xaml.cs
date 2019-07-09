@@ -119,6 +119,11 @@ namespace Aurora.Settings.Overrides {
         private void HelpButton_Click(object sender, RoutedEventArgs e) =>
             Process.Start(new ProcessStartInfo(@"https://project-aurora.gitbook.io/guide/advanced-topics/overrides-system"));
         #endregion
+
+        private void Button_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            e.Handled = true;
+            DragDrop.DoDragDrop(this, new BooleanAnd(), DragDropEffects.Copy | DragDropEffects.Move);
+        }
     }
 
 

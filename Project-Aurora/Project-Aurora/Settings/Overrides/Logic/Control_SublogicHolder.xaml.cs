@@ -8,10 +8,9 @@ namespace Aurora.Settings.Overrides.Logic {
     /// Interaction logic for Control_SubconditionHolder.xaml
     /// </summary>
     public partial class Control_SubconditionHolder : UserControl {
-        public Control_SubconditionHolder(IHasSubConditons parent, Profiles.Application app, string description="") {
+        public Control_SubconditionHolder(IHasSubConditons parent, string description="") {
             InitializeComponent();
             ParentExpr = parent;
-            Application = app;
             Description = description;
             ((FrameworkElement)Content).DataContext = this;
         }

@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using Aurora.Profiles;
+using Aurora.Utils;
 using Newtonsoft.Json;
 
 namespace Aurora.Settings.Overrides.Logic {
@@ -13,7 +14,7 @@ namespace Aurora.Settings.Overrides.Logic {
     /// Condition that checks a set of subconditions for atleast one of them being true.
     /// </summary>
     [Evaluatable("Or", category: OverrideLogicCategory.Logic)]
-    public class BooleanOr : IEvaluatable<bool>, IHasSubConditons {
+    public class BooleanOr : Evaluatable<bool, Control_SubconditionHolder>, IHasSubConditons {
 
         /// <summary>Creates a new Or evaluatable with no subconditions.</summary>
         public BooleanOr() { }
@@ -25,22 +26,17 @@ namespace Aurora.Settings.Overrides.Logic {
         [JsonProperty]
         public ObservableCollection<IEvaluatable<bool>> SubConditions { get; set; } = new ObservableCollection<IEvaluatable<bool>>();
 
-        [JsonIgnore]
-        private Control_SubconditionHolder control;
-        public Visual GetControl(Application app) => control ?? (control = new Control_SubconditionHolder(this, app, "Require atleast one of the following is true..."));
+        public override Control_SubconditionHolder CreateControl() => new Control_SubconditionHolder(this, "Require atleast one of the following is true...");
 
-        public bool Evaluate(IGameState gameState) => SubConditions.Any(subcondition => subcondition?.Evaluate(gameState) ?? false);
-        object IEvaluatable.Evaluate(IGameState gameState) => Evaluate(gameState);
+        public override bool Evaluate(IGameState gameState) => SubConditions.Any(subcondition => subcondition?.Evaluate(gameState) ?? false);
 
-        public void SetApplication(Application application) {
-            if (control != null)
-                control.Application = application;
+        public override void SetApplication(Application application) {
+            Control.Application = application;
             foreach (var subcondition in SubConditions)
                 subcondition.SetApplication(application);
         }
 
-        public IEvaluatable<bool> Clone() => new BooleanOr { SubConditions = new ObservableCollection<IEvaluatable<bool>>(SubConditions.Select(e => e.Clone())) };
-        IEvaluatable IEvaluatable.Clone() => Clone();
+        public override IEvaluatable<bool> Clone() => new BooleanOr { SubConditions = new ObservableCollection<IEvaluatable<bool>>(SubConditions.Select(e => e.Clone())) };
     }
 
 
@@ -48,7 +44,7 @@ namespace Aurora.Settings.Overrides.Logic {
     /// Condition that checks a set of subconditions and requires them all to be true.
     /// </summary>
     [Evaluatable("And", category: OverrideLogicCategory.Logic)]
-    public class BooleanAnd : IEvaluatable<bool>, IHasSubConditons {
+    public class BooleanAnd : Evaluatable<bool, Control_SubconditionHolder>, IHasSubConditons {
 
         /// <summary>Creates a new And evaluatable with no subconditions.</summary>
         public BooleanAnd() { }
@@ -60,22 +56,17 @@ namespace Aurora.Settings.Overrides.Logic {
         [JsonProperty]
         public ObservableCollection<IEvaluatable<bool>> SubConditions { get; set; } = new ObservableCollection<IEvaluatable<bool>>();
 
-        [JsonIgnore]
-        private Control_SubconditionHolder control;
-        public Visual GetControl(Application app) => control ?? (control = new Control_SubconditionHolder(this, app, "Require all of the following are true..."));
+        public override Control_SubconditionHolder CreateControl() => new Control_SubconditionHolder(this, "Require all of the following are true...");
 
-        public bool Evaluate(IGameState gameState) => SubConditions.All(subcondition => subcondition?.Evaluate(gameState) ?? false);
-        object IEvaluatable.Evaluate(IGameState gameState) => Evaluate(gameState);
+        public override bool Evaluate(IGameState gameState) => SubConditions.All(subcondition => subcondition?.Evaluate(gameState) ?? false);
 
-        public void SetApplication(Application application) {
-            if (control != null)
-                control.Application = application;
+        public override void SetApplication(Application application) {
+            Control.Application = application;
             foreach (var subcondition in SubConditions)
                 subcondition.SetApplication(application);
         }
 
-        public IEvaluatable<bool> Clone() => new BooleanAnd { SubConditions = new ObservableCollection<IEvaluatable<bool>>(SubConditions.Select(e => { var x = e.Clone(); return x; })) };
-        IEvaluatable IEvaluatable.Clone() => Clone();
+        public override IEvaluatable<bool> Clone() => new BooleanAnd { SubConditions = new ObservableCollection<IEvaluatable<bool>>(SubConditions.Select(e => { var x = e.Clone(); return x; })) };
     }
 
 
@@ -84,7 +75,7 @@ namespace Aurora.Settings.Overrides.Logic {
     /// Condition that inverts another condition.
     /// </summary>
     [Evaluatable("Not", category: OverrideLogicCategory.Logic)]
-    public class BooleanNot : IEvaluatable<bool> {
+    public class BooleanNot : Evaluatable<bool, Control_ConditionNot> {
 
         /// <summary>Creates a new NOT evaluatable with the default BooleanTrue subcondition.</summary>
         public BooleanNot() { }
@@ -96,19 +87,16 @@ namespace Aurora.Settings.Overrides.Logic {
         [JsonProperty]
         public IEvaluatable<bool> SubCondition { get; set; } = new BooleanConstant();
 
-        private Control_ConditionNot control;
-        public Visual GetControl(Application app) => control ?? (control = new Control_ConditionNot(this, app));
+        public override Control_ConditionNot CreateControl() => new Control_ConditionNot(this);
 
-        public bool Evaluate(IGameState gameState) => !SubCondition.Evaluate(gameState);
-        object IEvaluatable.Evaluate(IGameState gameState) => Evaluate(gameState);
+        public override bool Evaluate(IGameState gameState) => !SubCondition.Evaluate(gameState);
 
-        public void SetApplication(Application application) {
-           // control.app
+        public override void SetApplication(Application application) {
+            Control.Application = application;
             SubCondition?.SetApplication(application);
         }
 
-        public IEvaluatable<bool> Clone() => new BooleanNot { SubCondition = SubCondition.Clone() };
-        IEvaluatable IEvaluatable.Clone() => Clone();
+        public override IEvaluatable<bool> Clone() => new BooleanNot { SubCondition = SubCondition.Clone() };
     }
 
 
@@ -117,7 +105,7 @@ namespace Aurora.Settings.Overrides.Logic {
     /// the layer will always be visible.
     /// </summary>
     [Evaluatable("Boolean Constant", category: OverrideLogicCategory.Logic)]
-    public class BooleanConstant : IEvaluatable<bool> {
+    public class BooleanConstant : Evaluatable<bool, CheckBox> {
 
         /// <summary>Creates a new constant true boolean.</summary>
         public BooleanConstant() { }
@@ -128,26 +116,14 @@ namespace Aurora.Settings.Overrides.Logic {
         public bool State { get; set; }
 
         // Create a checkbox to use to set the constant value
-        [JsonIgnore]
-        private CheckBox control;
-        public Visual GetControl(Application application) {
-            if (control == null) {
-                control = new CheckBox { Content = "True/False" };
-                control.SetBinding(CheckBox.IsCheckedProperty, new Binding("State") { Source = this, Mode = BindingMode.TwoWay });
-            }
-            return control;
-        }
+        public override CheckBox CreateControl() => new CheckBox { Content = "True/False" }
+            .WithBinding(CheckBox.IsCheckedProperty, new Binding("State") { Source = this, Mode = BindingMode.TwoWay });
 
         // Simply return the current state
-        public bool Evaluate(IGameState _) => State;
-        object IEvaluatable.Evaluate(IGameState gameState) => Evaluate(gameState);
-
-        // Application-independent evaluatable, do nothing.
-        public void SetApplication(Application application) { }
+        public override bool Evaluate(IGameState _) => State;
 
         // Creates a new BooleanConstant
-        public IEvaluatable<bool> Clone() => new BooleanConstant { State = State };
-        IEvaluatable IEvaluatable.Clone() => Clone();
+        public override IEvaluatable<bool> Clone() => new BooleanConstant { State = State };
     }
 
 

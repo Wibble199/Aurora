@@ -10,7 +10,7 @@ namespace Aurora.Settings.Overrides.Logic {
     /// Evaluatable that returns a constant user-defined time.
     /// </summary>
     [Evaluatable("Time constant", category: OverrideLogicCategory.Time)]
-    public class TimeConstant : IEvaluatable<Time> {
+    public class TimeConstant : Evaluatable<Time, StackPanel> {
 
         /// <summary>Creates a new Time constant representing midnight.</summary>
         public TimeConstant() : this(0, 0) { }
@@ -24,7 +24,7 @@ namespace Aurora.Settings.Overrides.Logic {
         public Time Time { get; set; }
 
         /// <summary>Creates a control allowing the user to change the defined time.</summary>
-        public Visual GetControl(Application application) {
+        public override StackPanel CreateControl() {
             var hour = new IntegerUpDown { Minimum = 0, Maximum = 23, Width = 100 };
             hour.SetBinding(IntegerUpDown.ValueProperty, new Binding("Hour") { Source = Time, Mode = BindingMode.TwoWay });
 
@@ -38,13 +38,9 @@ namespace Aurora.Settings.Overrides.Logic {
             return stackPanel;
         }
 
-        public Time Evaluate(IGameState gameState) => Time;
-        object IEvaluatable.Evaluate(IGameState gameState) => Evaluate(gameState);
+        public override Time Evaluate(IGameState gameState) => Time;
 
-        public void SetApplication(Application application) { }
-
-        public IEvaluatable<Time> Clone() => new TimeConstant { Time = new Time(Time.Hour, Time.Minute) };
-        IEvaluatable IEvaluatable.Clone() => Clone();
+        public override IEvaluatable<Time> Clone() => new TimeConstant { Time = new Time(Time.Hour, Time.Minute) };
     }
 
 
@@ -52,18 +48,14 @@ namespace Aurora.Settings.Overrides.Logic {
     /// Evaluatable that returns the current time.
     /// </summary>
     [Evaluatable("Current time", category: OverrideLogicCategory.Time)]
-    public class TimeNow : IEvaluatable<Time> {
+    public class TimeNow : Evaluatable<Time, TextBlock> {
 
         public TimeNow() { }
 
-        public Visual GetControl(Application application) => null;
+        public override TextBlock CreateControl() => new TextBlock { Text = "Current time" };
 
-        public Time Evaluate(IGameState gameState) => Time.Now;
-        object IEvaluatable.Evaluate(IGameState gameState) => Evaluate(gameState);
+        public override Time Evaluate(IGameState gameState) => Time.Now;
 
-        public void SetApplication(Application application) { }
-
-        public IEvaluatable<Time> Clone() => new TimeNow();
-        IEvaluatable IEvaluatable.Clone() => Clone();
+        public override IEvaluatable<Time> Clone() => new TimeNow();
     }
 }

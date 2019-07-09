@@ -8,9 +8,9 @@ namespace Aurora.Settings.Overrides.Logic {
     /// Interaction logic for Control_ColorFromValues.xaml
     /// </summary>
     public partial class Control_KeySequenceFromValues : UserControl {
-        public Control_KeySequenceFromValues(Application app, KeySequenceFromValues parent) {
+        public Control_KeySequenceFromValues(KeySequenceFromValues parent) {
             InitializeComponent();
-            DataContext = new Control_KeySequenceFromValues_Context { Application = app, ParentCondition = parent };
+            DataContext = new Control_KeySequenceFromValues_Context { ParentCondition = parent };
         }
 
         public void SetApplication(Application app) {

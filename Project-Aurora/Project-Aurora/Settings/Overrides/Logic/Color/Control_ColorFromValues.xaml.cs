@@ -8,9 +8,9 @@ namespace Aurora.Settings.Overrides.Logic {
     /// Interaction logic for Control_ColorFromValues.xaml
     /// </summary>
     public partial class Control_ColorFromValues : UserControl {
-        public Control_ColorFromValues(Application app, ColorFromValues parent) {
+        public Control_ColorFromValues(ColorFromValues parent) {
             InitializeComponent();
-            DataContext = new Control_ColorFromValues_Context { Application = app, ParentCondition = parent };
+            DataContext = new Control_ColorFromValues_Context { ParentCondition = parent };
         }
 
         public void SetApplication(Application app) {

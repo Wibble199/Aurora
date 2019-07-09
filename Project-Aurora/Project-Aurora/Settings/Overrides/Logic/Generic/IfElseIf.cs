@@ -1,11 +1,7 @@
 ﻿using Aurora.Profiles;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
-using System.Linq;
-using System.Windows.Controls;
-using System.Windows.Data;
+using UIElement = System.Windows.UIElement;
 
 
 namespace Aurora.Settings.Overrides.Logic
@@ -23,7 +19,8 @@ namespace Aurora.Settings.Overrides.Logic
         /// <summary>Creates a new evaluatable using the given case tree.</summary>
         public IfElseGeneric(ObservableCollection<Branch> cases) : this() { Cases = cases; }
 
-        public System.Windows.Media.Visual GetControl(Application application) => new Control_Ternary<T>(this, application);
+        Control_Ternary<T> control;
+        public UIElement GetControl(Application application) => control ?? (control = new Control_Ternary<T>(this, application));
 
         /// <summary>Evaluate conditions and return the appropriate evaluation.</summary>
         public T Evaluate(IGameState gameState) {

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows.Controls;
 using System.Windows.Data;
 using Aurora.Profiles;
-using Newtonsoft.Json;
+using Aurora.Utils;
 using Xceed.Wpf.Toolkit;
 
 namespace Aurora.Settings.Overrides.Logic {
@@ -12,7 +11,7 @@ namespace Aurora.Settings.Overrides.Logic {
     /// Constant color that allows the user to select it from a color picker.
     /// </summary>
     [Evaluatable("Color (From picker)", category: OverrideLogicCategory.Logic)]
-    public class ColorConstant : IEvaluatable<Color> {
+    public class ColorConstant : Evaluatable<Color, ColorPicker> {
         /// <summary>Creates a new constant color.</summary>
         public ColorConstant() { Color = Color.Red; }
         /// <summary>Creates a new constant color with the given color.</summary>
@@ -23,32 +22,20 @@ namespace Aurora.Settings.Overrides.Logic {
         /// <summary>The value held by this constant value.</summary>
         public Color Color { get; set; }
 
-        // Create a checkbox to use to set the constant value
-        [JsonIgnore]
-        private ColorPicker control;
-        public System.Windows.Media.Visual GetControl(Application application) {
-            if (control == null) {
-                control = new ColorPicker { ColorMode = ColorMode.ColorCanvas };
-                control.SetBinding(ColorPicker.SelectedColorProperty, new Binding("Color") { Source = this, Mode = BindingMode.TwoWay, Converter = new Utils.ColorConverter() });
-            }
-            return control;
-        }
+        // Create a picker to use to set the constant value
+        public override ColorPicker CreateControl() => new ColorPicker { ColorMode = ColorMode.ColorCanvas }
+            .WithBinding(ColorPicker.SelectedColorProperty, new Binding("Color") { Source = this, Mode = BindingMode.TwoWay, Converter = new Utils.ColorConverter() });
 
         // Simply return the current color
-        public Color Evaluate(IGameState _) => Color;
-        object IEvaluatable.Evaluate(IGameState gameState) => Evaluate(gameState);
-
-        // Application-independent evaluatable, do nothing.
-        public void SetApplication(Application application) { }
+        public override Color Evaluate(IGameState _) => Color;
 
         // Creates a new ColorConstant
-        public IEvaluatable<Color> Clone() => new ColorConstant { Color = Color };
-        IEvaluatable IEvaluatable.Clone() => Clone();
+        public override IEvaluatable<Color> Clone() => new ColorConstant { Color = Color };
     }
 
 
     [Evaluatable("Color (From values)", category: OverrideLogicCategory.Logic)]
-    public class ColorFromValues : IEvaluatable<Color> {
+    public class ColorFromValues : Evaluatable<Color, Control_ColorFromValues> {
         /// <summary>Creates a new color calculated from the default number evaluatables.</summary>
         public ColorFromValues() : this(new NumberConstant(255), new NumberConstant(0), new NumberConstant(0)) { }
         /// <summary>Creates a new color that is created from the result of the given RGB evaluatables.</summary>
@@ -67,20 +54,17 @@ namespace Aurora.Settings.Overrides.Logic {
         /// <summary>Whether to use a 0-255 scale (true) or a 0-1 scale (false)</summary>
         public bool Use255Scale { get; set; } = true;
 
-        // Create a checkbox to use to set the constant value
-        [JsonIgnore]
-        private Control_ColorFromValues control;
-        public System.Windows.Media.Visual GetControl(Application application) => control ?? (control = new Control_ColorFromValues(application, this));
+        // Create a  to use to set the color values
+        public override Control_ColorFromValues CreateControl() => new Control_ColorFromValues(this);
 
         // Create the color and return it
-        public Color Evaluate(IGameState gs) =>
+        public override Color Evaluate(IGameState gs) =>
             Color.FromArgb(
                 GetColorComponent(Alpha.Evaluate(gs)),
                 GetColorComponent(Red.Evaluate(gs)),
                 GetColorComponent(Green.Evaluate(gs)),
                 GetColorComponent(Blue.Evaluate(gs))
             );
-        object IEvaluatable.Evaluate(IGameState gameState) => Evaluate(gameState);
 
         /// <summary>Returns a value between 0-255 based on the the given double and <see cref="Use255Scale"/>.</summary>
         private int GetColorComponent(double val) {
@@ -90,16 +74,15 @@ namespace Aurora.Settings.Overrides.Logic {
         }
 
         // Propagate the application to the child evaluatables
-        public void SetApplication(Application application) {
+        public override void SetApplication(Application application) {
             Red?.SetApplication(application);
             Green?.SetApplication(application);
             Blue?.SetApplication(application);
             Alpha?.SetApplication(application);
-            control?.SetApplication(application);
+            Control?.SetApplication(application);
         }
 
         // Creates a new ColorFromValues
-        public IEvaluatable<Color> Clone() => new ColorFromValues { Red = Red.Clone(), Green = Green.Clone(), Blue = Blue.Clone(), Alpha = Alpha.Clone() };
-        IEvaluatable IEvaluatable.Clone() => Clone();
+        public override IEvaluatable<Color> Clone() => new ColorFromValues { Red = Red.Clone(), Green = Green.Clone(), Blue = Blue.Clone(), Alpha = Alpha.Clone() };
     }
 }

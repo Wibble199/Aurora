@@ -1,4 +1,6 @@
-﻿using Aurora.Profiles;
+﻿using Aurora.Controls;
+using Aurora.Profiles;
+using Aurora.Utils;
 using Newtonsoft.Json;
 using System.Windows.Data;
 
@@ -8,7 +10,7 @@ namespace Aurora.Settings.Overrides.Logic {
     /// A constant KeySequence value that allows the user to select with a control.
     /// </summary>
     [Evaluatable("Key Sequence (From picker)", category: OverrideLogicCategory.Logic)]
-    public class KeySequenceConstant : IEvaluatable<KeySequence> {
+    public class KeySequenceConstant : Evaluatable<KeySequence, Controls.KeySequence> {
 
         public KeySequence Sequence { get; set; }
 
@@ -18,27 +20,14 @@ namespace Aurora.Settings.Overrides.Logic {
         /// <summary>Creates a new KeySequence constant with the given sequence.</summary>
         public KeySequenceConstant(KeySequence sequence) { Sequence = sequence; }
 
-        [JsonIgnore]
-        private Controls.KeySequence control;
-        public System.Windows.Media.Visual GetControl(Application application) {
-            if (control == null) {
-                control = new Controls.KeySequence { RecordingTag = "Key Sequence Constant", Title = "Key Sequence Constant" };
-                control.SetBinding(Controls.KeySequence.SequenceProperty, new Binding("Sequence") { Source = this, Mode = BindingMode.TwoWay });
-            }
-            return control;
-        }
+        public override Controls.KeySequence CreateControl() => new Controls.KeySequence { RecordingTag = "Key Sequence Constant", Title = "Key Sequence Constant" }
+                .WithBinding(Controls.KeySequence.SequenceProperty, new Binding("Sequence") { Source = this, Mode = BindingMode.TwoWay });
 
         /// <summary>Evaluate conditions and return the appropriate evaluation.</summary>
-        public KeySequence Evaluate(IGameState gameState) => Sequence;
-
-        object IEvaluatable.Evaluate(IGameState gameState) => Evaluate(gameState);
-
-        /// <summary>Application-independent </summary>
-        public void SetApplication(Application application) { }
+        public override KeySequence Evaluate(IGameState gameState) => Sequence;
 
         /// <summary>Clones this KeySequenceConstant.</summary>
-        public IEvaluatable<KeySequence> Clone() => new KeySequenceConstant((KeySequence)Sequence.Clone());
-        IEvaluatable IEvaluatable.Clone() => Clone();
+        public override IEvaluatable<KeySequence> Clone() => new KeySequenceConstant((KeySequence)Sequence.Clone());
     }
 
 
@@ -46,7 +35,7 @@ namespace Aurora.Settings.Overrides.Logic {
     /// A KeySequence that is set from given property values.
     /// </summary>
     [Evaluatable("Key Sequence (Freeform from values)", category: OverrideLogicCategory.Logic)]
-    public class KeySequenceFromValues : IEvaluatable<KeySequence> {
+    public class KeySequenceFromValues : Evaluatable<KeySequence, Control_KeySequenceFromValues> {
 
         // Evaluatables used to build the freeform object
         public IEvaluatable<double> X { get; set; }
@@ -76,24 +65,25 @@ namespace Aurora.Settings.Overrides.Logic {
             Angle = new NumberConstant(angle);
         }
 
-        [JsonIgnore]
-        private Control_KeySequenceFromValues control;
-        public System.Windows.Media.Visual GetControl(Application application) => control ?? (control = new Control_KeySequenceFromValues(application, this));
+        public override Control_KeySequenceFromValues CreateControl() => new Control_KeySequenceFromValues(this);
 
         /// <summary>Evaluate conditions and return the appropriate evaluation.</summary>
-        public KeySequence Evaluate(IGameState gameState) => new KeySequence(new FreeFormObject(
+        public override KeySequence Evaluate(IGameState gameState) => new KeySequence(new FreeFormObject(
             (float)X.Evaluate(gameState), (float)Y.Evaluate(gameState), // Position
             (float)Width.Evaluate(gameState), (float)Height.Evaluate(gameState), // Size
             (float)Angle.Evaluate(gameState) // Angle
         ));
 
-        object IEvaluatable.Evaluate(IGameState gameState) => Evaluate(gameState);
-
-        /// <summary>Application-independent </summary>
-        public void SetApplication(Application application) { }
+        public override void SetApplication(Application app) {
+            X.SetApplication(app);
+            Y.SetApplication(app);
+            Width.SetApplication(app);
+            Height.SetApplication(app);
+            Angle.SetApplication(app);
+            Control.SetApplication(app);
+        }
 
         /// <summary>Clones this KeySequenceConstant.</summary>
-        public IEvaluatable<KeySequence> Clone() => new KeySequenceFromValues();
-        IEvaluatable IEvaluatable.Clone() => Clone();
+        public override IEvaluatable<KeySequence> Clone() => new KeySequenceFromValues();
     }
 }

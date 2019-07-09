@@ -7,10 +7,9 @@ namespace Aurora.Settings.Overrides.Logic {
     /// Interaction logic for Control_ConditionNot.xaml
     /// </summary>
     public partial class Control_ConditionNot : UserControl {
-        public Control_ConditionNot(BooleanNot context, Profiles.Application application) {
+        public Control_ConditionNot(BooleanNot context) {
             InitializeComponent();
             ParentExpr = context;
-            Application = application;
             ((FrameworkElement)Content).DataContext = this;
         }
 

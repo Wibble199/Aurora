@@ -18,6 +18,7 @@ namespace Aurora.Controls {
     public partial class Control_GameStateParameterPicker : UserControl, INotifyPropertyChanged {
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler<SelectedPathChangedEventArgs> SelectedPathChanged;
 
         public Control_GameStateParameterPicker() {
             InitializeComponent();
@@ -57,6 +58,9 @@ namespace Aurora.Controls {
                 picker.NotifyChanged("WorkingPath", "WorkingPathStr", "ParameterList", "MainParameterListItems"); // All these things will be different now, so trigger an update of anything requiring them
                 picker.mainListBox.SelectedItem = e.NewValue.ToString().Split('/').Last(); // The selected item in the list will be the last part of the path
             }
+
+            // Raise an event informing subscribers
+            picker.SelectedPathChanged?.Invoke(picker, new SelectedPathChangedEventArgs { OldPath = e.OldValue.ToString(), NewPath = e.NewValue.ToString() });
         }
 
         /// <summary>This property is the path of the chosen game state property path.</summary>
@@ -228,6 +232,14 @@ namespace Aurora.Controls {
             NotifyChanged("SelectedPath");
         }
         #endregion
+    }
+
+    /// <summary>
+    /// Event that is raised when the selected path or value changes.
+    /// </summary>
+    public class SelectedPathChangedEventArgs : EventArgs {
+        public string OldPath { get; set; }
+        public string NewPath { get; set; }
     }
 
     /// <summary>

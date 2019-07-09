@@ -12,7 +12,7 @@ namespace Aurora.Settings.Overrides.Logic {
     /// Evaluatable that accesses some specified game state variables (of numeric type) and returns it.
     /// </summary>
     [Evaluatable("Numeric State Variable", category: OverrideLogicCategory.State)]
-    public class NumberGSINumeric : IEvaluatable<double> {
+    public class NumberGSINumeric : Evaluatable<double, Control_GameStateParameterPicker> {
 
         /// <summary>Creates a new numeric game state lookup evaluatable that doesn't target anything.</summary>
         public NumberGSINumeric() { }
@@ -23,32 +23,21 @@ namespace Aurora.Settings.Overrides.Logic {
         public string VariablePath { get; set; }
 
         // Control assigned to this evaluatable
-        [Newtonsoft.Json.JsonIgnore]
-        private Control_GameStateParameterPicker control;
-        public Visual GetControl(Application application) {
-            if (control == null) {
-                control = new Control_GameStateParameterPicker { PropertyType = PropertyType.Number, Margin = new System.Windows.Thickness(0, 0, 0, 6) };
-                control.SetBinding(Control_GameStateParameterPicker.SelectedPathProperty, new Binding("VariablePath") { Source = this, Mode = BindingMode.TwoWay });
-                SetApplication(application);
-            }
-            return control;
-        }
+        public override Control_GameStateParameterPicker CreateControl() => new Control_GameStateParameterPicker { PropertyType = PropertyType.Number, Margin = new System.Windows.Thickness(0, 0, 0, 6) }
+            .WithBinding(Control_GameStateParameterPicker.SelectedPathProperty, new Binding("VariablePath") { Source = this, Mode = BindingMode.TwoWay });
 
         /// <summary>Parses the numbers, compares the result, and returns the result.</summary>
-        public double Evaluate(IGameState gameState) => Utils.GameStateUtils.TryGetDoubleFromState(gameState, VariablePath);
-        object IEvaluatable.Evaluate(IGameState gameState) => Evaluate(gameState);
+        public override double Evaluate(IGameState gameState) => Utils.GameStateUtils.TryGetDoubleFromState(gameState, VariablePath);
 
         /// <summary>Update the assigned control with the new application.</summary>
-        public void SetApplication(Application application) {
-            if (control != null)
-                control.Application = application;
+        public override void SetApplication(Application application) {
+            Control.Application = application;
 
             // Check to ensure the variable path is valid
             if (application != null && !double.TryParse(VariablePath, out _) && !string.IsNullOrWhiteSpace(VariablePath) && !application.ParameterLookup.IsValidParameter(VariablePath))
                 VariablePath = string.Empty;
         }
 
-        public IEvaluatable<double> Clone() => new NumberGSINumeric { VariablePath = VariablePath };
-        IEvaluatable IEvaluatable.Clone() => Clone();
+        public override IEvaluatable<double> Clone() => new NumberGSINumeric { VariablePath = VariablePath };
     }
 }

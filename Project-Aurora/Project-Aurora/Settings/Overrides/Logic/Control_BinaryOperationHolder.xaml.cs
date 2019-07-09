@@ -15,9 +15,8 @@ namespace Aurora.Settings.Overrides.Logic {
         /// <summary>
         /// Creates a new numeric binary operation holder control.
         /// </summary>
-        public Control_BinaryOperationHolder(Profiles.Application application, Type evalType) {
+        public Control_BinaryOperationHolder(Type evalType) {
             InitializeComponent();
-            Application = application;
             EvalType = evalType;
             DataContext = this;
         }
@@ -25,7 +24,7 @@ namespace Aurora.Settings.Overrides.Logic {
         /// <summary>
         /// Creates a new numeric binary operation holder control using the values of the specified enum as the operators item source.
         /// </summary>
-        public Control_BinaryOperationHolder(Profiles.Application application, Type evalType, Type enumType) : this(application, evalType) {
+        public Control_BinaryOperationHolder(Type evalType, Type enumType) : this(evalType) {
             operatorSelection.ItemsSource = Utils.EnumUtils.GetEnumItemsSource(enumType);
         }
 

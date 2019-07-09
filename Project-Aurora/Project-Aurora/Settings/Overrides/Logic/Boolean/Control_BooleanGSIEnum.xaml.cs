@@ -10,22 +10,16 @@ namespace Aurora.Settings.Overrides.Logic {
 
         private Profiles.Application application;
 
-        public Control_BooleanGSIEnum(BooleanGSIEnum context, Profiles.Application application) {
+        public Control_BooleanGSIEnum(BooleanGSIEnum context) {
             InitializeComponent();
-            SetApplication(application);
             ((FrameworkElement)Content).DataContext = context;
         }
 
         /// <summary>Updates the application providing data to this evaluatable context. Updates the dropdowns.</summary>
         public void SetApplication(Profiles.Application application) {
             this.application = application;
-            UpdateGSIDropDown();
+            GSIPath.Application = application;
             UpdateEnumDropDown();
-        }
-
-        /// <summary>Update the GSI dropdown with the enum types exposed by the current application.</summary>
-        private void UpdateGSIDropDown() {
-            GSIPath.ItemsSource = application?.ParameterLookup?.Where(kvp => kvp.Value.Item1.IsEnum).Select(kvp => kvp.Key);
         }
 
         /// <summary>Updates the enum value dropdown with a list of enum values for the current application and selected variable path.</summary>
@@ -42,7 +36,7 @@ namespace Aurora.Settings.Overrides.Logic {
         }
 
         // Update the enum dropdown when the user selects a different enum path
-        private void GSIPath_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+        private void GSIPath_SelectedPathChanged(object sender, Controls.SelectedPathChangedEventArgs e) {
             UpdateEnumDropDown();
         }
     }

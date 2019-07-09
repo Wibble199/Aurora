@@ -11,10 +11,9 @@ namespace Aurora.Settings.Overrides.Logic {
     /// </summary>
     public partial class Control_ConditionGSINumeric : UserControl {
 
-        public Control_ConditionGSINumeric(BooleanGSINumeric context, Application application) {
+        public Control_ConditionGSINumeric(BooleanGSINumeric context) {
             InitializeComponent();
             DataContext = context;
-            SetApplication(application);
             OperatorCb.ItemsSource = Utils.EnumUtils.GetEnumItemsSource<ComparisonOperator>();
         }
 

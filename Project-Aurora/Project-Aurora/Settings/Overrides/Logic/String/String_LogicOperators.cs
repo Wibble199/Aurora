@@ -1,8 +1,6 @@
 ﻿using Aurora.Profiles;
-using System;
-using System.Windows.Controls;
+using Aurora.Utils;
 using System.Windows.Data;
-using System.Windows.Media;
 
 namespace Aurora.Settings.Overrides.Logic {
 
@@ -10,7 +8,7 @@ namespace Aurora.Settings.Overrides.Logic {
     /// Logic that compares two strings using a selection of operators.
     /// </summary>
     [Evaluatable("String Comparison", category: OverrideLogicCategory.String)]
-    public class StringComparison : IEvaluatable<bool> {
+    public class StringComparison : Evaluatable<bool, Control_BinaryOperationHolder> {
 
         // Operands and operator
         public IEvaluatable<string> Operand1 { get; set; } = new StringConstant();
@@ -19,20 +17,13 @@ namespace Aurora.Settings.Overrides.Logic {
         public bool CaseInsensitive { get; set; } = false;
 
         // Control allowing the user to edit the comparison
-        [Newtonsoft.Json.JsonIgnore]
-        private Control_BinaryOperationHolder control;
-        public Visual GetControl(Application application) {
-            if (control == null) {
-                control = new Control_BinaryOperationHolder(application, typeof(string), typeof(StringComparisonOperator));
-                control.SetBinding(Control_BinaryOperationHolder.Operand1Property, new Binding("Operand1") { Source = this, Mode = BindingMode.TwoWay });
-                control.SetBinding(Control_BinaryOperationHolder.Operand2Property, new Binding("Operand2") { Source = this, Mode = BindingMode.TwoWay });
-                control.SetBinding(Control_BinaryOperationHolder.SelectedOperatorProperty, new Binding("Operator") { Source = this, Mode = BindingMode.TwoWay });
-            }
-            return control;
-        }
+        public override Control_BinaryOperationHolder CreateControl() => new Control_BinaryOperationHolder(typeof(string), typeof(StringComparisonOperator))
+            .WithBinding(Control_BinaryOperationHolder.Operand1Property, new Binding("Operand1") { Source = this, Mode = BindingMode.TwoWay })
+            .WithBinding(Control_BinaryOperationHolder.Operand2Property, new Binding("Operand2") { Source = this, Mode = BindingMode.TwoWay })
+            .WithBinding(Control_BinaryOperationHolder.SelectedOperatorProperty, new Binding("Operator") { Source = this, Mode = BindingMode.TwoWay });
 
         /// <summary>Compares the two strings with the given operator</summary>
-        public bool Evaluate(IGameState gameState) {
+        public override bool Evaluate(IGameState gameState) {
             var op1 = Operand1.Evaluate(gameState);
             var op2 = Operand2.Evaluate(gameState);
 
@@ -55,17 +46,15 @@ namespace Aurora.Settings.Overrides.Logic {
                 default: return false;
             }
         }
-        object IEvaluatable.Evaluate(IGameState gameState) => Evaluate(gameState);
 
         /// <summary>Updates the application for this IEvaluatable.</summary>
-        public void SetApplication(Application application) {
-            control?.SetApplication(application);
+        public override void SetApplication(Application application) {
+            Control.SetApplication(application);
             Operand1?.SetApplication(application);
             Operand2?.SetApplication(application);
         }
 
         /// <summary>Clones this StringComparison.</summary>
-        public IEvaluatable<bool> Clone() => new StringComparison { Operand1 = Operand1.Clone(), Operand2 = Operand2.Clone(), Operator = Operator, CaseInsensitive = CaseInsensitive };
-        IEvaluatable IEvaluatable.Clone() => Clone();
+        public override IEvaluatable<bool> Clone() => new StringComparison { Operand1 = Operand1.Clone(), Operand2 = Operand2.Clone(), Operator = Operator, CaseInsensitive = CaseInsensitive };
     }
 }

@@ -243,7 +243,8 @@ namespace Aurora.Utils
         public static Dictionary<PropertyType, Func<KeyValuePair<string, Tuple<Type, Type>>, bool>> PropertyTypePredicate = new Dictionary<PropertyType, Func<KeyValuePair<string, Tuple<Type, Type>>, bool>> {
             { PropertyType.Number, kvp => TypeUtils.IsNumericType(kvp.Value.Item1) },
             { PropertyType.Boolean, kvp => Type.GetTypeCode(kvp.Value.Item1) == TypeCode.Boolean },
-            { PropertyType.String, kvp => Type.GetTypeCode(kvp.Value.Item1) == TypeCode.String }
+            { PropertyType.String, kvp => Type.GetTypeCode(kvp.Value.Item1) == TypeCode.String },
+            { PropertyType.Enum, kvp => kvp.Value.Item1.IsEnum }
         };
         #endregion
     }
@@ -251,5 +252,5 @@ namespace Aurora.Utils
     /// <summary>
     /// This enum is a list of all types recognised by the property parameter lookup.
     /// </summary>
-    public enum PropertyType { Number, Boolean, String }
+    public enum PropertyType { Number, Boolean, String, Enum }
 }

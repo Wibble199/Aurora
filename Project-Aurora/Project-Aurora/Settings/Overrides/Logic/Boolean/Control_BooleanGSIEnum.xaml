@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:c="clr-namespace:Aurora.Controls"
              mc:Ignorable="d" d:DesignWidth="400">
     <Grid Margin="0,0,0,6">
         <Grid.ColumnDefinitions>
@@ -11,8 +12,8 @@
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
 
-        <ComboBox x:Name="GSIPath" SelectedItem="{Binding StatePath}" Grid.Column="0" SelectionChanged="GSIPath_SelectionChanged" />
+        <c:Control_GameStateParameterPicker x:Name="GSIPath" SelectedPath="{Binding StatePath}" PropertyType="Enum" Grid.Column="0" SelectedPathChanged="GSIPath_SelectedPathChanged" />
         <TextBlock Text="=" FontWeight="Bold" Grid.Column="1" Margin="4,0" VerticalAlignment="Center" />
-        <ComboBox x:Name="EnumVal" SelectedValue="{Binding EnumValue}" DisplayMemberPath="Key" SelectedValuePath="Value" Grid.Column="2" />
+        <ComboBox x:Name="EnumVal" SelectedValue="{Binding EnumValue}" DisplayMemberPath="Key" SelectedValuePath="Value" Grid.Column="2" HorizontalAlignment="Stretch" />
     </Grid>
 </UserControl>

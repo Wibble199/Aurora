@@ -1,4 +1,5 @@
 ﻿using Aurora.Profiles;
+using Aurora.Utils;
 using Newtonsoft.Json;
 using System;
 using System.Windows.Data;
@@ -9,7 +10,7 @@ namespace Aurora.Settings.Overrides.Logic {
     /// A special operator that takes the given (x) input (between 0 and 1) and converts it to a waveform (y) between 0 and 1.
     /// </summary>
     [Evaluatable("Wave Function", category: OverrideLogicCategory.Maths)]
-    public class NumberWaveFunction : IEvaluatable<double> {
+    public class NumberWaveFunction : Evaluatable<double, Control_NumericUnaryOpHolder> {
 
         /// <summary>Creates a new wave function evaluatable with the default parameters.</summary>
         public NumberWaveFunction() { }
@@ -23,21 +24,14 @@ namespace Aurora.Settings.Overrides.Logic {
         /// <summary>The type of wave to generate.</summary>
         public WaveFunctionType WaveFunc { get; set; } = WaveFunctionType.Sine;
 
-        [JsonIgnore]
-        private Control_NumericUnaryOpHolder control;
-        public Visual GetControl(Application application) {
-            if (control == null) {
-                control = new Control_NumericUnaryOpHolder(application, typeof(WaveFunctionType));
-                control.SetBinding(Control_NumericUnaryOpHolder.OperandProperty, new Binding("Operand") { Source = this, Mode = BindingMode.TwoWay });
-                control.SetBinding(Control_NumericUnaryOpHolder.SelectedOperatorProperty, new Binding("WaveFunc") { Source = this, Mode = BindingMode.TwoWay });
-            }
-            return control;
-        }
+        public override Control_NumericUnaryOpHolder CreateControl() => new Control_NumericUnaryOpHolder(typeof(WaveFunctionType))
+            .WithBinding(Control_NumericUnaryOpHolder.OperandProperty, new Binding("Operand") { Source = this, Mode = BindingMode.TwoWay })
+            .WithBinding(Control_NumericUnaryOpHolder.SelectedOperatorProperty, new Binding("WaveFunc") { Source = this, Mode = BindingMode.TwoWay });
 
         /// <summary>
         /// Evaluates this wave function generator using the result of the operand and the given wave type.
         /// </summary>
-        public double Evaluate(IGameState gameState) {
+        public override double Evaluate(IGameState gameState) {
             var op = Operand.Evaluate(gameState);
             switch (WaveFunc) {
                 // The wave functions are generated on https://www.desmos.com/calculator/x9xl6m9ryf
@@ -46,15 +40,13 @@ namespace Aurora.Settings.Overrides.Logic {
                 default: return 0;
             }
         }
-        object IEvaluatable.Evaluate(IGameState gameState) => Evaluate(gameState);
 
-        public void SetApplication(Application application) {
-            control?.SetApplication(application);
+        public override void SetApplication(Application application) {
+            Control?.SetApplication(application);
             Operand?.SetApplication(application);
         }
 
-        public IEvaluatable<double> Clone() => new NumberWaveFunction { Operand = Operand.Clone() };
-        IEvaluatable IEvaluatable.Clone() => Clone();
+        public override IEvaluatable<double> Clone() => new NumberWaveFunction { Operand = Operand.Clone() };
     }
 
 

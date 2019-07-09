@@ -1,8 +1,8 @@
 ﻿using Aurora.Profiles;
 using System;
 using System.Collections.Generic;
-using System.Windows.Media;
-using System.Linq;
+using System.Windows;
+using Application = Aurora.Profiles.Application;
 
 namespace Aurora.Settings.Overrides.Logic {
 
@@ -16,7 +16,7 @@ namespace Aurora.Settings.Overrides.Logic {
         object Evaluate(IGameState gameState);
 
         /// <summary>Should return a control that is bound to this logic element.</summary>
-        Visual GetControl(Application application);
+        UIElement GetControl(Application application);
 
         /// <summary>Indicates the UserControl should be updated with a new application.</summary>
         void SetApplication(Application application);
@@ -36,6 +36,43 @@ namespace Aurora.Settings.Overrides.Logic {
         /// <summary>Creates a copy of this IEvaluatable.</summary>
         new IEvaluatable<T> Clone();
     }
+
+
+    /// <summary>
+    /// Helper class that is built on the <see cref="IEvaluatable{T}"/> and automatically implements some of the <see cref="IEvaluatable"/>
+    /// methods. This class also caches the control created with the <see cref="CreateControl"/> method, which is available in the
+    /// <see cref="Control"/> property.
+    /// </summary>
+    /// <remarks>This class is an optional class to extend, if you require more control it is still possible to implement the IEvalutable
+    /// instead.</remarks>
+    /// <typeparam name="TEvaluatable">The type of value that the Evaluatable will return.</typeparam>
+    /// <typeparam name="TControl">The type of element that will be the control used by this evaluatable.</typeparam>
+    public abstract class Evaluatable<TEvaluatable, TControl> : IEvaluatable<TEvaluatable> where TControl : UIElement {
+
+        public Evaluatable() { control = new Lazy<TControl>(CreateControl); }
+
+        private Lazy<TControl> control;
+        /// <summary>The cached control for this evaluatable. Will create the control if it does not exist..</summary>
+        [Newtonsoft.Json.JsonIgnore] protected TControl Control { get => control.Value; }
+
+        /// <summary>Creates a new instance of the control to use for this Evaluatable.</summary>
+        public abstract TControl CreateControl();
+        /// <summary>Calls the <see cref="SetApplication(Application)"/> for the control and returns it.</summary>
+        public UIElement GetControl(Application application) { SetApplication(application); return Control; }
+        /// <summary>Updates the control with application-specific logic. May be omitted if not required.</summary>
+        public virtual void SetApplication(Application application) { }
+
+        /// <summary>Evaluates this IEvaluatable and returns the result.</summary>
+        public abstract TEvaluatable Evaluate(IGameState gameState);
+        /// <summary>Evaluates this IEvaluatable and returns the result, boxed as an object.</summary>
+        object IEvaluatable.Evaluate(IGameState gameState) => Evaluate(gameState);
+
+        /// <summary>Creates a clone of this IEvaluatable, cloning any child evaluatables also.</summary>
+        public abstract IEvaluatable<TEvaluatable> Clone();
+        /// <summary>Creates a clone of this IEvaluatable, cloning any child evaluatables also.</summary>
+        IEvaluatable IEvaluatable.Clone() => Clone();
+    }
+
 
 
     /// <summary>

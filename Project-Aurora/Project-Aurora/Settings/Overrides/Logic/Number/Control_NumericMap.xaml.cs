@@ -8,11 +8,14 @@ namespace Aurora.Settings.Overrides.Logic {
         public NumberMap Map { get; set; }
         public Application Application { get; set; }
 
-        public Control_NumericMap(NumberMap context, Application application) {
+        public Control_NumericMap(NumberMap context) {
             InitializeComponent();
             Map = context;
-            Application = application;
             DataContext = this;
+        }
+
+        public void SetApplication(Application app) {
+            Application = app;
         }
     }
 }
