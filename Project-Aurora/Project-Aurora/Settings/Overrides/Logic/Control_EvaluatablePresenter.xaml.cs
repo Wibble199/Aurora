@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Media;
 
 namespace Aurora.Settings.Overrides.Logic {
-
     /// <summary>
     /// A control that can be used to show <see cref="IEvaluatable{T}"/> controls (and enable evaluatable editing) to the user.
     /// <para>Can set the type of value the presenter accepts using the <see cref="EvalType"/> dependency property.</para>
     /// </summary>
-    public class Control_EvaluatablePresenter : Border {
+    public partial class Control_EvaluatablePresenter : UserControl {
 
         /// <summary>Event that fires when a new evaluatable replaces the current one. Note that this only fires when the user replaces
         /// the evaluatable by dropping a new one onto the presenter, not when it is changed by code.</summary>
@@ -20,15 +18,7 @@ namespace Aurora.Settings.Overrides.Logic {
         #region Ctor
         /// <summary>Creates a new <see cref="Control_EvaluatablePresenter"/>.</summary>
         public Control_EvaluatablePresenter() : base() {
-            AllowDrop = true;
-
-            VerticalAlignment = VerticalAlignment.Top;
-            HorizontalAlignment = HorizontalAlignment.Left;
-            MinWidth = 100;
-            MinHeight = 40;
-            Background = Brushes.Transparent; // Ensure there is a background so the hittest works properly.
-            BorderBrush = Brushes.Red;
-            BorderThickness = new Thickness(1);
+            InitializeComponent();
         }
         #endregion
 
@@ -43,9 +33,10 @@ namespace Aurora.Settings.Overrides.Logic {
             DependencyProperty.Register("Expression", typeof(IEvaluatable), typeof(Control_EvaluatablePresenter), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, OnExpressionChange));
 
         private static void OnExpressionChange(DependencyObject evaluatablePresenter, DependencyPropertyChangedEventArgs eventArgs) {
+            if (eventArgs.NewValue == null || eventArgs.NewValue.Equals(eventArgs.OldValue)) return;
             var control = (Control_EvaluatablePresenter)evaluatablePresenter;
             var expr = (IEvaluatable)eventArgs.NewValue;
-            control.Child = expr?.GetControl(control.Application);
+            control.EvaluatableControl.Content = expr?.GetControl(control.Application);
         }
         #endregion
 
@@ -73,8 +64,18 @@ namespace Aurora.Settings.Overrides.Logic {
         public static readonly DependencyProperty EvalTypeProperty =
             DependencyProperty.Register("EvalType", typeof(Type), typeof(Control_EvaluatablePresenter), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
         #endregion
+
+        #region Highlighted Property
+        /// <summary>Write-only property to set the highlight status of this presenter.</summary>
+        protected bool Highlighted {
+            set {
+                Background = value ? Brushes.Red : Brushes.Transparent;
+            }
+        }
+        #endregion
         #endregion
 
+        #region Methods
         #region Event Handlers
         /// <summary>
         /// Method that handles when the user is dragging something and their mouse enters this presenter. If the dragged data is accepted
@@ -85,7 +86,7 @@ namespace Aurora.Settings.Overrides.Logic {
             // dragged data matches the type specified in the property).
             if (TryGetData(e.Data, out _)) {
                 // If so, highlight this presenter to give users visual feedback of where it will land.
-                Background = Brushes.Red;
+                Highlighted = true;
 
                 // Mark the event as handled so when the event bubbles up, other parent presenters will not highlight themselves as if they
                 // will accept the drag-drop evaluatable instead.
@@ -101,7 +102,7 @@ namespace Aurora.Settings.Overrides.Logic {
         /// currently set.
         /// </summary>
         protected override void OnDragLeave(DragEventArgs e) {
-            Background = Brushes.Transparent;
+            Highlighted = false;
         }
 
         /// <summary>
@@ -126,25 +127,52 @@ namespace Aurora.Settings.Overrides.Logic {
         /// <param name="e"></param>
         protected override void OnDrop(DragEventArgs e) {
             if (TryGetData(e.Data, out var eval)) {
-                // Set the evaluatable dependecyproperty (which will pass it to bound objects) and raise an event to indicate the change.
-                var args = new ExpressionChangeEventArgs { OldExpression = Expression, NewExpression = eval };
-                Expression = eval;
-                ExpressionChanged?.Invoke(this, args);
+                // Before we update this evaluatable, keep a reference to it for the event listener
+                var oldExpression = Expression;
+
+                // Update the expression depending on source and ctrl key:
+                var source = e.Data.GetData("SourcePresenter") as Control_EvaluatablePresenter;
+                var ctrlKey = (e.KeyStates & DragDropKeyStates.ControlKey) > 0;
+                if (source != null && ctrlKey) {
+                    // If ctrl key is down and we are dragging from another presenter (i.e. not a spawner), clone the existing evaluatable into this
+                    Expression = eval.Clone();
+
+                } else if (source != null && !ctrlKey) {
+                    // If ctrl key is NOT down, and we are dragging from another presenter (not spawner), swap the evaluatable of that presenter with this one
+                    // We also need to call the changed event on the other presenter (since this is not done by the DependencyProperty to prevent a invoker-subscriber loop with WPF updating itself)
+                    source.Expression = Expression;
+                    source.ExpressionChanged?.Invoke(source, new ExpressionChangeEventArgs { NewExpression = Expression, OldExpression = eval });
+                    Expression = eval;
+
+                } else {
+                    // Otherwise if we are dragging from a spawner (regardless of whether the ctrl key is down) just set this expression to the data (the spawner
+                    // is responsible for instantiating a new evaluatable for us).
+                    Expression = eval;
+                }
+
+                // Raise an event to indicate the change.
+                ExpressionChanged?.Invoke(this, new ExpressionChangeEventArgs { OldExpression = oldExpression, NewExpression = Expression });
 
                 // Reset any highlighting that this presenter has due to dragging an acceptable item over this presenter.
-                Background = Brushes.Transparent;
+                Highlighted = false;
 
                 // Mark event as handled so parent presenters do not end up also handling the data.
                 e.Handled = true;
             }
         }
+
+        /// <summary>Event that is applied to the left drag area that allows the user to pick up this evaluatable.</summary>
+        private void DragStartArea_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            var @do = new DataObject(Expression);
+            @do.SetData("SourcePresenter", this);
+            DragDrop.DoDragDrop(this, @do, DragDropEffects.Move | DragDropEffects.Copy);
+        }
         #endregion
 
-        #region Methods
         /// <summary>Attempts to get IEvaluatable data from the supplied data object. Will return true/false indicating if data is of correct format
         /// (an <see cref="IEvaluatable{T}"/> where T matches the <see cref="EvalType"/> property.</summary>
         private bool TryGetData(IDataObject @do, out IEvaluatable evaluatable) {
-            if (@do.GetData(@do.GetFormats()[0]) is IEvaluatable data && Utils.TypeUtils.ImplementsGenericInterface(data.GetType(), typeof(IEvaluatable<>), EvalType)) {
+            if (@do.GetData(@do.GetFormats().First(x => x != "SourcePresenter")) is IEvaluatable data && Utils.TypeUtils.ImplementsGenericInterface(data.GetType(), typeof(IEvaluatable<>), EvalType)) {
                 evaluatable = data;
                 return true;
             }
@@ -153,7 +181,7 @@ namespace Aurora.Settings.Overrides.Logic {
         }
         #endregion
     }
-
+    
 
     /// <summary>
     /// Event arguments passed to subscribers when the IEvaluatable expression changes on a <see cref="Control_EvaluatablePresenter"/>.

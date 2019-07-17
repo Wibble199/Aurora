@@ -3,7 +3,6 @@ using Aurora.Settings.Overrides.Logic;
 using Aurora.Utils;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -24,6 +23,9 @@ namespace Aurora.Settings.Overrides {
             // Setup UI and databinding stuff
             InitializeComponent();
             ((FrameworkElement)Content).DataContext = this;
+
+            var y = EvaluatableRegistry.Get().GroupBy(x => x.Value.Category);
+            BlockSpawnTabControl.ItemsSource = y;
         }
 
         #region PropertyChanged Event
@@ -118,12 +120,16 @@ namespace Aurora.Settings.Overrides {
         /// <summary>Open the overrides page on the documentation page</summary>
         private void HelpButton_Click(object sender, RoutedEventArgs e) =>
             Process.Start(new ProcessStartInfo(@"https://project-aurora.gitbook.io/guide/advanced-topics/overrides-system"));
-        #endregion
 
-        private void Button_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            e.Handled = true;
-            DragDrop.DoDragDrop(this, new BooleanAnd(), DragDropEffects.Copy | DragDropEffects.Move);
+        /// <summary>
+        /// Event that fires when the user presses the mouse over the spawner list. If they are hovering over a valid item, an Evaluatable
+        /// that that item represents will be created.
+        /// </summary>
+        private void EvaluatableSpawnerItem_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            var dc = (KeyValuePair<Type, EvaluatableAttribute>)((FrameworkElement)sender).DataContext;
+            DragDrop.DoDragDrop(this, Activator.CreateInstance(dc.Key), DragDropEffects.Move);
         }
+        #endregion
     }
 
 

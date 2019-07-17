@@ -649,8 +649,9 @@
       <DependentUpon>Control_BooleanGSIEnum.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\NotifyPropertyChangedProxy.cs" />
-    <Compile Include="Settings\Overrides\EvaluatableDecorator.cs" />
-    <Compile Include="Settings\Overrides\Logic\Control_EvaluatablePresenter.cs" />
+    <Compile Include="Settings\Overrides\Logic\Control_EvaluatablePresenter.xaml.cs">
+      <DependentUpon>Control_EvaluatablePresenter.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Settings\Overrides\Logic\Color\Control_ColorFromValues.xaml.cs">
       <DependentUpon>Control_ColorFromValues.xaml</DependentUpon>
     </Compile>
@@ -2099,6 +2100,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Settings\Overrides\Logic\Boolean\Control_BooleanNot.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Settings\Overrides\Logic\Control_EvaluatablePresenter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

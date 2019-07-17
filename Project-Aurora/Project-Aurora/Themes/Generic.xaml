@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:c="clr-namespace:Aurora.Controls">
+    xmlns:c="clr-namespace:Aurora.Controls"
+    xmlns:l="clr-namespace:Aurora.Settings.Overrides.Logic">
 
 
     <Style TargetType="{x:Type c:Icon}">
