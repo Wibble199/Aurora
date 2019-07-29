@@ -44,7 +44,7 @@ namespace Aurora.Controls {
     public class PropertyLookupToProxyConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             var target = value as IStringProperty;
-            return target.PropertyLookup.Select(m => new PropertyProxyAccessProvider { Target = target, Member = m.Value });
+            return target.PropertyLookup.Select(m => new PropertyProxyAccessProvider { Target = target, Member = m.Value, Type = m.Value.NonNullableMemberType });
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
@@ -57,6 +57,7 @@ namespace Aurora.Controls {
     public class PropertyProxyAccessProvider {
         public IStringProperty Target { get; set; }
         public IMember Member { get; set; }
+        public Type Type { get; set; }
         public object Value {
             get => Member.Get(Target);
             set => Member.Set(Target, value);

@@ -27,7 +27,7 @@
                         <TextBlock Text="{l:Loc {Binding Member.DescriptionLocalizationKey}, {Binding Member.DescriptionLocalizationPackage}}" Opacity=".3" FontSize="11" VerticalAlignment="Center" Visibility="{Binding Member.DescriptionLocalizationKey, Converter={StaticResource NullVisConv}}" />
                         
                         <!-- Field value -->
-                        <local:Control_FieldPresenter Value="{Binding Value}" DockPanel.Dock="Right" Width="180" />
+                        <local:Control_FieldPresenter Value="{Binding Value}" Type="{Binding Type}" DockPanel.Dock="Right" Width="180" />
                     </DockPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
