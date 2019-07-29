@@ -1,13 +1,10 @@
 ﻿using Aurora.Settings;
-using Aurora.Settings.Localization;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace Aurora.Profiles {
 
@@ -92,18 +89,16 @@ namespace Aurora.Profiles {
                         ).Compile();
                     }
 
+                    // Get the metadata for this property.
+                    var meta = thisType.GetCustomAttributes<EditorFieldAttributeFor>(inherit: true).FirstOrDefault(a => a.PropertyName == member.Name) // Prioritise any EditorFieldAttributeFors on the declaring class
+                        ?? member.GetCustomAttribute<EditorFieldAttribute>(inherit: true) // If none are found, get the EditorFieldAttribute defined on the property
+                        ?? new EditorFieldAttribute(member.Name, int.MaxValue); // If it is not provided, create a default one
+
                     // Add this member to the property lookup dictionary. Now with named class instead of nameless tuples :)
-                    var lna = member.GetCustomAttribute<LocalizedNameAttribute>();
-                    var lda = member.GetCustomAttribute<LocalizedDescriptionAttribute>();
                     if (!lookup.ContainsKey(member.Name))
                         lookup.Add(member.Name, new Member<T> {
                             Name = member.Name,
-                            DisplayName = member.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName ?? member.Name,
-                            NameLocalizationKey = lna?.Key,
-                            NameLocalizationPackage = lna?.Package,
-                            Description = member.GetCustomAttribute<DescriptionAttribute>()?.Description ?? "",
-                            DescriptionLocalizationKey = lda?.Key,
-                            DescriptionLocalizationPackage = lda?.Package,
+                            Metadata = meta,
                             Get = getter,
                             Set = setter,
                             MemberType = memberType,
@@ -115,13 +110,15 @@ namespace Aurora.Profiles {
             }
         }
 
-        public object GetValueFromString(string name, object input = null) =>
-            PropertyLookup.ContainsKey(name) ? PropertyLookup[name].Get((TBase)(object)this) : null;
+        /// <summary>Gets the value of the target property from this instance.</summary>
+        public object GetValueFromString(string propertyName, object input = null) =>
+            PropertyLookup.ContainsKey(propertyName) ? PropertyLookup[propertyName].Get((TBase)(object)this) : null;
 
-        public void SetValueFromString(string name, object value) {
-            if (PropertyLookup.ContainsKey(name))
+        /// <summary>Sets the value of the target property to the given value on this instance.</summary>
+        public void SetValueFromString(string propertyName, object value) {
+            if (PropertyLookup.ContainsKey(propertyName))
                 // Convert the value to the right type, though if null is given, don't try to cast it
-                PropertyLookup[name].Set((TBase)(object)this, value == null ? null : Convert.ChangeType(value, PropertyLookup[name].NonNullableMemberType));
+                PropertyLookup[propertyName].Set((TBase)(object)this, value == null ? null : Convert.ChangeType(value, PropertyLookup[propertyName].NonNullableMemberType));
         }
 
         public IStringProperty Clone() => (IStringProperty)MemberwiseClone();
@@ -135,19 +132,8 @@ namespace Aurora.Profiles {
         /// <summary>The code name of the member.</summary>
         public string Name { get; internal set; }
 
-        /// <summary>The static (unlocalized) display name of the member.</summary>
-        public string DisplayName { get; internal set; }
-
-        /// <summary>A localization key for the description provided by a <see cref="LocalizedNameAttribute"/> on the this member.</summary>
-        public string NameLocalizationKey { get; internal set; }
-        public string NameLocalizationPackage { get; internal set; }
-
-        /// <summary>An unlocalized description provided by a <see cref="DescriptionAttribute"/> on the this member.</summary>
-        public string Description { get; internal set; }
-
-        /// <summary>A localization key for the description provided by a <see cref="LocalizedDescriptionAttribute"/> on the this member.</summary>
-        public string DescriptionLocalizationKey { get; internal set; }
-        public string DescriptionLocalizationPackage { get; internal set; }
+        /// <summary>The metadata for this member.</summary>
+        public EditorFieldAttribute Metadata { get; internal set; }
 
         /// <summary>A function that when called and provided with an instance of T, returns the value of this member.</summary>
         public Func<T, object> Get { get; internal set; }
@@ -167,12 +153,7 @@ namespace Aurora.Profiles {
     /// <summary>Type-less <see cref="Member{T}"/> interface.</summary>
     public interface IMember {
         public string Name { get; }
-        public string DisplayName { get; }
-        public string NameLocalizationKey { get; }
-        public string NameLocalizationPackage { get; }
-        public string Description { get; }
-        public string DescriptionLocalizationKey { get; }
-        public string DescriptionLocalizationPackage { get; }
+        public EditorFieldAttribute Metadata { get; }
         public Func<object, object> Get { get; }
         public Action<object, object> Set { get; }
         public Type MemberType { get; }

@@ -79,7 +79,7 @@ namespace Aurora.Utils {
                     Value = e,
                     Group = e.GetCustomAttribute<CategoryAttribute>()?.Category ?? "",
                     LocalizationKey = e.GetCustomAttribute<LocalizedDescriptionAttribute>()?.Key,
-                    LocalizationPackage = e.GetCustomAttribute<LocalizedDescriptionAttribute>()?.Package ?? TranslationSource.DEFAULT_PACKAGE
+                    LocalizationPackage = e.GetCustomAttribute<LocalizedDescriptionAttribute>()?.Package ?? TranslationSource.DefaultPackage
                 })
                 .ToList()
             );

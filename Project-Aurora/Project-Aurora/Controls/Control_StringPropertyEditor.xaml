@@ -3,37 +3,72 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Aurora.Controls"
-             xmlns:l="clr-namespace:Aurora.Settings.Localization"
+             xmlns:c="clr-namespace:Aurora.Controls"
              xmlns:util="clr-namespace:Aurora.Utils"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
     <UserControl.Resources>
-        <local:PropertyLookupToProxyConverter x:Key="ProxyAccessConv" />
-        <util:IsNullToVisibilityConverter x:Key="NullVisConv" />
-        <util:IsNullToVisibilityConverter x:Key="InverseNullVisConv" ReturnValWhenNull="Visible" ReturnValWhenNonNull="Collapsed" />
+        <c:PropertyLookupToProxyConverter x:Key="ProxyAccessConv" />
+
+        <Style x:Key="SectionHeader" TargetType="{x:Type TextBlock}">
+            <Setter Property="Margin" Value="0,8,0,4" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+        <Style x:Key="GroupPanel" TargetType="{x:Type Border}">
+            <Setter Property="BorderBrush" Value="{StaticResource Panel1BackgroundBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Background" Value="#04CCCCCC" />
+            <Setter Property="CornerRadius" Value="{StaticResource ControlBorderRadius}" />
+            <Setter Property="Padding" Value="12,8,8,8" />
+        </Style>
+        <Style TargetType="{x:Type c:SpacedStackPanel}">
+            <Setter Property="SpacingAmount" Value="8" />
+            <Setter Property="MinimumItemSize" Value="0" />
+        </Style>
     </UserControl.Resources>
-    <Grid>
+
+    <Grid MaxWidth="520" Margin="0,0,0,16">
         <ItemsControl ItemsSource="{Binding TargetInstance, Converter={StaticResource ProxyAccessConv}}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <DockPanel LastChildFill="False">
                         <!-- Field name -->
-                        <TextBlock Text="{Binding Member.DisplayName, Mode=OneWay}" Margin="0,0,8,0" VerticalAlignment="Center" Visibility="{Binding Member.NameLocalizationKey, Converter={StaticResource InverseNullVisConv}}" />
-                        <TextBlock Text="{l:Loc {Binding Member.NameLocalizationKey}, {Binding Member.NameLocalizationPackage}}" Margin="0,0,8,0" VerticalAlignment="Center" Visibility="{Binding Member.NameLocalizationKey, Converter={StaticResource NullVisConv}}" />
-                        
+                        <TextBlock Text="{Binding Path=Prop.Member.Metadata.DisplayName, Mode=OneWay}" Margin="0,0,8,0" VerticalAlignment="Center" />
+
                         <!-- Field description -->
-                        <TextBlock Text="{Binding Member.Description, Mode=OneWay}" Opacity=".3" FontSize="11" VerticalAlignment="Center" Visibility="{Binding Member.Description, Converter={StaticResource NullVisConv}}" />
-                        <TextBlock Text="{l:Loc {Binding Member.DescriptionLocalizationKey}, {Binding Member.DescriptionLocalizationPackage}}" Opacity=".3" FontSize="11" VerticalAlignment="Center" Visibility="{Binding Member.DescriptionLocalizationKey, Converter={StaticResource NullVisConv}}" />
-                        
+                        <TextBlock Text="{Binding Path=Prop.Member.Metadata.DisplayDescription, Mode=OneWay}" Opacity=".3" FontSize="11" VerticalAlignment="Center" />
+
                         <!-- Field value -->
-                        <local:Control_FieldPresenter Value="{Binding Value}" Type="{Binding Type}" DockPanel.Dock="Right" Width="180" />
+                        <c:Control_FieldPresenter Value="{Binding Path=Prop.Value}" Type="{Binding Path=Prop.Type}" DockPanel.Dock="Right" Width="180" />
                     </DockPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
+
+            <ItemsControl.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Name.DisplayName}" Style="{StaticResource SectionHeader}" />
+                                            <Border Style="{StaticResource GroupPanel}">
+                                                <ItemsPresenter />
+                                            </Border>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </ItemsControl.GroupStyle>
+
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <local:SpacedStackPanel IsItemsHost="True" SpacingAmount="8" />
+                    <c:SpacedStackPanel SpacingAmount="8" IsItemsHost="True" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -44,7 +45,22 @@ namespace Aurora.Controls {
     public class PropertyLookupToProxyConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             var target = value as IStringProperty;
-            return target.PropertyLookup.Select(m => new PropertyProxyAccessProvider { Target = target, Member = m.Value, Type = m.Value.NonNullableMemberType });
+
+            // Get a dictionary of any categories defined on this type
+            var categories = target.GetType().GetCustomAttributes<CategoryMetadataAttribute>(inherit: true).ToList();
+            categories.Add(new CategoryMetadataAttribute("ungrouped") { LocName = "other", Order = int.MaxValue });
+
+            // Categories all the properties
+            var categorised = from p in target.PropertyLookup
+                              let ppap = new PropertyProxyAccessProvider { Target = target, Member = p.Value, Type = p.Value.NonNullableMemberType }
+                              join c in categories on ppap.Member.Metadata.CategoryID ?? "ungrouped" equals c.CategoryID
+                              orderby c.Order, ppap.Member.Metadata.Order
+                              select new { Prop = ppap, Category = c };
+
+            // Create a ListCollectionView to sort and group the properties
+            var lcv = new ListCollectionView(categorised.ToList());
+            lcv.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
+            return lcv;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
@@ -65,12 +81,16 @@ namespace Aurora.Controls {
     }
 
 
+    [CategoryMetadata("someCat", LocName = "cancel", Order = 1)]
     public class TestClass : StringProperty<TestClass> {
 
-        [System.ComponentModel.DisplayName("Non-localized name"), System.ComponentModel.Description("Non-localized description")]
+        [EditorField(Name = "Non-localized name", Description = "Non-localized description", Order = 2)]
         public virtual string Hello { get; set; }
 
-        [Settings.Localization.LocalizedName("cancel"), Settings.Localization.LocalizedDescription("restart_required")]
+        [EditorField(LocName = "cancel", LocDescription = "restart_required", Order = 1)]
         public virtual int World { get; set; } = 5;
+
+        [EditorField(CategoryID = "someCat")]
+        public virtual bool Yes { get; set; }
     }
 }

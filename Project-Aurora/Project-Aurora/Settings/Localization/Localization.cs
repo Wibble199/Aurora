@@ -21,7 +21,7 @@ namespace Aurora.Settings.Localization {
     public class TranslationSource : INotifyPropertyChanged {
 
         /// <summary>The default localization package used when one is not provided.</summary>
-        public const string DEFAULT_PACKAGE = "aurora";
+        public const string DefaultPackage = "aurora";
 
         /// <summary>The base directory which contains folders for each language.</summary>
         public static string LanguageFileBaseDir { get; } = Path.Combine(Global.ExecutingDirectory, "Localization");
@@ -72,7 +72,7 @@ namespace Aurora.Settings.Localization {
         /// either, then a warning is shown in the format "#Missing:&lt;package&gt;.&lt;key&gt;".</para></summary>
         /// <param name="key">The key of the string to get, e.g. "PrimaryColor".</param>
         /// <param name="package">An optional package the translation is in.</param>
-        public string GetString(string key, string package = DEFAULT_PACKAGE) {
+        public string GetString(string key, string package = DefaultPackage) {
             var keyTuple = (package.ToLower(), key.ToLower());
             if (source.ContainsKey(keyTuple))
                 return source[keyTuple];
@@ -174,7 +174,7 @@ namespace Aurora.Settings.Localization {
         public LocExtension(BindingBase keyBinding, BindingBase packageBinding) => Init(keyBinding, packageBinding);
 
         private void Init(BindingBase keyBinding, BindingBase packageBinding = null) {
-            packageBinding ??= new Binding(".") { Source = TranslationSource.DEFAULT_PACKAGE };
+            packageBinding ??= new Binding(".") { Source = TranslationSource.DefaultPackage };
             Bindings.Add(keyBinding);
             Bindings.Add(packageBinding);
             Bindings.Add(new Binding("[LocBinding]") { Source = TranslationSource.Instance }); // Binds to a dummy key so that it's updated if lang is changed
@@ -208,7 +208,7 @@ namespace Aurora.Settings.Localization {
             public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {
                 var key = values[0]?.ToString() ?? "";
                 var package = values[1]?.ToString();
-                var str = TranslationSource.Instance.GetString(key, package ?? TranslationSource.DEFAULT_PACKAGE);
+                var str = TranslationSource.Instance.GetString(key, package ?? TranslationSource.DefaultPackage);
                 if (InsertValues != null) str = string.Format(str, InsertValues);
                 return (Prefix ?? "") + str + (Suffix ?? "");
             }
@@ -240,7 +240,7 @@ namespace Aurora.Settings.Localization {
         public static void SetPackage(DependencyObject obj, string value) => obj.SetValue(PackageProperty, value);
 
         public static readonly DependencyProperty PackageProperty =
-            DependencyProperty.RegisterAttached("Package", typeof(string), typeof(Localization), new PropertyMetadata(TranslationSource.DEFAULT_PACKAGE, LocalizationChanged));
+            DependencyProperty.RegisterAttached("Package", typeof(string), typeof(Localization), new PropertyMetadata(TranslationSource.DefaultPackage, LocalizationChanged));
 
         // Specifies the key that will be used for the tooltip of the element. Uses the same package as defined by the "Package" property.
         public static string GetTooltipKey(DependencyObject obj) => (string)obj.GetValue(TooltipKeyProperty);
@@ -291,32 +291,9 @@ namespace Aurora.Settings.Localization {
 
         /// <summary>Returns the translated text in the language currently set in <see cref="TranslationSource.CurrentCulture"/>.</summary>
         public string LocalizedText => TranslationSource.Instance[Key, Package];
-        
-        /// <summary>Specifies a description provided by a value in the localization dictionary for a class or member.</summary>
-        public LocalizedDescriptionAttribute(string key, string package = TranslationSource.DEFAULT_PACKAGE) {
-            Key = key;
-            Package = package;
-        }
-    }
-
-    /// <summary>
-    /// Attribute that can be used to mark classes and members with a name that should be localized. Functionally identical to the
-    /// <see cref="LocalizedDescriptionAttribute"/>.
-    /// </summary>
-    // Cannot extend the LocalizedDescriptionAttribute else it will show up when you do GetCustomAttribute<LocalizedDescriptionAttribute>(), which is wrong
-    public class LocalizedNameAttribute : Attribute {
-
-        /// <summary>The value of the key used as the localization key.</summary>
-        public string Key { get; }
-
-        /// <summary>The name of the package that is used as the source dictionary for the localized value.</summary>
-        public string Package { get; }
-
-        /// <summary>Returns the translated text in the language currently set in <see cref="TranslationSource.CurrentCulture"/>.</summary>
-        public string LocalizedText => TranslationSource.Instance[Key, Package];
 
         /// <summary>Specifies a description provided by a value in the localization dictionary for a class or member.</summary>
-        public LocalizedNameAttribute(string key, string package = TranslationSource.DEFAULT_PACKAGE) {
+        public LocalizedDescriptionAttribute(string key, string package = TranslationSource.DefaultPackage) {
             Key = key;
             Package = package;
         }

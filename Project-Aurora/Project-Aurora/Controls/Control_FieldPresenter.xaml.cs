@@ -69,7 +69,7 @@ namespace Aurora.Controls {
         private static Dictionary<Type, Func<Binding, Visual>> TypeControlMap = new Dictionary<Type, Func<Binding, Visual>> {
 
             // Boolean
-            { typeof(bool), bind => new CheckBox().WithBinding(CheckBox.IsCheckedProperty, bind) },
+            { typeof(bool), bind => new CheckBox{ Style = Application.Current.FindResource("CheckboxSwitch") as Style, HorizontalContentAlignment = HorizontalAlignment.Left }.WithBinding(CheckBox.IsCheckedProperty, bind) },
 
             // String
             { typeof(string), bind => new TextBox().WithBinding(TextBox.TextProperty, bind) },

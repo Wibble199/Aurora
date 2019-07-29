@@ -93,3 +93,4 @@ select_running: Select running
 filter_list: Filter list...
 low_brightness_warn: Warning: Global brightness is less than 10%. Your devices will be very dim. You can change this in the settings menu.
 layer: layer
+other: Other
