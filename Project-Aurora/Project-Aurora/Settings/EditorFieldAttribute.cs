@@ -51,7 +51,7 @@ namespace Aurora.Settings {
         public object Max { get; set; }
 
         /// <summary>For numeric types, this value will determine the step size of the numeric stepper or slider that is displayed to the user.</summary>
-        public double Step { get; set; }
+        public double Step { get; set; } = 1;
 
         /// <summary>A value that will be compared to before teh value of the property is set. Only applies to string types.</summary>
         public int MaxLength { get; set; }

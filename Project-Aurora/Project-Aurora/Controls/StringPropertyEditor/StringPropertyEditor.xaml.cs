@@ -84,13 +84,17 @@ namespace Aurora.Controls {
     [CategoryMetadata("someCat", LocName = "cancel", Order = 1)]
     public class TestClass : StringProperty<TestClass> {
 
-        [EditorField(Name = "Non-localized name", Description = "Non-localized description", Order = 2)]
+        [EditorField(Name = "Non-localized name", Description = "Non-localized description", MaxLength = 5, Order = 2)]
         public virtual string Hello { get; set; }
 
-        [EditorField(LocName = "cancel", LocDescription = "restart_required", Order = 1)]
+        [EditorField(LocName = "cancel", LocDescription = "restart_required", Max = 10, Min = 1, Order = 1)]
         public virtual int World { get; set; } = 5;
 
         [EditorField(CategoryID = "someCat")]
         public virtual bool Yes { get; set; }
+
+        public virtual ApplicationDetectionMode LocalizableEnum { get; set; }
+
+        public virtual HorizontalAlignment NonLocalizableEnum { get; set; }
     }
 }

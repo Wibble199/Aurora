@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Aurora.Settings;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -30,6 +31,16 @@ namespace Aurora.Controls {
         public static readonly DependencyProperty ValueProperty =
             DependencyProperty.Register("Value", typeof(object), typeof(StringPropertyField), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
+
+        #region Metadata Property
+        /// <summary>The metadata for this field, with data such as the min/max values.</summary>
+        public EditorFieldAttribute Metadata {
+            get => (EditorFieldAttribute)GetValue(MetadataProperty);
+            set => SetValue(MetadataProperty, value);
+        }
+        public static readonly DependencyProperty MetadataProperty =
+            DependencyProperty.Register("Metadata", typeof(EditorFieldAttribute), typeof(StringPropertyField), new PropertyMetadata(null));
+        #endregion
     }
 
     public class FieldEditorTemplateSelector : DataTemplateSelector {
@@ -37,7 +48,12 @@ namespace Aurora.Controls {
             if (!(item is StringPropertyField context))
                 return new DataTemplate();
 
-            var t = context.Type.IsGenericType ? context.Type.GetGenericTypeDefinition() : context.Type;
+            // Get the type we'll use for looking up the DataTemplate
+            var t =
+                  context.Type.IsGenericType ? context.Type.GetGenericTypeDefinition()
+                : context.Type.IsEnum ? typeof(Enum) // Use the generic Enum template for any enum values
+                : context.Type;
+
             return context.TryFindResource(t) as DataTemplate ?? new DataTemplate();
         }
     }

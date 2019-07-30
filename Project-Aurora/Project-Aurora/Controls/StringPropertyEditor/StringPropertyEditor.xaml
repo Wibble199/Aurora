@@ -39,7 +39,7 @@
                         <TextBlock Text="{Binding Path=Prop.Member.Metadata.DisplayDescription, Mode=OneWay}" Opacity=".3" FontSize="11" VerticalAlignment="Center" />
 
                         <!-- Field value -->
-                        <c:StringPropertyField Value="{Binding Path=Prop.Value}" Type="{Binding Path=Prop.Type}" DockPanel.Dock="Right" Width="180" />
+                        <c:StringPropertyField Value="{Binding Path=Prop.Value}" Type="{Binding Path=Prop.Type}" Metadata="{Binding Path=Prop.Member.Metadata}" DockPanel.Dock="Right" Width="180" />
                     </DockPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

@@ -6,13 +6,15 @@
     xmlns:sysf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
     xmlns:acon="clr-namespace:Aurora.Controls"
     xmlns:aset="clr-namespace:Aurora.Settings"
+    xmlns:u="clr-namespace:Aurora.Utils"
+    xmlns:l="clr-namespace:Aurora.Settings.Localization"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit">
     
     <!-- This file contains the templates that will be used by the FieldEditor. The key of the template determines what type is will edit. -->
 
     <!-- String -->
     <DataTemplate x:Key="{x:Type sys:String}">
-        <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" MaxLength="{Binding Metadata.MaxLength}" />
     </DataTemplate>
 
     <!-- Bool -->
@@ -22,21 +24,21 @@
 
     <!-- Numeric -->
     <DataTemplate x:Key="{x:Type sys:Int32}">
-        <xctk:IntegerUpDown Value="{Binding Value}" />
+        <xctk:IntegerUpDown Value="{Binding Value}" Minimum="{Binding Metadata.Min}" Maximum="{Binding Metadata.Max}" Increment="{Binding Metadata.Step}" />
     </DataTemplate>
     <DataTemplate x:Key="{x:Type sys:Int64}">
-        <xctk:LongUpDown Value="{Binding Value}" />
+        <xctk:LongUpDown Value="{Binding Value}" Minimum="{Binding Metadata.Min}" Maximum="{Binding Metadata.Max}" Increment="{Binding Metadata.Step}" />
     </DataTemplate>
     <DataTemplate x:Key="{x:Type sys:Single}">
-        <xctk:SingleUpDown Value="{Binding Value}" />
+        <xctk:SingleUpDown Value="{Binding Value}" Minimum="{Binding Metadata.Min}" Maximum="{Binding Metadata.Max}" Increment="{Binding Metadata.Step}" />
     </DataTemplate>
     <DataTemplate x:Key="{x:Type sys:Double}">
-        <xctk:DoubleUpDown Value="{Binding Value}" />
+        <xctk:DoubleUpDown Value="{Binding Value}" Minimum="{Binding Metadata.Min}" Maximum="{Binding Metadata.Max}" Increment="{Binding Metadata.Step}" />
     </DataTemplate>
     
     <!-- Enums -->
     <DataTemplate x:Key="{x:Type sys:Enum}">
-        <ComboBox />
+        <ComboBox ItemsSource="{u:EnumBindingToItemsSource Type}" SelectedValue="{Binding Value, Mode=TwoWay}" DisplayMemberPath="Text" SelectedValuePath="Value" HorizontalAlignment="Stretch" l:Localization.UseLocalizedItemTemplate="True" />
     </DataTemplate>
     
     <!-- Colors -->

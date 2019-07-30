@@ -87,4 +87,23 @@ namespace Aurora.Utils {
             return lcv;
         }
     }
+
+    /// <summary>
+    /// A class that provides a list of all enum values for the given enum. Similar to the <see cref="EnumToItemsSourceExtension"/>, but can accept a binding.
+    /// </summary>
+    public class EnumBindingToItemsSource : Binding {
+
+        public EnumBindingToItemsSource() : base() {
+            Converter = new EnumListConverter();
+        }
+
+        public EnumBindingToItemsSource(string path) : base(path) {
+            Converter = new EnumListConverter();
+        }
+
+        class EnumListConverter : IValueConverter {
+            public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => EnumToItemsSourceExtension.GetListFor((Type)value, true);
+            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        }
+    }
 }
