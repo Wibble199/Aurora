@@ -6,7 +6,7 @@ namespace Aurora.Settings {
 
     /// <summary>
     /// Attribute that can be applied to properties of <see cref="Profiles.IStringProperty"/> classes to  define metadata about
-    /// the property. This metadata will then be read by <see cref="Controls.Control_StringPropertyEditor"/> to determine how
+    /// the property. This metadata will then be read by <see cref="Controls.StringPropertyEditor"/> to determine how
     /// that property will be visually diplayed to the user.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]

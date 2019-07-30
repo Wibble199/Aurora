@@ -346,14 +346,14 @@
     <Compile Include="Controls\Control_DeviceItem.xaml.cs">
       <DependentUpon>Control_DeviceItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Control_FieldPresenter.xaml.cs">
-      <DependentUpon>Control_FieldPresenter.xaml</DependentUpon>
+    <Compile Include="Controls\StringPropertyEditor\StringPropertyField.xaml.cs">
+      <DependentUpon>StringPropertyField.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\AlertBox.xaml.cs">
       <DependentUpon>AlertBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Control_StringPropertyEditor.xaml.cs">
-      <DependentUpon>Control_StringPropertyEditor.xaml</DependentUpon>
+    <Compile Include="Controls\StringPropertyEditor\StringPropertyEditor.xaml.cs">
+      <DependentUpon>StringPropertyEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Icon.cs" />
     <Compile Include="Controls\LoadingSpinner.xaml.cs">
@@ -1676,7 +1676,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Control_FieldPresenter.xaml">
+    <Page Include="Controls\StringPropertyEditor\BasicTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\StringPropertyEditor\StringPropertyField.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1684,7 +1688,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Control_StringPropertyEditor.xaml">
+    <Page Include="Controls\StringPropertyEditor\StringPropertyEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

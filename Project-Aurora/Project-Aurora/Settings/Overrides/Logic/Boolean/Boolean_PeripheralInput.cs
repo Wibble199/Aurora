@@ -14,7 +14,7 @@ namespace Aurora.Settings.Overrides.Logic {
     /// Condition that is true when a specific keyboard button is held down.
     /// </summary>
     [Evaluatable("Key Held", category: OverrideLogicCategory.Input)]
-    public class BooleanKeyDown : Evaluatable<bool, Control_FieldPresenter> {
+    public class BooleanKeyDown : Evaluatable<bool, StringPropertyField> {
 
         /// <summary>Creates a new key held condition with the default key (Space) as the trigger key.</summary>
         public BooleanKeyDown() { }
@@ -25,8 +25,8 @@ namespace Aurora.Settings.Overrides.Logic {
         public Keys TargetKey { get; set; } = Keys.Space;
 
         /// <summary>Create a control where the user can select the key they wish to detect.</summary>
-        public override Control_FieldPresenter CreateControl() => new Control_FieldPresenter { Type = typeof(Keys), Margin = new System.Windows.Thickness(0, 0, 0, 6) }
-            .WithBinding(Control_FieldPresenter.ValueProperty, new Binding("TargetKey") { Source = this, Mode = BindingMode.TwoWay });
+        public override StringPropertyField CreateControl() => new StringPropertyField { Type = typeof(Keys), Margin = new System.Windows.Thickness(0, 0, 0, 6) }
+            .WithBinding(StringPropertyField.ValueProperty, new Binding("TargetKey") { Source = this, Mode = BindingMode.TwoWay });
 
         /// <summary>True if the global event bus's pressed key list contains the target key.</summary>
         public override bool Evaluate(IGameState gameState) => Global.InputEvents.PressedKeys.Contains(TargetKey);
@@ -55,8 +55,8 @@ namespace Aurora.Settings.Overrides.Logic {
         public override StackPanel CreateControl() {
             var panel = new StackPanel();
 
-            var c = new Control_FieldPresenter { Type = typeof(Keys), Margin = new System.Windows.Thickness(0, 0, 0, 6) };
-            c.SetBinding(Control_FieldPresenter.ValueProperty, new Binding("TargetKey") { Source = this, Mode = BindingMode.TwoWay });
+            var c = new StringPropertyField { Type = typeof(Keys), Margin = new System.Windows.Thickness(0, 0, 0, 6) };
+            c.SetBinding(StringPropertyField.ValueProperty, new Binding("TargetKey") { Source = this, Mode = BindingMode.TwoWay });
             panel.Children.Add(c);
 
             var time = new StackPanel();
@@ -65,8 +65,8 @@ namespace Aurora.Settings.Overrides.Logic {
             text.Text = "For";
             time.Children.Add(text);
 
-            c = new Control_FieldPresenter { Type = typeof(float), Margin = new System.Windows.Thickness(5, 0, 5, 6) };
-            c.SetBinding(Control_FieldPresenter.ValueProperty, new Binding("Seconds") { Source = this, Mode = BindingMode.TwoWay });
+            c = new StringPropertyField { Type = typeof(float), Margin = new System.Windows.Thickness(5, 0, 5, 6) };
+            c.SetBinding(StringPropertyField.ValueProperty, new Binding("Seconds") { Source = this, Mode = BindingMode.TwoWay });
             time.Children.Add(c);
 
             text = new TextBlock { Text = "Seconds" };
@@ -96,7 +96,7 @@ namespace Aurora.Settings.Overrides.Logic {
     /// Condition that is true when a specific mouse button is held down.
     /// </summary>
     [Evaluatable("Mouse Button Held", category: OverrideLogicCategory.Input)]
-    public class BooleanMouseDown : Evaluatable<bool, Control_FieldPresenter> {
+    public class BooleanMouseDown : Evaluatable<bool, StringPropertyField> {
 
         /// <summary>Creates a new key held condition with the default mouse button (Left) as the trigger button.</summary>
         public BooleanMouseDown() { }
@@ -107,8 +107,8 @@ namespace Aurora.Settings.Overrides.Logic {
         public System.Windows.Forms.MouseButtons TargetButton { get; set; } = System.Windows.Forms.MouseButtons.Left;
 
         /// <summary>Create a control where the user can select the mouse button they wish to detect.</summary>
-        public override Control_FieldPresenter CreateControl() => new Control_FieldPresenter { Type = typeof(System.Windows.Forms.MouseButtons), Margin = new System.Windows.Thickness(0, 0, 0, 6) }
-            .WithBinding(Control_FieldPresenter.ValueProperty, new Binding("TargetButton") { Source = this, Mode = BindingMode.TwoWay });
+        public override StringPropertyField CreateControl() => new StringPropertyField { Type = typeof(System.Windows.Forms.MouseButtons), Margin = new System.Windows.Thickness(0, 0, 0, 6) }
+            .WithBinding(StringPropertyField.ValueProperty, new Binding("TargetButton") { Source = this, Mode = BindingMode.TwoWay });
 
         /// <summary>True if the global event bus's pressed mouse button list contains the target button.</summary>
         public override bool Evaluate(IGameState gameState) => Global.InputEvents.PressedButtons.Contains(TargetButton);

@@ -1,0 +1,57 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:sysd="clr-namespace:System.Drawing;assembly=System.Drawing"
+    xmlns:sysf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+    xmlns:acon="clr-namespace:Aurora.Controls"
+    xmlns:aset="clr-namespace:Aurora.Settings"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit">
+    
+    <!-- This file contains the templates that will be used by the FieldEditor. The key of the template determines what type is will edit. -->
+
+    <!-- String -->
+    <DataTemplate x:Key="{x:Type sys:String}">
+        <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" />
+    </DataTemplate>
+
+    <!-- Bool -->
+    <DataTemplate x:Key="{x:Type sys:Boolean}">
+        <CheckBox Style="{StaticResource CheckboxSwitch}" IsChecked="{Binding Value}" HorizontalContentAlignment="Left" />
+    </DataTemplate>
+
+    <!-- Numeric -->
+    <DataTemplate x:Key="{x:Type sys:Int32}">
+        <xctk:IntegerUpDown Value="{Binding Value}" />
+    </DataTemplate>
+    <DataTemplate x:Key="{x:Type sys:Int64}">
+        <xctk:LongUpDown Value="{Binding Value}" />
+    </DataTemplate>
+    <DataTemplate x:Key="{x:Type sys:Single}">
+        <xctk:SingleUpDown Value="{Binding Value}" />
+    </DataTemplate>
+    <DataTemplate x:Key="{x:Type sys:Double}">
+        <xctk:DoubleUpDown Value="{Binding Value}" />
+    </DataTemplate>
+    
+    <!-- Enums -->
+    <DataTemplate x:Key="{x:Type sys:Enum}">
+        <ComboBox />
+    </DataTemplate>
+    
+    <!-- Colors -->
+    <DataTemplate x:Key="{x:Type sysd:Color}">
+        
+    </DataTemplate>
+    
+    <!-- Gradient colors -->
+    
+    <!-- Keys & Key Sequences -->
+    <DataTemplate x:Key="{x:Type sysf:Keys}">
+        <xctk:ColorPicker ColorMode="ColorCanvas" />
+    </DataTemplate>
+    <DataTemplate x:Key="{x:Type aset:KeySequence}">
+        <acon:KeySequence Title="Assigned Keys" RecordingTag="FieldEditorKeySequence" Height="120" />
+    </DataTemplate>
+
+</ResourceDictionary>

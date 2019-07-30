@@ -14,9 +14,9 @@ namespace Aurora.Controls {
     /// <summary>
     /// Provides an control that automatically generates fields for any class that implements <see cref="IStringProperty"/> correctly.
     /// </summary>
-    public partial class Control_StringPropertyEditor : UserControl {
+    public partial class StringPropertyEditor : UserControl {
 
-        public Control_StringPropertyEditor() {
+        public StringPropertyEditor() {
             InitializeComponent();
 
             TestClass c;
@@ -34,7 +34,7 @@ namespace Aurora.Controls {
             set => SetValue(TargetInstanceProperty, value);
         }
         public static readonly DependencyProperty TargetInstanceProperty =
-            DependencyProperty.Register("TargetInstance", typeof(IStringProperty), typeof(Control_StringPropertyEditor), new PropertyMetadata(null));
+            DependencyProperty.Register("TargetInstance", typeof(IStringProperty), typeof(StringPropertyEditor), new PropertyMetadata(null));
     }
 
 

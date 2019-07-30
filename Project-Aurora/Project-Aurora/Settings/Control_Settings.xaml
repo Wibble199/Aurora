@@ -290,7 +290,7 @@
             </TabItem>
 
             <TabItem Header="StringPropertyEditor Test">
-                <c:Control_StringPropertyEditor />
+                <c:StringPropertyEditor />
             </TabItem>
         </TabControl>
     </Grid>
