@@ -96,5 +96,7 @@ namespace Aurora.Controls {
         public virtual ApplicationDetectionMode LocalizableEnum { get; set; }
 
         public virtual HorizontalAlignment NonLocalizableEnum { get; set; }
+
+        public virtual System.Drawing.Color DrawingColor { get; set; }
     }
 }

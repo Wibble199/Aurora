@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:sysd="clr-namespace:System.Drawing;assembly=System.Drawing"
+    xmlns:sysm="clr-namespace:System.Windows.Media;assembly=PresentationCore"
     xmlns:sysf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
     xmlns:acon="clr-namespace:Aurora.Controls"
     xmlns:aset="clr-namespace:Aurora.Settings"
@@ -11,6 +12,9 @@
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit">
     
     <!-- This file contains the templates that will be used by the FieldEditor. The key of the template determines what type is will edit. -->
+    
+    <!-- Resources -->
+    <u:ColorConverter x:Key="DrawingColorToMediaColorConv" />
 
     <!-- String -->
     <DataTemplate x:Key="{x:Type sys:String}">
@@ -43,7 +47,10 @@
     
     <!-- Colors -->
     <DataTemplate x:Key="{x:Type sysd:Color}">
-        
+        <xctk:ColorPicker SelectedColor="{Binding Value, Converter={StaticResource DrawingColorToMediaColorConv}}" ColorMode="ColorCanvas" />
+    </DataTemplate>
+    <DataTemplate x:Key="{x:Type sysm:Color}">
+        <xctk:ColorPicker SelectedColor="{Binding Value}" ColorMode="ColorCanvas" />
     </DataTemplate>
     
     <!-- Gradient colors -->
