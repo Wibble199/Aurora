@@ -85,7 +85,6 @@ namespace Aurora.Profiles
         public event EventHandler PostUpdate;
 
         private ActiveProcessMonitor processMonitor;
-        private RunningProcessMonitor runningProcessMonitor;
 
         public LightingStateManager()
         {
@@ -100,7 +99,6 @@ namespace Aurora.Profiles
                 return true;
 
             processMonitor = new ActiveProcessMonitor();
-            runningProcessMonitor = new RunningProcessMonitor();
 
             #region Initiate Defaults
             RegisterEvents(new List<ILightEvent> {
@@ -628,7 +626,7 @@ namespace Aurora.Profiles
         /// <returns></returns>
         public IEnumerable<ILightEvent> GetOverlayActiveProfiles() => Events.Values
             .Where(evt => evt.IsEnabled)
-            .Where(evt => evt.Config.ProcessNames == null || evt.Config.ProcessNames.Any(name => runningProcessMonitor.IsProcessRunning(name)));
+            .Where(evt => evt.Config.ProcessNames == null || evt.Config.ProcessNames.Any(name => RunningProcessMonitor.Instance.IsProcessRunning(name)));
             //.Where(evt => evt.Config.ProcessTitles == null || ProcessUtils.AnyProcessWithTitleExists(evt.Config.ProcessTitles));
 
         /// <summary>KeyDown handler that checks the current application's profiles for keybinds.

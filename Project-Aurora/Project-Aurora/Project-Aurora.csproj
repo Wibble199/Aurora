@@ -646,6 +646,7 @@
     <Compile Include="Profiles\Witcher3\GSI\GameState_Witcher3.cs" />
     <Compile Include="Profiles\Witcher3\GSI\Nodes\Player.cs" />
     <Compile Include="Settings\EditorFieldAttribute.cs" />
+    <Compile Include="Settings\Overrides\Logic\Boolean\Boolean_ProcessRunning.cs" />
     <Compile Include="Settings\Overrides\Logic\Boolean\Control_BooleanGSIEnum.xaml.cs">
       <DependentUpon>Control_BooleanGSIEnum.xaml</DependentUpon>
     </Compile>

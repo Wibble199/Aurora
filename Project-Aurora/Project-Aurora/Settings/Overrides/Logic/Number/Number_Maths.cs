@@ -165,7 +165,7 @@ namespace Aurora.Settings.Overrides.Logic {
     /// <summary>
     /// Evaluatable that takes a number in a given range and maps it onto another range.
     /// </summary>
-    [Evaluatable("Numeric Map", category: OverrideLogicCategory.Maths)]
+    [Evaluatable("Linear Interpolation", category: OverrideLogicCategory.Maths)]
     public class NumberMap : Evaluatable<double, Control_NumericMap> {
 
         /// <summary>Creates a new numeric map with the default constant parameters.</summary>

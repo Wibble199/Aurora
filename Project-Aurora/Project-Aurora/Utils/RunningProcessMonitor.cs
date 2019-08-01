@@ -14,6 +14,9 @@ namespace Aurora.Utils {
     /// </summary>
     public class RunningProcessMonitor {
 
+        /// <summary>The current instance of the RunningProcessMonitor singleton.</summary>
+        public static RunningProcessMonitor Instance { get; set; } = new RunningProcessMonitor();
+
         /// <summary>A list of all currently running processes (and how many instances are running).</summary>
         /// <remarks>The reason for the count is so that if two processes of the same file are running and one is closed, we can know
         /// that the other is still running.</remarks>
@@ -23,7 +26,7 @@ namespace Aurora.Utils {
         /// Creates a new instance of the <see cref="RunningProcessMonitor"/>, which performs an initial scan of running
         /// processes and then sets up the watchers with their relevant commands.
         /// </summary>
-        public RunningProcessMonitor() {
+        private RunningProcessMonitor() {
             // Fetch all processes running now
             runningProcesses = Process.GetProcesses()
                 .Select(p => {
