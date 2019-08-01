@@ -94,3 +94,12 @@ filter_list: Filter list...
 low_brightness_warn: Warning: Global brightness is less than 10%. Your devices will be very dim. You can change this in the settings menu.
 layer: layer
 other: Other
+keybind: Keybind
+keybind_activate_press: Activates profile when pressed
+clear_keybind: Clear keybind
+profile_name: Profile name
+profile_create: Create a new profile
+profile_import: Import an existing profile from file
+profile_export: Export the selected profile as JSON file
+profile_copy: Copy the selected profile (Ctrl + C)
+profile_paste: Paste profile from clipboard (Ctrl + V)

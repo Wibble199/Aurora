@@ -46,7 +46,7 @@
         <TextBlock Text="?" ToolTip="What action to take when the key is pressed again while the timer is active." Grid.Row="4" Grid.Column="2" TextDecorations="Underline" HorizontalAlignment="Left" VerticalAlignment="Center" Cursor="Help" />
 
         <Label Content="Trigger Keys:" Grid.Row="5" HorizontalAlignment="Right" />
-        <Controls:KeyBindList x:Name="triggerKeyList" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Margin="4,2" KeybindsChanged="triggerKeyList_KeybindsChanged" />
+        <Controls:KeyBindList x:Name="triggerKeyList" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Margin="4,2" />
 
         <Controls:KeySequence x:Name="KeySequence_Keys" Grid.Column="4" Grid.RowSpan="999" Margin="0,4,0,0" Height="280px" VerticalAlignment="Top" RecordingTag="ToggleKeyLayer" Title="Affected Keys" SequenceUpdated="KeySequence_Keys_SequenceUpdated" />
     </Grid>

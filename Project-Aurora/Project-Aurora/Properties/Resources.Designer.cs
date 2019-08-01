@@ -153,6 +153,16 @@ namespace Aurora.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap book_shelf_30 {
+            get {
+                object obj = ResourceManager.GetObject("book_shelf_30", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Borderlands2_256x256 {
             get {
                 object obj = ResourceManager.GetObject("Borderlands2_256x256", resourceCulture);
@@ -523,6 +533,16 @@ namespace Aurora.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap information_30 {
+            get {
+                object obj = ResourceManager.GetObject("information_30", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap keyboard_30 {
             get {
                 object obj = ResourceManager.GetObject("keyboard_30", resourceCulture);
@@ -536,6 +556,16 @@ namespace Aurora.Properties {
         internal static System.Drawing.Bitmap keycap_backglow {
             get {
                 object obj = ResourceManager.GetObject("keycap_backglow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap layers_30 {
+            get {
+                object obj = ResourceManager.GetObject("layers_30", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -886,6 +916,16 @@ namespace Aurora.Properties {
         internal static System.Drawing.Bitmap support_30 {
             get {
                 object obj = ResourceManager.GetObject("support_30", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap trash_30 {
+            get {
+                object obj = ResourceManager.GetObject("trash_30", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

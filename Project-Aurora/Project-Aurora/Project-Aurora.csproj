@@ -1585,6 +1585,10 @@
     <Resource Include="Resources\UIIcons\checkmark-30.png" />
     <Resource Include="Resources\UIIcons\restart-30-modified.png" />
     <Resource Include="Resources\UIIcons\process-30.cur" />
+    <Resource Include="Resources\UIIcons\information-30.png" />
+    <Resource Include="Resources\UIIcons\book-shelf-30.png" />
+    <Resource Include="Resources\UIIcons\layers-30.png" />
+    <Resource Include="Resources\UIIcons\trash-30.png" />
     <Content Include="Theme\AuroraTheme\Buttons.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Buttons.xaml</LastGenOutput>

@@ -1,121 +1,68 @@
 ﻿using Aurora.Settings;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using SharpDX.RawInput;
+using System.Windows.Input;
 
-namespace Aurora.Controls
-{
-    /// <summary>
-    /// Interaction logic for Control_Keybind.xaml
-    /// </summary>
-    public partial class Control_Keybind : UserControl
-    {
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public static readonly DependencyProperty KeybindProperty = DependencyProperty.Register("Keybind", typeof(Keybind), typeof(Control_Keybind));
+namespace Aurora.Controls {
 
-        public Keybind ContextKeybind
-        {
-            get
-            {
-                return (Keybind)GetValue(KeybindProperty);
-            }
-            set
-            {
-                SetValue(KeybindProperty, value);
+    public partial class Control_Keybind : UserControl {
 
-                if (value != null)
-                {
-                    textBoxKeybind.Text = value.ToString();
-                    KeybindUpdated?.Invoke(this, value);
-                }
-            }
+        public static Control_Keybind ActiveInstance { get; private set; } = null; //Makes sure that only one keybind can be set at a time
+
+        public Control_Keybind() {
+            InitializeComponent();
+            ((FrameworkElement)Content).DataContext = this;
         }
 
-        public delegate void NewKeybindArgs(object sender, Keybind newKeybind);
-
-        public event NewKeybindArgs KeybindUpdated;
-
-        public static Control_Keybind _ActiveKeybind { get; private set; } = null; //Makes sure that only one keybind can be set at a time
-
-        public Control_Keybind()
-        {
-            InitializeComponent();
-
+        static Control_Keybind() {
+            // Since there is only ever a single static active instance, we only need one event handler which can use that static reference,
+            // instead of needing to add events to each control instance.
             Global.InputEvents.KeyDown += InputEventsKeyDown;
         }
 
-        private void InputEventsKeyDown(object sender, KeyboardInputEventArgs e)
-        {
-            Dispatcher.Invoke(
-                () =>
-                {
-
-                    if (this.Equals(_ActiveKeybind))
-                    {
-                        System.Windows.Forms.Keys[] _PressedKeys = Global.InputEvents.PressedKeys;
-
-                        if (ContextKeybind != null)
-                        {
-                            ContextKeybind.SetKeys(_PressedKeys);
-                            textBoxKeybind.Text = ContextKeybind.ToString();
-                            KeybindUpdated?.Invoke(this, ContextKeybind);
-                        }
-                        else
-                            textBoxKeybind.Text = "ERROR (No KeybindProperty set)";
-                    }
-                });
+        #region Keybind Property
+        /// <summary>The keybind that this control is presenting to the user.</summary>
+        public Keybind Keybind {
+            get => (Keybind)GetValue(KeybindProperty);
+            set => SetValue(KeybindProperty, value);
         }
 
-        private bool isRecording = false;
-        public void Start()
-        {
-            if (_ActiveKeybind != null)
-                _ActiveKeybind.Stop();
+        public static readonly DependencyProperty KeybindProperty =
+            DependencyProperty.Register("Keybind", typeof(Keybind), typeof(Control_Keybind), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        #endregion
 
-            isRecording = true;
-            _ActiveKeybind = this;
+        #region CanClear Property
+        /// <summary>Whether or not the control should show a button allowing the user to clear the keybind.</summary>
+        public bool CanClear {
+            get => (bool)GetValue(CanClearProperty);
+            set => SetValue(CanClearProperty, value);
+        }
+        public static readonly DependencyProperty CanClearProperty =
+            DependencyProperty.Register("CanClear", typeof(bool), typeof(Control_Keybind), new PropertyMetadata(false));
+        #endregion
 
-            buttonToggleAssign.Content = "Stop";
+        private static void InputEventsKeyDown(object sender, KeyboardInputEventArgs e) {
+            ActiveInstance?.Dispatcher.Invoke(() => {
+                if (ActiveInstance.Keybind == null)
+                    ActiveInstance.Keybind = new Keybind(Global.InputEvents.PressedKeys);
+                else
+                    ActiveInstance.Keybind.SetKeys(Global.InputEvents.PressedKeys);
+            });
         }
 
-        public void Stop()
-        {
-            buttonToggleAssign.Content = "Assign";
-            isRecording = false;
-            _ActiveKeybind = null;
-            KeybindUpdated?.Invoke(this, ContextKeybind);
+        public void Start() {
+            ActiveInstance?.Stop();
+            ActiveInstance = this;
         }
 
-        private void buttonToggleAssign_Click(object sender, RoutedEventArgs e)
-        {
-            if (isRecording)
-                Stop();
-            else
-                Start();
+        public void Stop() {
+            ActiveInstance = null;
         }
 
-        private void Grid_LostFocus(object sender, RoutedEventArgs e)
-        {
-            Stop();
-        }
-
-        private void Grid_KeyDown(object sender, KeyEventArgs e)
-        {
-            if ((e.Key.Equals(Key.Down) || e.Key.Equals(Key.Up) || e.Key.Equals(Key.Left) || e.Key.Equals(Key.Right)) && isRecording)
-                e.Handled = true;
-        }
+        private void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) => Start();
+        private void TextBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) => Stop();
+        private void Textbox_KeyDown(object sender, KeyEventArgs e) => e.Handled = true;
+        private void ClearButton_Click(object sender, RoutedEventArgs e) => Keybind?.SetKeys(new System.Windows.Forms.Keys[0]);
     }
 }

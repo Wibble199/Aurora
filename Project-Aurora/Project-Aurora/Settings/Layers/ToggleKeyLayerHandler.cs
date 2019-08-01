@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,13 +18,13 @@ namespace Aurora.Settings.Layers {
         public ToggleKeyLayerHandlerProperties() : base() { }
         public ToggleKeyLayerHandlerProperties(bool assign_default) : base(assign_default) { }
 
-        public Keybind[] _TriggerKeys { get; set; }
+        public ObservableCollection<Keybind> _TriggerKeys { get; set; }
         [JsonIgnore]
-        public Keybind[] TriggerKeys { get { return Logic._TriggerKeys ?? _TriggerKeys ?? new Keybind[] { }; } }
+        public ObservableCollection<Keybind> TriggerKeys { get { return Logic._TriggerKeys ?? _TriggerKeys ?? new ObservableCollection<Keybind>(); } }
 
         public override void Default() {
             base.Default();
-            _TriggerKeys = new Keybind[] { };
+            _TriggerKeys = new ObservableCollection<Keybind>();
         }
 
     }

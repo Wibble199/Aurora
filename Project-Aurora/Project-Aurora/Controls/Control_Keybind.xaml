@@ -3,10 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Aurora.Controls"
+             xmlns:a="clr-namespace:Aurora.Theme.Addons"
+             xmlns:c="clr-namespace:Aurora.Controls"
+             xmlns:l="clr-namespace:Aurora.Settings.Localization"
              mc:Ignorable="d">
-    <Grid MaxHeight="20" MinHeight="20" MinWidth="120" LostFocus="Grid_LostFocus" KeyDown="Grid_KeyDown">
-        <Button x:Name="buttonToggleAssign" Content="Assign" Height="20" HorizontalAlignment="Right" Width="75" VerticalAlignment="Top" Click="buttonToggleAssign_Click"/>
-        <TextBox x:Name="textBoxKeybind" VerticalAlignment="Top" Margin="0,1,80,0" IsEnabled="False"/>
-    </Grid>
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConv" />
+    </UserControl.Resources>
+
+    <DockPanel>
+        <Button HorizontalAlignment="Right" VerticalAlignment="Center" l:Localization.TooltipKey="clear_keybind" ToolTip="Clear keybind" ToolTipService.InitialShowDelay="0" ToolTipService.Placement="Left" Click="ClearButton_Click" DockPanel.Dock="Right" Visibility="{Binding CanClear, Mode=OneWay, Converter={StaticResource BoolToVisConv}}">
+            <c:Icon Source="/Aurora;component/Resources/UIIcons/trash-30.png" DockPanel.Dock="Right" Height="18" Width="18" Margin="2,0" />
+        </Button>
+        <TextBox Text="{Binding Keybind.DisplayText, Mode=OneWay}" IsReadOnly="True" a:TextboxAddons.Icon="/Aurora;component/Resources/UIIcons/keyboard-30.png" Focusable="True" IsReadOnlyCaretVisible="True" GotKeyboardFocus="TextBox_GotKeyboardFocus" LostKeyboardFocus="TextBox_LostKeyboardFocus" KeyDown="Textbox_KeyDown" />
+    </DockPanel>
 </UserControl>

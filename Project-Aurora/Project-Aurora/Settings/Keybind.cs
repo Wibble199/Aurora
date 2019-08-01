@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,14 +8,14 @@ using System.Windows.Forms;
 
 namespace Aurora.Settings
 {
-    public class Keybind
+    public class Keybind : INotifyPropertyChanged
     {
         [Newtonsoft.Json.JsonProperty]
         private Queue<Keys> _AssignedKeys = new Queue<Keys>();
 
-        public Keybind()
-        {
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public Keybind() { }
 
         public Keybind(Keys[] keys)
         {
@@ -24,7 +25,7 @@ namespace Aurora.Settings
         public Keybind SetKeys(Keys[] keys)
         {
             _AssignedKeys = new Queue<Keys>(keys);
-
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(""));
             return this;
         }
 
@@ -82,5 +83,7 @@ namespace Aurora.Settings
         {
             return new Keybind(_AssignedKeys.ToArray());
         }
+
+        public string DisplayText => ToString();
     }
 }

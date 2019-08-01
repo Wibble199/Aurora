@@ -102,9 +102,9 @@ namespace Aurora.Settings.Layers
         private void AddKeybind(Keybind keyb)
         {
             Control_Keybind keybindEditor = new Control_Keybind();
-            keybindEditor.ContextKeybind = keyb;
+            //keybindEditor.ContextKeybind = keyb;
             keybindEditor.VerticalAlignment = VerticalAlignment.Stretch;
-            keybindEditor.KeybindUpdated += KeybindEditor_KeybindUpdated;
+            //keybindEditor.KeybindUpdated += KeybindEditor_KeybindUpdated;
 
             DockPanel dp = new DockPanel()
             {
@@ -144,11 +144,11 @@ namespace Aurora.Settings.Layers
         {
             List<Keybind> newShortcuts = new List<Keybind>();
 
-            foreach (var child in this.stackPanelShortcuts.Children)
+            /*foreach (var child in this.stackPanelShortcuts.Children)
             {
                 if (child is DockPanel && (child as DockPanel).Tag is Control_Keybind)
                     newShortcuts.Add(((child as DockPanel).Tag as Control_Keybind).ContextKeybind);
-            }
+            }*/
 
             ((ShortcutAssistantLayerHandler)this.DataContext).Properties._ShortcutKeys = newShortcuts.ToArray();
         }

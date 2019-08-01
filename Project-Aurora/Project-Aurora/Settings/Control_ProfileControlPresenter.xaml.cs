@@ -36,8 +36,8 @@ namespace Aurora.Settings
         public Control_ProfileControlPresenter(ApplicationProfile profile) : this()
         {
             Profile = profile;
-            grd_LayerControl.IsHitTestVisible = true;
-            grd_LayerControl.Effect = null;
+            //grd_LayerControl.IsHitTestVisible = true;
+            //grd_LayerControl.Effect = null;
         }
 
         private void SetProfile(ApplicationProfile profile)
@@ -45,8 +45,8 @@ namespace Aurora.Settings
             isSettingNewLayer = true;
 
             DataContext = profile;
-            this.keybindEditor.Stop();
-            this.keybindEditor.ContextKeybind = profile.TriggerKeybind;
+            //this.keybindEditor.Stop();
+            //this.keybindEditor.ContextKeybind = profile.TriggerKeybind;
 
             isSettingNewLayer = false;
         }
@@ -82,16 +82,16 @@ namespace Aurora.Settings
             if (IsLoaded && !isSettingNewLayer && DataContext != null && DataContext is ApplicationProfile)
             {
                 Keybind newkb = new Keybind();
-                this.keybindEditor.Stop();
+                //this.keybindEditor.Stop();
                 (DataContext as ApplicationProfile).TriggerKeybind = newkb;
-                this.keybindEditor.ContextKeybind = newkb;
+                //this.keybindEditor.ContextKeybind = newkb;
             }
         }
 
         private void grd_LayerControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (IsLoaded)
-                this.keybindEditor.Stop();
+            //if (IsLoaded)
+            //    this.keybindEditor.Stop();
         }
     }
 }

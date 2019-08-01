@@ -6,6 +6,7 @@ using Aurora.Utils;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,9 @@ namespace Aurora.Settings.Layers {
         public TimerLayerHandlerProperties() : base() { }
         public TimerLayerHandlerProperties(bool assign_default) : base(assign_default) { }
 
-        public Keybind[] _TriggerKeys { get; set; }
+        public ObservableCollection<Keybind> _TriggerKeys { get; set; }
         [JsonIgnore]
-        public Keybind[] TriggerKeys { get { return Logic._TriggerKeys ?? _TriggerKeys ?? new Keybind[] { }; } }
+        public ObservableCollection<Keybind> TriggerKeys { get { return Logic._TriggerKeys ?? _TriggerKeys ?? new ObservableCollection<Keybind>(); } }
 
         [LogicOverridable("Duration")]
         public int? _Duration { get; set; }
@@ -39,7 +40,7 @@ namespace Aurora.Settings.Layers {
 
         public override void Default() {
             base.Default();
-            _TriggerKeys = new Keybind[] { };
+            _TriggerKeys = new ObservableCollection<Keybind>();
             _Duration = 5000;
             _AnimationType = TimerLayerAnimationType.OnOff;
             _RepeatAction = TimerLayerRepeatPressAction.Reset;

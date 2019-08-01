@@ -189,13 +189,13 @@ namespace Aurora.Settings
         {
             if (e.NewSize.Height < 80)
             {
-                this.textblockDownload.Visibility = Visibility.Collapsed;
-                this.borderBottom.Visibility = Visibility.Collapsed;
+                //this.textblockDownload.Visibility = Visibility.Collapsed;
+                //this.borderBottom.Visibility = Visibility.Collapsed;
             }
             else
             {
-                this.textblockDownload.Visibility = Visibility.Visible;
-                this.borderBottom.Visibility = Visibility.Visible;
+                //this.textblockDownload.Visibility = Visibility.Visible;
+                //this.borderBottom.Visibility = Visibility.Visible;
             }
         }
 
