@@ -71,7 +71,7 @@ namespace Aurora.Utils
 
         public long ReadLong(IntPtr address) => BitConverter.ToInt64(MemoryUtils.ReadMemory(processHandle, address, 8, out int bytesRead), 0);
         public long ReadLong(int baseAddress, int[] offsets) => ReadLong(CalculateAddress(baseAddress, offsets));
-        public long ReadLine(PointerData pointerData) => ReadLong(pointerData.baseAddress, pointerData.pointers);
+        public long ReadLong(PointerData pointerData) => ReadLong(pointerData.baseAddress, pointerData.pointers);
 
         public float ReadFloat(IntPtr address) => BitConverter.ToSingle(MemoryUtils.ReadMemory(processHandle, address, 4, out int bytesRead), 0);
         public float ReadFloat(int baseAddress, int[] offsets) => ReadFloat(CalculateAddress(baseAddress, offsets));
