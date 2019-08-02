@@ -30,7 +30,6 @@ namespace Aurora.Settings.Overrides.Logic {
             bool result = false;
             if (VariablePath.Length > 0)
                 try {
-                    object tmp = GameStateUtils.RetrieveGameStateParameter(gameState, VariablePath);
                     result = (bool)Utils.GameStateUtils.RetrieveGameStateParameter(gameState, VariablePath);
                 } catch { }
             return result;

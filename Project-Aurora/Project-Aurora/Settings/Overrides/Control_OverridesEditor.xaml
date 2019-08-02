@@ -35,7 +35,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>
-                                <Image Source="{Binding Item3, Converter={StaticResource TypeToIconConv}}" ToolTip="{Binding Item3, Converter={StaticResource PrettyTypeNameConv}, Mode=OneTime}" Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4" />
+                                <c:Icon Source="{Binding Item3, Converter={StaticResource TypeToIconConv}}" ToolTip="{Binding Item3, Converter={StaticResource PrettyTypeNameConv}, Mode=OneTime}" Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4" />
                                 <TextBlock Text="{Binding Item2, Mode=OneTime}" Margin="38,1,0,0" />
                                 <TextBlock Text="{Binding Item3, Converter={StaticResource PrettyTypeNameConv}, Mode=OneTime}" Margin="38,16,0,0" Opacity="0.3" />
                             </Grid>

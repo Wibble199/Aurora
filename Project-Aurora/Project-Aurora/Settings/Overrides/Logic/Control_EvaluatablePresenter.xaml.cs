@@ -62,7 +62,12 @@ namespace Aurora.Settings.Overrides.Logic {
             set => SetValue(EvalTypeProperty, value);
         }
         public static readonly DependencyProperty EvalTypeProperty =
-            DependencyProperty.Register("EvalType", typeof(Type), typeof(Control_EvaluatablePresenter), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+            DependencyProperty.Register("EvalType", typeof(Type), typeof(Control_EvaluatablePresenter), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, null, CoerceEvalType));
+
+        // Coerce any numeric types into double
+        private static Type[] evalTypeNumerics = new[] { typeof(int), typeof(long), typeof(short), typeof(float), typeof(decimal) };
+        private static object CoerceEvalType(DependencyObject d, object value) =>
+            evalTypeNumerics.Contains(value as Type) ? typeof(double) : value;
         #endregion
 
         #region Highlighted Property

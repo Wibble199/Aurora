@@ -156,7 +156,7 @@ namespace Aurora.Settings.Overrides {
                 { typeof(Color), "paint-palette-30.png" },
                 { typeof(KeySequence), "keyboard-30.png" }
             }.TryGetValue((Type)value, out string val) ? val : "diamonds-30.png";
-            return new BitmapImage(new Uri($"/Aurora;component/Resources/UIIcons/{imageName}", UriKind.Relative));
+            return new BitmapImage(new Uri($"pack://application:,,,/Aurora;component/Resources/UIIcons/{imageName}"));
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
