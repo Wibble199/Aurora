@@ -84,6 +84,8 @@
                                 </DockPanel>
                                 <CheckBox IsChecked="{Binding UseVolumeAsBrightness}" Content="Alt + volume controls change global brightness" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" l:Localization.Key="use_alt_volume" />
 
+                                <CheckBox IsChecked="{Binding EnableAudioCapture}" Content="Enable audio capture" Style="{StaticResource CheckboxSwitch}" HorizontalContentAlignment="Left" l:Localization.Key="audio_capture" />
+
                                 <DockPanel>
                                     <TextBlock Text="Bitmap quality" l:Localization.Key="bitmap_quality" />
                                     <ComboBox SelectedValue="{Binding BitmapAccuracy}" ItemsSource="{u:EnumToItemsSource {x:Type s:BitmapAccuracy}}" SelectedValuePath="Value" Width="180" l:Localization.UseLocalizedItemTemplate="True" DockPanel.Dock="Right" />

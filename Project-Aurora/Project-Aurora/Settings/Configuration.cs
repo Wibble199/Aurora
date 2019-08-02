@@ -65,6 +65,8 @@ namespace Aurora.Settings {
         [JsonProperty(PropertyName = "excluded_programs")]
         public virtual ObservableCollection<string> ExcludedPrograms { get; set; } = new ObservableCollection<string>();
 
+        public virtual bool EnableAudioCapture { get; set; } = true;
+
         public virtual bool OverlaysInPreview { get; set; } = false;
 
         public virtual List<string> ProfileOrder { get; set; } = new List<string>();

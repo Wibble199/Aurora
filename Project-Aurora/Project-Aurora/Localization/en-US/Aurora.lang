@@ -103,3 +103,4 @@ profile_import: Import an existing profile from file
 profile_export: Export the selected profile as JSON file
 profile_copy: Copy the selected profile (Ctrl + C)
 profile_paste: Paste profile from clipboard (Ctrl + V)
+audio_capture: Enable audio capture
