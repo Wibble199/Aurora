@@ -126,8 +126,8 @@ namespace Aurora.Settings.Overrides {
         /// that that item represents will be created.
         /// </summary>
         private void EvaluatableSpawnerItem_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            var dc = (KeyValuePair<Type, EvaluatableAttribute>)((FrameworkElement)sender).DataContext;
-            DragDrop.DoDragDrop(this, Activator.CreateInstance(dc.Key), DragDropEffects.Move);
+            var dc = (EvaluatableRegistry.EvaluatableTypeContainer)((FrameworkElement)sender).DataContext;
+            DragDrop.DoDragDrop(this, Activator.CreateInstance(dc.Evaluatable), DragDropEffects.Move);
         }
         #endregion
     }
