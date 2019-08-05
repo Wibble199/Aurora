@@ -3,7 +3,8 @@ using Aurora.Utils;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace Aurora.Settings.Overrides.Logic.Boolean {
+namespace Aurora.Settings.Overrides.Logic {
+
     [Evaluatable("Process Running", category: OverrideLogicCategory.Misc)]
     public class BooleanProcessRunning : Evaluatable<bool, TextBox> {
 

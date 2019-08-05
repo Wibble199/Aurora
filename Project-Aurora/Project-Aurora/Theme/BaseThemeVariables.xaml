@@ -1,6 +1,9 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:s="clr-namespace:System;assembly=mscorlib"
+    xmlns:sd="clr-namespace:System.Drawing;assembly=System.Drawing"
+    xmlns:a="clr-namespace:Aurora.Settings"
+    xmlns:ao="clr-namespace:Aurora.Settings.Overrides.Logic"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
     <!-- #region Color variables -->
@@ -130,5 +133,19 @@
         <SolidColorBrush Color="Yellow" />
         <SolidColorBrush Color="Lime" />
     </x:Array>
+    <!-- #endregion -->
+    
+    <!-- #region Overrides -->
+    <SolidColorBrush x:Key="OverridesHighlightedColor" Color="Yellow" />
+
+    <ResourceDictionary x:Key="OverridesTypeColors">
+        <SolidColorBrush x:Key="{x:Type s:Double}" Color="#8834DB4C" />
+        <SolidColorBrush x:Key="{x:Type s:Boolean}" Color="#883498DB" />
+        <SolidColorBrush x:Key="{x:Type s:String}" Color="#88DB3453" />
+        <SolidColorBrush x:Key="{x:Type sd:Color}" Color="#88DB34D5" />
+        <SolidColorBrush x:Key="{x:Type a:KeySequence}" Color="#88DB8734" />
+        <SolidColorBrush x:Key="{x:Type ao:Time}" Color="#88CDDB34" />
+    </ResourceDictionary>
+    <SolidColorBrush x:Key="OverridesTypeFallbackColor" Color="#88DBDBDB" />
     <!-- #endregion -->
 </ResourceDictionary>

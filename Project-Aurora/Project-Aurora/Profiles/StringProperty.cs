@@ -26,10 +26,9 @@ namespace Aurora.Profiles {
     /// </summary>
     public abstract class StringProperty<TBase> : AutoNotifyPropertyChanged<StringProperty<TBase>>, IStringProperty where TBase : StringProperty<TBase> {
         public static IReadOnlyDictionary<string, Member<TBase>> PropertyLookup { get; set; } = null;
-        public static object DictLock = new object();
 
         public StringProperty() {
-            PropertyLookup = GeneratePropertyLookup<TBase>();
+            PropertyLookup = StringProperty.GeneratePropertyLookup<TBase>();
         }
 
         public static new TBase Create() =>
@@ -38,12 +37,33 @@ namespace Aurora.Profiles {
         // Interface member
         IReadOnlyDictionary<string, IMember> IStringProperty.PropertyLookup => new ReadOnlyDictionary<string, IMember>(PropertyLookup.ToDictionary(kvp => kvp.Key, kvp => (IMember)kvp.Value));
 
+        /// <summary>Gets the value of the target property from this instance.</summary>
+        public object GetValueFromString(string propertyName, object input = null) =>
+            PropertyLookup.ContainsKey(propertyName) ? PropertyLookup[propertyName].Get((TBase)(object)this) : null;
+
+        /// <summary>Sets the value of the target property to the given value on this instance.</summary>
+        public void SetValueFromString(string propertyName, object value) {
+            if (PropertyLookup.ContainsKey(propertyName))
+                // Convert the value to the right type, though if null is given, don't try to cast it
+                PropertyLookup[propertyName].Set((TBase)(object)this, value == null ? null : Convert.ChangeType(value, PropertyLookup[propertyName].NonNullableMemberType));
+        }
+
+        public IStringProperty Clone() => (IStringProperty)MemberwiseClone();
+    }
+
+    public static class StringProperty {
+
+        /// <summary>Contains a list of type-specific lock objects.</summary>
+        private static Dictionary<Type, object> DictLocks = new Dictionary<Type, object>();
+
+        /// <summary>Gets or creates the type-specific lock object for the given type.</summary>
+        private static object GetLockObject(Type t) => DictLocks.TryGetValue(t, out var @lock) ? @lock : (DictLocks[t] = new object());
+
         /// <summary>
         /// Generates a property lookup dictionary for the given type, `T`.
         /// </summary>
-        /// <typeparam name="T">The type to create the dictionary from.</typeparam>
         public static IReadOnlyDictionary<string, Member<T>> GeneratePropertyLookup<T>() {
-            lock (DictLock) {
+            lock (GetLockObject(typeof(T))) {
 
                 var lookup = new Dictionary<string, Member<T>>();
                 var thisType = typeof(T);
@@ -109,19 +129,6 @@ namespace Aurora.Profiles {
                 return lookup;
             }
         }
-
-        /// <summary>Gets the value of the target property from this instance.</summary>
-        public object GetValueFromString(string propertyName, object input = null) =>
-            PropertyLookup.ContainsKey(propertyName) ? PropertyLookup[propertyName].Get((TBase)(object)this) : null;
-
-        /// <summary>Sets the value of the target property to the given value on this instance.</summary>
-        public void SetValueFromString(string propertyName, object value) {
-            if (PropertyLookup.ContainsKey(propertyName))
-                // Convert the value to the right type, though if null is given, don't try to cast it
-                PropertyLookup[propertyName].Set((TBase)(object)this, value == null ? null : Convert.ChangeType(value, PropertyLookup[propertyName].NonNullableMemberType));
-        }
-
-        public IStringProperty Clone() => (IStringProperty)MemberwiseClone();
     }
 
 

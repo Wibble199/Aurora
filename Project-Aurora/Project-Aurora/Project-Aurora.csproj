@@ -691,9 +691,6 @@
     <Compile Include="Settings\Overrides\Logic\Number\Number_Maths.cs" />
     <Compile Include="Settings\Overrides\Logic\EvaluatableAttribute.cs" />
     <Compile Include="Settings\Overrides\Logic\Boolean\Boolean_GameState.cs" />
-    <Compile Include="Settings\Overrides\Logic\Boolean\Control_BooleanGSINumeric.xaml.cs">
-      <DependentUpon>Control_BooleanGSINumeric.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Settings\Overrides\Logic\Boolean\Control_BooleanNot.xaml.cs">
       <DependentUpon>Control_BooleanNot.xaml</DependentUpon>
     </Compile>
@@ -1589,6 +1586,11 @@
     <Resource Include="Resources\UIIcons\book-shelf-30.png" />
     <Resource Include="Resources\UIIcons\layers-30.png" />
     <Resource Include="Resources\UIIcons\trash-30.png" />
+    <Resource Include="Resources\UIIcons\alarm-clock-30.png" />
+    <Content Include="Theme\AuroraAppTheme.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AuroraAppTheme.xaml</LastGenOutput>
+    </Content>
     <Content Include="Theme\AuroraTheme\Buttons.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Buttons.xaml</LastGenOutput>
@@ -2093,6 +2095,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Theme\AuroraAppTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AuroraAppTheme.tt</DependentUpon>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Settings\Overrides\Logic\Boolean\Control_BooleanGSIEnum.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -2102,10 +2111,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Settings\Overrides\Logic\Color\Control_ColorFromValues.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Settings\Overrides\Logic\Boolean\Control_BooleanGSINumeric.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -2356,10 +2361,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Theme\AuroraAppTheme.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Theme\AuroraTheme\Tooltip.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -2421,6 +2422,7 @@
   <ItemGroup>
     <Folder Include="Profiles\Subnautica\Layers\" />
     <Folder Include="Properties\DataSources\" />
+    <Folder Include="Settings\Overrides\Interface\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="CroccatTalkWrapper\win32-x86-64\talkfx-c.dll">

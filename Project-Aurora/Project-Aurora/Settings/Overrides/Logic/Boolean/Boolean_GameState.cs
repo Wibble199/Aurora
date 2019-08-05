@@ -22,7 +22,7 @@ namespace Aurora.Settings.Overrides.Logic {
         public string VariablePath { get; set; } = "";
 
         /// <summary>Creates a new control for this Boolean GSI.</summary>
-        public override Control_GameStateParameterPicker CreateControl() => new Control_GameStateParameterPicker { PropertyType = PropertyType.Boolean, Margin = new System.Windows.Thickness(0, 0, 0, 6) }
+        public override Control_GameStateParameterPicker CreateControl() => new Control_GameStateParameterPicker { PropertyType = PropertyType.Boolean }
             .WithBinding(Control_GameStateParameterPicker.SelectedPathProperty, new Binding("VariablePath") { Source = this, Mode = BindingMode.TwoWay });
 
         /// <summary>Fetches the given boolean value from the game state and returns it.</summary>
@@ -46,66 +46,7 @@ namespace Aurora.Settings.Overrides.Logic {
 
         public override IEvaluatable<bool> Clone() => new BooleanGSIBoolean { VariablePath = VariablePath };
     }
-
-
-
-    /// <summary>
-    /// Condition that accesses some specified game state variables (of numeric type) and returns a comparison between them.
-    /// </summary>
-    [Evaluatable("Numeric State Variable", category: OverrideLogicCategory.State)]
-    public class BooleanGSINumeric : Evaluatable<bool, Control_ConditionGSINumeric> {
-
-        /// <summary>Creates a blank numeric game state lookup evaluatable.</summary>
-        public BooleanGSINumeric() { }
-        /// <summary>Creates a numeric game state lookup that returns true when the variable at the given path equals the given value.</summary>
-        public BooleanGSINumeric(string path1, double val) { Operand1Path = path1; Operand2Path = val.ToString(); }
-        /// <summary>Creates a numeric game state lookup that returns true when the variable at path1 equals the given variable at path2.</summary>
-        public BooleanGSINumeric(string path1, string path2) { Operand1Path = path1; Operand2Path = path2; }
-        /// <summary>Creates a numeric game state lookup that returns a boolean depending on the given operator's comparison between the variable at the given path and the value.</summary>
-        public BooleanGSINumeric(string path1, ComparisonOperator op, double val) { Operand1Path = path1; Operand2Path = val.ToString(); Operator = op; }
-        /// <summary>Creates a numeric game state lookup that returns a boolean depending on the given operator's comparison between the variable at path1 and the variable at path2.</summary>
-        public BooleanGSINumeric(string path1, ComparisonOperator op, string path2) { Operand1Path = path1; Operand2Path = path2; Operator = op; }
-
-        // Path to the two GSI variables (or numbers themselves) and the operator to compare them with
-        public string Operand1Path { get; set; }
-        public string Operand2Path { get; set; }
-        public ComparisonOperator Operator { get; set; } = ComparisonOperator.EQ;
-
-        // Control assigned to this condition
-        public override Control_ConditionGSINumeric CreateControl() => new Control_ConditionGSINumeric(this);
-
-        /// <summary>Parses the numbers, compares the result, and returns the result.</summary>
-        public override bool Evaluate(IGameState gameState) {
-            // Parse the operands (either as numbers or paths)
-            double op1 = GameStateUtils.TryGetDoubleFromState(gameState, Operand1Path);
-            double op2 = GameStateUtils.TryGetDoubleFromState(gameState, Operand2Path);
-
-            // Evaluate the operands based on the selected operator and return the result.
-            return Operator switch {
-                ComparisonOperator.EQ => op1 == op2,
-                ComparisonOperator.NEQ => op1 != op2,
-                ComparisonOperator.LT => op1 < op2,
-                ComparisonOperator.LTE => op1 <= op2,
-                ComparisonOperator.GT => op1 > op2,
-                ComparisonOperator.GTE => op1 >= op2,
-                _ => false
-            };
-        }
-
-        /// <summary>Update the assigned control with the new application.</summary>
-        public override void SetApplication(Application application) {
-            Control?.SetApplication(application);
-
-            // Check to ensure the variable paths are valid
-            if (application != null && !double.TryParse(Operand1Path, out _) && !string.IsNullOrWhiteSpace(Operand1Path) && !application.ParameterLookup.IsValidParameter(Operand1Path))
-                Operand1Path = string.Empty;
-            if (application != null && !double.TryParse(Operand2Path, out _) && !string.IsNullOrWhiteSpace(Operand2Path) && !application.ParameterLookup.IsValidParameter(Operand2Path))
-                Operand2Path = string.Empty;
-        }
-
-        public override IEvaluatable<bool> Clone() => new BooleanGSINumeric { Operand1Path = Operand1Path, Operand2Path = Operand2Path, Operator = Operator };
-    }
-
+       
 
 
     /// <summary>
@@ -147,5 +88,4 @@ namespace Aurora.Settings.Overrides.Logic {
 
         public override IEvaluatable<bool> Clone() => new BooleanGSIEnum { StatePath = StatePath, EnumValue = EnumValue };
     }
-
 }

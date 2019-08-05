@@ -25,7 +25,7 @@ namespace Aurora.Settings.Overrides.Logic {
         public Keys TargetKey { get; set; } = Keys.Space;
 
         /// <summary>Create a control where the user can select the key they wish to detect.</summary>
-        public override StringPropertyField CreateControl() => new StringPropertyField { Type = typeof(Keys), Margin = new System.Windows.Thickness(0, 0, 0, 6) }
+        public override StringPropertyField CreateControl() => new StringPropertyField { Type = typeof(Keys) }
             .WithBinding(StringPropertyField.ValueProperty, new Binding("TargetKey") { Source = this, Mode = BindingMode.TwoWay });
 
         /// <summary>True if the global event bus's pressed key list contains the target key.</summary>
@@ -55,7 +55,7 @@ namespace Aurora.Settings.Overrides.Logic {
         public override StackPanel CreateControl() {
             var panel = new StackPanel();
 
-            var c = new StringPropertyField { Type = typeof(Keys), Margin = new System.Windows.Thickness(0, 0, 0, 6) };
+            var c = new StringPropertyField { Type = typeof(Keys) };
             c.SetBinding(StringPropertyField.ValueProperty, new Binding("TargetKey") { Source = this, Mode = BindingMode.TwoWay });
             panel.Children.Add(c);
 
@@ -107,7 +107,7 @@ namespace Aurora.Settings.Overrides.Logic {
         public System.Windows.Forms.MouseButtons TargetButton { get; set; } = System.Windows.Forms.MouseButtons.Left;
 
         /// <summary>Create a control where the user can select the mouse button they wish to detect.</summary>
-        public override StringPropertyField CreateControl() => new StringPropertyField { Type = typeof(System.Windows.Forms.MouseButtons), Margin = new System.Windows.Thickness(0, 0, 0, 6) }
+        public override StringPropertyField CreateControl() => new StringPropertyField { Type = typeof(System.Windows.Forms.MouseButtons) }
             .WithBinding(StringPropertyField.ValueProperty, new Binding("TargetButton") { Source = this, Mode = BindingMode.TwoWay });
 
         /// <summary>True if the global event bus's pressed mouse button list contains the target button.</summary>

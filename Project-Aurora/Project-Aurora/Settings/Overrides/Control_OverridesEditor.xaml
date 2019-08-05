@@ -7,6 +7,7 @@
              xmlns:conditions="clr-namespace:Aurora.Settings.Overrides.Logic"
              xmlns:utils="clr-namespace:Aurora.Utils"
              xmlns:overrides="clr-namespace:Aurora.Settings.Overrides"
+             xmlns:overrideslogic="clr-namespace:Aurora.Settings.Overrides.Logic"
              xmlns:c="clr-namespace:Aurora.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="520" d:DesignWidth="920">
@@ -15,6 +16,7 @@
         <overrides:TypeToIconConverter x:Key="TypeToIconConv" />
         <overrides:HasValueToBoolConverter x:Key="HasValToBoolConv" />
         <utils:IsNullToVisibilityConverter x:Key="IsNullToVisConv" />
+        <overrideslogic:EvaluatableBackgroundSelector x:Key="EvaluatableBackgroundSelector" />
     </UserControl.Resources>
 
     <Grid>
@@ -68,7 +70,12 @@
                                         <ItemsControl ItemsSource="{Binding .}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding Path=Value.Name}" Margin="4" MouseDown="EvaluatableSpawnerItem_MouseDown" />
+                                                    <Border Background="{Binding Path=ResultType, Converter={StaticResource EvaluatableBackgroundSelector}}" CornerRadius="{StaticResource ControlBorderRadius}" BorderBrush="#2000" BorderThickness="1" HorizontalAlignment="Left">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <c:Icon Source="{Binding Path=ResultType, Converter={StaticResource TypeToIconConv}, Mode=OneWay}" Width="18" Height="18" Margin="4,0,0,0" Foreground="{StaticResource ForegroundTextBrush}" />
+                                                            <TextBlock Text="{Binding Path=Metadata.Name}" Margin="4" MouseDown="EvaluatableSpawnerItem_MouseDown" />
+                                                        </StackPanel>
+                                                    </Border>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
                                         </ItemsControl>

@@ -23,7 +23,7 @@ namespace Aurora.Settings.Overrides.Logic {
         public string VariablePath { get; set; }
 
         // Control assigned to this evaluatable
-        public override Control_GameStateParameterPicker CreateControl() => new Control_GameStateParameterPicker { PropertyType = PropertyType.Number, Margin = new System.Windows.Thickness(0, 0, 0, 6) }
+        public override Control_GameStateParameterPicker CreateControl() => new Control_GameStateParameterPicker { PropertyType = PropertyType.Number }
             .WithBinding(Control_GameStateParameterPicker.SelectedPathProperty, new Binding("VariablePath") { Source = this, Mode = BindingMode.TwoWay });
 
         /// <summary>Parses the numbers, compares the result, and returns the result.</summary>

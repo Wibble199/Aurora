@@ -12,7 +12,7 @@ namespace Aurora.Settings.Overrides.Logic {
         public string VariablePath { get; set; } = "";
 
         /// <summary>Control assigned to this logic node.</summary>
-        public override Control_GameStateParameterPicker CreateControl() => new Control_GameStateParameterPicker { PropertyType = PropertyType.String, Margin = new System.Windows.Thickness(0, 0, 0, 6) }
+        public override Control_GameStateParameterPicker CreateControl() => new Control_GameStateParameterPicker { PropertyType = PropertyType.String }
             .WithBinding(Control_GameStateParameterPicker.SelectedPathProperty, new Binding("VariablePath") { Source = this, Mode = BindingMode.TwoWay });
 
         /// <summary>Attempts to return the string at the given state variable.</summary>

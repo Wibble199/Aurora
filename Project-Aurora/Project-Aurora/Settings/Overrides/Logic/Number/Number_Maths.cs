@@ -235,7 +235,7 @@ namespace Aurora.Settings.Overrides.Logic {
         public double Value { get; set; }
 
         // The control allowing the user to edit the number value
-        public override DoubleUpDown CreateControl() => new DoubleUpDown { Margin = new System.Windows.Thickness(0, 0, 0, 6) }.WithBinding(DoubleUpDown.ValueProperty, new Binding("Value") { Source = this });
+        public override DoubleUpDown CreateControl() => new DoubleUpDown().WithBinding(DoubleUpDown.ValueProperty, new Binding("Value") { Source = this });
 
         /// <summary>Simply returns the constant value specified by the user</summary>
         public override double Evaluate(IGameState gameState) => Value;

@@ -24,7 +24,7 @@ namespace Aurora.Settings.Overrides {
             InitializeComponent();
             ((FrameworkElement)Content).DataContext = this;
 
-            var y = EvaluatableRegistry.Get().GroupBy(x => x.Value.Category);
+            var y = EvaluatableRegistry.Get().GroupBy(x => x.Metadata.Category);
             BlockSpawnTabControl.ItemsSource = y;
         }
 
@@ -154,7 +154,8 @@ namespace Aurora.Settings.Overrides {
                 { typeof(float), "numbers-30.png" },
                 { typeof(double), "numbers-30.png" },
                 { typeof(Color), "paint-palette-30.png" },
-                { typeof(KeySequence), "keyboard-30.png" }
+                { typeof(KeySequence), "keyboard-30.png" },
+                { typeof(Logic.Time), "alarm-clock-30.png" }
             }.TryGetValue((Type)value, out string val) ? val : "diamonds-30.png";
             return new BitmapImage(new Uri($"pack://application:,,,/Aurora;component/Resources/UIIcons/{imageName}"));
         }

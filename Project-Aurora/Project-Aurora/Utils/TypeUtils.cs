@@ -13,7 +13,7 @@ namespace Aurora.Utils
             return IsNumericType(o.GetType());
         }
 
-        public static bool IsNumericType(Type type) {
+        public static bool IsNumericType(this Type type) {
             switch (Type.GetTypeCode(type)) {
                 case TypeCode.Byte:
                 case TypeCode.SByte:
@@ -51,19 +51,19 @@ namespace Aurora.Utils
         /// If the given type is a nullable type (e.g. float?) then returns the non-nullable variant (e.g. float).
         /// If the given type is non nullable, simply returns it.
         /// </summary>
-        public static Type GetNonNullableOf(Type type) =>
+        public static Type GetNonNullableOf(this Type type) =>
             type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>) ? Nullable.GetUnderlyingType(type) : type;
 
         /// <summary>
         /// Checks if the given type implements the given interface type.
         /// </summary>
-        public static bool IsInterface(Type type, Type @interface) => @interface.IsAssignableFrom(type);
+        public static bool IsInterface(this Type type, Type @interface) => @interface.IsAssignableFrom(type);
                 
         /// <summary>
         /// Checks if a type extends from the given generic type. This will not check the generic type's type parameters.
         /// Note that passing a typed-generic (as opposed to a typeless "Generic&lt;&gt;") will result in false always.
         /// </summary>
-        public static bool ExtendsGenericType(Type type, Type generic) {
+        public static bool ExtendsGenericType(this Type type, Type generic) {
             // https://stackoverflow.com/a/457708/1305670
             while (type != null && type != typeof(object)) {
                 var cur = type.IsGenericType ? type.GetGenericTypeDefinition() : type;
@@ -77,7 +77,7 @@ namespace Aurora.Utils
         /// <summary>
         /// Checks if a type extends from the given generic type with the corresponding generic type arguments.
         /// </summary>
-        public static bool ExtendsGenericType(Type type, Type generic, params Type[] genericParameters) {
+        public static bool ExtendsGenericType(this Type type, Type generic, params Type[] genericParameters) {
             while (type != null && type != typeof(object)) {
                 var cur = type.IsGenericType ? type.GetGenericTypeDefinition() : type;
                 var genArgs = type.GetGenericArguments();
@@ -88,9 +88,17 @@ namespace Aurora.Utils
             return false;
         }
 
-        public static bool ImplementsGenericInterface(Type type, Type interfaceType) =>
+        /// <summary>Checks whether the given 'this' type extends the given *generic* interface, regardless of type parameters.</summary>
+        /// <param name="type">The type that will be checked to see if ti implements the given interface.</param>
+        /// <param name="interfaceType">The type of generic interface to check if 'type' extends. Does not account for type parameters.</param>
+        public static bool ImplementsGenericInterface(this Type type, Type interfaceType) =>
             type.GetInterfaces().Select(i => i.IsGenericType ? i.GetGenericTypeDefinition() : i).Contains(interfaceType);
 
+        /// <summary>Checks whether the given 'this' type extends the given *generic* interface with the given type parameters.</summary>
+        /// <param name="type">The type that will be checked to see if it implements the given interface.</param>
+        /// <param name="interfaceType">The type of generic interface to check if 'type' extends.</param>
+        /// <param name="interfaceGenericParameters">An array of types to check against the type parameters in the generic interface.
+        /// Note that the length of this array must match the number of type parameters in the target interface.</param>
         public static bool ImplementsGenericInterface(Type type, Type interfaceType, params Type[] interfaceGenericParameters) =>
             type.GetInterfaces()
                 .Where(i => i.IsGenericType)
@@ -99,5 +107,15 @@ namespace Aurora.Utils
                     .Select((arg, i) => arg == interfaceGenericParameters[i])
                     .All(v => v)
                 ?? false;
+
+        /// <summary>Gets the generic argument types of the given interface for the given type.</summary>
+        /// <param name="type">The type to check interfaces on.</param>
+        /// <param name="interfaceType">The type of interface whose generic parameters to fetch.</param>
+        /// <returns>An array containing all the types of generic parameters defined for this type on the given interface, or null if interface not found.</returns>
+        public static Type[] GetGenericInterfaceTypes(this Type type, Type interfaceType) =>
+            type.GetInterfaces()
+                .Where(i => i.IsGenericType)
+                .SingleOrDefault(i => i.GetGenericTypeDefinition() == interfaceType)?
+                .GetGenericArguments();
     }
 }

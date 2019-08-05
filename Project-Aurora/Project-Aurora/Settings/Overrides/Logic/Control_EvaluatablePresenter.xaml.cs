@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 
 namespace Aurora.Settings.Overrides.Logic {
@@ -19,6 +21,7 @@ namespace Aurora.Settings.Overrides.Logic {
         /// <summary>Creates a new <see cref="Control_EvaluatablePresenter"/>.</summary>
         public Control_EvaluatablePresenter() : base() {
             InitializeComponent();
+            ((FrameworkElement)Content).DataContext = this;
         }
         #endregion
 
@@ -74,7 +77,7 @@ namespace Aurora.Settings.Overrides.Logic {
         /// <summary>Write-only property to set the highlight status of this presenter.</summary>
         protected bool Highlighted {
             set {
-                Background = value ? Brushes.Red : Brushes.Transparent;
+                Background = value ? App.Current.FindResource("OverridesHighlightedColor") as SolidColorBrush : Brushes.Transparent;
             }
         }
         #endregion
@@ -186,7 +189,18 @@ namespace Aurora.Settings.Overrides.Logic {
         }
         #endregion
     }
-    
+
+    /// <summary>
+    /// Converter that takes a type and returns the color (as defined in the theme) that is used to represent evaluatables of this type.
+    /// </summary>
+    public class EvaluatableBackgroundSelector : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+            var dic = App.Current.FindResource("OverridesTypeColors") as ResourceDictionary;
+            return (value != null && dic.Contains(value) ? dic[value] : App.Current.FindResource("OverridesTypeFallbackColor")) as SolidColorBrush;
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    }
+
 
     /// <summary>
     /// Event arguments passed to subscribers when the IEvaluatable expression changes on a <see cref="Control_EvaluatablePresenter"/>.
