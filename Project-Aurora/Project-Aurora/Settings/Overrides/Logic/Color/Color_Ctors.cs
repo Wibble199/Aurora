@@ -10,7 +10,7 @@ namespace Aurora.Settings.Overrides.Logic {
     /// <summary>
     /// Constant color that allows the user to select it from a color picker.
     /// </summary>
-    [Evaluatable("Color (From picker)", category: OverrideLogicCategory.Logic)]
+    [Evaluatable("Color (From picker)", category: OverrideLogicCategory.Color)]
     public class ColorConstant : Evaluatable<Color, ColorPicker> {
         /// <summary>Creates a new constant color.</summary>
         public ColorConstant() { Color = Color.Red; }
@@ -34,7 +34,7 @@ namespace Aurora.Settings.Overrides.Logic {
     }
 
 
-    [Evaluatable("Color (From values)", category: OverrideLogicCategory.Logic)]
+    [Evaluatable("Color (From values)", category: OverrideLogicCategory.Color)]
     public class ColorFromValues : Evaluatable<Color, Control_ColorFromValues> {
         /// <summary>Creates a new color calculated from the default number evaluatables.</summary>
         public ColorFromValues() : this(new NumberConstant(255), new NumberConstant(0), new NumberConstant(0)) { }

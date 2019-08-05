@@ -59,7 +59,7 @@ namespace Aurora.Settings.Overrides.Logic
     }
 
 
-    [Evaluatable("If - Else If - Else", category: OverrideLogicCategory.Logic)]
+    [Evaluatable("If - Else If - Else (Boolean)", category: OverrideLogicCategory.Logic)]
     public class IfElseBoolean : IfElseGeneric<bool> {
         /// <summary>Creates a new If-Else evaluatable with default evaluatables.</summary>
         public IfElseBoolean() : base() { }
@@ -72,7 +72,7 @@ namespace Aurora.Settings.Overrides.Logic
     }
 
 
-    [Evaluatable("If - Else If - Else", category: OverrideLogicCategory.Logic)]
+    [Evaluatable("If - Else If - Else (Number)", category: OverrideLogicCategory.Logic)]
     public class IfElseNumeric : IfElseGeneric<double> {
         /// <summary>Creates a new If-Else evaluatable with default evaluatables.</summary>
         public IfElseNumeric() : base() { }
@@ -85,7 +85,7 @@ namespace Aurora.Settings.Overrides.Logic
     }
 
 
-    [Evaluatable("If - Else If - Else", category: OverrideLogicCategory.Logic)]
+    [Evaluatable("If - Else If - Else (String)", category: OverrideLogicCategory.Logic)]
     public class IfElseString : IfElseGeneric<string> {
         /// <summary>Creates a new If-Else evaluatable with default evaluatables.</summary>
         public IfElseString() : base() { }
@@ -98,7 +98,7 @@ namespace Aurora.Settings.Overrides.Logic
     }
 
 
-    [Evaluatable("If - Else If - Else", category: OverrideLogicCategory.Logic)]
+    [Evaluatable("If - Else If - Else (Color)", category: OverrideLogicCategory.Logic)]
     public class IfElseColor : IfElseGeneric<Color> {
         /// <summary>Creates a new If-Else evaluatable with default evaluatables.</summary>
         public IfElseColor() : base() { }
@@ -114,7 +114,7 @@ namespace Aurora.Settings.Overrides.Logic
     }
 
 
-    [Evaluatable("If - Else If - Else", category: OverrideLogicCategory.Logic)]
+    [Evaluatable("If - Else If - Else (Key Sequence)", category: OverrideLogicCategory.Logic)]
     public class IfElseKeySequence : IfElseGeneric<KeySequence> {
         /// <summary>Creates a new If-Else evaluatable with default evaluatables.</summary>
         public IfElseKeySequence() : base() { }

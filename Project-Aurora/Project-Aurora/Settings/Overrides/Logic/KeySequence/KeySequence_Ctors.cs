@@ -9,7 +9,7 @@ namespace Aurora.Settings.Overrides.Logic {
     /// <summary>
     /// A constant KeySequence value that allows the user to select with a control.
     /// </summary>
-    [Evaluatable("Key Sequence (From picker)", category: OverrideLogicCategory.Logic)]
+    [Evaluatable("Key Sequence (From picker)", category: OverrideLogicCategory.Input)]
     public class KeySequenceConstant : Evaluatable<KeySequence, Controls.KeySequence> {
 
         public KeySequence Sequence { get; set; }
@@ -34,7 +34,7 @@ namespace Aurora.Settings.Overrides.Logic {
     /// <summary>
     /// A KeySequence that is set from given property values.
     /// </summary>
-    [Evaluatable("Key Sequence (Freeform from values)", category: OverrideLogicCategory.Logic)]
+    [Evaluatable("Key Sequence (Freeform from values)", category: OverrideLogicCategory.Input)]
     public class KeySequenceFromValues : Evaluatable<KeySequence, Control_KeySequenceFromValues> {
 
         // Evaluatables used to build the freeform object

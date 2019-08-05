@@ -36,6 +36,7 @@ namespace Aurora.Settings.Overrides.Logic {
         [Description("Misc.")] Misc,
         [Description("Maths (Advanced)")] Maths,
         [Description("String (Advanced)")] String,
+        [Description("Color")] Color,
         [Description("Time (Advanced)")] Time
     }
 }

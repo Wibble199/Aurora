@@ -36,63 +36,6 @@ namespace Aurora.Settings.Overrides.Logic {
 
 
     /// <summary>
-    /// Condition that is true when a specific keyboard button is held down.
-    /// </summary>
-    [Evaluatable("Key Press (Retain for duration)", category: OverrideLogicCategory.Input)]
-    public class BooleanKeyDownWithTimer : Evaluatable<bool, StackPanel> {
-        private Stopwatch watch = new Stopwatch();
-
-        /// <summary>Creates a new key held condition with the default key (Space) as the trigger key.</summary>
-        public BooleanKeyDownWithTimer() { }
-        /// <summary>Creates a new key held condition with the given key as the trigger key.</summary>
-        public BooleanKeyDownWithTimer(Keys target, float seconds) : this() { TargetKey = target; Seconds = seconds; }
-
-        /// <summary>The key to be checked to see if it is held down.</summary>
-        public Keys TargetKey { get; set; } = Keys.Space;
-        public float Seconds { get; set; } = 1;
-
-        /// <summary>Create a control where the user can select the key they wish to detect.</summary>
-        public override StackPanel CreateControl() {
-            var panel = new StackPanel();
-
-            var c = new StringPropertyField { Type = typeof(Keys) };
-            c.SetBinding(StringPropertyField.ValueProperty, new Binding("TargetKey") { Source = this, Mode = BindingMode.TwoWay });
-            panel.Children.Add(c);
-
-            var time = new StackPanel();
-            time.Orientation = Orientation.Horizontal;
-            var text = new TextBlock();
-            text.Text = "For";
-            time.Children.Add(text);
-
-            c = new StringPropertyField { Type = typeof(float), Margin = new System.Windows.Thickness(5, 0, 5, 6) };
-            c.SetBinding(StringPropertyField.ValueProperty, new Binding("Seconds") { Source = this, Mode = BindingMode.TwoWay });
-            time.Children.Add(c);
-
-            text = new TextBlock { Text = "Seconds" };
-            time.Children.Add(text);
-
-            panel.Children.Add(time);
-            return panel;
-        }
-        /// <summary>True if the global event bus's pressed key list contains the target key.</summary>
-        public override bool Evaluate(IGameState gameState) {
-            if (Global.InputEvents.PressedKeys.Contains(TargetKey)) {
-                watch.Restart();
-                return true;
-            } else if (watch.IsRunning && watch.Elapsed.TotalSeconds <= Seconds) {
-                return true;
-            } else
-                watch.Stop();
-
-            return false;
-        }
-
-        public override IEvaluatable<bool> Clone() => new BooleanKeyDown { TargetKey = TargetKey };
-    }
-
-
-    /// <summary>
     /// Condition that is true when a specific mouse button is held down.
     /// </summary>
     [Evaluatable("Mouse Button Held", category: OverrideLogicCategory.Input)]
@@ -145,7 +88,7 @@ namespace Aurora.Settings.Overrides.Logic {
     /// An evaluatable that returns true when the specified time has elapsed without the user pressing a keyboard button or clicking the mouse.
     /// </summary>
     [Evaluatable("Away Timer", category: OverrideLogicCategory.Input)]
-    public class BooleanAwayTimer : Evaluatable<bool, StackPanel> {
+    public class BooleanAwayTimer : Evaluatable<bool, Control_TimeAndUnit> {
 
         /// <summary>Gets or sets the time before this timer starts returning true after there has been no user input.</summary>
         public double InactiveTime { get; set; }
@@ -165,20 +108,11 @@ namespace Aurora.Settings.Overrides.Logic {
             TimeUnit = unit;
         }
         #endregion
-        
+
         /// <summary>Creates a control allowing the user to change the inactive time.</summary>
-        public override StackPanel CreateControl() {
-            var value = new DoubleUpDown { Minimum = 0, Maximum = double.MaxValue, Margin = new System.Windows.Thickness(0, 0, 8, 0) };
-            value.SetBinding(DoubleUpDown.ValueProperty, new Binding("InactiveTime") { Source = this, Mode = BindingMode.TwoWay });
-
-            var unit = new ComboBox { ItemsSource = Utils.EnumToItemsSourceExtension.GetListFor(typeof(TimeUnit)), DisplayMemberPath = "Text", SelectedValuePath = "Value", Width = 100  };
-            unit.SetBinding(ComboBox.SelectedValueProperty, new Binding("TimeUnit") { Source = this, Mode = BindingMode.TwoWay });
-
-            var sp = new StackPanel { Orientation = Orientation.Horizontal };
-            sp.Children.Add(value);
-            sp.Children.Add(unit);
-            return sp;
-        }
+        public override Control_TimeAndUnit CreateControl() => new Control_TimeAndUnit()
+            .WithBinding(Control_TimeAndUnit.TimeProperty, new Binding("InactiveTime") { Source = this, Mode = BindingMode.TwoWay })
+            .WithBinding(Control_TimeAndUnit.UnitProperty, new Binding("TimeUnit") { Source = this, Mode = BindingMode.TwoWay });
 
         /// <summary>Checks to see if the duration since the last input is greater than the given inactive time.</summary>
         public override bool Evaluate(IGameState gameState) {

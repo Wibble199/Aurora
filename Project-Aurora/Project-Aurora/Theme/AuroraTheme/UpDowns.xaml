@@ -116,6 +116,7 @@
         <Setter Property="IsTabStop"  Value="False" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="TextAlignment" Value="Right" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
 
         <Setter Property="WatermarkTemplate">
             <Setter.Value>

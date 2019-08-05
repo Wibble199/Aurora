@@ -61,10 +61,11 @@ namespace Aurora.Profiles.Desktop
 
             }) {
                 OverrideLogic = new ObservableDictionary<string, IEvaluatable>() {
-                    { "_Enabled", new BooleanOr(new[]{
-                        new BooleanKeyDownWithTimer(Keys.VolumeUp, 3),
-                        new BooleanKeyDownWithTimer(Keys.VolumeDown, 3)
-                    }) }
+                    { "_Enabled", new BooleanExtender(new BooleanOr(new[]{
+                            new BooleanKeyDown(Keys.VolumeUp),
+                            new BooleanKeyDown(Keys.VolumeDown)
+                        }), 3)
+                    }
                 }
             });
         }

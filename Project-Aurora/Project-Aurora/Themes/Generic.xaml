@@ -6,6 +6,7 @@
 
 
     <Style TargetType="{x:Type c:Icon}">
+        <Setter Property="IsHitTestVisible" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type c:Icon}">
