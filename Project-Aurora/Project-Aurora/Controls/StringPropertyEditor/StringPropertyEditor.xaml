@@ -14,11 +14,7 @@
             <Setter Property="Margin" Value="0,8,0,4" />
             <Setter Property="FontSize" Value="14" />
         </Style>
-        <Style x:Key="GroupPanel" TargetType="{x:Type Border}">
-            <Setter Property="BorderBrush" Value="{StaticResource Panel1BackgroundBrush}" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="Background" Value="#04CCCCCC" />
-            <Setter Property="CornerRadius" Value="{StaticResource ControlBorderRadius}" />
+        <Style x:Key="GroupPanel" TargetType="{x:Type Border}" BasedOn="{StaticResource BaseGroup}">
             <Setter Property="Padding" Value="12,8,8,8" />
         </Style>
         <Style TargetType="{x:Type c:SpacedStackPanel}">

@@ -371,7 +371,7 @@ namespace Aurora.Controls {
                 AlertBoxIcon.Delete => "trash-can",
                 _ => ""
             };
-            return new BitmapImage(new Uri($"pack://application:,,,/Aurora;component/Resources/UIIcons/{name}-50.png"));
+            return name == "" ? null : new BitmapImage(new Uri($"pack://application:,,,/Aurora;component/Resources/UIIcons/{name}-50.png"));
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }

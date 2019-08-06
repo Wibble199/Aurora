@@ -13,9 +13,9 @@
     </UserControl.Resources>
 
     <DockPanel>
-        <Button HorizontalAlignment="Right" VerticalAlignment="Center" l:Localization.TooltipKey="clear_keybind" ToolTip="Clear keybind" ToolTipService.InitialShowDelay="0" ToolTipService.Placement="Left" Click="ClearButton_Click" DockPanel.Dock="Right" Visibility="{Binding CanClear, Mode=OneWay, Converter={StaticResource BoolToVisConv}}">
+        <Button HorizontalAlignment="Right" VerticalAlignment="Center" l:Localization.TooltipKey="clear_keybind" ToolTip="Clear keybind" ToolTipService.InitialShowDelay="0" ToolTipService.Placement="Right" Click="ClearButton_Click" DockPanel.Dock="Right" Visibility="{Binding CanClear, Mode=OneWay, Converter={StaticResource BoolToVisConv}}">
             <c:Icon Source="/Aurora;component/Resources/UIIcons/trash-30.png" DockPanel.Dock="Right" Height="18" Width="18" Margin="2,0" />
         </Button>
-        <TextBox Text="{Binding Keybind.DisplayText, Mode=OneWay}" IsReadOnly="True" a:TextboxAddons.Icon="/Aurora;component/Resources/UIIcons/keyboard-30.png" Focusable="True" IsReadOnlyCaretVisible="True" GotKeyboardFocus="TextBox_GotKeyboardFocus" LostKeyboardFocus="TextBox_LostKeyboardFocus" KeyDown="Textbox_KeyDown" />
+        <TextBox Text="{Binding Keybind.DisplayText, Mode=OneWay}" IsReadOnly="True" a:TextboxAddons.Icon="/Aurora;component/Resources/UIIcons/keyboard-30.png" Focusable="True" IsReadOnlyCaretVisible="True" GotKeyboardFocus="TextBox_GotKeyboardFocus" LostKeyboardFocus="TextBox_LostKeyboardFocus" KeyDown="Textbox_KeyDown" l:Localization.TooltipKey="keybind_tooltip" a:TextboxAddons.Placeholder="{l:Loc no_keybind}" />
     </DockPanel>
 </UserControl>

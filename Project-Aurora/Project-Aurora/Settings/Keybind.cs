@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -60,7 +61,7 @@ namespace Aurora.Settings
         public override string ToString()
         {
             if (IsEmpty())
-                return "[EMPTY]";
+                return "";
 
             StringBuilder _sb = new StringBuilder();
 
@@ -84,6 +85,7 @@ namespace Aurora.Settings
             return new Keybind(_AssignedKeys.ToArray());
         }
 
+        [JsonIgnore]
         public string DisplayText => ToString();
     }
 }

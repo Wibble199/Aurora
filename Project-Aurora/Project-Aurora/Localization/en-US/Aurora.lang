@@ -95,6 +95,8 @@ low_brightness_warn: Warning: Global brightness is less than 10%. Your devices w
 layer: layer
 other: Other
 keybind: Keybind
+keybind_tooltip: Click to set a keybind
+no_keybind: None
 keybind_activate_press: Activates profile when pressed
 clear_keybind: Clear keybind
 profile_name: Profile name

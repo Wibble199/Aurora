@@ -8,6 +8,7 @@
 		<ResourceDictionary Source="AuroraTheme/Checkboxes.xaml" />
 		<ResourceDictionary Source="AuroraTheme/ColorPicker.xaml" />
 		<ResourceDictionary Source="AuroraTheme/Combobox.xaml" />
+		<ResourceDictionary Source="AuroraTheme/Containers.xaml" />
 		<ResourceDictionary Source="AuroraTheme/ContextMenu.xaml" />
 		<ResourceDictionary Source="AuroraTheme/Listbox.xaml" />
 		<ResourceDictionary Source="AuroraTheme/ScrollBar.xaml" />

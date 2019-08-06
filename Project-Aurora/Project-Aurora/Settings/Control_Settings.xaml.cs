@@ -27,8 +27,7 @@ namespace Aurora.Settings {
 
         public Control_Settings() {
             InitializeComponent();
-            settingsScroller.Background = Utils.BrushUtils.BlendBrushes((Brush)FindResource("Panel1BackgroundBrush"), (Brush)FindResource("BaseBackgroundBrush"), .7);
-
+            
             if (runRegistryPath.GetValue("Aurora") != null)
                 runRegistryPath.DeleteValue("Aurora");
 

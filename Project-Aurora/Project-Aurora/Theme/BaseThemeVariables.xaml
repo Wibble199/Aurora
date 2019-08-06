@@ -21,8 +21,12 @@
     <SolidColorBrush x:Key="ForegroundTextBrush" Color="#F9F9F9" />
 
     <!-- Style of the main area background. -->
-    <SolidColorBrush x:Key="BaseBackgroundBrush" Color="#323942" />
+    <SolidColorBrush x:Key="BaseBackgroundBrush" Color="#2D343D" />
     <SolidColorBrush x:Key="BaseTextBrush" Color="#F9F9F9" />
+    
+    <!-- Style of group boxes that may appear on the base -->
+    <SolidColorBrush x:Key="BaseGroupBackgroundBrush" Color="#323942" />
+    <SolidColorBrush x:Key="BaseGroupBorderBrush" Color="#232932" />
 
     <!-- Style of the "level 1" panels (will usually be adjacent to the base). -->
     <SolidColorBrush x:Key="Panel1BackgroundBrush" Color="#232932" />

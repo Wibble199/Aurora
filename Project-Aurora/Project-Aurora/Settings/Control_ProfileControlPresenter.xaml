@@ -19,7 +19,7 @@
                 <DockPanel LastChildFill="False">
                     <TextBlock Text="Keybind" l:Localization.Key="keybind" Margin="0,0,8,0" VerticalAlignment="Center" />
                     <TextBlock Text="Activates profile when pressed" l:Localization.Key="keybind_activate_press" Opacity=".3" FontSize="11" VerticalAlignment="Center" />
-                    <c:Control_Keybind Keybind="{Binding TriggerKeybind}" Width="180" DockPanel.Dock="Right" />
+                    <c:Control_Keybind Keybind="{Binding TriggerKeybind}" Width="180" DockPanel.Dock="Right" CanClear="True" />
                 </DockPanel>
             </c:SpacedStackPanel>
         </Border>
