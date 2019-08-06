@@ -31,6 +31,11 @@ namespace Aurora.Controls {
             DependencyProperty.Register("Orientation", typeof(Orientation), typeof(SpacedStackPanel), new PropertyMetadata(Orientation.Vertical));
         
 
+        public virtual SpacedStackPanel WithChild(UIElement child) {
+            Children.Add(child);
+            return this;
+        }
+
         protected override Size MeasureOverride(Size availableSize) {
             var isVert = Orientation == Orientation.Vertical;
             var size = (parallel: 0d, perpendicular: 0d); // Parallel/perpendicular relative to the orientation

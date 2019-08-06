@@ -360,6 +360,7 @@
       <DependentUpon>LoadingSpinner.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SpacedStackPanel.cs" />
+    <Compile Include="Controls\Switch.cs" />
     <Compile Include="Profiles\Skype\Control_Skype.xaml.cs">
       <DependentUpon>Control_Skype.xaml</DependentUpon>
     </Compile>
@@ -646,8 +647,9 @@
     <Compile Include="Profiles\Witcher3\GSI\GameState_Witcher3.cs" />
     <Compile Include="Profiles\Witcher3\GSI\Nodes\Player.cs" />
     <Compile Include="Settings\EditorFieldAttribute.cs" />
-    <Compile Include="Settings\Overrides\Logic\Boolean\Boolean_SignalExtender.cs" />
-    <Compile Include="Settings\Overrides\Logic\Boolean\Boolean_ProcessRunning.cs" />
+    <Compile Include="Settings\Overrides\Logic\Boolean\NumericChangeDetector.cs" />
+    <Compile Include="Settings\Overrides\Logic\Boolean\TrueExtender.cs" />
+    <Compile Include="Settings\Overrides\Logic\Boolean\ProcessRunning.cs" />
     <Compile Include="Settings\Overrides\Logic\Boolean\Control_BooleanGSIEnum.xaml.cs">
       <DependentUpon>Control_BooleanGSIEnum.xaml</DependentUpon>
     </Compile>
@@ -660,8 +662,8 @@
     </Compile>
     <Compile Include="Settings\GreyscaleEffect.cs" />
     <Compile Include="Settings\Localization\Localization.cs" />
-    <Compile Include="Settings\Overrides\Logic\Boolean\Boolean_PeripheralInput.cs" />
-    <Compile Include="Settings\Overrides\Logic\Color\Color_Ctors.cs" />
+    <Compile Include="Settings\Overrides\Logic\Boolean\PeripheralInput.cs" />
+    <Compile Include="Settings\Overrides\Logic\Color\Ctors.cs" />
     <Compile Include="Settings\Overrides\Logic\Control_BinaryOperationHolder.xaml.cs">
       <DependentUpon>Control_BinaryOperationHolder.xaml</DependentUpon>
     </Compile>
@@ -672,8 +674,8 @@
       <DependentUpon>Control_TimeBetween.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\Overrides\Logic\Time\Time.cs" />
-    <Compile Include="Settings\Overrides\Logic\Time\TimeComparison.cs" />
-    <Compile Include="Settings\Overrides\Logic\Time\Time_Ctors.cs" />
+    <Compile Include="Settings\Overrides\Logic\Time\Comparison.cs" />
+    <Compile Include="Settings\Overrides\Logic\Time\Ctors.cs" />
     <Compile Include="Settings\Overrides\Logic\Generic\Control_IfElse.xaml.cs">
       <DependentUpon>Control_IfElse.xaml</DependentUpon>
     </Compile>
@@ -681,33 +683,33 @@
     <Compile Include="Settings\Overrides\Logic\KeySequence\Control_KeySequenceFromValues.xaml.cs">
       <DependentUpon>Control_KeySequenceFromValues.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Settings\Overrides\Logic\KeySequence\KeySequence_Ctors.cs" />
+    <Compile Include="Settings\Overrides\Logic\KeySequence\Ctors.cs" />
     <Compile Include="Settings\Overrides\Logic\Number\Control_NumericMap.xaml.cs">
       <DependentUpon>Control_NumericMap.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\Overrides\Logic\Number\Control_NumericUnaryOpHolder.xaml.cs">
       <DependentUpon>Control_NumericUnaryOpHolder.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Settings\Overrides\Logic\Number\Number_GameState.cs" />
-    <Compile Include="Settings\Overrides\Logic\Number\Number_Waves.cs" />
+    <Compile Include="Settings\Overrides\Logic\Number\GameState.cs" />
+    <Compile Include="Settings\Overrides\Logic\Number\Waves.cs" />
     <Compile Include="Settings\Overrides\Logic\Number\Operators.cs" />
     <Compile Include="Settings\Overrides\Logic\EvaluatableRegistry.cs" />
-    <Compile Include="Settings\Overrides\Logic\Number\Number_Maths.cs" />
+    <Compile Include="Settings\Overrides\Logic\Number\Maths.cs" />
     <Compile Include="Settings\Overrides\Logic\EvaluatableAttribute.cs" />
-    <Compile Include="Settings\Overrides\Logic\Boolean\Boolean_GameState.cs" />
+    <Compile Include="Settings\Overrides\Logic\Boolean\GameState.cs" />
     <Compile Include="Settings\Overrides\Logic\Boolean\Control_BooleanNot.xaml.cs">
       <DependentUpon>Control_BooleanNot.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Settings\Overrides\Logic\Boolean\Boolean_LogicOperators.cs" />
+    <Compile Include="Settings\Overrides\Logic\Boolean\LogicOperators.cs" />
     <Compile Include="Settings\Overrides\Logic\Control_SublogicHolder.xaml.cs">
       <DependentUpon>Control_SublogicHolder.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\Overrides\Logic\IEvaluatable.cs" />
     <Compile Include="Settings\Overrides\LogicOverridableAttribute.cs" />
     <Compile Include="Settings\Overrides\Logic\String\Operators.cs" />
-    <Compile Include="Settings\Overrides\Logic\String\String_Constant.cs" />
-    <Compile Include="Settings\Overrides\Logic\String\String_GameState.cs" />
-    <Compile Include="Settings\Overrides\Logic\String\String_LogicOperators.cs" />
+    <Compile Include="Settings\Overrides\Logic\String\Constant.cs" />
+    <Compile Include="Settings\Overrides\Logic\String\GameState.cs" />
+    <Compile Include="Settings\Overrides\Logic\String\LogicOperators.cs" />
     <Compile Include="Settings\ProfileImporter.cs" />
     <Compile Include="Settings\Layers\ComparisonLayerHandler.cs" />
     <Compile Include="Settings\Layers\ConditionalLayerHandler.cs" />

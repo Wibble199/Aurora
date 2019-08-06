@@ -31,7 +31,12 @@ namespace Aurora.Settings.Overrides.Logic {
         /// <summary>Returns whether or not the evaluation of the `Value` time is between the evaluation of the `Start` and `End` times.</summary>
         public override bool Evaluate(IGameState gameState) => Time.IsBetween(Value.Evaluate(gameState), Start.Evaluate(gameState), End.Evaluate(gameState));
 
-        public override void SetApplication(Application application) => Control.SetApplication(application);
+        public override void SetApplication(Application application) {
+            Value?.SetApplication(application);
+            Start?.SetApplication(application);
+            End?.SetApplication(application);
+            Control.SetApplication(application);
+        }
 
         public override IEvaluatable<bool> Clone() => new BooleanTimeBetween { Value = Value.Clone(), Start = Start.Clone(), End = End.Clone() };
     }
