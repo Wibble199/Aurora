@@ -1,11 +1,11 @@
 ﻿using Aurora.Controls;
 using Aurora.Profiles;
 using Aurora.Utils;
-using System.Diagnostics;
+using System;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
-using Xceed.Wpf.Toolkit;
 using Keys = System.Windows.Forms.Keys;
 
 namespace Aurora.Settings.Overrides.Logic {
@@ -14,24 +14,39 @@ namespace Aurora.Settings.Overrides.Logic {
     /// Condition that is true when a specific keyboard button is held down.
     /// </summary>
     [Evaluatable("Key Held", category: OverrideLogicCategory.Input)]
-    public class BooleanKeyDown : Evaluatable<bool, StringPropertyField> {
+    public class BooleanKeyDown : Evaluatable<bool, SpacedStackPanel> {
 
         /// <summary>Creates a new key held condition with the default key (Space) as the trigger key.</summary>
         public BooleanKeyDown() { }
         /// <summary>Creates a new key held condition with the given key as the trigger key.</summary>
         public BooleanKeyDown(Keys target) { TargetKey = target; }
 
-        /// <summary>The key to be checked to see if it is held down.</summary>
-        public Keys TargetKey { get; set; } = Keys.Space;
+        /// <summary>The key to be checked to see if it is held down. If null, any key is allowed.</summary>
+        public Keys? TargetKey { get; set; } = Keys.Space;
 
         /// <summary>Create a control where the user can select the key they wish to detect.</summary>
-        public override StringPropertyField CreateControl() => new StringPropertyField { Type = typeof(Keys) }
-            .WithBinding(StringPropertyField.ValueProperty, new Binding("TargetKey") { Source = this, Mode = BindingMode.TwoWay });
+        public override SpacedStackPanel CreateControl() {
+            var sp = new SpacedStackPanel { SpacingAmount = 6 };
+            sp.Children.Add(new StringPropertyField { Type = typeof(Keys), MinWidth = 60 }
+                .WithBinding(StringPropertyField.ValueProperty, this, "TargetKey", BindingMode.TwoWay)
+                .WithBinding(StringPropertyField.IsEnabledProperty, this, "TargetKey", converter: new IsNullToBooleanConverter { ReturnValWhenNull = false }));
+            sp.Children.Add(new CheckBox { Content = "Allow any key", HorizontalContentAlignment = System.Windows.HorizontalAlignment.Left, Style = App.Current.FindResource("CheckboxSwitch") as System.Windows.Style }
+                .WithBinding(CheckBox.IsCheckedProperty, this, "TargetKey", BindingMode.TwoWay, new TargetKeyNullConv()));
+            return sp;
+        }
 
         /// <summary>True if the global event bus's pressed key list contains the target key.</summary>
-        public override bool Evaluate(IGameState gameState) => Global.InputEvents.PressedKeys.Contains(TargetKey);
+        public override bool Evaluate(IGameState gameState) => TargetKey.HasValue
+            ? Global.InputEvents.PressedKeys.Contains(TargetKey.Value) // If the pressed keys contains the target
+            : Global.InputEvents.PressedKeys.Length > 0; // If any keys are pressed
 
         public override IEvaluatable<bool> Clone() => new BooleanKeyDown { TargetKey = TargetKey };
+
+        // Converter for the "enable any" checkbox
+        class TargetKeyNullConv : IValueConverter {
+            public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => !((Keys?)value).HasValue;
+            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => (bool)value ? (Keys?)null : Keys.Space;
+        }
     }
 
 
