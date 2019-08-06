@@ -5,7 +5,13 @@ using Aurora.Profiles;
 using Aurora.Utils;
 
 namespace Aurora.Settings.Overrides.Logic {
-    [Evaluatable("Signal Extender", category: OverrideLogicCategory.Logic)]
+
+    /// <summary>
+    /// Extends the length of a boolean 'true' state. For example, if the sub-evaluatable evaluated to true for 1 second and this had it's
+    /// <see cref="ExtensionTime"/> set to 3 seconds, the result of this would be a 3 second long "true" signal. Receiving another true
+    /// signal while already extending an existing signal will restart the timer.
+    /// </summary>
+    [Evaluatable("True Extender", category: OverrideLogicCategory.Logic)]
     public class BooleanExtender : Evaluatable<bool, StackPanel> {
 
         private Stopwatch sw = new Stopwatch();
