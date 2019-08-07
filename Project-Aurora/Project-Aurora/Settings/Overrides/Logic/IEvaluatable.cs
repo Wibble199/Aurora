@@ -49,16 +49,21 @@ namespace Aurora.Settings.Overrides.Logic {
     /// <typeparam name="TControl">The type of element that will be the control used by this evaluatable.</typeparam>
     public abstract class Evaluatable<TEvaluatable, TControl> : IEvaluatable<TEvaluatable> where TControl : UIElement {
 
-        public Evaluatable() { control = new Lazy<TControl>(CreateControl); }
+        private TControl control;
 
-        private Lazy<TControl> control;
         /// <summary>The cached control for this evaluatable. Will create the control if it does not exist..</summary>
-        [Newtonsoft.Json.JsonIgnore] protected TControl Control { get => control.Value; }
+        [Newtonsoft.Json.JsonIgnore] protected TControl Control { get => control ?? (control = CreateControl()); }
 
         /// <summary>Creates a new instance of the control to use for this Evaluatable.</summary>
         public abstract TControl CreateControl();
+
         /// <summary>Calls the <see cref="SetApplication(Application)"/> for the control and returns it.</summary>
-        public UIElement GetControl(Application application) { SetApplication(application); return Control; }
+        public UIElement GetControl(Application application) {
+            _ = Control; // Create the control if it doesn't exist
+            SetApplication(application);
+            return Control;
+        }
+
         /// <summary>Updates the control with application-specific logic. May be omitted if not required.</summary>
         public virtual void SetApplication(Application application) { }
 

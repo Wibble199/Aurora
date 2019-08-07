@@ -8,6 +8,7 @@
              xmlns:utils="clr-namespace:Aurora.Utils"
              xmlns:overrides="clr-namespace:Aurora.Settings.Overrides"
              xmlns:overrideslogic="clr-namespace:Aurora.Settings.Overrides.Logic"
+             xmlns:u="clr-namespace:Breeze.Interface.Utils"
              xmlns:c="clr-namespace:Aurora.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="520" d:DesignWidth="920">
@@ -70,7 +71,7 @@
                                         <ItemsControl ItemsSource="{Binding .}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <Border Background="{Binding Path=ResultType, Converter={StaticResource EvaluatableBackgroundSelector}}" CornerRadius="{StaticResource ControlBorderRadius}" BorderBrush="#2000" BorderThickness="1" HorizontalAlignment="Left" MouseDown="EvaluatableSpawnerItem_MouseDown">
+                                                    <Border Background="{Binding Path=ResultType, Converter={StaticResource EvaluatableBackgroundSelector}}" CornerRadius="{StaticResource ControlBorderRadius}" BorderBrush="#2000" BorderThickness="1" HorizontalAlignment="Left" u:DragBehaviour.StartDrag="EvaluatableSpawnerItem_StartDrag">
                                                         <StackPanel Orientation="Horizontal">
                                                             <c:Icon Source="{Binding Path=ResultType, Converter={StaticResource TypeToIconConv}, Mode=OneWay}" Width="18" Height="18" Margin="4,0,0,0" Foreground="{StaticResource ForegroundTextBrush}" />
                                                             <TextBlock Text="{Binding Path=Metadata.Name}" Margin="4" />

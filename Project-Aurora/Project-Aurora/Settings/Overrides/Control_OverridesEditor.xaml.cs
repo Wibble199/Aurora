@@ -125,7 +125,7 @@ namespace Aurora.Settings.Overrides {
         /// Event that fires when the user presses the mouse over the spawner list. If they are hovering over a valid item, an Evaluatable
         /// that that item represents will be created.
         /// </summary>
-        private void EvaluatableSpawnerItem_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+        private void EvaluatableSpawnerItem_StartDrag(object sender, System.Windows.Input.MouseEventArgs e, System.Windows.Point initial) {
             var dc = (EvaluatableRegistry.EvaluatableTypeContainer)((FrameworkElement)sender).DataContext;
             DragDrop.DoDragDrop(this, Activator.CreateInstance(dc.Evaluatable), DragDropEffects.Move);
         }

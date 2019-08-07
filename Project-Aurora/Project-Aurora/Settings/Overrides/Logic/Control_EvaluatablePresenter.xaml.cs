@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Aurora.Utils;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Aurora.Settings.Overrides.Logic {
@@ -92,7 +94,7 @@ namespace Aurora.Settings.Overrides.Logic {
         protected override void OnDragEnter(DragEventArgs e) {
             // When the user is dragging something over this presenter, check to see if it can be accepted (if the evaluatable type of the
             // dragged data matches the type specified in the property).
-            if (TryGetData(e.Data, out _)) {
+            if (TryGetData(e.Data, out _, out var source) && !source.IsParentOf(this)) {
                 // If so, highlight this presenter to give users visual feedback of where it will land.
                 Highlighted = true;
 
@@ -120,7 +122,7 @@ namespace Aurora.Settings.Overrides.Logic {
         /// <param name="e"></param>
         protected override void OnDragOver(DragEventArgs e) {
             // If the evaluatable data can be accepted by this presenter...
-            if (TryGetData(e.Data, out _)) {
+            if (TryGetData(e.Data, out _, out _)) {
                 // If the user is holding the CTRL key, indicate they will copy the evaluatable, otherwise they'll move it.
                 e.Effects = (e.KeyStates & DragDropKeyStates.ControlKey) > 0 ? DragDropEffects.Copy : DragDropEffects.Move;
                 // Mark the event as handled so any parent presenters don't attempt to override the effects with their own logic.
@@ -134,22 +136,42 @@ namespace Aurora.Settings.Overrides.Logic {
         /// </summary>
         /// <param name="e"></param>
         protected override void OnDrop(DragEventArgs e) {
-            if (TryGetData(e.Data, out var eval)) {
+            if (TryGetData(e.Data, out var eval, out var source)) {
+
+                // Check for a special case when the item is being dragged into an evaluatable slot of itself (e.g. dragging an 'Or' into one of it's own operands). Disallow this.
+                if (source.IsParentOf(this))
+                    return;
+
+                // If the dragged item is not a parent of this, or this isn't a parent of the dragged item, simply swap them round
+
                 // Before we update this evaluatable, keep a reference to it for the event listener
                 var oldExpression = Expression;
 
                 // Update the expression depending on source and ctrl key:
-                var source = e.Data.GetData("SourcePresenter") as Control_EvaluatablePresenter;
                 var ctrlKey = (e.KeyStates & DragDropKeyStates.ControlKey) > 0;
                 if (source != null && ctrlKey) {
                     // If ctrl key is down and we are dragging from another presenter (i.e. not a spawner), clone the existing evaluatable into this
                     Expression = eval.Clone();
 
+                    // If the dragged eval was a child of this, the original source will have implicitly removed from the expression, so we need to dispose it
+                    if (this.IsParentOf(source)) {
+                        (eval as IDisposable)?.Dispose();
+                        source.Expression = null;
+                    }
+
                 } else if (source != null && !ctrlKey) {
                     // If ctrl key is NOT down, and we are dragging from another presenter (not spawner), swap the evaluatable of that presenter with this one
                     // We also need to call the changed event on the other presenter (since this is not done by the DependencyProperty to prevent a invoker-subscriber loop with WPF updating itself)
-                    source.Expression = Expression;
+
+                    // Also check for a special case when the item being dragged is replacing a parent. In this case we only want to update this expression. If we use the regular logic,
+                    // it will set the other evaluatable to be a part of itself, which then tries to update the UI and causes a stack overflow due to recursively creating the UI.
+                    source.Expression = this.IsParentOf(source) ? null : Expression;
                     source.ExpressionChanged?.Invoke(source, new ExpressionChangeEventArgs { NewExpression = Expression, OldExpression = eval });
+
+                    // For the special parent-child drag, this expression is now no longer needed, so dispose it
+                    if (this.IsParentOf(source))
+                        (Expression as IDisposable)?.Dispose();
+
                     Expression = eval;
 
                 } else {
@@ -169,8 +191,8 @@ namespace Aurora.Settings.Overrides.Logic {
             }
         }
 
-        /// <summary>Event that is applied to the left drag area that allows the user to pick up this evaluatable.</summary>
-        private void DragStartArea_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+        /// <summary>Event that is applied to the drag area that allows the user to pick up this evaluatable.</summary>
+        private void DragArea_StartDrag(object sender, MouseEventArgs e, Point initialPoint) {
             var @do = new DataObject(Expression);
             @do.SetData("SourcePresenter", this);
             DragDrop.DoDragDrop(this, @do, DragDropEffects.Move | DragDropEffects.Copy);
@@ -179,12 +201,14 @@ namespace Aurora.Settings.Overrides.Logic {
 
         /// <summary>Attempts to get IEvaluatable data from the supplied data object. Will return true/false indicating if data is of correct format
         /// (an <see cref="IEvaluatable{T}"/> where T matches the <see cref="EvalType"/> property.</summary>
-        private bool TryGetData(IDataObject @do, out IEvaluatable evaluatable) {
-            if (@do.GetData(@do.GetFormats().First(x => x != "SourcePresenter")) is IEvaluatable data && Utils.TypeUtils.ImplementsGenericInterface(data.GetType(), typeof(IEvaluatable<>), EvalType)) {
+        private bool TryGetData(IDataObject @do, out IEvaluatable evaluatable, out Control_EvaluatablePresenter source) {
+            if (@do.GetData(@do.GetFormats().FirstOrDefault(x => x != "SourcePresenter")) is IEvaluatable data && Utils.TypeUtils.ImplementsGenericInterface(data.GetType(), typeof(IEvaluatable<>), EvalType)) {
                 evaluatable = data;
+                source = @do.GetData("SourcePresenter") as Control_EvaluatablePresenter;
                 return true;
             }
             evaluatable = null;
+            source = null;
             return false;
         }
         #endregion
