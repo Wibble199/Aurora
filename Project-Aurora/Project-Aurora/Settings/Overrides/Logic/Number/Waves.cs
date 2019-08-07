@@ -45,8 +45,6 @@ namespace Aurora.Settings.Overrides.Logic {
             Control?.SetApplication(application);
             Operand?.SetApplication(application);
         }
-
-        public override IEvaluatable<double> Clone() => new NumberWaveFunction { Operand = Operand.Clone() };
     }
 
 

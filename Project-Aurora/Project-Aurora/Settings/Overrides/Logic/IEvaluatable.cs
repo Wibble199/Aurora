@@ -47,7 +47,11 @@ namespace Aurora.Settings.Overrides.Logic {
     /// instead.</remarks>
     /// <typeparam name="TEvaluatable">The type of value that the Evaluatable will return.</typeparam>
     /// <typeparam name="TControl">The type of element that will be the control used by this evaluatable.</typeparam>
-    public abstract class Evaluatable<TEvaluatable, TControl> : IEvaluatable<TEvaluatable> where TControl : UIElement {
+    public abstract class Evaluatable<TEvaluatable, TControl> : IEvaluatable<TEvaluatable>, IDisposable where TControl : UIElement {
+
+        // All the properties that are on this evaluatable type.
+        private static IReadOnlyDictionary<string, Member<Evaluatable<TEvaluatable, TControl>>> props
+            = StringProperty.GeneratePropertyLookup<Evaluatable<TEvaluatable, TControl>>();
 
         private TControl control;
 
@@ -72,10 +76,27 @@ namespace Aurora.Settings.Overrides.Logic {
         /// <summary>Evaluates this IEvaluatable and returns the result, boxed as an object.</summary>
         object IEvaluatable.Evaluate(IGameState gameState) => Evaluate(gameState);
 
-        /// <summary>Creates a clone of this IEvaluatable, cloning any child evaluatables also.</summary>
-        public abstract IEvaluatable<TEvaluatable> Clone();
+        /// <summary>Creates a clone of this IEvaluatable, cloning all properties (if ICloneable) also.</summary>
+        public virtual IEvaluatable<TEvaluatable> Clone() {
+            var inst = (Evaluatable<TEvaluatable, TControl>)Activator.CreateInstance(GetType());
+            foreach (var prop in props.Values) {
+                var v = prop.Get(this);
+                if (v is ICloneable c) v = c.Clone();
+                prop.Set(inst, v);
+            }
+            return inst;
+        }
+
         /// <summary>Creates a clone of this IEvaluatable, cloning any child evaluatables also.</summary>
         IEvaluatable IEvaluatable.Clone() => Clone();
+
+        /// <summary>Disposes this evaluatable, also disposing any child property values that need disposing (e.g. other evaluatables).</summary>
+        public virtual void Dispose() {
+            foreach (var kvp in props) {
+                var val = kvp.Value.Get(this);
+                (val as IDisposable)?.Dispose();
+            }
+        }
     }
 
 

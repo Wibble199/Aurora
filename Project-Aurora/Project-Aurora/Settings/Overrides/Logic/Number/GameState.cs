@@ -37,7 +37,5 @@ namespace Aurora.Settings.Overrides.Logic {
             if (application != null && !double.TryParse(VariablePath, out _) && !string.IsNullOrWhiteSpace(VariablePath) && !application.ParameterLookup.IsValidParameter(VariablePath))
                 VariablePath = string.Empty;
         }
-
-        public override IEvaluatable<double> Clone() => new NumberGSINumeric { VariablePath = VariablePath };
     }
 }

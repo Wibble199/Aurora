@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
-using System.Windows.Media;
 using Aurora.Profiles;
 using Aurora.Utils;
-using Newtonsoft.Json;
 using Xceed.Wpf.Toolkit;
 
-namespace Aurora.Settings.Overrides.Logic {
+namespace Aurora.Settings.Overrides.Logic
+{
 
     /// <summary>
     /// Evaluatable that performs a binary mathematical operation on two operands.
@@ -64,9 +59,6 @@ namespace Aurora.Settings.Overrides.Logic {
             Operand1?.SetApplication(application);
             Operand2?.SetApplication(application);
         }
-
-        /// <summary>Creates a copy of this maths operation.</summary>
-        public override IEvaluatable<double> Clone() => new NumberMathsOperation { Operand1 = Operand1.Clone(), Operand2 = Operand2.Clone(), Operator = Operator };
     }
 
 
@@ -96,8 +88,6 @@ namespace Aurora.Settings.Overrides.Logic {
             Control.SetApplication(application);
             Operand?.SetApplication(application);
         }
-
-        public override IEvaluatable<double> Clone() => new NumberAbsValue { Operand = Operand.Clone() };
     }
 
 
@@ -150,14 +140,11 @@ namespace Aurora.Settings.Overrides.Logic {
         }
 
         /// <summary>Updates the user control and the operands with a new application context.</summary>
-        public void SetApplication(Application application) {
+        public override void SetApplication(Application application) {
             Control?.SetApplication(application);
             Operand1?.SetApplication(application);
             Operand2?.SetApplication(application);
         }
-
-        /// <summary>Creates a copy of this mathematical comparison.</summary>
-        public override IEvaluatable<bool> Clone() => new BooleanMathsComparison { Operand1 = Operand1.Clone(), Operand2 = Operand2.Clone() };
     }
 
 
@@ -214,8 +201,6 @@ namespace Aurora.Settings.Overrides.Logic {
             ToMax?.SetApplication(application);
             Control?.SetApplication(application);
         }
-
-        public override IEvaluatable<double> Clone() => new NumberMap { Value = Value.Clone(), FromMin = FromMin.Clone(), ToMin = ToMin.Clone(), FromMax = FromMax.Clone(), ToMax = ToMax.Clone() };
     }
 
 
@@ -239,8 +224,5 @@ namespace Aurora.Settings.Overrides.Logic {
 
         /// <summary>Simply returns the constant value specified by the user</summary>
         public override double Evaluate(IGameState gameState) => Value;
-
-        /// <summary>Creates a copy of this number constant</summary>
-        public override IEvaluatable<double> Clone() => new NumberConstant { Value = Value };
     }
 }
