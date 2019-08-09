@@ -17,11 +17,11 @@
 
     <Grid>
         <!-- Main visible button -->
-        <ToggleButton x:Name="pickerButton" Click="PickerButton_Click" HorizontalContentAlignment="Left" Padding="4,1" IsChecked="{Binding IsOpen, Mode=TwoWay}" Content="{Binding SelectedPath}" Style="{StaticResource DropDownToggleButton}" />
+        <ToggleButton x:Name="pickerButton" HorizontalContentAlignment="Left" Padding="4,1" IsChecked="{Binding IsOpen, Mode=TwoWay}" Content="{Binding SelectedPath}" Style="{StaticResource DropDownToggleButton}" />
 
         <!-- Content that appears on click -->
         <Popup Name="pickerPopup" StaysOpen="False" IsOpen="{Binding IsOpen, Mode=TwoWay}" PopupAnimation="Slide">
-            <Grid x:Name="popupContent" Background="{StaticResource BaseBackgroundBrush}" Height="280" Width="100">
+            <Grid x:Name="popupContent" Background="{StaticResource BaseBackgroundBrush}" Height="280" Width="{Binding ActualWidth, ElementName=pickerButton}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="1*" />
@@ -35,8 +35,8 @@
                 </StackPanel>
 
                 <!-- List boxes (aux is for animation) -->
-                <ListBox x:Name="mainListBox" Grid.Row="1" ItemsSource="{Binding MainParameterListItems}" ItemTemplate="{StaticResource ListItemTemplate}" Background="#181818" HorizontalAlignment="Left" PreviewMouseLeftButtonDown="MainListBox_PreviewMouseLeftButtonDown" />
-                <ListBox x:Name="auxillaryListbox" Grid.Row="1" ItemTemplate="{StaticResource ListItemTemplate}" Background="#181818" HorizontalAlignment="Left" />
+                <ListBox x:Name="mainListBox" Grid.Row="1" ItemsSource="{Binding MainParameterListItems}" ItemTemplate="{StaticResource ListItemTemplate}" Width="{Binding ActualWidth, ElementName=pickerButton}" HorizontalAlignment="Left" local:Control_GameStateParameterPicker.TransformRelativeOffset="0" RenderTransform="{local:DoubleToRelativeTransformOffset}" PreviewMouseLeftButtonDown="MainListBox_PreviewMouseLeftButtonDown" />
+                <ListBox x:Name="auxillaryListbox" Grid.Row="1" ItemTemplate="{StaticResource ListItemTemplate}" Width="{Binding ActualWidth, ElementName=pickerButton}" HorizontalAlignment="Left" local:Control_GameStateParameterPicker.TransformRelativeOffset="-1" RenderTransform="{local:DoubleToRelativeTransformOffset}" />
 
                 <!-- Numeric input for numeric types -->
                 <DockPanel Grid.Row="2" LastChildFill="True">

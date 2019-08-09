@@ -25,7 +25,7 @@ namespace Aurora.Controls {
             ((FrameworkElement)Content).DataContext = this; // Cannot set to `this` as this causes any bindings on it to break if they use datacontext so we set it on the only child of the user control
         }
 
-        #region Dependency Properties
+        #region IsOpen Property
         /// <summary>Whether or not the picker is open.</summary>
         public bool IsOpen {
             get => (bool)GetValue(IsOpenProperty);
@@ -34,13 +34,16 @@ namespace Aurora.Controls {
 
         public static readonly DependencyProperty IsOpenProperty =
             DependencyProperty.Register("IsOpen", typeof(bool), typeof(Control_GameStateParameterPicker), new PropertyMetadata(false));
-        
+        #endregion
 
+        #region SelectedPath Property
         /// <summary>The path of the GameState variable the user has chosen.</summary>
         public string SelectedPath {
             get => (string)GetValue(SelectedPathProperty);
             set => SetValue(SelectedPathProperty, value);
         }
+        public static readonly DependencyProperty SelectedPathProperty =
+            DependencyProperty.Register("SelectedPath", typeof(string), typeof(Control_GameStateParameterPicker), new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, SelectedPathChange));
 
         private static void SelectedPathChange(DependencyObject sender, DependencyPropertyChangedEventArgs e) {
             // Do nothing if the value hasn't actually changed.
@@ -62,12 +65,9 @@ namespace Aurora.Controls {
             // Raise an event informing subscribers
             picker.SelectedPathChanged?.Invoke(picker, new SelectedPathChangedEventArgs { OldPath = e.OldValue.ToString(), NewPath = e.NewValue.ToString() });
         }
+        #endregion
 
-        /// <summary>This property is the path of the chosen game state property path.</summary>
-        public static readonly DependencyProperty SelectedPathProperty =
-            DependencyProperty.Register("SelectedPath", typeof(string), typeof(Control_GameStateParameterPicker), new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, SelectedPathChange));
-
-
+        #region PropertyType Property
         /// <summary>The type of game state properties that should be shown in the control.</summary>
         public PropertyType PropertyType {
             get => (PropertyType)GetValue(PropertyTypeProperty);
@@ -77,7 +77,9 @@ namespace Aurora.Controls {
         /// <summary>This property refers to the type of game state properties that will be shown to the user.</summary>
         public static readonly DependencyProperty PropertyTypeProperty =
             DependencyProperty.Register("PropertyType", typeof(PropertyType), typeof(Control_GameStateParameterPicker), new PropertyMetadata(PropertyType.Number));
+        #endregion
 
+        #region Application Property
         /// <summary>The application that will have the available game state parameters looked up on.</summary>
         public Profiles.Application Application {
             get => (Profiles.Application)GetValue(ApplicationProperty);
@@ -132,30 +134,28 @@ namespace Aurora.Controls {
         /// <summary>Animates the list boxes.</summary>
         /// <param name="dx">Direction of animation. -1 for previous, 1 for next.</param>
         private void Animate(int dx) {
-            var w = (int)pickerButton.ActualWidth;
-
             GetScollViewer(auxillaryListbox).ScrollToVerticalOffset(GetScollViewer(mainListBox).VerticalOffset);
 
             // Move the aux to the centre and move the main to the side of it
-            mainListBox.Margin = new Thickness(w * dx, 0, 0, 0);
-            auxillaryListbox.Margin = new Thickness(0);
+            SetTransformRelativeOffset(mainListBox, dx);
+            SetTransformRelativeOffset(mainListBox, 0);
 
             // Animate the aux moving away and the main moving in
-            CreateStoryboard(w * dx, 0, mainListBox).Begin();
-            CreateStoryboard(0, w * -dx, auxillaryListbox).Begin();
+            CreateStoryboard(dx, 0, mainListBox).Begin();
+            CreateStoryboard(0, -dx, auxillaryListbox).Begin();
         }
 
-        /// <summary>Creates a storyboard animation that changes the margin's "Left" from `fromX` to `toX` for the given target.</summary>
-        private Storyboard CreateStoryboard(int fromX, int toX, UIElement target) {
+        /// <summary>Creates a storyboard animation that changes the TransformRelativeOffsetProperty property from `fromX` to `toX` for the given target.</summary>
+        private Storyboard CreateStoryboard(int from, int to, UIElement target) {
             var sb = new Storyboard {
                 Children = new TimelineCollection(new[] {
-                    new ThicknessAnimation(new Thickness(fromX, 0, 0, 0), new Thickness(toX, 0, 0, 0), new Duration(new TimeSpan(0, 0, 0, 0, 300))) {
+                    new DoubleAnimation(from, to, new Duration(new TimeSpan(0, 0, 0, 0, 300))) {
                         EasingFunction = new PowerEase { EasingMode = EasingMode.EaseInOut }
                     }
                 })
             };
             Storyboard.SetTarget(sb, target);
-            Storyboard.SetTargetProperty(sb, new PropertyPath("Margin"));
+            Storyboard.SetTargetProperty(sb, new PropertyPath(TransformRelativeOffsetProperty));
             return sb;
         }
 
@@ -216,11 +216,6 @@ namespace Aurora.Controls {
             }
         }
 
-        private void PickerButton_Click(object sender, RoutedEventArgs e) {
-            popupContent.Width = mainListBox.Width = auxillaryListbox.Width = pickerButton.ActualWidth; // Size the list boxes and the popup to be the size of the button (looks cleaner if it is inline)
-            auxillaryListbox.Margin = new Thickness(-pickerButton.ActualWidth, 0, 0, 0); // Move the aux listbox off to the side so it doesn't interfere with the main one
-        }
-
         private void NumericEntry_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
             var v = (sender as Xceed.Wpf.Toolkit.DoubleUpDown).Value;
 
@@ -231,6 +226,14 @@ namespace Aurora.Controls {
             SelectedPath = v.ToString(); // Set the selectedpath to be the value of this numeric stepper
             NotifyChanged("SelectedPath");
         }
+        #endregion
+
+        #region TransformRelativeOffset Property
+        public static double GetTransformRelativeOffset(DependencyObject obj) => (double)obj.GetValue(TransformRelativeOffsetProperty);
+        public static void SetTransformRelativeOffset(DependencyObject obj, double value) => obj.SetValue(TransformRelativeOffsetProperty, value);
+
+        public static readonly DependencyProperty TransformRelativeOffsetProperty =
+            DependencyProperty.RegisterAttached("TransformRelativeOffset", typeof(double), typeof(Control_GameStateParameterPicker), new PropertyMetadata(0d));
         #endregion
     }
 
@@ -257,5 +260,23 @@ namespace Aurora.Controls {
     public class PropertyTypeToGridLengthConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => new GridLength(0, (PropertyType) value == PropertyType.Number? GridUnitType.Auto : GridUnitType.Pixel);
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => new NotImplementedException();
+    }
+
+    /// <summary>
+    /// A binding that will create a <see cref="TranslateTransform"/> based on the target's TransformRelativeOffset. The value will be relative to the
+    /// size of the element (e.g. if the element's width is 150 and the TransformRelativeOffset is 0.5, then the TranslateTransform's X will be 75).
+    /// </summary>
+    public class DoubleToRelativeTransformOffset : MultiBinding {
+
+        public DoubleToRelativeTransformOffset() {
+            Bindings.Add(new Binding("ActualWidth") { RelativeSource = new RelativeSource(RelativeSourceMode.Self) });
+            Bindings.Add(new Binding() { Path = new PropertyPath(Control_GameStateParameterPicker.TransformRelativeOffsetProperty), RelativeSource = new RelativeSource(RelativeSourceMode.Self) });
+            Converter = new Conv();
+        }
+
+        class Conv : IMultiValueConverter {
+            public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) => new TranslateTransform((double)values[0] * (double)values[1], 0);
+            public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        }
     }
 }
