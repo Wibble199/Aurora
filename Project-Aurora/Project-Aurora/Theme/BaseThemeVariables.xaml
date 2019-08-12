@@ -117,6 +117,12 @@
     <Thickness x:Key="SliderThumbBorderThickness" Left="1" Top="1" Right="1" Bottom="1" /> <!-- Thickness of the border line surrounding the slider thumb. -->
     <Thickness x:Key="SliderThumbMargin" Left="-1" Top="-1" Right="-1" Bottom="-1" /> <!-- Margin of the the slider thumb. Can be used to increase size of thumb. -->
     <!-- #endregion -->
+    
+    <!-- #region Scrollbars -->
+    <GridLength x:Key="ScrollbarThickness">6</GridLength> <!-- The width/height of the scrollbars -->
+    <SolidColorBrush x:Key="ScrollbarThumbBrush" Color="#2EEE" /> <!-- The base color of the scrollbars's thumbs. -->
+    <SolidColorBrush x:Key="ScrollbarThumbHoverBrush" Color="#8EEE" /> <!-- The hover color of the scrollbars's thumbs. -->
+    <!-- #endregion -->
 
     <!-- #region Tab Controls -->
     <SolidColorBrush x:Key="TabItemBackgroundBrush" Color="Transparent" /> <!-- The background color of the tab header item. -->
