@@ -115,4 +115,15 @@ namespace Aurora.Utils {
             => value == null ? null : new BitmapImage(new Uri($"/Aurora;component/Resources/{value.ToString()}", UriKind.Relative));
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
+
+    /// <summary>
+    /// Converter that adds all the given thicknesses together.
+    /// </summary>
+    public class ThicknessAdditionConverter : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+            if (!(value is Thickness t1 && parameter is Thickness t2)) return null;
+            return new Thickness(t1.Left + t2.Left, t1.Top + t2.Top, t1.Right + t2.Right, t1.Bottom + t2.Bottom);
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    }
 }

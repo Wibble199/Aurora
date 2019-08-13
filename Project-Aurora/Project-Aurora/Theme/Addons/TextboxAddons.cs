@@ -19,5 +19,13 @@ namespace Aurora.Theme.Addons {
 
         public static readonly DependencyProperty PlaceholderProperty =
             DependencyProperty.RegisterAttached("Placeholder", typeof(string), typeof(TextboxAddons), new PropertyMetadata(""));
+
+
+        // Allows a textbox to appears as being focussed without actually taking focus.
+        public static bool GetShowAsFocussed(DependencyObject obj) => (bool)obj.GetValue(ShowAsFocussedProperty);
+        public static void SetShowAsFocussed(DependencyObject obj, bool value) => obj.SetValue(ShowAsFocussedProperty, value);
+
+        public static readonly DependencyProperty ShowAsFocussedProperty =
+            DependencyProperty.RegisterAttached("ShowAsFocussed", typeof(bool), typeof(TextboxAddons), new PropertyMetadata(false));
     }
 }

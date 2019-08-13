@@ -85,8 +85,9 @@
     <SolidColorBrush x:Key="TextboxBackgroundBrush" Color="#242A32" /> <!-- The base background color of the textboxes. -->
     <SolidColorBrush x:Key="TextboxBackgroundFocusBrush" Color="#181D24" /> <!-- The color of textboxes when the control has focus and the user is typing into it. -->
     <SolidColorBrush x:Key="TextboxForegroundBrush" Color="#F9F9F9" /> <!-- The text color of the textboxes. -->
-    <SolidColorBrush x:Key="TextboxBorderBrush" Color="Transparent" /> <!-- The text color of the textboxes. -->
-    <Thickness x:Key="TextboxBorderThickness" Left="0" Top="0" Right="0" Bottom="0" /> <!-- Thickness of the border line surrounding textboxes. -->
+    <SolidColorBrush x:Key="TextboxBorderBrush" Color="Transparent" /> <!-- The normal border color of the textboxes. -->
+    <SolidColorBrush x:Key="TextboxBorderFocusBrush" Color="#3498DB" /> <!-- The border color of the textboxes when it has focus. -->
+    <Thickness x:Key="TextboxBorderThickness" Left="1" Top="1" Right="1" Bottom="1" /> <!-- Thickness of the border line surrounding textboxes. -->
     <!-- #endregion -->
     
     <!-- #region Checkboxes -->

@@ -10,12 +10,27 @@
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisConv" />
+        <c:ControlKeybindTextboxPaddingConverter x:Key="TextboxPaddingConverter" />
     </UserControl.Resources>
 
     <DockPanel>
-        <Button HorizontalAlignment="Right" VerticalAlignment="Center" l:Localization.TooltipKey="clear_keybind" ToolTip="Clear keybind" ToolTipService.InitialShowDelay="0" ToolTipService.Placement="Right" Click="ClearButton_Click" DockPanel.Dock="Right" Visibility="{Binding CanClear, Mode=OneWay, Converter={StaticResource BoolToVisConv}}">
+        <Button VerticalAlignment="Stretch" Margin="4,1,0,1" l:Localization.TooltipKey="clear_keybind" ToolTip="Clear keybind" ToolTipService.InitialShowDelay="0" ToolTipService.Placement="Right" Click="ClearButton_Click" DockPanel.Dock="Right" Visibility="{Binding CanClear, Mode=OneWay, Converter={StaticResource BoolToVisConv}}">
             <c:Icon Source="/Aurora;component/Resources/UIIcons/trash-30.png" DockPanel.Dock="Right" Height="18" Width="18" Margin="2,0" />
         </Button>
-        <TextBox Text="{Binding Keybind.DisplayText, Mode=OneWay}" IsReadOnly="True" a:TextboxAddons.Icon="/Aurora;component/Resources/UIIcons/keyboard-30.png" Focusable="True" IsReadOnlyCaretVisible="True" GotKeyboardFocus="TextBox_GotKeyboardFocus" LostKeyboardFocus="TextBox_LostKeyboardFocus" KeyDown="Textbox_KeyDown" l:Localization.TooltipKey="keybind_tooltip" a:TextboxAddons.Placeholder="{l:Loc no_keybind}" />
+        <Grid>
+            <TextBox Text="{Binding Keybind.DisplayText, Mode=OneWay}" IsReadOnly="True" a:TextboxAddons.Icon="{x:Null}" Focusable="False" a:TextboxAddons.ShowAsFocussed="{Binding IsActive, Mode=OneWay}" a:TextboxAddons.Placeholder="{l:Loc no_keybind}" VerticalAlignment="Stretch" Padding="{Binding ElementName=ToggleRecButton, Path=ActualWidth, Converter={StaticResource TextboxPaddingConverter}}" />
+            <ToggleButton x:Name="ToggleRecButton" IsChecked="{Binding IsActive, Mode=TwoWay}" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Stretch" l:Localization.TooltipKey="keybind_start_stop">
+                <ToggleButton.Style>
+                    <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource FlatToggleButton}">
+                        <Setter Property="Content" Value="{l:Loc keybind_record}" />
+                        <Style.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Content" Value="{l:Loc keybind_stop}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ToggleButton.Style>
+            </ToggleButton>
+        </Grid>
     </DockPanel>
 </UserControl>
