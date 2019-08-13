@@ -456,7 +456,7 @@ namespace Aurora.Profiles
 
         public ILayerHandler GetLayerHandlerInstance(LayerHandlerEntry entry)
         {
-            return (ILayerHandler)Activator.CreateInstance(entry.Type);
+            return (ILayerHandler)entry.Type.New();
         }
 
         public ILayerHandler GetLayerHandlerInstance(string key)
@@ -680,7 +680,7 @@ namespace Aurora.Profiles
                 {
                     IGameState gameState = gs;
                     if (profile.Config.GameStateType != null)
-                        gameState = (IGameState)Activator.CreateInstance(profile.Config.GameStateType, gs.json);
+                        gameState = (IGameState)profile.Config.GameStateType.New(gs.json);
                     profile.SetGameState(gameState);
                 }
                 else if (gs is GameState_Wrapper && Global.Configuration.AllowAllLogitechBitmaps)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Castle.DynamicProxy;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -8,6 +9,16 @@ using System.Threading.Tasks;
 namespace Aurora.Utils
 {
     public static class TypeUtils {
+
+        public static T New<T>(params object[] args) => (T)typeof(T).New(args);
+
+        public static object New(this Type t, params object[] args) {
+            var attr = t.GetCustomAttribute<HasProxyInterceptorsAttribute>();
+            return attr == null
+                ? Activator.CreateInstance(t, args)
+                : Global.ProxyGenerator.CreateClassProxy(t, args, attr.InterceptorTypes.Select(x => (IInterceptor)Activator.CreateInstance(x)).ToArray());
+        }
+
         //Solution from http://stackoverflow.com/questions/1749966/c-sharp-how-to-determine-whether-a-type-is-a-number
         public static bool IsNumericType(this object o) {
             return IsNumericType(o.GetType());

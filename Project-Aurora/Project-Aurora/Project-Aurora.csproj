@@ -361,6 +361,8 @@
     </Compile>
     <Compile Include="Controls\SpacedStackPanel.cs" />
     <Compile Include="Controls\Switch.cs" />
+    <Compile Include="Profiles\AutoJsonNode.cs" />
+    <Compile Include="Profiles\LocalPCInformation.cs" />
     <Compile Include="Profiles\Skype\Control_Skype.xaml.cs">
       <DependentUpon>Control_Skype.xaml</DependentUpon>
     </Compile>

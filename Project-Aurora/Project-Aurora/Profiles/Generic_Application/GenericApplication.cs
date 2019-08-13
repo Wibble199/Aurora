@@ -1,4 +1,5 @@
 ﻿using Aurora.Settings;
+using Aurora.Utils;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -52,7 +53,7 @@ namespace Aurora.Profiles.Generic_Application
 
         protected override ApplicationProfile CreateNewProfile(string profileName)
         {
-            ApplicationProfile profile = (ApplicationProfile)Activator.CreateInstance(Config.ProfileType);
+            ApplicationProfile profile = (ApplicationProfile)Config.ProfileType.New();
             profile.ProfileName = profileName;
             profile.ProfileFilepath = Path.Combine(GetProfileFolderPath(), GetUnusedFilename(GetProfileFolderPath(), profile.ProfileName) + ".json");
             return profile;

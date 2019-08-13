@@ -75,7 +75,7 @@ namespace Aurora.Settings.Layers
 
         public virtual void Default()
         {
-            Logic = (TProperty)Activator.CreateInstance(typeof(TProperty), new object[] { true });
+            Logic = Utils.TypeUtils.New<TProperty>(true);
             _PrimaryColor = Utils.ColorUtils.GenerateRandomColor();
             _Sequence = new KeySequence();
         }
@@ -149,7 +149,7 @@ namespace Aurora.Settings.Layers
         [JsonIgnore]
         public string ID { get { return _ID; } }
 
-        public TProperty Properties { get; set; } = Activator.CreateInstance<TProperty>();
+        public TProperty Properties { get; set; } = Utils.TypeUtils.New<TProperty>();
 
         IStringProperty ILayerHandler.Properties {
             get => Properties;

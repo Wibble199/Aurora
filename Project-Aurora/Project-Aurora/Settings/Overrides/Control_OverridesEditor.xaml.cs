@@ -127,7 +127,7 @@ namespace Aurora.Settings.Overrides {
         /// </summary>
         private void EvaluatableSpawnerItem_StartDrag(object sender, System.Windows.Input.MouseEventArgs e, System.Windows.Point initial) {
             var dc = (EvaluatableRegistry.EvaluatableTypeContainer)((FrameworkElement)sender).DataContext;
-            DragDrop.DoDragDrop(this, Activator.CreateInstance(dc.Evaluatable), DragDropEffects.Move);
+            DragDrop.DoDragDrop(this, dc.Evaluatable.New(), DragDropEffects.Move);
         }
         #endregion
     }

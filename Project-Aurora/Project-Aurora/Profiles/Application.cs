@@ -170,7 +170,7 @@ namespace Aurora.Profiles
 
         protected virtual ApplicationProfile CreateNewProfile(string profileName)
         {
-            ApplicationProfile profile = (ApplicationProfile)Activator.CreateInstance(Config.ProfileType);
+            ApplicationProfile profile = (ApplicationProfile)Config.ProfileType.New();
             profile.ProfileName = profileName;
             profile.ProfileFilepath = Path.Combine(GetProfileFolderPath(), GetUnusedFilename(GetProfileFolderPath(), profile.ProfileName) + ".json");
             return profile;
@@ -354,7 +354,7 @@ namespace Aurora.Profiles
                     }
 
                     File.Move(path, newPath);
-                    this.SaveProfile((ApplicationProfile)Activator.CreateInstance(Config.ProfileType), path);
+                    this.SaveProfile((ApplicationProfile)Config.ProfileType.New(), path);
                     AlertBox.Show($"Default profile for {this.Config.Name} could not be loaded.\nMoved to {newPath}, reset to default settings.\nException={exc.Message}", "Error loading default profile", icon: AlertBoxIcon.Error);
                 }
             }

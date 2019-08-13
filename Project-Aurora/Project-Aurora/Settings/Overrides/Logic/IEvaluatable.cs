@@ -1,4 +1,5 @@
 ﻿using Aurora.Profiles;
+using Aurora.Utils;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -78,7 +79,7 @@ namespace Aurora.Settings.Overrides.Logic {
 
         /// <summary>Creates a clone of this IEvaluatable, cloning all properties (if ICloneable) also.</summary>
         public virtual IEvaluatable<TEvaluatable> Clone() {
-            var inst = (Evaluatable<TEvaluatable, TControl>)Activator.CreateInstance(GetType());
+            var inst = (Evaluatable<TEvaluatable, TControl>)GetType().New();
             foreach (var prop in props.Values) {
                 var v = prop.Get(this);
                 if (v is ICloneable c) v = c.Clone();
@@ -122,7 +123,7 @@ namespace Aurora.Settings.Overrides.Logic {
         public static IEvaluatable Get(Type t) {
             if (!defaultsMap.TryGetValue(t, out Type def))
                 throw new ArgumentException($"Type '{t.Name}' does not have a default evaluatable type.");
-            return (IEvaluatable)Activator.CreateInstance(def);
+            return (IEvaluatable)def.New();
         }
     }
 }

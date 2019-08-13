@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Aurora.Utils;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,7 +22,7 @@ namespace Aurora.Settings
         protected void SaveSettings(Type settingsType)
         {
             if (Settings == null)
-                Settings = (T)Activator.CreateInstance(settingsType);
+                Settings = (T)settingsType.New();
 
             string dir = Path.GetDirectoryName(SettingsSavePath);
             if (!Directory.Exists(dir))

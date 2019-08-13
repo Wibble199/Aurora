@@ -42,7 +42,7 @@ namespace Aurora.Profiles
         public override void ResetGameState()
         {
             if (this.Application?.Config?.GameStateType != null)
-                _game_state = (IGameState)Activator.CreateInstance(this.Application.Config.GameStateType);
+                _game_state = (IGameState)Application.Config.GameStateType.New();
             else
                 _game_state = null;
 
