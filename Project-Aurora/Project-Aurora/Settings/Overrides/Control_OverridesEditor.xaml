@@ -91,7 +91,7 @@
 
         <!-- Help button -->
         <Button Margin="0,9,10,0" Grid.ColumnSpan="999" HorizontalAlignment="Right" VerticalAlignment="Top" Click="HelpButton_Click">
-            <c:Icon Source="/Aurora;component/Resources/UIIcons/questions-30.png" Foreground="{StaticResource BaseButtonForegroundBrush}" Width="23" Height="23" Margin="2"/>
+            <c:Icon Source="/Aurora;component/Resources/UIIcons/questions.png" Foreground="{StaticResource BaseButtonForegroundBrush}" Width="23" Height="23" Margin="2"/>
         </Button>
     </Grid>
 </UserControl>

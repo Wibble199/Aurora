@@ -18,27 +18,27 @@
     <DockPanel>
         <Button Margin="0,2" HorizontalContentAlignment="Left" DockPanel.Dock="Top">
             <DockPanel LastChildFill="False" Width="214">
-                <c:Icon Source="/Aurora;component/Resources/UIIcons/layers-30.png" DockPanel.Dock="Left" Height="18" Width="18" Margin="0,0,4,0" />
+                <c:Icon Source="/Aurora;component/Resources/UIIcons/layers.png" DockPanel.Dock="Left" Height="18" Width="18" Margin="0,0,4,0" />
                 <TextBlock Text="{Binding ListTitle}" DockPanel.Dock="Left" />
-                <c:Icon Source="/Aurora;component/Resources/UIIcons/expand-arrow-30.png" DockPanel.Dock="Right" Height="18" Width="18" Margin="0,0,4,0" />
+                <c:Icon Source="/Aurora;component/Resources/UIIcons/expand-arrow.png" DockPanel.Dock="Right" Height="18" Width="18" Margin="0,0,4,0" />
             </DockPanel>
         </Button>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,4" DockPanel.Dock="Top">
             <Button ToolTip="Add a new layer" Margin="2,0" Click="AddButton_Click" Style="{StaticResource Panel1Button}">
                 <DockPanel Margin="2,0">
-                    <c:Icon Source="/Aurora;component/Resources/UIIcons/plus-30.png" Foreground="{StaticResource SuccessBrush}" Width="18" Height="18"/>
+                    <c:Icon Source="/Aurora;component/Resources/UIIcons/plus.png" Foreground="{StaticResource SuccessBrush}" Width="18" Height="18"/>
                     <TextBlock>Add</TextBlock>
                 </DockPanel>
             </Button>
             <Button ToolTip="Copy the selected layer (Ctrl + C)" Margin="2,0" Click="CopyButton_Click" Style="{StaticResource Panel1Button}">
-                <c:Icon Source="/Aurora;component/Resources/UIIcons/copy-30.png" Margin="2,0" Width="18" Height="18"/>
+                <c:Icon Source="/Aurora;component/Resources/UIIcons/copy.png" Margin="2,0" Width="18" Height="18"/>
             </Button>
             <Button ToolTip="Paste layer from clipboard (Ctrl + V)" Margin="2,0" Click="PasteButton_Click" Style="{StaticResource Panel1Button}">
-                <c:Icon Source="/Aurora;component/Resources/UIIcons/clipboard-30.png" Margin="2,0" Width="18" Height="18"/>
+                <c:Icon Source="/Aurora;component/Resources/UIIcons/clipboard.png" Margin="2,0" Width="18" Height="18"/>
             </Button>
             <Button ToolTip="Remove selected layer (Del)" Margin="2,0" IsEnabled="{Binding Path=SelectedLayer, Converter={StaticResource NullToBoolConv}}" Click="DeleteButton_Click" Style="{StaticResource Panel1Button}">
-                <c:Icon Source="/Aurora;component/Resources/UIIcons/delete-30.png" Foreground="{StaticResource DangerBrush}" Margin="2,0" Width="18" Height="18" />
+                <c:Icon Source="/Aurora;component/Resources/UIIcons/delete.png" Foreground="{StaticResource DangerBrush}" Margin="2,0" Width="18" Height="18" />
             </Button>
         </StackPanel>
 
@@ -47,7 +47,7 @@
                 <DataTemplate>
                     <DockPanel HorizontalAlignment="Stretch" LastChildFill="True" Margin="2,2,0,2">
                         <CheckBox IsChecked="{Binding Path=Enabled, Mode=TwoWay}" />
-                        <c:Icon Source="/Aurora;component/Resources/UIIcons/resize-vertical-30.png" Tag="Dragger" Cursor="SizeNS" Height="16" Width="16" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="0,0,5,0" ToolTip="Drag to rearrange layers" Foreground="{StaticResource BaseTextBrush}">
+                        <c:Icon Source="/Aurora;component/Resources/UIIcons/resize-vertical.png" Tag="Dragger" Cursor="SizeNS" Height="16" Width="16" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="0,0,5,0" ToolTip="Drag to rearrange layers" Foreground="{StaticResource BaseTextBrush}">
                             <c:Icon.Style>
                                 <Style TargetType="{x:Type c:Icon}">
                                     <Setter Property="Opacity" Value="0" />

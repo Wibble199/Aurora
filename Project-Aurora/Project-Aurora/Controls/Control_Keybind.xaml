@@ -15,7 +15,7 @@
 
     <DockPanel>
         <Button VerticalAlignment="Stretch" Margin="4,1,0,1" l:Localization.TooltipKey="clear_keybind" ToolTip="Clear keybind" ToolTipService.InitialShowDelay="0" ToolTipService.Placement="Right" Click="ClearButton_Click" DockPanel.Dock="Right" Visibility="{Binding CanClear, Mode=OneWay, Converter={StaticResource BoolToVisConv}}">
-            <c:Icon Source="/Aurora;component/Resources/UIIcons/trash-30.png" DockPanel.Dock="Right" Height="18" Width="18" Margin="2,0" />
+            <c:Icon Source="/Aurora;component/Resources/UIIcons/trash.png" DockPanel.Dock="Right" Height="18" Width="18" Margin="2,0" />
         </Button>
         <Grid>
             <TextBox Text="{Binding Keybind.DisplayText, Mode=OneWay}" IsReadOnly="True" a:TextboxAddons.Icon="{x:Null}" Focusable="False" a:TextboxAddons.ShowAsFocussed="{Binding IsActive, Mode=OneWay}" a:TextboxAddons.Placeholder="{l:Loc no_keybind}" VerticalAlignment="Stretch" Padding="{Binding ElementName=ToggleRecButton, Path=ActualWidth, Converter={StaticResource TextboxPaddingConverter}}" />

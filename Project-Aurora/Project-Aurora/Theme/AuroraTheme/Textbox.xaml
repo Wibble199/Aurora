@@ -16,7 +16,7 @@
         <Setter Property="BorderThickness" Value="{StaticResource TextboxBorderThickness}" />
         <Setter Property="BorderBrush" Value="{StaticResource TextboxBorderBrush}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="a:TextboxAddons.Icon" Value="/Aurora;component/Resources/UIIcons/font-size-30.png" />
+        <Setter Property="a:TextboxAddons.Icon" Value="/Aurora;component/Resources/UIIcons/font-size.png" />
 
         <Setter Property="Template">
             <Setter.Value>

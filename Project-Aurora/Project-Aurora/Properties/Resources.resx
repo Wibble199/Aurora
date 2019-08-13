@@ -268,139 +268,145 @@
   <data name="Skype_300x300" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Skype_300x300.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="checked_checkbox_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\checked-checkbox-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="copy_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\copy-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="diamonds_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\diamonds-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="keyboard_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\keyboard-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="numbers_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\numbers-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="paint_palette_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\paint-palette-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="clipboard_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\clipboard-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="delete_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\delete-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="eye_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\eye-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="hide_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\hide-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="maintenance_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\maintenance-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="downloads_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\downloads-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="uploads_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\uploads-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ellipsis_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\ellipsis-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="maximize_window_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\maximize-window-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="minimize_window_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\minimize-window-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="questions_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\questions-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="restore_window_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\restore-window-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="stacked_organizational_chart_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\stacked-organizational-chart-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="support_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\support-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="resize_vertical_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\resize-vertical-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\UIIcons\downloads.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GreyscaleShader" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GreyscaleShader.ps;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="collapse_arrow_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\collapse-arrow-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="alarm_clock" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\alarm-clock.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="expand_arrow_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\expand-arrow-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="book_shelf" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\book-shelf.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="font_size_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\font-size-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="checked_checkbox" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\checked-checkbox.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="error_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\error-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="checkmark" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\checkmark.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="help_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\help-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="clipboard" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\clipboard.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="info_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\info-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="collapse_arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\collapse-arrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ok_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\ok-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="warning_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\warning-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\delete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="trash_can_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\trash-can-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="diamonds" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\diamonds.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="discord_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\discord-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="discord" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\discord.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="github_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\github-32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="downloads" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\downloads.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="steam_26" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\steam-26.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ellipsis" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\ellipsis.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="puzzle_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\puzzle-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="error" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\error.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="search_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\search-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="expand_arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\expand-arrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="up_down_arrow_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\up-down-arrow-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="eye" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\eye.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="checkmark_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\checkmark-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="font_size" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\font-size.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="restart_30_modified" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\restart-30-modified.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="github" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\github.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="process_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\process-30.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="help_lg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\help-lg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="book_shelf_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\book-shelf-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="hide" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\hide.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="information_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\information-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="information" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\information.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="layers_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\layers-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="info_lg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\info-lg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="trash_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\trash-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="keyboard" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\keyboard.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="alarm_clock_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UIIcons\alarm-clock-30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="layers" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\layers.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="maintenance" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\maintenance.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="maximize_window" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\maximize-window.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="minimize_window" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\minimize-window.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="numbers" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\numbers.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ok_lg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\ok-lg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="paint_palette" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\paint-palette.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="plus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\plus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="process" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\process.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="puzzle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\puzzle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="questions" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\questions.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="resize_vertical" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\resize-vertical.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="restart_modified" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\restart-modified.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="restore_window" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\restore-window.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="search" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\search.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stacked_organizational_chart" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\stacked-organizational-chart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="steam" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\steam.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="support" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\support.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="trash" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\trash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="trash_can_lg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\trash-can-lg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="uploads" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\uploads.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="up_down_arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\up-down-arrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="warning_lg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UIIcons\warning-lg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

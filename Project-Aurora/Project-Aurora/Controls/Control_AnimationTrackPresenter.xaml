@@ -15,7 +15,7 @@
             <GridSplitter x:Name="grdsplitHeightAdjust" HorizontalAlignment="Stretch" Height="2" VerticalAlignment="Bottom" HorizontalContentAlignment="Stretch" DragDelta="grdsplitHeightAdjust_DragDelta"/>
             <Image x:Name="imgTrackType" HorizontalAlignment="Right" Height="25" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="25" />
             <Button x:Name="btnRemoveTrack" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="25" Height="25" Click="btnRemoveTrack_Click">
-                <Image Source="/Aurora;component/Resources/UIIcons/delete-30.png" />
+                <Image Source="/Aurora;component/Resources/UIIcons/delete.png" />
             </Button>
         </Grid>
         <Separator DockPanel.Dock="Bottom" Height="1" VerticalAlignment="Bottom" />

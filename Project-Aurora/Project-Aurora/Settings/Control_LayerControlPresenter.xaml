@@ -46,10 +46,10 @@
         <overrides:Control_OverridesEditor x:Name="overridesEditor" Background="{StaticResource BaseBackgroundBrush}" Visibility="Collapsed" />
 
         <Button x:Name="btnConfig" HorizontalAlignment="Right" Margin="0,9,10,0" VerticalAlignment="Top" Click="btnConfig_Click" ToolTip="Toggles the visibility of additional layer configurations">
-            <Controls:Icon Source="/Aurora;component/Resources/UIIcons/support-30.png" Width="23" Height="23" Margin="2"/>
+            <Controls:Icon Source="/Aurora;component/Resources/UIIcons/support.png" Width="23" Height="23" Margin="2"/>
         </Button>
         <Button x:Name="btnOverrides" HorizontalAlignment="Right" Margin="0,9,47,0" VerticalAlignment="Top" Click="btnOverrides_Click" ToolTip="Show layer conditional override settings">
-            <Controls:Icon Source="/Aurora;component/Resources/UIIcons/stacked-organizational-chart-30.png" Width="23" Height="23" Margin="2"/>
+            <Controls:Icon Source="/Aurora;component/Resources/UIIcons/stacked-organizational-chart.png" Width="23" Height="23" Margin="2"/>
         </Button>
 
         <!-- Indicator light for when overrides are active -->

@@ -55,7 +55,7 @@
         <Style x:Key="ToggleHiddenApplicationsButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource Panel2ToggleButton}">
             <Setter Property="Content">
                 <Setter.Value>
-                    <c:Icon Source="Resources/UIIcons/eye-30.png" Margin="2,0" Width="18" Height="18" />
+                    <c:Icon Source="Resources/UIIcons/eye.png" Margin="2,0" Width="18" Height="18" />
                 </Setter.Value>
             </Setter>
             <Setter Property="ToolTip" Value="Show hidden applications" />
@@ -63,7 +63,7 @@
                 <Trigger Property="IsChecked" Value="True">
                     <Setter Property="Content">
                         <Setter.Value>
-                            <c:Icon Source="Resources/UIIcons/hide-30.png" Margin="2,0" Width="18" Height="18" />
+                            <c:Icon Source="Resources/UIIcons/hide.png" Margin="2,0" Width="18" Height="18" />
                         </Setter.Value>
                     </Setter>
                     <Setter Property="ToolTip" Value="Hide hidden applications" />
@@ -160,21 +160,21 @@
                 <!-- Window controls (maximize etc) -->
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,0,0,1">
                     <Button Click="MinimiseButton_Click" Style="{StaticResource FlatButton}">
-                        <c:Icon Source="Resources/UIIcons/minimize-window-30.png" Margin="2,0" Height="12" Width="12" />
+                        <c:Icon Source="Resources/UIIcons/minimize-window.png" Margin="2,0" Height="12" Width="12" />
                     </Button>
                     <Button Click="MaximiseButton_Click">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource FlatButton}">
                                 <Setter Property="Content">
                                     <Setter.Value>
-                                        <c:Icon Source="Resources/UIIcons/maximize-window-30.png" Margin="2,0" Height="12" Width="12" />
+                                        <c:Icon Source="Resources/UIIcons/maximize-window.png" Margin="2,0" Height="12" Width="12" />
                                     </Setter.Value>
                                 </Setter>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=WindowState, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" Value="Maximized">
                                         <Setter Property="Content">
                                             <Setter.Value>
-                                                <c:Icon Source="Resources/UIIcons/restore-window-30.png" Margin="2,0" Height="14" Width="14" />
+                                                <c:Icon Source="Resources/UIIcons/restore-window.png" Margin="2,0" Height="14" Width="14" />
                                             </Setter.Value>
                                         </Setter>
                                     </DataTrigger>
@@ -183,7 +183,7 @@
                         </Button.Style>
                     </Button>
                     <Button Click="CloseButton_Click" Style="{StaticResource FlatButton}">
-                        <c:Icon Source="Resources/UIIcons/delete-30.png" Foreground="{StaticResource DangerBrush}" Margin="2,0" Height="12" Width="12" />
+                        <c:Icon Source="Resources/UIIcons/delete.png" Foreground="{StaticResource DangerBrush}" Margin="2,0" Height="12" Width="12" />
                     </Button>
                 </StackPanel>
             </Grid>
@@ -194,19 +194,19 @@
                 <Image DockPanel.Dock="Top" Source="Resources/aurora_logo.png" Height="48" Margin="8" Grid.RowSpan="999" />
 
                 <!-- Application search box -->
-                <TextBox x:Name="ApplicationSearchBox" DockPanel.Dock="Top" Margin="8,0,8,8" a:TextboxAddons.Icon="Resources/UIIcons/search-30.png" a:TextboxAddons.Placeholder="Search applications..." />
+                <TextBox x:Name="ApplicationSearchBox" DockPanel.Dock="Top" Margin="8,0,8,8" a:TextboxAddons.Icon="Resources/UIIcons/search.png" a:TextboxAddons.Placeholder="Search applications..." />
 
                 <!-- Application list controls -->
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Margin="2,4" Click="AddApplicationButton_Click" Style="{StaticResource Panel2Button}" ToolTip="Add new application">
-                        <c:Icon Source="Resources/UIIcons/plus-30.png" Foreground="{StaticResource SuccessBrush}" Margin="2,0" Width="18" Height="18"/>
+                        <c:Icon Source="Resources/UIIcons/plus.png" Foreground="{StaticResource SuccessBrush}" Margin="2,0" Width="18" Height="18"/>
                     </Button>
                     <ToggleButton IsChecked="{Binding ShowHiddenApplications, Mode=TwoWay}" Margin="2,4" Style="{StaticResource ToggleHiddenApplicationsButtonStyle}" ToolTip="Show/hide hidden applications" />
                     <Button Margin="2,4" Style="{StaticResource Panel2Button}" ToolTip="Plugins">
-                        <c:Icon Source="Resources/UIIcons/puzzle-30.png" Margin="2,0" Width="18" Height="18" />
+                        <c:Icon Source="Resources/UIIcons/puzzle.png" Margin="2,0" Width="18" Height="18" />
                     </Button>
                     <Button Margin="2,4" Click="SettingsButton_Click" Style="{StaticResource Panel2Button}" ToolTip="Settings">
-                        <c:Icon Source="Resources/UIIcons/maintenance-30.png" Margin="2,0" Width="18" Height="18"/>
+                        <c:Icon Source="Resources/UIIcons/maintenance.png" Margin="2,0" Width="18" Height="18"/>
                     </Button>
                 </StackPanel>
 
@@ -258,9 +258,9 @@
                 <StackPanel x:Name="stackPanelManagers">
                     <Button HorizontalContentAlignment="Left" Margin="0,2" PreviewMouseDown="brdOverview_PreviewMouseDown">
                         <DockPanel LastChildFill="False" Width="214">
-                            <c:Icon Source="/Aurora;component/Resources/UIIcons/information-30.png" DockPanel.Dock="Left" Height="18" Width="18" Margin="0,0,4,0" />
+                            <c:Icon Source="/Aurora;component/Resources/UIIcons/information.png" DockPanel.Dock="Left" Height="18" Width="18" Margin="0,0,4,0" />
                             <TextBlock Text="Overview" DockPanel.Dock="Left" />
-                            <c:Icon Source="/Aurora;component/Resources/UIIcons/expand-arrow-30.png" DockPanel.Dock="Right" Height="18" Width="18" Margin="0,0,4,0" />
+                            <c:Icon Source="/Aurora;component/Resources/UIIcons/expand-arrow.png" DockPanel.Dock="Right" Height="18" Width="18" Margin="0,0,4,0" />
                         </DockPanel>
                     </Button>
                     <settings:Control_ProfileManager x:Name="ctrlProfileManager" FocusedApplication="{Binding FocusedApplication}" Height="25" Margin="0,3,0,0" Background="#00000000" PreviewMouseDown="ctrlProfileManager_PreviewMouseDown" />
@@ -285,7 +285,7 @@
 
             <!-- 0% brightness warning -->
             <Border Grid.Column="2" Grid.Row="1" Background="{StaticResource Panel1BackgroundBrush}" BorderBrush="{StaticResource WarningBrush}" BorderThickness="1" CornerRadius="{StaticResource ControlBorderRadius}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="16,8" Padding="4" Visibility="{Binding Path=GlobalBrightness, Source={x:Static local:Global.Configuration}, Converter={StaticResource IsZeroToVisConverter}}" l:Localization.TooltipKey="low_brightness_warn">
-                <c:Icon Width="24" Height="24" Source="Resources/UIIcons/warning-50.png" Foreground="{StaticResource WarningBrush}" />
+                <c:Icon Width="24" Height="24" Source="/Aurora;component/Resources/UIIcons/warning-lg.png" Foreground="{StaticResource WarningBrush}" />
             </Border>
 
             <!-- Properties panel -->

@@ -16,9 +16,9 @@
     <DockPanel>
         <Button Margin="0,2" HorizontalContentAlignment="Left" DockPanel.Dock="Top">
             <DockPanel LastChildFill="False" Width="214">
-                <c:Icon Source="/Aurora;component/Resources/UIIcons/book-shelf-30.png" DockPanel.Dock="Left" Height="18" Width="18" Margin="0,0,4,0" />
+                <c:Icon Source="/Aurora;component/Resources/UIIcons/book-shelf.png" DockPanel.Dock="Left" Height="18" Width="18" Margin="0,0,4,0" />
                 <TextBlock Text="Profiles" DockPanel.Dock="Left" />
-                <c:Icon Source="/Aurora;component/Resources/UIIcons/expand-arrow-30.png" DockPanel.Dock="Right" Height="18" Width="18" Margin="0,0,4,0" />
+                <c:Icon Source="/Aurora;component/Resources/UIIcons/expand-arrow.png" DockPanel.Dock="Right" Height="18" Width="18" Margin="0,0,4,0" />
             </DockPanel>
         </Button>
 
@@ -30,33 +30,33 @@
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
             <Button x:Name="btnNewProfile" Click="btnNewProfile_Click" l:Localization.TooltipKey="profile_create" ToolTip="Create a new profile" Margin="2,0" Style="{StaticResource Panel1Button}">
                 <DockPanel Margin="2,0">
-                    <c:Icon Source="/Aurora;component/Resources/UIIcons/plus-30.png" Foreground="{StaticResource SuccessBrush}" Width="18" Height="18"/>
+                    <c:Icon Source="/Aurora;component/Resources/UIIcons/plus.png" Foreground="{StaticResource SuccessBrush}" Width="18" Height="18"/>
                     <TextBlock>New</TextBlock>
                 </DockPanel>
             </Button>
             <Button x:Name="btnImportProfile" l:Localization.TooltipKey="profile_import" ToolTip="Import an existing profile from file" Click="btnImportProfile_Click" Margin="2,0" Style="{StaticResource Panel1Button}">
                 <DockPanel Margin="2,0">
-                    <c:Icon Source="/Aurora;component/Resources/UIIcons/downloads-30.png" Width="18" Height="18"/>
+                    <c:Icon Source="/Aurora;component/Resources/UIIcons/downloads.png" Width="18" Height="18"/>
                 </DockPanel>
             </Button>
             <Button x:Name="btnExportProfile" l:Localization.TooltipKey="profile_export" ToolTip="Export the selected profile as JSON file" Click="btnExportProfile_Click" Margin="2,0" Style="{StaticResource Panel1Button}">
                 <DockPanel Margin="2,0">
-                    <c:Icon Source="/Aurora;component/Resources/UIIcons/uploads-30.png" Width="18" Height="18" />
+                    <c:Icon Source="/Aurora;component/Resources/UIIcons/uploads.png" Width="18" Height="18" />
                 </DockPanel>
             </Button>
             <Button x:Name="btnCopyProfile" l:Localization.TooltipKey="profile_copy" ToolTip="Copy the selected profile (Ctrl + C)" Click="btnCopyProfile_Click" Margin="2,0" Style="{StaticResource Panel1Button}">
                 <DockPanel Margin="2,0">
-                    <c:Icon Source="/Aurora;component/Resources/UIIcons/copy-30.png" Width="18" Height="18"/>
+                    <c:Icon Source="/Aurora;component/Resources/UIIcons/copy.png" Width="18" Height="18"/>
                 </DockPanel>
             </Button>
             <Button x:Name="btnPasteProfile" l:Localization.TooltipKey="profile_paste" ToolTip="Paste profile from clipboard (Ctrl + V)" Click="btnPasteProfile_Click" Margin="2,0" Style="{StaticResource Panel1Button}">
                 <DockPanel Margin="2,0">
-                    <c:Icon Source="/Aurora;component/Resources/UIIcons/clipboard-30.png" Width="18" Height="18"/>
+                    <c:Icon Source="/Aurora;component/Resources/UIIcons/clipboard.png" Width="18" Height="18"/>
                 </DockPanel>
             </Button>
             <Button x:Name="btnDeleteProfile" Click="buttonDeleteProfile_Click" IsEnabled="False" ToolTip="Delete the selected profile (Del)" Margin="4,0" Style="{StaticResource Panel1Button}">
                 <DockPanel Margin="2,0">
-                    <c:Icon Source="/Aurora;component/Resources/UIIcons/delete-30.png" Width="18" Height="18" Foreground="{StaticResource DangerBrush}" />
+                    <c:Icon Source="/Aurora;component/Resources/UIIcons/delete.png" Width="18" Height="18" Foreground="{StaticResource DangerBrush}" />
                 </DockPanel>
             </Button>
         </StackPanel>

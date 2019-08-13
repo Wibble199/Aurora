@@ -40,7 +40,7 @@
             <TabItem Header="Complete">
                 <ScrollViewer x:Name="settingsScroller" VirtualizingPanel.ScrollUnit="Pixel">
                     <StackPanel MaxWidth="520" Margin="0,0,0,16">
-                        
+
                         <!-- Startup settings -->
                         <TextBlock Text="Aurora Startup Settings" Style="{StaticResource SectionHeader}" l:Localization.Key="startup_settings" />
                         <Border Style="{StaticResource GroupPanel}">
@@ -122,10 +122,10 @@
                                     <TextBlock Text="Excluded processes" VerticalAlignment="Top" l:Localization.Key="excluded_processes" />
                                     <c:SpacedStackPanel SpacingAmount="8" DockPanel.Dock="Right" Margin="8,0,0,0">
                                         <Button Click="ExcludedAdd_Click" ToolTip="Add" l:Localization.TooltipKey="add" ToolTipService.Placement="Left" ToolTipService.VerticalOffset="1" ToolTipService.InitialShowDelay="0">
-                                            <c:Icon Source="/Aurora;component/Resources/UIIcons/plus-30.png" Foreground="{StaticResource SuccessBrush}" Margin="2,0" Width="18" Height="18" />
+                                            <c:Icon Source="/Aurora;component/Resources/UIIcons/plus.png" Foreground="{StaticResource SuccessBrush}" Margin="2,0" Width="18" Height="18" />
                                         </Button>
                                         <Button Click="ExcludedRemove_Click" ToolTip="Remove" l:Localization.TooltipKey="remove" ToolTipService.Placement="Left" ToolTipService.VerticalOffset="1" ToolTipService.InitialShowDelay="0">
-                                            <c:Icon Source="/Aurora;component/Resources/UIIcons/delete-30.png" Foreground="{StaticResource DangerBrush}" Margin="2,0" Width="18" Height="18" />
+                                            <c:Icon Source="/Aurora;component/Resources/UIIcons/delete.png" Foreground="{StaticResource DangerBrush}" Margin="2,0" Width="18" Height="18" />
                                         </Button>
                                     </c:SpacedStackPanel>
                                     <ListBox x:Name="excludedListbox" ItemsSource="{Binding ExcludedPrograms, Mode=OneWay}" HorizontalAlignment="Left" Height="80" Width="142" DockPanel.Dock="Right" />
@@ -230,19 +230,19 @@
                                     <TextBlock Text="Find us on" l:Localization.Key="find_us" />
                                     <Button Click="GithubButton_Click">
                                         <StackPanel Margin="2,0" Orientation="Horizontal">
-                                            <c:Icon Source="/Aurora;component/Resources/UIIcons/github-32.png" Width="18" Height="18" Margin="0,0,8,0" />
+                                            <c:Icon Source="/Aurora;component/Resources/UIIcons/github.png" Width="18" Height="18" Margin="0,0,8,0" />
                                             <TextBlock>GitHub</TextBlock>
                                         </StackPanel>
                                     </Button>
                                     <Button Click="DiscordButton_Click" Margin="6,0">
                                         <StackPanel Margin="2,0" Orientation="Horizontal">
-                                            <c:Icon Source="/Aurora;component/Resources/UIIcons/discord-24.png" Width="18" Height="18" Margin="0,0,8,0" />
+                                            <c:Icon Source="/Aurora;component/Resources/UIIcons/discord.png" Width="18" Height="18" Margin="0,0,8,0" />
                                             <TextBlock>Discord</TextBlock>
                                         </StackPanel>
                                     </Button>
                                     <Button Click="SteamButton_Click">
                                         <StackPanel Margin="2,0" Orientation="Horizontal">
-                                            <c:Icon Source="/Aurora;component/Resources/UIIcons/steam-26.png" Width="16" Height="16" Margin="0,0,8,0" />
+                                            <c:Icon Source="/Aurora;component/Resources/UIIcons/steam.png" Width="16" Height="16" Margin="0,0,8,0" />
                                             <TextBlock>Steam</TextBlock>
                                         </StackPanel>
                                     </Button>
@@ -252,30 +252,6 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <!--<TabItem Header="Away Effects">
-                <Grid>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,12,0,0" TextWrapping="Wrap" Text="Away Effect Type: " VerticalAlignment="Top" />
-                    <ComboBox HorizontalAlignment="Left" Margin="110,10,0,0" VerticalAlignment="Top" Width="170" ItemsSource="{u:EnumToItemsSource {x:Type l:IdleEffects}}" DisplayMemberPath="Text" SelectedValuePath="Value" />
-                    <TextBlock HorizontalAlignment="Left" Margin="10,38,0,0" TextWrapping="Wrap" Text="Delay:" VerticalAlignment="Top" />
-                    <TextBlock HorizontalAlignment="Left" Margin="105,38,0,0" TextWrapping="Wrap" Text="minutes" VerticalAlignment="Top" />
-
-                    <xctk:ColorPicker Margin="90,62,0,0" Height="24" VerticalAlignment="Top" HorizontalAlignment="Left" Width="163" ColorMode="ColorCanvas" UsingAlphaChannel="True" SelectedColorChanged="idle_effects_primary_color_colorpicker_SelectedColorChanged" />
-                    <TextBlock HorizontalAlignment="Left" Margin="10,65,0,0" TextWrapping="Wrap" Text="Primary Color:" VerticalAlignment="Top" />
-
-
-                    <TextBlock HorizontalAlignment="Left" Margin="10,120,0,0" TextWrapping="Wrap" Text="Effect Speed: " VerticalAlignment="Top" />
-                    <Slider HorizontalAlignment="Left" Margin="90,120,0,0" VerticalAlignment="Top" Width="140" Minimum="1" SmallChange="0.5" SelectionStart="6" IsSnapToTickEnabled="True" TickFrequency="0.25" Maximum="5" ValueChanged="idle_effects_speed_slider_ValueChanged" />
-                    <TextBlock HorizontalAlignment="Left" Margin="235,120,0,0" TextWrapping="Wrap" Text="x 1.0" VerticalAlignment="Top" />
-                    <xctk:ColorPicker Margin="105,91,0,0" Height="24" VerticalAlignment="Top" HorizontalAlignment="Left" Width="148" ColorMode="ColorCanvas" UsingAlphaChannel="True" SelectedColorChanged="idle_effects_secondary_color_colorpicker_SelectedColorChanged" />
-                    <TextBlock HorizontalAlignment="Left" Margin="10,94,0,0" TextWrapping="Wrap" Text="Secondary Color:" VerticalAlignment="Top" />
-                    <xctk:IntegerUpDown HorizontalAlignment="Left" Height="20" Margin="47,37,0,0" VerticalAlignment="Top" Width="50" Value="0" Minimum="0" Maximum="120" ValueChanged="idle_effects_delay_ValueChanged" />
-                    <TextBlock HorizontalAlignment="Left" Margin="10,145,0,0" TextWrapping="Wrap" Text="Effect Amount:" VerticalAlignment="Top" />
-                    <xctk:IntegerUpDown HorizontalAlignment="Left" Height="20" Margin="93,143,0,0" VerticalAlignment="Top" Width="50" Value="0" Minimum="0" Maximum="120" ValueChanged="idle_effects_amount_ValueChanged" />
-                    <TextBlock HorizontalAlignment="Left" Margin="10,170,0,0" TextWrapping="Wrap" Text="Effect Frequency:" VerticalAlignment="Top" />
-                    <xctk:IntegerUpDown HorizontalAlignment="Left" Height="20" Margin="105,168,0,0" VerticalAlignment="Top" Width="50" Value="0" Minimum="0" Maximum="600" ValueChanged="idle_effects_frequency_ValueChanged" />
-                    <TextBlock HorizontalAlignment="Left" Margin="160,170,0,0" TextWrapping="Wrap" Text="seconds" VerticalAlignment="Top" />
-                </Grid>
-            </TabItem>-->
             <TabItem Header="Device Manager">
                 <Grid>
                     <c:Control_DeviceManager Margin="10" />

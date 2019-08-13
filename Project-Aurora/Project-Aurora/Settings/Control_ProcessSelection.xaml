@@ -41,7 +41,7 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
 
-                    <TextBox x:Name="RunningProcessListFilterText" Grid.Row="1" TextChanged="RunningListFilter_TextChanged" PreviewKeyDown="RunningProcessListFilterText_KeyDown" a:TextboxAddons.Placeholder="{loc:Loc filter_list}" a:TextboxAddons.Icon="/Aurora;component/Resources/UIIcons/search-30.png" />
+                    <TextBox x:Name="RunningProcessListFilterText" Grid.Row="1" TextChanged="RunningListFilter_TextChanged" PreviewKeyDown="RunningProcessListFilterText_KeyDown" a:TextboxAddons.Placeholder="{loc:Loc filter_list}" a:TextboxAddons.Icon="/Aurora;component/Resources/UIIcons/search.png" />
                 </Grid>
             </TabItem>
             

@@ -35,14 +35,14 @@
                         <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Type ToggleButton}}">
                             <Setter Property="Content">
                                 <Setter.Value>
-                                    <c:Icon Source="pack://application:,,,/Resources/UIIcons/plus-30.png" Foreground="{StaticResource SuccessBrush}" Margin="2,0" Width="18" Height="18"/>
+                                    <c:Icon Source="pack://application:,,,/Resources/UIIcons/plus.png" Foreground="{StaticResource SuccessBrush}" Margin="2,0" Width="18" Height="18"/>
                                 </Setter.Value>
                             </Setter>
                             <Style.Triggers>
                                 <Trigger Property="IsChecked" Value="True">
                                     <Setter Property="Content">
                                         <Setter.Value>
-                                            <c:Icon Source="pack://application:,,,/Resources/UIIcons/checkmark-30.png" Foreground="{StaticResource SuccessBrush}" Margin="2,0" Width="18" Height="18"/>
+                                            <c:Icon Source="pack://application:,,,/Resources/UIIcons/checkmark.png" Foreground="{StaticResource SuccessBrush}" Margin="2,0" Width="18" Height="18"/>
                                         </Setter.Value>
                                     </Setter>
                                 </Trigger>
@@ -51,10 +51,10 @@
                     </ToggleButton.Style>
                 </ToggleButton>
                 <Button ToolTip="Remove" Click="RemoveButton_Click">
-                    <c:Icon Source="pack://application:,,,/Resources/UIIcons/delete-30.png" Foreground="{StaticResource DangerBrush}" Margin="2,0" Width="18" Height="18"/>
+                    <c:Icon Source="pack://application:,,,/Resources/UIIcons/delete.png" Foreground="{StaticResource DangerBrush}" Margin="2,0" Width="18" Height="18"/>
                 </Button>
                 <Button ToolTip="Reverse" Click="ReverseButton_Click">
-                    <c:Icon Source="pack://application:,,,/Resources/UIIcons/up-down-arrow-30.png" Foreground="{StaticResource BaseButtonForegroundBrush}" Margin="2,0" Width="18" Height="18"/>
+                    <c:Icon Source="pack://application:,,,/Resources/UIIcons/up-down-arrow.png" Foreground="{StaticResource BaseButtonForegroundBrush}" Margin="2,0" Width="18" Height="18"/>
                 </Button>
             </c:SpacedStackPanel>
 
@@ -62,7 +62,7 @@
                 <c:ReorderableListBox.ItemTemplate>
                     <DataTemplate>
                         <DockPanel LastChildFill="True">
-                            <c:Icon Source="pack://application:,,,/Resources/UIIcons/resize-vertical-30.png" Tag="Drag" Cursor="SizeNS" Foreground="{StaticResource ForegroundTextBrush}" DockPanel.Dock="Right" Width="18" Height="18"/>
+                            <c:Icon Source="pack://application:,,,/Resources/UIIcons/resize-vertical.png" Tag="Drag" Cursor="SizeNS" Foreground="{StaticResource ForegroundTextBrush}" DockPanel.Dock="Right" Width="18" Height="18"/>
                             <TextBlock Text="{Binding .}" Margin="0,3" />
                         </DockPanel>
                     </DataTemplate>

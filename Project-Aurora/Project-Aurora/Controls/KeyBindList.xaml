@@ -10,7 +10,7 @@
     <DockPanel LastChildFill="True">
         <c:SpacedStackPanel DockPanel.Dock="Right" Margin="8,0,0,0" SpacingAmount="8">
             <Button Click="AddNewButton_Click" ToolTip="Add" l:Localization.TooltipKey="add" ToolTipService.Placement="Left" ToolTipService.VerticalOffset="1" ToolTipService.InitialShowDelay="0">
-                <c:Icon Source="/Aurora;component/Resources/UIIcons/plus-30.png" Foreground="{StaticResource SuccessBrush}" Margin="2,0" Width="18" Height="18" />
+                <c:Icon Source="/Aurora;component/Resources/UIIcons/plus.png" Foreground="{StaticResource SuccessBrush}" Margin="2,0" Width="18" Height="18" />
             </Button>
         </c:SpacedStackPanel>
         <Border Background="{StaticResource ListboxBackgroundBrush}" CornerRadius="{StaticResource ControlBorderRadius}">
@@ -20,7 +20,7 @@
                         <DataTemplate>
                             <DockPanel LastChildFill="True" Margin="0,0,0,4">
                                 <Button Click="DeleteButton_Click" DockPanel.Dock="Right" ToolTip="Remove" l:Localization.TooltipKey="remove" ToolTipService.Placement="Left" ToolTipService.VerticalOffset="1" ToolTipService.InitialShowDelay="0">
-                                    <c:Icon Source="/Aurora;component/Resources/UIIcons/delete-30.png" Foreground="{StaticResource DangerBrush}" Margin="2,0" Width="18" Height="18" />
+                                    <c:Icon Source="/Aurora;component/Resources/UIIcons/delete.png" Foreground="{StaticResource DangerBrush}" Margin="2,0" Width="18" Height="18" />
                                 </Button>
                                 <c:Control_Keybind Keybind="{Binding .}" CanClear="False" Margin="0,0,4,0" />
                             </DockPanel>

@@ -17,7 +17,7 @@ namespace Aurora.Controls.EditorResources
         private ContentControl designerItem;
         private RotateTransform rotateTransform;
 
-        private static Cursor rotateCursor = new Cursor(Application.GetResourceStream(new Uri("Resources/UIIcons/process-30.cur", UriKind.Relative)).Stream);
+        private static Cursor rotateCursor = new Cursor(Application.GetResourceStream(new Uri("Resources/UIIcons/process.cur", UriKind.Relative)).Stream);
 
         public RotateThumb()
         {

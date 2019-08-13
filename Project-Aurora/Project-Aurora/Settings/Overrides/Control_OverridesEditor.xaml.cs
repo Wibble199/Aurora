@@ -148,16 +148,16 @@ namespace Aurora.Settings.Overrides {
     public class TypeToIconConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             var imageName = new Dictionary<Type, string> {
-                { typeof(bool), "checked-checkbox-30.png" },
-                { typeof(int), "numbers-30.png" },
-                { typeof(long), "numbers-30.png" },
-                { typeof(float), "numbers-30.png" },
-                { typeof(double), "numbers-30.png" },
-                { typeof(string), "font-size-30.png" },
-                { typeof(Color), "paint-palette-30.png" },
-                { typeof(KeySequence), "keyboard-30.png" },
-                { typeof(Logic.Time), "alarm-clock-30.png" }
-            }.TryGetValue((Type)value, out string val) ? val : "diamonds-30.png";
+                { typeof(bool), "checked-checkbox.png" },
+                { typeof(int), "numbers.png" },
+                { typeof(long), "numbers.png" },
+                { typeof(float), "numbers.png" },
+                { typeof(double), "numbers.png" },
+                { typeof(string), "font-size.png" },
+                { typeof(Color), "paint-palette.png" },
+                { typeof(KeySequence), "keyboard.png" },
+                { typeof(Logic.Time), "alarm-clock.png" }
+            }.TryGetValue((Type)value, out string val) ? val : "diamonds.png";
             return new BitmapImage(new Uri($"pack://application:,,,/Aurora;component/Resources/UIIcons/{imageName}"));
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();

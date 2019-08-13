@@ -126,7 +126,7 @@ var variations = new[] { "Panel1", "Panel2", "Danger", "Flat" };
                     <Border Padding="4" CornerRadius="{StaticResource ControlBorderRadius}" Background="{TemplateBinding Background}" Opacity="{TemplateBinding Opacity}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
                         <Grid>
                             <ContentPresenter Margin="0,0,30,0" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}"  />
-                            <c:Icon x:Name="ArrowIcon" Source="/Aurora;component/Resources/UIIcons/expand-arrow-30.png" Width="18" Margin="4,0" HorizontalAlignment="Right" IsHitTestVisible="False" RenderTransformOrigin="0.5,0.5">
+                            <c:Icon x:Name="ArrowIcon" Source="/Aurora;component/Resources/UIIcons/expand-arrow.png" Width="18" Margin="4,0" HorizontalAlignment="Right" IsHitTestVisible="False" RenderTransformOrigin="0.5,0.5">
                                 <c:Icon.RenderTransform>
                                     <RotateTransform Angle="0" />
                                 </c:Icon.RenderTransform>
