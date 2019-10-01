@@ -8,7 +8,7 @@ namespace Aurora.Core.Overrides.Visual.Base {
     /// </summary>
     /// <typeparam name="TOut">The variable type that is produced by this expression.</typeparam>
     public abstract class VisualExpression<TOut> : VisualAtomic {
-        public abstract Expression GetExpression();
+        public abstract Expression GetExpression(VisualProgram context);
         public virtual new VisualExpression<TOut> Clone() => (VisualExpression<TOut>)base.Clone();
     }
 }

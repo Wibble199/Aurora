@@ -10,6 +10,6 @@ namespace Aurora.Core.Overrides.Visual {
     public class Literal<T> : VisualExpression<T> {
         public T Value { get; set; }
         public Literal(T value = default) => Value = value;
-        public override Expression GetExpression() => Expression.Constant(Value);
+        public override Expression GetExpression(VisualProgram context) => Expression.Constant(Value);
     }
 }

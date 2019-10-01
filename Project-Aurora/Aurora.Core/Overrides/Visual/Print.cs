@@ -7,9 +7,9 @@ namespace Aurora.Core.Overrides.Visual
     public class Print : VisualStatement
     {
 
-        public string Output { get; set; }
+        public VisualExpression<int> Output { get; set; }
         private static MethodInfo method = typeof(System.Console).GetMethod("WriteLine", new[] { typeof(object) });
 
-        public override Expression GetStatement() => Expression.Call(method, Expression.Constant(Output));
+        public override Expression GetStatement(VisualProgram context) => Expression.Call(method, Expression.Convert(Output.GetExpression(context), typeof(object)));
     }
 }

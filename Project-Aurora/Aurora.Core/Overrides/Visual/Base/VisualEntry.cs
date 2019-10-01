@@ -21,8 +21,8 @@ namespace Aurora.Core.Overrides.Visual.Base {
         /// Creates a <see cref="LambdaExpression"/> that represents the expression tree to be invoked by
         /// this entry, including defining the parameters to be passed to the entry.
         /// </summary>
-        public LambdaExpression GetLambda() => Expression.Lambda(
-            Body.GetStatement(),
+        public LambdaExpression GetLambda(VisualProgram context) => Expression.Lambda(
+            Body.GetStatement(context),
             Parameters.Select(p => Expression.Parameter(p.type, p.name))
         );
     }

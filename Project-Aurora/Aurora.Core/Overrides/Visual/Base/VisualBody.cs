@@ -14,7 +14,7 @@ namespace Aurora.Core.Overrides.Visual.Base {
 
         public IList<VisualStatement> Statements { get; set; } = new List<VisualStatement>();
 
-        public override Expression GetStatement() => Expression.Block(Statements.Select(s => s.GetStatement()));
+        public override Expression GetStatement(VisualProgram context) => Expression.Block(Statements.Select(s => s.GetStatement(context)));
 
         public void Add(VisualStatement statement) => Statements.Add(statement);
         public IEnumerator<VisualStatement> GetEnumerator() => Statements.GetEnumerator();

@@ -7,7 +7,7 @@ namespace Aurora.Core.Overrides.Visual.Base {
     /// or more <see cref="VisualExpression{TOut}"/>s during execution.
     /// </summary>
     public abstract class VisualStatement : VisualAtomic {
-        public abstract Expression GetStatement();
+        public abstract Expression GetStatement(VisualProgram context);
         public new VisualStatement Clone() => (VisualStatement)base.Clone();
     }
 }

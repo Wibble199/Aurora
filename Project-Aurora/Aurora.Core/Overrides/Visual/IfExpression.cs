@@ -9,6 +9,6 @@ namespace Aurora.Core.Overrides.Visual
         public VisualBody TrueBody { get; set; } = new VisualBody();
         public VisualBody FalseBody { get; set; } = new VisualBody();
 
-        public override Expression GetStatement() => Expression.IfThenElse(Condition.GetExpression(), TrueBody.GetStatement(), FalseBody.GetStatement());
+        public override Expression GetStatement(VisualProgram c) => Expression.IfThenElse(Condition.GetExpression(c), TrueBody.GetStatement(c), FalseBody.GetStatement(c));
     }
 }
