@@ -8,7 +8,7 @@ namespace Aurora.Core.Overrides.Visual {
         public string VariableName { get; set; }
         public IVisualExpression<double> Value { get; set; }
 
-        public override Expression GetExpression(VisualProgram context) => // Can also use DivideAssign, PowAssign, ModuloAssign, etc.
-            VariableAccessorFactory.CreateAssignmentExpression(context, VariableName, v => Expression.AddAssign(v, Value.GetExpression(context)));
+        public override Expression GetExpression(VisualProgram context) => // Can also use Divide, Pow, Modulo, etc.
+            VariableAccessorFactory.CreateAssignmentExpression(context, VariableName, v => Expression.Add(v, Value.GetExpression(context)), typeof(double));
     }
 }

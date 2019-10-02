@@ -10,6 +10,6 @@ namespace Aurora.Core.Overrides.Visual {
         public bool IsIncrement { get; set; }
 
         public override Expression GetExpression(VisualProgram context) =>
-            VariableAccessorFactory.CreateAssignmentExpression(context, VariableName, v => Expression.AddAssign(v, Expression.Constant(IsIncrement ? 1 : -1)));
+            VariableAccessorFactory.CreateAssignmentExpression(context, VariableName, v => Expression.Add(v, Expression.Constant(IsIncrement ? 1 : -1)), typeof(double));
     }
 }

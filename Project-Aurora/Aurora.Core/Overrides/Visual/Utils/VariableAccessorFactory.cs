@@ -8,8 +8,12 @@ namespace Aurora.Core.Overrides.Visual.Utils {
 
     internal static class VariableAccessorFactory {
 
-        private static MethodInfo dictionaryGetter = typeof(Dictionary<string, object>).GetMethod("get_Item");
-        private static MethodInfo dictionarySetter = typeof(Dictionary<string, object>).GetMethod("set_Item");
+        private static IndexExpression GetMemberExpressionFor(VisualProgram context, string variableName) =>
+            Property(
+                Constant(context.VariableValues, typeof(Dictionary<string, object>)),
+                "Item",
+                Constant(variableName, typeof(string))
+            );
 
         /// <summary>
         /// Creates an expression that gets the value of a visual program variable.
@@ -18,14 +22,7 @@ namespace Aurora.Core.Overrides.Visual.Utils {
         /// <param name="variableName">The name of the variable in the dictionary.</param>
         /// <param name="type">The type that the variable should be cast to.</param>
         internal static Expression CreateGetterExpression(VisualProgram context, string variableName, Type type) =>
-            Convert(
-                Call(
-                    Constant(context.VariableValues), // The instance on which the method will be called (in this case, the variable dictionary)
-                    dictionaryGetter, // The method that will be called on the instance (the dictionary's get_Item method which is what dict[x] uses)
-                    Constant(variableName) // The name of the custom variable in the dictionary
-                ),
-                type // Convert the value from an object into the type that is requested (e.g. string)
-            );
+            Convert(GetMemberExpressionFor(context, variableName), type);
 
         /// <summary>
         /// Creates an expression that sets the variable to the given expression value.
@@ -34,32 +31,29 @@ namespace Aurora.Core.Overrides.Visual.Utils {
         /// <param name="variableName">The name of the variable in the dictionary.</param>
         /// <param name="value">The expression that represents the new value of the variable.</param>
         internal static Expression CreateSetterExpression(VisualProgram context, string variableName, Expression value) =>
-            Call(
-                Constant(context.VariableValues), // The instance on which the method will be called (in this case, the variable dictionary)
-                dictionarySetter, // The method that will be called on the instance (the dictionary's set_Item method which is what dict[x] = y uses)
-                Constant(variableName), // The name of the custom variable in the dictionary
-                Convert(value, typeof(object)) // We need to manually convert the value to an object to be able to set it in the dictionary
-            );
+            Assign(GetMemberExpressionFor(context, variableName), Convert(value, typeof(object)));
 
         /// <summary>
         /// Creates an expression that gets the target variable, performs an action on it, sets it back to the variable store and returns the new value.
         /// This can be used to implement nodes such as increment, addassign, etc.
         /// </summary>
         /// <param name="context">The program context whose variable dictionary will be used.</param>
-        /// <param name="VariableName">The name of the variable in the dictionary.</param>
-        /// <param name="action">Factory function to generate the expression that will be performed between reading and writing the variable. It is passed
-        /// the parameter expression that can be read/written to.</param>
-        internal static Expression CreateAssignmentExpression(VisualProgram context, string VariableName, Func<ParameterExpression, Expression> action) {
-            var returnLabel = Label(typeof(double));
-            var temp = Parameter(typeof(double), "temp");
-            return Block(
-                typeof(double),
-                new[] { temp },
-                Assign(temp, CreateGetterExpression(context, VariableName, typeof(double))),
-                action(temp),
-                CreateSetterExpression(context, VariableName, temp),
-                Return(returnLabel, temp),
-                Label(returnLabel, temp)
+        /// <param name="variableName">The name of the variable in the dictionary.</param>
+        /// <param name="expressionFactory">Factory function to generate the expression that will be performed between reading and writing the variable.
+        /// It is passed the variable expression that can be read/written to. This factory MUST NOT return an assignment expression. For example, return
+        /// `Expression.Add(...)` instead of `Expression.AddAssign(...)`.</param>
+        internal static Expression CreateAssignmentExpression(VisualProgram context, string variableName, Func<Expression, Expression> expressionFactory, Type type)
+        {
+            // If the factory returned an "Add" expression, the pseduocode generated would be `dict["myvar"] = dict["myvar"] + y`, which is a valid statement and a valid expression.
+            var @var = GetMemberExpressionFor(context, variableName);
+            return Assign(
+                var, // Assign to the relevant index in the dictionary
+                Convert(
+                    expressionFactory( // Create the assignment expression from the expression returned by the factory
+                        Convert(var, type) // Pass an expression to the factory that gets the relevant var from the dictionary and then converts it to the specified type
+                    ),
+                    typeof(object) // The dictionary is <string, object> so we must convert to an object
+                )
             );
         }
     }
