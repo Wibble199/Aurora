@@ -4,10 +4,10 @@ using System.Reflection;
 
 namespace Aurora.Core.Overrides.Visual
 {
-    public class Print : VisualStatement
+    public sealed class Print : VisualStatement
     {
 
-        public VisualExpression<int> Output { get; set; }
+        public IVisualExpression<double> Output { get; set; }
         private static MethodInfo method = typeof(System.Console).GetMethod("WriteLine", new[] { typeof(object) });
 
         public override Expression GetStatement(VisualProgram context) => Expression.Call(method, Expression.Convert(Output.GetExpression(context), typeof(object)));

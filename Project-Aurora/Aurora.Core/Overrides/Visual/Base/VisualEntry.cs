@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Aurora.Core.Overrides.Visual.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -8,7 +9,7 @@ namespace Aurora.Core.Overrides.Visual.Base {
     /// <summary>
     /// Represents an entry-point for the visual programming tool.
     /// </summary>
-    public class VisualEntry : VisualAtomic {
+    public sealed class VisualEntry : VisualAtomic {
 
         public IEnumerable<(string name, Type type)> Parameters { get; }
         public Dictionary<string, string> ParameterMap { get; set; } = new Dictionary<string, string>();
@@ -26,7 +27,7 @@ namespace Aurora.Core.Overrides.Visual.Base {
             var @params = Parameters.Select(p => Expression.Parameter(p.type, p.name)).ToList();
             return Expression.Lambda(
                 Expression.Block(
-                    ParameterMap.Select((kvp, i) => VariableSetter.GetStatement(context, kvp.Value, @params[i])).Concat( // Copy any required parameters into their specified parameters
+                    ParameterMap.Select((kvp, i) => VariableAccessorFactory.CreateSetterExpression(context, kvp.Value, @params[i])).Concat( // Copy any required parameters into their specified parameters
                     Body.Statements.Select(s => s.GetStatement(context))) // Run the main code body
                 ),
                 @params

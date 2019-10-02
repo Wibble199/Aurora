@@ -10,14 +10,14 @@ namespace Aurora.Core.Overrides.Visual.Base {
     /// Other statements that need to use a statement body (such as if statements) should not extend this class,
     /// but have an instance of it as a property.
     /// </summary>
-    public sealed class VisualBody : VisualStatement, IEnumerable<VisualStatement> {
+    public sealed class VisualBody : VisualStatement, IEnumerable<IVisualStatement> {
 
-        public IList<VisualStatement> Statements { get; set; } = new List<VisualStatement>();
+        public IList<IVisualStatement> Statements { get; set; } = new List<IVisualStatement>();
 
         public override Expression GetStatement(VisualProgram context) => Expression.Block(Statements.Select(s => s.GetStatement(context)));
 
-        public void Add(VisualStatement statement) => Statements.Add(statement);
-        public IEnumerator<VisualStatement> GetEnumerator() => Statements.GetEnumerator();
+        public void Add(IVisualStatement statement) => Statements.Add(statement);
+        public IEnumerator<IVisualStatement> GetEnumerator() => Statements.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => Statements.GetEnumerator();
     }
 }
