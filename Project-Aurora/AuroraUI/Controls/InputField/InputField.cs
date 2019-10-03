@@ -3,11 +3,15 @@ using Microsoft.AspNetCore.Components.Rendering;
 using System;
 using System.Reflection;
 
-namespace AuroraUI.Controls.InputField
-{
+namespace AuroraUI.Controls.InputField {
 
     /// <summary>
     /// Represents a control that has a particular (variable) type and presents a relevant control to the user.
+    /// <para/>
+    /// This is the non-generic form of the InputField and should be used when the type of data to be edited is NOT known at compile-time. 
+    /// If used with Blazor's @bind-Value attribute, it must be bound to an 'object' property.
+    /// <para/>
+    /// Use the <see cref="InputFieldGeneric{TValue}"/> component instead if the type is known at compile time.
     /// </summary>
     public sealed class InputField : InputFieldBase {
 

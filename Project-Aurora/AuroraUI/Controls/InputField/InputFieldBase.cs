@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace AuroraUI.Controls.InputField {
 
+    /// <summary>
+    /// Base class for <see cref="InputField"/> and <see cref="InputFieldGeneric{TValue}"/> providing them a list of available controls that can be used.
+    /// </summary>
     public abstract class InputFieldBase : ComponentBase {
 
         // A list of all available inner editor controls

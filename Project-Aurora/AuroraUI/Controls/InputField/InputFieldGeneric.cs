@@ -1,11 +1,16 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace AuroraUI.Controls.InputField
-{
+namespace AuroraUI.Controls.InputField {
 
     /// <summary>
     /// Represents a control that has a particular (variable) type and presents a relevant control to the user.
+    /// <para/>
+    /// This is the generic form of the InputField for use when the type of data being edited IS known at compile time.
+    /// Unlike it's non-generic counterpart, this component can be bound using @bind-Value to a property of the type being
+    /// edited (e.g. int), you are not restricted to only being able to bind to object properties.
+    /// <para/>
+    /// Use the <see cref="InputField"/> component instead if the type is not known at compile time.
     /// </summary>
     public sealed class InputFieldGeneric<TValue> : InputFieldBase {
 
