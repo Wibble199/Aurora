@@ -216,6 +216,7 @@ label.switch input[type="checkbox"]:checked ~ div::before {
 }
 
 body .dropdown-content {
+    position: absolute; /* Without this, the dropdown content still gets placed in document flow and moves other elements down */
     color: #FFF;
     background: #0F141A;
     box-shadow: 0 0 4px 2px rgba(0,0,0,.3);

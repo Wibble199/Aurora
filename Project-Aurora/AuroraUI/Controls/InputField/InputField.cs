@@ -1,56 +1,64 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using System;
-using System.Linq;
-using System.Collections.Generic;
+using System.Reflection;
 
-namespace AuroraUI.Controls.InputField {
+namespace AuroraUI.Controls.InputField
+{
 
     /// <summary>
     /// Represents a control that has a particular (variable) type and presents a relevant control to the user.
     /// </summary>
-    public sealed class InputField<TValue> : ComponentBase {
+    public sealed class InputField : InputFieldBase {
 
-        [Parameter] public TValue Value { get; set; }
-        [Parameter] public EventCallback<TValue> ValueChanged { get; set; }
+        [Parameter] public Type InputType { get; set; }
+        [Parameter] public object Value { get; set; }
+        [Parameter] public EventCallback<object> ValueChanged { get; set; }
+
+        // Store some reflection info that we will use later, to save us performing more reflection
+        private static Type enumComboboxUnbound = typeof(EnumCombobox<>);
+        private static MethodInfo createEventCallbackUnbound = typeof(InputField).GetMethod(nameof(CreateEventCallback), BindingFlags.NonPublic | BindingFlags.Instance); // using "nameof" means that the CreateEventCallback doesn't get a warning about being unused, so we protect agaisnt it being accidently cleaned up.
 
 
         protected override void BuildRenderTree(RenderTreeBuilder builder) {
 
-            if (GetControlFor(typeof(TValue)) is { } control) {
+            if (GetControlFor(InputType) is { } control) {
                 // If a control exists, create markup for this control, adding the relevant Value and ValueChanged attributes
                 builder.OpenComponent(0, control);
                 builder.AddAttribute(1, "Value", Value);
-                builder.AddAttribute(2, "ValueChanged", EventCallback.Factory.Create<TValue>(this, OnInputValueChanged));
+                builder.AddAttribute(2, "ValueChanged", CreateDynamicEventCallback());
                 builder.CloseComponent();
 
-            } else if (typeof(TValue).IsEnum) {
+            } else if (InputType.IsEnum) {
                 // For enums, if a control exists for this specific enum use that (in the above branch), else use the default enum combo
-                builder.OpenComponent<EnumCombobox<TValue>>(0);
+                builder.OpenComponent(0, enumComboboxUnbound.MakeGenericType(InputType));
                 builder.AddAttribute(1, "SelectedItem", Value);
-                builder.AddAttribute(2, "SelectedItemChanged", EventCallback.Factory.Create<TValue>(this, OnInputValueChanged));
+                builder.AddAttribute(2, "SelectedItemChanged", CreateDynamicEventCallback());
                 builder.CloseComponent();
 
             } else
                 // If no control exists for this datatype, show a warning message
-                builder.AddMarkupContent(0, $"<div class='editor-type-error'>Editor for the data type '{typeof(TValue).Name}' is unavailable.</div>");
+                builder.AddMarkupContent(0, $"<div class='editor-type-error'>Editor for the data type '{InputType.Name}' is unavailable.</div>");
         }
 
-        private void OnInputValueChanged(TValue newValue) {
-            Value = newValue;
-            ValueChanged.InvokeAsync(Value);
-        }
+        /// <summary>
+        /// Method that dynamically creates an <see cref="EventCallback{TValue}"/> whose TValue parameter matches that of the non-generic property
+        /// <see cref="InputType"/>.
+        /// This is required so that strictly typed EventCallbacks on input controls (e.g. EventCallback&lt;string&gt; on the TextBox control) can
+        /// be dynamically set when the InputField does not know the TValue generic argument at compile time - only at runtime.
+        /// </summary>
+        private object CreateDynamicEventCallback() => createEventCallbackUnbound.MakeGenericMethod(InputType).Invoke(this, null);
 
-        /// <summary>Gets the editor type that will be used for the given data type.</summary>
-        private static Type GetControlFor(Type dataType, string specialName = "")
-            => availableControls.ContainsKey((dataType, specialName.ToLower())) ? availableControls[(dataType, specialName)] // Try find a matching type and special name
-             : availableControls.ContainsKey((dataType, "")) ? availableControls[(dataType, specialName)] // If not, try find the type with no special name
-             : null; // Found no matching control
 
-        // A list of all available inner editor controls
-        private static Dictionary<(Type dataType, string specialName), Type> availableControls =
-            Aurora.Utils.TypeUtils.GetTypesWithCustomAttribute<InputFieldControlAttribute>()
-                .Where(x => typeof(ComponentBase).IsAssignableFrom(x.Key))
-                .ToDictionary(x => (x.Value.Type, x.Value.SpecialName?.ToLower() ?? ""), x => x.Key);
+        /// <summary>
+        /// Method that creates an <see cref="EventCallback{TValue}"/> for the given type, which sets the <see cref="Value"/> to the incoming value
+        /// and invokes this <see cref="InputField"/>'s <see cref="ValueChanged"/> callback with the new value too.
+        /// </summary>
+        /// <typeparam name="TValue">The type of value that the EventCallback should expect.</typeparam>
+        private EventCallback<TValue> CreateEventCallback<TValue>() =>
+            EventCallback.Factory.Create<TValue>(this, (TValue newValue) => {
+                Value = newValue;
+                ValueChanged.InvokeAsync(Value);
+            });
     }
 }

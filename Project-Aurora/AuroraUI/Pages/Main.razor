@@ -1,4 +1,4 @@
-﻿@page "/"
+@page "/"
 @using Aurora.Settings.Layers;
 @using AuroraUI.Utils
 @inject Aurora.AuroraCore Core
@@ -50,17 +50,20 @@
                     <SplitPanel Class="h-full properties">
                         <!-- Layer properties -->
                         <SplitPanelItem>
-                            <InputField TValue="string" @bind-Value="TestString" />
+                            <InputFieldGeneric TValue="string" @bind-Value="TestString" />
                             <span><strong>Value:</strong> @TestString</span>
                             <br />
-                            <InputField TValue="bool" @bind-Value="TestBool" />
+                            <InputFieldGeneric TValue="bool" @bind-Value="TestBool" />
                             <span><strong>Value:</strong> @TestBool</span>
                             <br />
-                            <InputField TValue="System.Drawing.Color" @bind-Value="TestColor" />
+                            <InputFieldGeneric TValue="System.Drawing.Color" @bind-Value="TestColor" />
                             <span><strong>Value:</strong> @TestColor.ToString()</span>
                             <br />
-                            <InputField TValue="TestEnum" @bind-Value="TestEnumValue" />
+                            <InputFieldGeneric TValue="TestEnum" @bind-Value="TestEnumValue" />
                             <span><strong>Value:</strong> @TestEnumValue.ToString()</span>
+                            <br/>
+                            <InputField InputType="typeof(TestEnum)" @bind-Value="TestEnumObject" />
+                            <span><strong>Value:</strong> @TestEnumObject.ToString()</span>
                         </SplitPanelItem>
 
                         <!-- Overview -->
