@@ -1,6 +1,7 @@
-﻿@attribute [InputFieldControlAttribute(typeof(double))]
+﻿@inherits ControlBase
+@attribute [InputFieldControlAttribute(typeof(double))]
 
-<input type="number" @value="Value" @oninput="e => { Value = double.TryParse(e.Value.ToString(), out var d) ? d : 0; ValueChanged.InvokeAsync(Value); }" />
+<input type="number" class="@Class" value="@Value" @oninput="e => { Value = double.TryParse(e.Value.ToString(), out var d) ? d : 0; ValueChanged.InvokeAsync(Value); }" style="@Style" />
 
 @code {
     [Parameter] public double Value { get; set; }

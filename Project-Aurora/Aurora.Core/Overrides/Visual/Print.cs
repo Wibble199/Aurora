@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Aurora.Core.Overrides.Visual
 {
-    public sealed class Print : VisualStatement
+    public class Print : VisualStatement
     {
 
         public IVisualExpression<double> Output { get; set; }

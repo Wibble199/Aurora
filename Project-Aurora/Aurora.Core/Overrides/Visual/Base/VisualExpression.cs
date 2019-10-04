@@ -16,7 +16,12 @@ namespace Aurora.Core.Overrides.Visual.Base {
     /// An expression represents an action which can be evaluated to produce a value of some type.
     /// </summary>
     /// <typeparam name="TOut">The variable type that is produced by this expression.</typeparam>
-    public interface IVisualExpression<out TOut> : ICloneable {
+    public interface IVisualExpression<out TOut> : IVisualExpression, ICloneable {
         Expression GetExpression(VisualProgram context);
+        Type IVisualExpression.ReturnType => typeof(TOut);
+    }
+
+    public interface IVisualExpression {
+        Type ReturnType { get; }
     }
 }

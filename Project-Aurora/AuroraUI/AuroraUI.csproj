@@ -11,6 +11,7 @@
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\Aurora.Core\Aurora.Core.csproj" />
     <ProjectReference Include="..\AuroraCore\AuroraCore.csproj" />
   </ItemGroup>
   

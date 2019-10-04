@@ -1,6 +1,7 @@
-@page "/"
+﻿@page "/"
 @using Aurora.Settings.Layers;
 @using AuroraUI.Utils
+@using v = Aurora.Core.Overrides.Visual
 @inject Aurora.AuroraCore Core
 
 <!-- This file contains the main layout -->
@@ -50,6 +51,12 @@
                     <SplitPanel Class="h-full properties">
                         <!-- Layer properties -->
                         <SplitPanelItem>
+
+                            <VisualBodyPresenter Body="TestBody" />
+
+                            <button @onclick="TestRun">Run</button>
+
+
                             <InputFieldGeneric TValue="string" @bind-Value="TestString" />
                             <span><strong>Value:</strong> @TestString</span>
                             <br />
@@ -61,7 +68,7 @@
                             <br />
                             <InputFieldGeneric TValue="TestEnum" @bind-Value="TestEnumValue" />
                             <span><strong>Value:</strong> @TestEnumValue.ToString()</span>
-                            <br/>
+                            <br />
                             <InputField InputType="typeof(TestEnum)" @bind-Value="TestEnumObject" />
                             <span><strong>Value:</strong> @TestEnumObject.ToString()</span>
                         </SplitPanelItem>
@@ -84,10 +91,26 @@
 @code {
     Application FocusedApplication { get; set; }
 
+    Aurora.Core.Overrides.Visual.Base.VisualBody TestBody { get; set; } = new v::Base.IVisualStatement[] {
+        new v::VariableSetter<double> { VariableName = "a", Value = new v::Literal<double>(10) },
+        new v::OperatorAssign { VariableName = "a", Value = new v::Literal<double>(20) },
+        new v::Print { Output = new v::VariableGetter<double>{ VariableName = "a" } }
+    };
+
+    void TestRun()
+    {
+        var vp = new v::VisualProgram();
+        vp.Variables.Add("a", (typeof(double), default(double)));
+        var e = new v::Base.VisualEntry { Body = TestBody };
+        vp.Entries.Add(e);
+        e.GetLambda(vp).Compile().DynamicInvoke();
+    }
+
     string TestString { get; set; } = "Initial";
     bool TestBool { get; set; }
     System.Drawing.Color TestColor { get; set; } = System.Drawing.Color.Red;
     TestEnum TestEnumValue { get; set; } = TestEnum.B;
+    object TestEnumObject { get; set; } = TestEnum.C;
 
     Layer SelectedLayer { get; set; }
     void SelectedLayerChanged(Layer layer) { SelectedLayer = layer; StateHasChanged(); }

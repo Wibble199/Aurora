@@ -16,14 +16,14 @@
 
 
 @code {
-    ElementReference virtualLayout;
+        ElementReference virtualLayout;
 
     public bool EditMode { get; set; }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
-            await JsRuntime.InvokeAsync<object>("auroraUi.deviceLayout.init", virtualLayout, DotNetObjectReference.Create(this));
+            JsRuntime.InvokeVoidAsync("auroraUi.deviceLayout.init", virtualLayout, DotNetObjectReference.Create(this));
     }
 
     [JSInvokable]

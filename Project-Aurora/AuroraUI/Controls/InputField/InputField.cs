@@ -40,7 +40,10 @@ namespace AuroraUI.Controls.InputField {
                 builder.AddAttribute(2, "SelectedItemChanged", CreateDynamicEventCallback());
                 builder.CloseComponent();
 
-            } else
+            } else if (InputType == null)
+                // If the type to edit is null, show an error since there is no way of knowing which control to present
+                builder.AddMarkupContent(0, "<div class='editor-type-error'>No datatype specified for this editor.</div>");
+            else
                 // If no control exists for this datatype, show a warning message
                 builder.AddMarkupContent(0, $"<div class='editor-type-error'>Editor for the data type '{InputType.Name}' is unavailable.</div>");
         }

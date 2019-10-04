@@ -1,0 +1,8 @@
+﻿@attribute [VisualPresenterProvider(typeof(Aurora.Core.Overrides.Visual.Literal<>))]
+
+Literal @Atomic.ReturnType.Name
+<InputField InputType="Atomic.ReturnType" @bind-Value="Atomic.Value" />
+
+@code {
+    [Parameter] public Aurora.Core.Overrides.Visual.ILiteral Atomic { get; set; }
+}

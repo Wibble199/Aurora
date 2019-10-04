@@ -1,0 +1,10 @@
+﻿@attribute [VisualPresenterProvider(typeof(Aurora.Core.Overrides.Visual.Print))]
+
+<div>
+    <span>Print:</span>
+    <VisualExpressionPresenter Expression="Atomic.Output" ExpressionType="typeof(double)" />
+</div>
+
+@code {
+    [Parameter] public Aurora.Core.Overrides.Visual.Print Atomic { get; set; }
+}

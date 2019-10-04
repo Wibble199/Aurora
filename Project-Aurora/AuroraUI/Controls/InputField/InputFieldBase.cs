@@ -11,9 +11,9 @@ namespace AuroraUI.Controls.InputField {
     public abstract class InputFieldBase : ComponentBase {
 
         // A list of all available inner editor controls
-        protected static Dictionary<(Type dataType, string specialName), Type> availableControls =
+        private static Dictionary<(Type dataType, string specialName), Type> availableControls =
             Aurora.Utils.TypeUtils.GetTypesWithCustomAttribute<InputFieldControlAttribute>()
-                .Where(x => typeof(ComponentBase).IsAssignableFrom(x.Key))
+                .Where(x => typeof(IComponent).IsAssignableFrom(x.Key))
                 .ToDictionary(x => (x.Value.Type, x.Value.SpecialName?.ToLower() ?? ""), x => x.Key);
 
         /// <summary>Gets the editor type that will be used for the given data type.</summary>

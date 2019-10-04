@@ -14,7 +14,15 @@ namespace Aurora.Core.Overrides.Visual.Base {
 
         public IList<IVisualStatement> Statements { get; set; } = new List<IVisualStatement>();
 
+        public VisualBody() { }
+        public VisualBody(params IVisualStatement[] statements) {
+            foreach (var statement in statements)
+                Add(statement);
+        }
+
         public override Expression GetStatement(VisualProgram context) => Expression.Block(Statements.Select(s => s.GetStatement(context)));
+
+        public static implicit operator VisualBody(IVisualStatement[] statements) => new VisualBody(statements);
 
         public void Add(IVisualStatement statement) => Statements.Add(statement);
         public IEnumerator<IVisualStatement> GetEnumerator() => Statements.GetEnumerator();

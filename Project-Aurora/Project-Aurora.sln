@@ -22,9 +22,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuroraCore", "AuroraCore\Au
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aurora.Core", "Aurora.Core\Aurora.Core.csproj", "{572300AA-4ACA-459E-B8E9-8156CCB33005}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aurora.Core.Test", "Aurora.Core.Test\Aurora.Core.Test.csproj", "{A2B1FA65-4C60-433C-9427-6EAFEA07DC90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aurora.Core.Test", "Aurora.Core.Test\Aurora.Core.Test.csproj", "{A2B1FA65-4C60-433C-9427-6EAFEA07DC90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPlugin", "TestPlugin\TestPlugin.csproj", "{CED556C7-C59A-4803-AA21-77B060E5DFEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestPlugin", "TestPlugin\TestPlugin.csproj", "{CED556C7-C59A-4803-AA21-77B060E5DFEF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
