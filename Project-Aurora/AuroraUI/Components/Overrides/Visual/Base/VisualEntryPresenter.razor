@@ -1,0 +1,9 @@
+﻿@using O = Aurora.Core.Overrides.Visual.Base
+
+<div>
+    <VisualBodyPresenter Body="Entry.Body" />
+</div>
+
+@code {
+    [Parameter] public O::VisualEntry Entry { get; set; }
+}

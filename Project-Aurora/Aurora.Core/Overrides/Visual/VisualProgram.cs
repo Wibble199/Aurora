@@ -19,7 +19,7 @@ namespace Aurora.Core.Overrides.Visual {
         /// <summary>
         /// Contains the definitions for all the variables in the program.
         /// </summary>
-        public Dictionary<string, (Type type, object @default)> Variables { get; set; } = new Dictionary<string, (Type, object)>();
+        public Dictionary<string, (Type type, object @default)> VariableDefinitions { get; set; } = new Dictionary<string, (Type, object)>();
 
         /// <summary>
         /// Contains the values for all the variables in the program. This should not be serialized.
@@ -29,6 +29,11 @@ namespace Aurora.Core.Overrides.Visual {
         /// <summary>
         /// Resets the variable values to their default values.
         /// </summary>
-        public void ResetVariableValues() => VariableValues = Variables.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.@default);
+        public void ResetVariableValues() => VariableValues = VariableDefinitions.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.@default);
+
+        /// <summary>
+        /// Compiles all the entry points into delegate methods.
+        /// </summary>
+        public IEnumerable<Delegate> CompileAll() => Entries.Select(e => e.GetLambda(this).Compile());
     }
 }

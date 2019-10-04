@@ -1,0 +1,27 @@
+﻿@using O = Aurora.Core.Overrides.Visual
+
+@if (Program != null) {
+    <div>
+        @foreach (var entry in Program.Entries) {
+            <VisualEntryPresenter Entry="entry" />
+        }
+    </div>
+
+    <div>
+        <ul>
+            @foreach (var @var in Program.VariableDefinitions)
+            {
+                <li>@var.Key</li>
+            }
+        </ul>
+        <AuroraButton Label="Create" OnClick="CreateVariable" />
+    </div>
+}
+
+@code {
+    [Parameter] public O::VisualProgram Program { get; set; }
+
+    void CreateVariable() {
+        Program.VariableDefinitions.Add(Guid.NewGuid().ToString(), (typeof(int), default(int)));
+    }
+}

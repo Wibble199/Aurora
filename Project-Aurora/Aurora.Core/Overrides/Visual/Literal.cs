@@ -15,6 +15,9 @@ namespace Aurora.Core.Overrides.Visual {
         object ILiteral.Value { get => Value; set => Value = (T)value; }
     }
 
+    /// <summary>
+    /// Non-generic interface for the <see cref="Literal{T}"/> class.
+    /// </summary>
     public interface ILiteral : IVisualExpression {
         object Value { get; set; }
     }

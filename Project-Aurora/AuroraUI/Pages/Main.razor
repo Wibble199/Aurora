@@ -52,7 +52,7 @@
                         <!-- Layer properties -->
                         <SplitPanelItem>
 
-                            <VisualBodyPresenter Body="TestBody" />
+                            <VisualProgramPresenter Program="TestProgram" />
 
                             <button @onclick="TestRun">Run</button>
 
@@ -91,19 +91,21 @@
 @code {
     Application FocusedApplication { get; set; }
 
-    Aurora.Core.Overrides.Visual.Base.VisualBody TestBody { get; set; } = new v::Base.IVisualStatement[] {
-        new v::VariableSetter<double> { VariableName = "a", Value = new v::Literal<double>(10) },
-        new v::OperatorAssign { VariableName = "a", Value = new v::Literal<double>(20) },
-        new v::Print { Output = new v::VariableGetter<double>{ VariableName = "a" } }
+    v::VisualProgram TestProgram { get; set; } = new v::VisualProgram {
+        Entries = new List<v.Base.VisualEntry> {
+            new v.Base.VisualEntry { Body = new v::Base.IVisualStatement[] {
+                new v::VariableSetter<double> { VariableName = "a", Value = new v::Literal<double>(10) },
+                new v::OperatorAssign { VariableName = "a", Value = new v::Literal<double>(20) },
+                new v::Print { Output = new v::VariableGetter<double>{ VariableName = "a" } }
+            } }
+        },
+        VariableDefinitions = new Dictionary<string, (Type type, object @default)> { { "a", (typeof(double), default(double)) } }
     };
 
     void TestRun()
     {
-        var vp = new v::VisualProgram();
-        vp.Variables.Add("a", (typeof(double), default(double)));
-        var e = new v::Base.VisualEntry { Body = TestBody };
-        vp.Entries.Add(e);
-        e.GetLambda(vp).Compile().DynamicInvoke();
+        TestProgram.ResetVariableValues();
+        TestProgram.Entries.First().GetLambda(TestProgram).Compile().DynamicInvoke();
     }
 
     string TestString { get; set; } = "Initial";
