@@ -91,19 +91,27 @@
 @code {
     Application FocusedApplication { get; set; }
 
+    //v::VisualProgram TestProgram { get; set; } = new v::VisualProgram {
+    //    Entries = new List<v.Base.VisualEntry> {
+    //        new v.Base.VisualEntry { Body = new v::Base.IVisualStatement[] {
+    //            new v::VariableSetter<double> { VariableName = "a", Value = new v::Literal<double>(10) },
+    //            new v::OperatorAssign { VariableName = "a", Value = new v::Literal<double>(20) },
+    //            new v::Print { Output = new v::VariableGetter<double>{ VariableName = "a" } }
+    //        } }
+    //    },
+    //    VariableDefinitions = new Dictionary<string, (Type type, object @default)> { { "a", (typeof(double), default(double)) } }
+    //};
+
     v::VisualProgram TestProgram { get; set; } = new v::VisualProgram {
         Entries = new List<v.Base.VisualEntry> {
             new v.Base.VisualEntry { Body = new v::Base.IVisualStatement[] {
-                new v::VariableSetter<double> { VariableName = "a", Value = new v::Literal<double>(10) },
-                new v::OperatorAssign { VariableName = "a", Value = new v::Literal<double>(20) },
-                new v::Print { Output = new v::VariableGetter<double>{ VariableName = "a" } }
+                new v::Print { Output = new v::Literal<double>(20) }
             } }
         },
-        VariableDefinitions = new Dictionary<string, (Type type, object @default)> { { "a", (typeof(double), default(double)) } }
     };
 
     void TestRun()
-    {
+{
         TestProgram.ResetVariableValues();
         TestProgram.Entries.First().GetLambda(TestProgram).Compile().DynamicInvoke();
     }

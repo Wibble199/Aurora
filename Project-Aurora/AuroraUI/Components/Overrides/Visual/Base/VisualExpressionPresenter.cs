@@ -13,6 +13,7 @@ namespace AuroraUI.Components.Overrides.Visual.Base {
         protected override void BuildRenderTree(RenderTreeBuilder builder) {
             var i = 0;
             builder.OpenElement(i++, "div");
+            builder.AddAttribute(i++, "class", $"override-node atomic-expression type-{ExpressionType.Name.ToLower()}");
             BuildPresenterFor(builder, ref i, Expression);
             builder.CloseElement();
         }
