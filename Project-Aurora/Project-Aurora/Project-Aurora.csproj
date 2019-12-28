@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -380,7 +380,6 @@
       <DependentUpon>Control_Discord.xaml</DependentUpon>
     </Compile>
     <Compile Include="Profiles\Discord\GSI\GameState_Discord.cs" />
-    <Compile Include="Profiles\Discord\GSI\Nodes\ProviderNode.cs" />
     <Compile Include="Profiles\Discord\GSI\Nodes\VoiceNode.cs" />
     <Compile Include="Profiles\Discord\GSI\Nodes\TextNode.cs" />
     <Compile Include="Profiles\Discord\GSI\Nodes\GuildNode.cs" />
@@ -388,6 +387,8 @@
     <Compile Include="Profiles\Discord\DiscordApplication.cs" />
     <Compile Include="Profiles\Discord\DiscordProfile.cs" />
     <Compile Include="Devices\Vulcan\Vulcan.cs" />
+    <Compile Include="Profiles\DynamicGameStateFactory.cs" />
+    <Compile Include="Profiles\Generic\ProviderNode.cs" />
     <Compile Include="Profiles\RocketLeague\GSI\Nodes\Team.cs" />
     <Compile Include="Profiles\RocketLeague\Layers\RocketLeagueGoalExplosionLayerHandler.cs" />
     <Compile Include="Profiles\Osu\GSI\Enums.cs" />
@@ -399,7 +400,6 @@
     <Compile Include="Profiles\Skype\State_SkypeOverlay.cs" />
     <Compile Include="Profiles\Terraria\GSI\GameState_Terraria.cs" />
     <Compile Include="Profiles\Terraria\GSI\Nodes\PlayerNode.cs" />
-    <Compile Include="Profiles\Terraria\GSI\Nodes\ProviderNode.cs" />
     <Compile Include="Profiles\Terraria\GSI\Nodes\WorldNode.cs" />
     <Compile Include="Profiles\Terraria\TerrariaApplication.cs" />
     <Compile Include="Profiles\Terraria\TerrariaProfile.cs" />
@@ -616,7 +616,6 @@
     <Compile Include="Profiles\Minecraft\GSI\GameState_Minecraft.cs" />
     <Compile Include="Profiles\Minecraft\GSI\Nodes\PlayerEffectsNode.cs" />
     <Compile Include="Profiles\Minecraft\GSI\Nodes\PlayerNode.cs" />
-    <Compile Include="Profiles\Minecraft\GSI\Nodes\ProviderNode.cs" />
     <Compile Include="Profiles\Minecraft\GSI\Nodes\WorldNode.cs" />
     <Compile Include="Profiles\Minecraft\Layers\Control_MinecraftBackgroundLayer.xaml.cs">
       <DependentUpon>Control_MinecraftBackgroundLayer.xaml</DependentUpon>
@@ -680,7 +679,6 @@
     <Compile Include="Profiles\Subnautica\GSI\Nodes\GameStateNode.cs" />
     <Compile Include="Profiles\Subnautica\GSI\Nodes\NotificationNode.cs" />
     <Compile Include="Profiles\Subnautica\GSI\Nodes\PlayerNode.cs" />
-    <Compile Include="Profiles\Subnautica\GSI\Nodes\ProviderNode.cs" />
     <Compile Include="Profiles\Subnautica\GSI\Nodes\WorldNode.cs" />
     <Compile Include="Profiles\Subnautica\SubnauticaApplication.cs" />
     <Compile Include="Profiles\Subnautica\SubnauticaProfile.cs" />
@@ -813,6 +811,7 @@
     <Compile Include="Utils\Converters.cs" />
     <Compile Include="Utils\DesktopUtils.cs" />
     <Compile Include="Utils\DesktopDuplicator.cs" />
+    <Compile Include="Utils\DynamicTypeBuilder.cs" />
     <Compile Include="Utils\FrameworkElementUtils.cs" />
     <Compile Include="Utils\InputEvents.cs" />
     <Compile Include="Utils\MathUtils.cs" />

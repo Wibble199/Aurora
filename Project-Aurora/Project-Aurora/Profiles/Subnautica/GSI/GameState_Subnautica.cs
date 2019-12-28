@@ -1,3 +1,4 @@
+using Aurora.Profiles.Generic;
 using Aurora.Profiles.Subnautica.GSI.Nodes;
 using Newtonsoft.Json.Linq;
 using System;

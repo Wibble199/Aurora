@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Aurora.Profiles.Discord.GSI.Nodes {
+namespace Aurora.Profiles.Generic {
+
     public class ProviderNode : Node<ProviderNode> {
 
         public string Name;
         public int AppID;
 
-        internal ProviderNode(string json) : base(json) {
+        public ProviderNode(string json) : base(json) {
             Name = GetString("name");
             AppID = GetInt("appid");
         }

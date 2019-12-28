@@ -1,4 +1,5 @@
-﻿using Aurora.Profiles.Minecraft.GSI.Nodes;
+﻿using Aurora.Profiles.Generic;
+using Aurora.Profiles.Minecraft.GSI.Nodes;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 
 namespace Aurora.Profiles
@@ -33,7 +33,7 @@ namespace Aurora.Profiles
         {
             Newtonsoft.Json.Linq.JToken value;
 
-            if (_ParsedData.TryGetValue(Name, out value))
+            if (_ParsedData.TryGetValue(Name, StringComparison.InvariantCultureIgnoreCase, out value))
                 return value.ToString();
             else
                 return "";
@@ -43,7 +43,7 @@ namespace Aurora.Profiles
         {
             Newtonsoft.Json.Linq.JToken value;
 
-            if (_ParsedData.TryGetValue(Name, out value))
+            if (_ParsedData.TryGetValue(Name, StringComparison.InvariantCultureIgnoreCase, out value))
                 return Convert.ToInt32(value.ToString());
             else
                 return -1;
@@ -53,7 +53,7 @@ namespace Aurora.Profiles
         {
             Newtonsoft.Json.Linq.JToken value;
 
-            if (_ParsedData.TryGetValue(Name, out value))
+            if (_ParsedData.TryGetValue(Name, StringComparison.InvariantCultureIgnoreCase, out value))
                 return Convert.ToSingle(value.ToString());
             else
                 return -1.0f;
@@ -63,7 +63,7 @@ namespace Aurora.Profiles
         {
             Newtonsoft.Json.Linq.JToken value;
 
-            if (_ParsedData.TryGetValue(Name, out value))
+            if (_ParsedData.TryGetValue(Name, StringComparison.InvariantCultureIgnoreCase, out value))
                 return Convert.ToInt64(value.ToString());
             else
                 return -1;
@@ -73,8 +73,7 @@ namespace Aurora.Profiles
         {
             Newtonsoft.Json.Linq.JToken value;
 
-            if (_ParsedData.TryGetValue(Name, out value) && !String.IsNullOrWhiteSpace(value.ToString()))
-            {
+            if (_ParsedData.TryGetValue(Name, StringComparison.InvariantCultureIgnoreCase, out value) && !String.IsNullOrWhiteSpace(value.ToString())) {
                 var type = typeof(T);
                 if (!type.IsEnum) throw new InvalidOperationException();
 
@@ -97,7 +96,7 @@ namespace Aurora.Profiles
         {
             Newtonsoft.Json.Linq.JToken value;
 
-            if (_ParsedData.TryGetValue(Name, out value) && value.ToObject<bool>())
+            if (_ParsedData.TryGetValue(Name, StringComparison.InvariantCultureIgnoreCase, out value) && value.ToObject<bool>())
                 return value.ToObject<bool>();
             else
                 return false;
@@ -107,7 +106,7 @@ namespace Aurora.Profiles
         {
             Newtonsoft.Json.Linq.JToken value;
 
-            if (_ParsedData.TryGetValue(Name, out value))
+            if (_ParsedData.TryGetValue(Name, StringComparison.InvariantCultureIgnoreCase, out value))
                 return value.ToObject<T[]>();
             else
                 return new T[] { };

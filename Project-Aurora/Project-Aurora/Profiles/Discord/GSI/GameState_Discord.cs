@@ -1,4 +1,5 @@
 ﻿using Aurora.Profiles.Discord.GSI.Nodes;
+using Aurora.Profiles.Generic;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;

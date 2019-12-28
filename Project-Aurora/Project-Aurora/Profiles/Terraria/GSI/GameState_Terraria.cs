@@ -1,3 +1,4 @@
+using Aurora.Profiles.Generic;
 using Aurora.Profiles.Terraria.GSI.Nodes;
 using Newtonsoft.Json.Linq;
 using System;

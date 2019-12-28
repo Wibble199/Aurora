@@ -101,7 +101,7 @@ namespace Aurora.Profiles
         {
             Newtonsoft.Json.Linq.JToken value;
 
-            if (_ParsedData.TryGetValue(name, out value))
+            if (_ParsedData.TryGetValue(name, StringComparison.InvariantCultureIgnoreCase, out value))
                 return value.ToString();
             else
                 return "";

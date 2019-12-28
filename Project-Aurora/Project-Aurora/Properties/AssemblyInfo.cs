@@ -36,3 +36,6 @@ using System.Resources;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("0.7.2")]
 [assembly: NeutralResourcesLanguage("en")]
+
+// Make the internals of this assembly visible to the dynamically-created DynamicTypeBuilderTypes assembly so that it can access internal members
+[assembly: InternalsVisibleTo("DynamicTypeBuilderTypes")]
