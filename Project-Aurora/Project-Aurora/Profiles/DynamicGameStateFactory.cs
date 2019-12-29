@@ -36,7 +36,7 @@ namespace Aurora.Profiles {
         }
 
         // Reflection info needed for the ILGenerator
-        public static readonly MethodInfo jObjectGetItemMethod = typeof(JObject).GetMethod("get_Item", new[] { typeof(string) });
+        public static readonly MethodInfo jObjectGetValueMethod = typeof(JObject).GetMethod(nameof(JObject.GetValue), new[] { typeof(string), typeof(StringComparison) });
         public static readonly MethodInfo objectToStringMethod = typeof(object).GetMethod(nameof(object.ToString));
 
         /// <summary>
@@ -84,9 +84,9 @@ namespace Aurora.Profiles {
             // Running this effectively adds the following to the builder:
             //      private T backingField__Name;
             //      public T Name => backingField__Name ?? (backingField__Name = new T(_ParsedData["Name"]?.ToString() ?? ""));
-            void CreateLazyNodePropertyOnBuilder(string name, Type type) {
+            void CreateLazyNodePropertyOnBuilder(string propName, Type type, string jsonPath) {
                 // Create a lazily evaluated property of this type, with the following value initialisation
-                builder.CreateLazyProperty(name, type, il => {
+                builder.CreateLazyProperty(propName, type, il => {
                     // This is IL equivilent of new NodeType(_ParsedData["JSONKEY"]?.ToString() ?? "")
                     var toStringLabel = il.DefineLabel();
                     var checkNotNullLabel = il.DefineLabel();
@@ -100,8 +100,9 @@ namespace Aurora.Profiles {
                     else
                         il.Emit(Ldfld, TypeBuilder.GetField(parentType, typeof(Node<>).GetField("_ParsedData", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)));
                     
-                    il.Emit(Ldstr, name);
-                    il.Emit(Callvirt, jObjectGetItemMethod);
+                    il.Emit(Ldstr, jsonPath);
+                    il.Emit(Ldc_I4_S, (Int32)StringComparison.InvariantCultureIgnoreCase);
+                    il.Emit(Callvirt, jObjectGetValueMethod);
                     il.Emit(Dup);
                     il.Emit(Brtrue_S, toStringLabel);
                     il.Emit(Pop);
@@ -123,14 +124,24 @@ namespace Aurora.Profiles {
             
             // Loop over all properties in the schema
             foreach (var prop in jObj) {
+
+                // Special name handling
+                string name, jsonKey;
+                if (prop.Key.Contains('~')) {
+                    name = prop.Key.Split('~')[0];
+                    jsonKey = prop.Key.Split('~')[1];
+                } else {
+                    name = jsonKey = prop.Key;
+                }
+
                 // If the property is an array of strings, treat it as an enum (create an enum for it)
                 if (prop.Value is JArray enumVals) {
                     // Create the dynamic enum
-                    var type = DynamicTypeBuilder.BuildEnum("DynamicEnum_" + prop.Key, enumVals.Select(x => x.ToString()));
-                    builder.CreateField(prop.Key, type, out var field, DynamicTypeBuilder.AccessModifier.Public);
+                    var type = DynamicTypeBuilder.BuildEnum("DynamicEnum_" + name, enumVals.Select(x => x.ToString()));
+                    builder.CreateField(name, type, out var field, DynamicTypeBuilder.AccessModifier.Public);
 
                     // Add code to the constructor to set the value of this field
-                    constructor += CreateConstructorFieldSetterLambda(field, type, prop.Key);
+                    constructor += CreateConstructorFieldSetterLambda(field, type, jsonKey);
                 }
 
                 // If the property is an object, treat it as a nested Node and create a new node
@@ -139,24 +150,24 @@ namespace Aurora.Profiles {
                     var nodeType = CreateNode(typeof(Node<>), nested);
 
                     // Create the lazy node
-                    CreateLazyNodePropertyOnBuilder(prop.Key, nodeType);
+                    CreateLazyNodePropertyOnBuilder(name, nodeType, jsonKey);
                 }
 
                 // Otherwise the property is something like an int or string
                 else {
                     // Create a field for this value
                     var type = Type.GetType(prop.Value.ToString());
-                    builder.CreateField(prop.Key, type, out var field, DynamicTypeBuilder.AccessModifier.Public);
+                    builder.CreateField(name, type, out var field, DynamicTypeBuilder.AccessModifier.Public);
 
                     // Add code to the constructor to set the value of this field
-                    constructor += CreateConstructorFieldSetterLambda(field, type, prop.Key);
+                    constructor += CreateConstructorFieldSetterLambda(field, type, jsonKey);
                 }
             }
 
 
             // If this is a GameState, we want to also add the provider node to it
             if (baseType == typeof(GameState<>))
-                CreateLazyNodePropertyOnBuilder("Provider", typeof(ProviderNode));
+                CreateLazyNodePropertyOnBuilder("Provider", typeof(ProviderNode), "provider");
 
 
             // Need to add a return instruction at the end of the ctor
