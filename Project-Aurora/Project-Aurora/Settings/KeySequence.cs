@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Aurora.Devices;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -63,7 +64,7 @@ namespace Aurora.Settings
             this.freeform = freeform;
         }
 
-        public KeySequence(Devices.DeviceKeys[] keys)
+        public KeySequence(params Devices.DeviceKeys[] keys)
         {
             this.keys = new List<Devices.DeviceKeys>(keys);
             type = KeySequenceType.Sequence;
