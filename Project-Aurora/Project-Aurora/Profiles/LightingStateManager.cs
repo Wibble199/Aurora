@@ -716,8 +716,8 @@ namespace Aurora.Profiles
                 
 
                 JObject provider = Newtonsoft.Json.Linq.JObject.Parse(gs.GetNode("provider"));
-                string appid = provider.GetValue("appid").ToString();
-                string name = provider.GetValue("name").ToString().ToLowerInvariant();
+                string appid = provider.GetValue("appid", StringComparison.OrdinalIgnoreCase).ToString();
+                string name = provider.GetValue("name", StringComparison.OrdinalIgnoreCase).ToString().ToLowerInvariant();
 
                 if ((profile = GetProfileFromAppID(appid)) != null || (profile = GetProfileFromProcessName(name)) != null)
                 {
@@ -728,7 +728,7 @@ namespace Aurora.Profiles
                 }
                 else if (gs is GameState_Wrapper && Global.Configuration.allow_all_logitech_bitmaps)
                 {
-                    string gs_process_name = Newtonsoft.Json.Linq.JObject.Parse(gs.GetNode("provider")).GetValue("name").ToString().ToLowerInvariant();
+                    string gs_process_name = Newtonsoft.Json.Linq.JObject.Parse(gs.GetNode("provider")).GetValue("name", StringComparison.OrdinalIgnoreCase).ToString().ToLowerInvariant();
                     lock (Events)
                     {
                         profile = profile ?? GetProfileFromProcessName(gs_process_name);

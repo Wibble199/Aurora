@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -444,6 +444,14 @@
     <Compile Include="Profiles\Skype\SkypeProfile.cs" />
     <Compile Include="Profiles\Skype\SkypeApplication.cs" />
     <Compile Include="Profiles\Skype\State_SkypeOverlay.cs" />
+    <Compile Include="Profiles\SkyrimSE\Control_SkyrimSE.xaml.cs">
+      <DependentUpon>Control_SkyrimSE.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Profiles\SkyrimSE\GSI\GameState_SkyrimSE.cs" />
+    <Compile Include="Profiles\SkyrimSE\GSI\Nodes\PlayerNode.cs" />
+    <Compile Include="Profiles\SkyrimSE\GSI\Nodes\SkillsNode.cs" />
+    <Compile Include="Profiles\SkyrimSE\SkyrimSEApplication.cs" />
+    <Compile Include="Profiles\SkyrimSE\SkyrimSEProfile.cs" />
     <Compile Include="Profiles\Terraria\GSI\GameState_Terraria.cs" />
     <Compile Include="Profiles\Terraria\GSI\Nodes\PlayerNode.cs" />
     <Compile Include="Profiles\Terraria\GSI\Nodes\WorldNode.cs" />
@@ -1716,6 +1724,7 @@
     <Content Include="RazerSdkWrapper.dll" />
     <Resource Include="Resources\betterdiscord.png" />
     <Resource Include="Resources\terraria_512x512.png" />
+    <Resource Include="Resources\skyrim_se.png" />
     <Content Include="RGB.NET.Devices.Asus.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1834,6 +1843,10 @@
     <Page Include="Profiles\Skype\Control_Skype.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Profiles\SkyrimSE\Control_SkyrimSE.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Profiles\Terraria\Control_Terraria.xaml">
       <Generator>MSBuild:Compile</Generator>
