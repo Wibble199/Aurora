@@ -12,6 +12,7 @@ using Aurora.Utils;
 using System.Collections.ObjectModel;
 using System.Collections.Concurrent;
 using Aurora.Settings.Overrides.Logic;
+using CSScriptLibrary;
 
 namespace Aurora.Settings
 {
@@ -634,7 +635,7 @@ namespace Aurora.Settings
                 string content = File.ReadAllText(configPath, Encoding.UTF8);
                 config = string.IsNullOrWhiteSpace(content)
                     ? CreateDefaultConfigurationFile()
-                    : JsonConvert.DeserializeObject<Configuration>(content, new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace, TypeNameHandling = TypeNameHandling.All, SerializationBinder = Aurora.Utils.JSONUtils.SerializationBinder, Error = DeserializeErrorHandler });
+                    : JsonConvert.DeserializeObject<Configuration>(content, JSONUtils.SerializerSettings.WithError(DeserializeErrorHandler));
             }
 
             config.OnPostLoad();
@@ -660,7 +661,7 @@ namespace Aurora.Settings
                 _last_save_time = current_time;
 
             var configPath = ConfigPath + ConfigExtension;
-            string content = JsonConvert.SerializeObject(configuration, Formatting.Indented, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, Binder = Aurora.Utils.JSONUtils.SerializationBinder });
+            string content = JsonConvert.SerializeObject(configuration, Formatting.Indented, JSONUtils.SerializerSettings);
 
             Directory.CreateDirectory(System.IO.Path.GetDirectoryName(configPath));
             File.WriteAllText(configPath, content, Encoding.UTF8);
@@ -669,7 +670,7 @@ namespace Aurora.Settings
         private static Configuration CreateDefaultConfigurationFile()
         {
             Configuration config = new Configuration();
-            var configData = JsonConvert.SerializeObject(config, Formatting.Indented, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, Binder = Aurora.Utils.JSONUtils.SerializationBinder });
+            var configData = JsonConvert.SerializeObject(config, Formatting.Indented, JSONUtils.SerializerSettings);
             var configPath = ConfigPath + ConfigExtension;
 
             Directory.CreateDirectory(System.IO.Path.GetDirectoryName(configPath));

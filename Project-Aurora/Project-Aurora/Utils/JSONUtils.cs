@@ -15,6 +15,24 @@ namespace Aurora.Utils
     public static class JSONUtils
     {
         public static AuroraSerializationBinder SerializationBinder { get; } = new AuroraSerializationBinder();
+
+        // Note: Returns a new instance each time so that it can be mutated at the call site (eg adding an error event handler) without
+        // it causing issues with other areas that use the same settings.
+        public static JsonSerializerSettings SerializerSettings => new JsonSerializerSettings {
+            ObjectCreationHandling = ObjectCreationHandling.Replace,
+            TypeNameHandling = TypeNameHandling.All,
+            SerializationBinder = SerializationBinder
+        };
+
+        public static JsonSerializerSettings WithError(this JsonSerializerSettings settings, EventHandler<ErrorEventArgs> handler) {
+            settings.Error = handler;
+            return settings;
+        }
+
+        public static JsonSerializerSettings Indented(this JsonSerializerSettings settings) {
+            settings.Formatting = Formatting.Indented;
+            return settings;
+        }
     }
 
     public class AuroraSerializationBinder : DefaultSerializationBinder

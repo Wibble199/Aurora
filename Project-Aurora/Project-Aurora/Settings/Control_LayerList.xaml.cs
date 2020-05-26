@@ -1,7 +1,12 @@
 ﻿using Aurora.Settings.Layers;
+using Aurora.Utils;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using PropertyChanged;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -164,7 +169,7 @@ namespace Aurora.Settings {
         /// changed after copying, the pasted version will not have this changes (as should be expected).
         /// </summary>
         private void CopyButton_Click(object sender, RoutedEventArgs e) {
-            Global.Clipboard = SelectedLayer?.Clone();
+            Clipboard.SetText(JsonConvert.SerializeObject(new[] { SelectedLayer }, JSONUtils.SerializerSettings), TextDataFormat.Text);
         }
 
         /// <summary>
@@ -172,15 +177,49 @@ namespace Aurora.Settings {
         /// a clone of the layer is so that if it was to be pasted again, the two pasted layers don't equal one another (i.e. don't have the same reference).
         /// </summary>
         private void PasteButton_Click(object sender, RoutedEventArgs e) {
-            // Check if clipboard is layer and also that either: The layer on the clipboard is available to ALL applications OR the layer is available to the current application type.
-            // This check is to avoid being able to copy application specific layers to other applications, e.g. prevent copying Minecraft health layer to CSGO.
-            if (Global.Clipboard is Layer clipboardLayer) {
-                if (FocusedApplication.IsAllowedLayer(clipboardLayer.Handler.GetType())) {
-                    var newLayer = (Layer)clipboardLayer.Clone();
-                    newLayer.Name += " - Copy";
-                    AddLayer(newLayer);
-                } else {
-                    MessageBox.Show("Cannot use this type of layer on this profile.");
+            if (Clipboard.ContainsText(TextDataFormat.Text)) {
+                try {
+                    // List of layers that failed and why they failed
+                    var failedLayers = new List<(string name, string message)>();
+
+                    // The error handler bubbles up if not handled. So, if there's an error while deserializing a property on a layer's handler, the error is first
+                    // on that layer handler, then on the layer, then on the collection. We can use this to mark it as handled once we get to the enumerable layer
+                    // object, so that the broken layer is ignored but the other ones are still imported.
+                    void ErrorHandler(object sender, ErrorEventArgs error) {
+                        if (error.CurrentObject is IEnumerable<Layer>)
+                            error.ErrorContext.Handled = true;
+
+                        // We want to log at the layer object so we can access exactly which layer it is
+                        if (error.CurrentObject is Layer l)
+                            failedLayers.Add((l.Name ?? "<UNKNOWN>", error.ErrorContext.Error.Message));
+                    }
+
+                    // Try get a list of layers from the clipboard
+                    var layers = JsonConvert.DeserializeObject<IEnumerable<Layer>>(Clipboard.GetText(TextDataFormat.Text), JSONUtils.SerializerSettings.Indented().WithError(ErrorHandler));
+
+                    // Import any that are valid for this application type. Log any that are invalid.
+                    foreach (var layer in layers) {
+                        // Defensively check the handler's not null
+                        if (layer.Handler is null)
+                            failedLayers.Add((layer.Name, "Layer handler cannot be null."));
+
+                        // Check the handler type is allowed by this application
+                        else if (!FocusedApplication.IsAllowedLayer(layer.Handler.GetType()))
+                            failedLayers.Add((layer.Name, $"Layer handler type '{layer.Handler.GetType().Name}' is not permitted on application '{FocusedApplication.Config.Name}'."));
+
+                        // Seems fine, add it to the current layer list
+                        else {
+                            layer.Name += " - Copy";
+                            AddLayer(layer);
+                        }
+                    }
+
+                    // Feedback to the user if any failed.
+                    if (failedLayers.Count > 0)
+                        MessageBox.Show($"{failedLayers.Count} layer(s) failed to be imported from the clipboard:\n" + string.Join("\n", failedLayers.Select(x => $" • 'Layer {x.name}' failed: {x.message}")), "One or more layers failed", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                } catch {
+                    MessageBox.Show("Failed to import layers from clipboard. The content on the clipboard may not be JSON or may not be a valid collection of layers.", "Layer paste failed", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
         }

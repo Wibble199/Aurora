@@ -18,6 +18,7 @@ using Newtonsoft.Json.Serialization;
 using System.Collections.ObjectModel;
 using Aurora.Settings;
 using System.ComponentModel;
+using Aurora.Utils;
 
 namespace Aurora.Profiles
 {
@@ -292,7 +293,7 @@ namespace Aurora.Profiles
 
                     if (!String.IsNullOrWhiteSpace(profile_content))
                     {
-                        ApplicationProfile prof = (ApplicationProfile)JsonConvert.DeserializeObject(profile_content, Config.ProfileType, new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace, TypeNameHandling = TypeNameHandling.All, SerializationBinder = binder, Error = new EventHandler<Newtonsoft.Json.Serialization.ErrorEventArgs>(LoadProfilesError) });
+                        ApplicationProfile prof = (ApplicationProfile)JsonConvert.DeserializeObject(profile_content, Config.ProfileType, JSONUtils.SerializerSettings.WithError(LoadProfilesError));
                         prof.ProfileFilepath = path;
 
                         if (String.IsNullOrWhiteSpace(prof.ProfileName))
@@ -618,8 +619,7 @@ namespace Aurora.Profiles
             try
             {
                 path = path ?? Path.Combine(GetProfileFolderPath(), profile.ProfileFilepath);
-                JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, Binder = Aurora.Utils.JSONUtils.SerializationBinder };
-                string content = JsonConvert.SerializeObject(profile, Formatting.Indented, settings);
+                string content = JsonConvert.SerializeObject(profile, Formatting.Indented, JSONUtils.SerializerSettings);
 
                 Directory.CreateDirectory(System.IO.Path.GetDirectoryName(path));
                 File.WriteAllText(path, content, Encoding.UTF8);

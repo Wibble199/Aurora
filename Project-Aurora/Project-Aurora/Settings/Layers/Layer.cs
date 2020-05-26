@@ -2,6 +2,7 @@ using Aurora.EffectsEngine;
 using Aurora.Profiles;
 using Aurora.Settings.Overrides.Logic;
 using Aurora.Settings.Overrides.Logic.Builder;
+using Aurora.Utils;
 using Newtonsoft.Json;
 using PropertyChanged;
 using System;
@@ -73,11 +74,11 @@ namespace Aurora.Settings.Layers
         }
 
         public object Clone() {
-            string str = JsonConvert.SerializeObject(this, Formatting.None, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, Binder = Aurora.Utils.JSONUtils.SerializationBinder });
+            string str = JsonConvert.SerializeObject(this, Formatting.None, JSONUtils.SerializerSettings);
             return JsonConvert.DeserializeObject(
                 str,
                 this.GetType(),
-                new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace, TypeNameHandling = TypeNameHandling.All, Binder = Aurora.Utils.JSONUtils.SerializationBinder }
+                JSONUtils.SerializerSettings
             );
         }
 
