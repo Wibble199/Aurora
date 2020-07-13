@@ -15,7 +15,11 @@ using System.ComponentModel;
 
 namespace Aurora.Settings.Layers
 {
-    public abstract class LayerHandlerProperties<TProperty> : IValueOverridable, INotifyPropertyChanged where TProperty : LayerHandlerProperties<TProperty>
+    public interface ILayerHandlerProperties {
+        bool Enabled { get; }
+    }
+
+    public abstract class LayerHandlerProperties<TProperty> : ILayerHandlerProperties, IValueOverridable, INotifyPropertyChanged where TProperty : LayerHandlerProperties<TProperty>
     {
         private static readonly Lazy<TypeAccessor> accessor = new Lazy<TypeAccessor>(() => TypeAccessor.Create(typeof(TProperty)));
 
@@ -118,7 +122,7 @@ namespace Aurora.Settings.Layers
     {
         UserControl Control { get; }
 
-        object Properties { get; set; }
+        ILayerHandlerProperties Properties { get; set; }
 
         bool EnableSmoothing { get; set; }
 
@@ -153,7 +157,7 @@ namespace Aurora.Settings.Layers
 
         public TProperty Properties { get; set; } = Activator.CreateInstance<TProperty>();
 
-        object ILayerHandler.Properties {
+        ILayerHandlerProperties ILayerHandler.Properties {
             get => Properties;
             set => Properties = value as TProperty;
         }
