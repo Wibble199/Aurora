@@ -44,6 +44,8 @@ namespace Aurora.Settings
             grdLayerConfigs.Visibility = Visibility.Hidden;
             grd_LayerControl.IsHitTestVisible = true;
             grd_LayerControl.Effect = null;
+
+            blendmodeCombo.DataContext = Layer; // TODO: only setting the DataContext of the combobox because unsure if setting DataContext on this control will break everything.
         }
 
         private void SetLayer(Layers.Layer layer)

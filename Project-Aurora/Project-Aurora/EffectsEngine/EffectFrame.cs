@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Aurora.EffectsEngine
 {
@@ -40,21 +41,39 @@ namespace Aurora.EffectsEngine
         }
 
         /// <summary>
-        /// Gets the queue of layers
+        /// Renders the layers stored on this frame to an effect layer.
         /// </summary>
-        /// <returns>Queue of layers</returns>
-        public Queue<EffectLayer> GetLayers()
-        {
-            return new Queue<EffectLayer>(layers);
+        public void RenderLayers(EffectLayer target) => RenderLayers(target, layers.ToList());
+
+        /// <summary>
+        /// Renders the overlay layers stored on this frame to an effect layer.
+        /// </summary>
+        public void RenderOverlayLayers(EffectLayer target) => RenderLayers(target, over_layers.ToList());
+
+
+        private static void RenderLayers(EffectLayer target, IList<EffectLayer> layers) {
+            for (var i = 0; i < layers.Count;)
+                i += RenderLayer(target, i, layers);
         }
 
         /// <summary>
-        /// Gets the queue of overlay layers
+        /// Renders the layer at the given index to the target effect layer. If the layer above this one has a
+        /// blending mode, that layer will be rendered first and the result used to render this layer.
+        /// Note that if the layer above the above layer also has a blending mode, that will be rendered first etc.
         /// </summary>
-        /// <returns>Queue of overlay layers</returns>
-        public Queue<EffectLayer> GetOverlayLayers()
-        {
-            return new Queue<EffectLayer>(over_layers);
+        /// <returns>a number indicating how many layers were consumed by the render process.</returns>
+        private static int RenderLayer(EffectLayer target, int idx, IList<EffectLayer> layers) {
+            // Check if a layer is above with a blending mode
+            if (idx < layers.Count - 1 && layers[idx + 1].blendingMode != BlendingMode.None) {
+                var temp = new EffectLayer();
+                var offset = RenderLayer(temp, idx + 1, layers); // Recursively render the above layer - will handle any blending that layer needs
+                target.Add(LayerBlending.ApplyBlend(layers[idx + 1].blendingMode, layers[idx], temp));
+                return offset + 1;
+            }
+
+            // If there is no blending to do, simply append the layer
+            target.Add(layers[idx]);
+            return 1;
         }
 
         #region IDisposable Support

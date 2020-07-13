@@ -64,7 +64,9 @@ namespace Aurora.Settings.Layers
                     ((IValueOverridable)Handler.Properties).SetOverride(kvp.Key, kvp.Value.Evaluate(gs));
             }
             
-            return Handler.Properties.Enabled ? Handler.PostRenderFX(Handler.Render(gs)) : new EffectLayer();
+            var outLayer = Handler.Properties.Enabled ? Handler.PostRenderFX(Handler.Render(gs)) : new EffectLayer();
+            outLayer.blendingMode = Handler.BlendingMode;
+            return outLayer;
         }
 
         public void SetProfile(Application profile) {

@@ -135,6 +135,8 @@ namespace Aurora.Settings.Layers
         float Opacity { get; }
         float? _Opacity { get; set; }
 
+        BlendingMode BlendingMode { get; set; }
+
         EffectLayer Render(IGameState gamestate);
 
         EffectLayer PostRenderFX(EffectLayer layer_render);
@@ -183,6 +185,8 @@ namespace Aurora.Settings.Layers
             get => Properties._LayerOpacity;
             set => Properties._LayerOpacity = value;
         }
+
+        public BlendingMode BlendingMode { get; set; }
 
         //public Color PrimaryColor { get; set; }
 

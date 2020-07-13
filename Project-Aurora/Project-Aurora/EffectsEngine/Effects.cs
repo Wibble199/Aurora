@@ -289,15 +289,8 @@ namespace Aurora
             lock (bitmap_lock)
             {
                 EffectLayer background = new EffectLayer("Global Background", Color.FromArgb(0, 0, 0));
-
-                EffectLayer[] over_layers_array = frame.GetOverlayLayers().ToArray();
-                EffectLayer[] layers_array = frame.GetLayers().ToArray();
-
-                foreach (EffectLayer layer in layers_array)
-                    background += layer;
-
-                foreach (EffectLayer layer in over_layers_array)
-                    background += layer;
+                frame.RenderLayers(background);
+                frame.RenderOverlayLayers(background);
 
                 //Apply Brightness
                 Dictionary<DeviceKeys, Color> peripehralColors = new Dictionary<DeviceKeys, Color>();
